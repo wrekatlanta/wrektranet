@@ -29,79 +29,55 @@
 require 'spec_helper'
 
 describe User do
-  before(:each) do
-    @attr = {
-      first_name:            "George",
-      last_name:             "Burdell",
-      username:              "gpb",
-      email:                 "user@example.com",
-      password:              "password",
-      password_confirmation: "password"
-    }
+  it "has a valid factory" do
+    FactoryGirl.create(:user).should be_valid
   end
 
-  it "should create a new instance given a valid attribute" do
-    User.create!(@attr)
+  it "is invalid without a first name" do
+    FactoryGirl.build(:user, first_name: nil).should_not be_valid
   end
 
-  it "should require a first name" do
-    no_first_name_user = User.new(@attr.merge(first_name: ""))
-    no_first_name_user.should_not be_valid
+  it "is invalid without a last name" do
+    FactoryGirl.build(:user, last_name: nil).should_not be_valid
   end
 
-  it "should require a last name" do
-    no_last_name_user = User.new(@attr.merge(last_name: ""))
-    no_last_name_user.should_not be_valid
+  it "is invalid without a username" do
+    FactoryGirl.build(:user, username: nil).should_not be_valid
   end
 
-  it "should require a username" do
-    no_username_user = User.new(@attr.merge(username: ""))
-    no_username_user.should_not be_valid
-  end
-
-  it "should require an email address" do
-    no_email_user = User.new(@attr.merge(email: ""))
-    no_email_user.should_not be_valid
+  it "is invalid without an email address" do
+    FactoryGirl.build(:user, email: nil).should_not be_valid
   end
 
   it "should accept valid email addresses" do
     addresses = %w[user@foo.com THE_USER@foo.bar.org first.last@foo.jp]
     addresses.each do |address|
-      valid_email_user = User.new(@attr.merge(email: address))
-      valid_email_user.should be_valid
+      FactoryGirl.build(:user, email: address).should be_valid
     end
   end
 
-  it "should reject duplicate email addresses" do
-    User.create!(@attr)
-    user_with_duplicate_email = User.new(@attr)
-    user_with_duplicate_email.should_not be_valid
-  end
-
-  it "should reject email addresses identical up to case" do
-    upcased_email = @attr[:email].upcase
-    User.create!(@attr.merge!(email: upcased_email))
-    user_with_duplicate_email = User.new(@attr)
-    user_with_duplicate_email.should_not be_valid
+  it "is invalid with a duplicate email address" do
+    FactoryGirl.create(:user, email: "test@example.com")
+    FactoryGirl.build(:user, email: "TEST@example.com").should_not be_valid
   end
 
   describe "password validations" do
-    it "should reject short passwords" do
+    it "invalid with short passwords" do
       short = "a" * 7
-      hash = @attr.merge(password: short, password_confirmation: short)
-      User.new(hash).should_not be_valid
+      user = FactoryGirl.build(:user, password: short, password_confirmation: short)
+      user.should_not be_valid
     end
 
-    it "should reject long passwords" do
-      long = "a" * 41
-      hash = @attr.merge(password: long, password_confirmation: long)
-      User.new(hash).should_not be_valid
+    it "is invalid with long passwords" do
+      short = "a" * 41
+      user = FactoryGirl.build(:user, password: short, password_confirmation: short)
+      user.should_not be_valid
     end
   end
 
   describe "admin attribute" do
     before(:each) do
-      @user = User.create!(@attr)
+      @user = FactoryGirl.create(:user)
     end
 
     it "should respond to admin" do
@@ -119,13 +95,22 @@ describe User do
   end
 
   describe '#name' do
+    before(:each) do
+      @params = {
+        first_name: "George",
+        last_name: "Burdell"
+      }
+    end
+
     it "should concatenate first and last names" do
-      User.new(@attr).name.should eq "George Burdell"
+      user = FactoryGirl.build(:user, @params)
+      user.name.should eq "George Burdell"
     end
 
     it "should prefer a display name if available" do
-      hash = @attr.merge(display_name: "George P. Burdell")
-      User.new(hash).name.should eq "George P. Burdell"
+      @params.merge!(display_name: "George P. Burdell")
+      user = FactoryGirl.build(:user, @params)
+      user.name.should eq "George P. Burdell"
     end
   end
 

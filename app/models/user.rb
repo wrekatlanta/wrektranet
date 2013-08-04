@@ -40,12 +40,12 @@ class User < ActiveRecord::Base
   end
 
   def name
-    display_name.presence || first_name + " " + last_name
+    display_name.presence || [first_name, last_name].join(" ")
   end
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :username, :password, :password_confirmation, :remember_me,
-                  :first_name, :last_name, :display_name,
+                  :first_name, :last_name, :display_name, :phone
 
   validates :phone,      :format => /[\(\)0-9\- \+\.]{10,20}/, :allow_blank => true
   validates :email,      :presence => true, :uniqueness => true,
