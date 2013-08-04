@@ -18,14 +18,15 @@ class Venue < ActiveRecord::Base
   before_save :strip_fax
 
   has_many :contacts
+  has_many :contests, dependent: :destroy
 
   attr_accessible :name, :fax, :address, :send_day_offset, :notes,
                   :send_hour, :send_minute
 
-  validates :name, :presence => true
-  validates :fax, :format => /[\(\)0-9\- \+\.]{10,20}/, :allow_blank => true
-  validates :send_hour, :inclusion => 0..23
-  validates :send_minute, :inclusion => 0..59
+  validates :name, presence: true
+  validates :fax, format: /[\(\)0-9\- \+\.]{10,20}/, allow_blank: true
+  validates :send_hour, inclusion: 0..23
+  validates :send_minute, inclusion: 0..59
 
   # FIXME: make this generic
   def strip_fax

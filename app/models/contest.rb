@@ -17,4 +17,10 @@
 
 class Contest < ActiveRecord::Base
   belongs_to :venue
+
+  validates :name, presence: true
+  validates :date, presence: true
+  validates :age_limit, numericality: { greater_than_or_equal_to: 0 }
+  validates :listener_tickets, numericality: { greater_than_or_equal_to: 0 }
+  validates :staff_tickets, numericality: { greater_than_or_equal_to: 0 }
 end

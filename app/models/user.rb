@@ -49,14 +49,14 @@ class User < ActiveRecord::Base
   attr_accessible :email, :username, :password, :password_confirmation, :remember_me,
                   :first_name, :last_name, :display_name, :phone
 
-  validates :phone,      :format => /[\(\)0-9\- \+\.]{10,20}/, :allow_blank => true
-  validates :email,      :presence => true, :uniqueness => true,
-                         :format => /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  validates :first_name, :presence => true
-  validates :last_name,  :presence => true
-  validates :username,   :presence => true, :format => /[a-zA-Z]{2,8}/,
-                         :uniqueness => { :case_sensitive => false }
-  validates :password,   :length => { :within => 8..40 }
+  validates :phone,      format: /[\(\)0-9\- \+\.]{10,20}/, allow_blank: true
+  validates :email,      presence: true, uniqueness: true,
+                         format: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :first_name, presence: true
+  validates :last_name,  presence: true
+  validates :username,   presence: true, format: /[a-zA-Z]{2,8}/,
+                         uniqueness: { case_sensitive: false }
+  validates :password,   length: { within: 8..40 }
 
   # FIXME: make this generic
   def strip_phone
