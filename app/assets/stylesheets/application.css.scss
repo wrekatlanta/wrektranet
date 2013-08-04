@@ -9,6 +9,14 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require flat-ui
  *= require_tree .
 */
+
+@import "bootstrap";
+
+body {
+  position: relative;
+  padding-top: 60px;
+}
+
+@import "bootstrap-responsive";

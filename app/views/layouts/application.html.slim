@@ -2,26 +2,22 @@ doctype html
 html
   head
     meta content="width=device-width, initial-scale=1.0" name="viewport" 
-      title= content_for?(:title) ? yield(:title) : "WREK"
+      title= yield(:title) + (" | " if content_for?(:title)) + "WREKtranet"
       meta content=(content_for?(:description) ? yield(:description) : "WREK") name="description" 
         = stylesheet_link_tag "application", :media => "all"
-        = javascript_include_tag "application"
         = csrf_meta_tags
         = yield(:head)
   body
     .navbar.navbar-inverse.navbar-fixed-top
       .navbar-inner
         .container-fluid
+          = render 'layouts/navigation'
     .container-fluid
       .row-fluid
-        .span3
-          .well.sidebar-nav
-            ul.nav.nav-list
-              li.nav-header Sidebar
-        .span9
-          .hero-unit
-            h1 Hello, world!
+
       hr
 
       footer
         p &copy; WREK 2013
+
+    = javascript_include_tag "application"

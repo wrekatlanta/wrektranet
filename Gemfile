@@ -13,8 +13,10 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+gem 'bootstrap-sass', :git => 'git://github.com/thomas-mcdonald/bootstrap-sass.git', :branch => '3'
 gem 'cancan'
-gem 'devise'
+gem 'devise', '~> 3.0.x'
+gem 'devise_ldap_authenticatable', '~> 0.8.x'
 gem 'figaro'
 gem 'pg'
 gem 'protected_attributes'
@@ -22,10 +24,10 @@ gem 'puma'
 gem 'rolify'
 gem 'simple_form', '~> 3.0.0.rc'
 gem 'slim'
-gem 'flatui-rails'
 
 group :development do
   gem 'better_errors'
+  gem 'annotate', '>= 2.5.0'
   gem 'binding_of_caller', :platforms=>[:mri_19, :rbx]
   gem 'guard-bundler'
   gem 'guard-cucumber'
