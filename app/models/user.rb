@@ -60,19 +60,6 @@ class User < ActiveRecord::Base
 
   # FIXME: make this generic
   def strip_phone
-    self.phone.gsub!(/\D/, '')
-  end
-
-  def phone_formatted
-    digits = self.phone
-
-    if (digits.length == 11 and digits[0] == '1')
-      # Strip leading 1
-      digits.shift
-    end
-
-    if (digits.length == 10)
-      '(%s) %s-%s' % [ digits[0,3], digits[3,3], digits[6,4] ]
-    end
+    self.phone.gsub!(/\D/, '') if self.phone
   end
 end

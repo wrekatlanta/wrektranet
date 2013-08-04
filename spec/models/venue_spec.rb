@@ -44,10 +44,4 @@ describe Venue do
       FactoryGirl.build(:venue, send_minute: 60).should_not be_valid
     end
   end
-
-  describe "#phone_formatted" do
-    subject { FactoryGirl.build(:venue, fax: "+1 404-555-5555") }
-
-    its(:phone_formatted).should { should eq "(404) 555-5555" }
-  end
 end

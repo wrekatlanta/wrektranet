@@ -114,12 +114,6 @@ describe User do
     end
   end
 
-  describe "#phone_formatted" do
-    subject { FactoryGirl.build(:venue, fax: "+1 404-555-5555") }
-
-    its(:phone_formatted).should { should eq "(404) 555-5555" }
-  end
-
   describe "role associations" do
     pending "test user role"
   end

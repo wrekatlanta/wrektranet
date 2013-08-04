@@ -15,6 +15,8 @@
 #
 
 class Venue < ActiveRecord::Base
+  before_save :strip_fax
+
   has_many :contacts
 
   attr_accessible :name, :fax, :address, :send_day_offset, :notes,
@@ -27,19 +29,6 @@ class Venue < ActiveRecord::Base
 
   # FIXME: make this generic
   def strip_fax
-    self.fax.gsub!(/\D/, '')
-  end
-
-  def fax_formatted
-    digits = self.fax
-
-    if (digits.length == 11 and digits[0] == '1')
-      # Strip leading 1
-      digits.shift
-    end
-
-    if (digits.length == 10)
-      '(%s) %s-%s' % [ digits[0,3], digits[3,3], digits[6,4] ]
-    end
+    self.fax.gsub!(/\D/, '') if self.fax
   end
 end
