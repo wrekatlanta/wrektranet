@@ -2,7 +2,13 @@
 
 FactoryGirl.define do
   factory :staff_ticket do
-    user nil
+    contest
+    user
     awarded false
+
+    trait :awarded do
+      awarded true
+      contest_director
+    end
   end
 end

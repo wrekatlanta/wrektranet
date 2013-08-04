@@ -11,7 +11,13 @@
 #
 
 class ContestSuggestion < ActiveRecord::Base
+  has_one :staff_ticket
+
   validates :name, presence: true
   validates :date, presence: true
   validates :venue, presence: true
+
+  scope :unassigned, ->{
+    joins("LEFT OUTER JOIN staff_tickets ON staff_tickets.contest_id = contest_suggestions.id").where("staff_tickets.contest_id IS null")
+  }
 end

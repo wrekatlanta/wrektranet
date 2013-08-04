@@ -5,7 +5,7 @@ FactoryGirl.define do
     name "George and the Burdells"
     venue
     date { Time.zone.today.beginning_of_day + 1.day + 20.hours }
-    age_limit 1
+    age_limit 0
     pick_up false
     listener_tickets 0
     staff_tickets 0

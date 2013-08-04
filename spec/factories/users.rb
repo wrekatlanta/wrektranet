@@ -5,7 +5,7 @@ FactoryGirl.define do
     result
   end
 
-  factory :user do
+  factory :user, aliases: [:contest_director] do
     email { Faker::Internet.email }
     username
     password "password"
