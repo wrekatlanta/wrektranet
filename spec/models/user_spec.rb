@@ -95,22 +95,22 @@ describe User do
   end
 
   describe '#name' do
-    before(:each) do
-      @params = {
-        first_name: "George",
-        last_name: "Burdell"
+    subject { 
+      FactoryGirl.create(:user, first_name: "George", last_name: "Burdell")
+    }
+
+    its(:name) { should eq "George Burdell" }
+
+    context "with a display name" do
+      subject { 
+        FactoryGirl.create(:user,
+          first_name: "George",
+          last_name: "Burdell",
+          display_name: "George P. Burdell"
+        )
       }
-    end
 
-    it "should concatenate first and last names" do
-      user = FactoryGirl.build(:user, @params)
-      user.name.should eq "George Burdell"
-    end
-
-    it "should prefer a display name if available" do
-      @params.merge!(display_name: "George P. Burdell")
-      user = FactoryGirl.build(:user, @params)
-      user.name.should eq "George P. Burdell"
+      its(:name) { should eq "George P. Burdell" }
     end
   end
 
