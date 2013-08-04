@@ -15,7 +15,15 @@
 #  last_sign_in_ip        :string(255)
 #  created_at             :datetime
 #  updated_at             :datetime
-#  name                   :string(255)
+#  username               :string(255)      not null
+#  phone                  :string(255)
+#  first_name             :string(255)
+#  last_name              :string(255)
+#  display_name           :string(255)
+#  status                 :string(255)
+#  admin                  :boolean
+#  buzzcard_id            :integer
+#  buzzcard_facility_code :integer
 #
 
 class User < ActiveRecord::Base
@@ -31,7 +39,20 @@ class User < ActiveRecord::Base
     devise :database_authenticatable
   end
 
+  def name
+    display_name.presence || first_name + " " + last_name
+  end
+
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me
-  
+  attr_accessible :email, :username, :password, :password_confirmation, :remember_me,
+                  :first_name, :last_name, :display_name,
+
+  validates :phone,      :format => /[\(\)0-9\- \+\.]{10,20}/, :allow_blank => true
+  validates :email,      :presence => true, :uniqueness => true,
+                         :format => /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :first_name, :presence => true
+  validates :last_name,  :presence => true
+  validates :username,   :presence => true, :format => /[a-zA-Z]{2,8}/,
+                         :uniqueness => { :case_sensitive => false }
+  validates :password,   :length => { :within => 8..40 }  
 end
