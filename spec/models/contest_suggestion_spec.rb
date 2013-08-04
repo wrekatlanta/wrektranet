@@ -13,5 +13,19 @@
 require 'spec_helper'
 
 describe ContestSuggestion do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "has a valid factory" do
+    FactoryGirl.create(:contest_suggestion).should be_valid
+  end
+
+  it "is invalid without a name name" do
+    FactoryGirl.build(:contest_suggestion, name: nil).should_not be_valid
+  end
+
+  it "is invalid without a date" do
+    FactoryGirl.build(:contest_suggestion, date: nil).should_not be_valid
+  end
+
+  it "is invalid without a venue" do
+    FactoryGirl.build(:contest_suggestion, venue: nil).should_not be_valid
+  end
 end

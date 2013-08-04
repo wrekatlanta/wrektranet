@@ -11,4 +11,7 @@
 #
 
 class ContestSuggestion < ActiveRecord::Base
+  validates :name, presence: true
+  validates :date, presence: true
+  validates :venue, presence: true
 end

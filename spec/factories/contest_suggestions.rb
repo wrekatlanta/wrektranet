@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :contest_suggestion do
-    name "MyString"
-    date "2013-08-04 17:36:11"
-    venue "MyString"
+    name "George and the Burdells"
+    date { Time.zone.today.beginning_of_day + 1.day }
+    venue "Under the Couch"
   end
 end
