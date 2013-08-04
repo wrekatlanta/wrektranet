@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130710063438) do
+ActiveRecord::Schema.define(version: 20130804085412) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,5 +52,16 @@ ActiveRecord::Schema.define(version: 20130710063438) do
   end
 
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
+
+  create_table "venues", force: true do |t|
+    t.string   "name"
+    t.string   "fax"
+    t.string   "address"
+    t.integer  "send_day_offset"
+    t.time     "send_time"
+    t.text     "notes"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end
