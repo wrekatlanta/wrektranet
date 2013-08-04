@@ -7,9 +7,9 @@ FactoryGirl.define do
     date { Time.zone.today.beginning_of_day + 1.day + 20.hours }
     age_limit 0
     pick_up false
-    listener_tickets 0
-    staff_tickets 0
-    notes "MyText"
+    listener_ticket_limit 0
+    staff_ticket_limit 0
+    notes "Contest notes."
 
     trait :pick_up do
       pick_up true
