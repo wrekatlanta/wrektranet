@@ -1,17 +1,22 @@
-= link_to "Wrek", root_path, :class => 'brand'
-ul.nav
-  - if user_signed_in?
+.nav-collapse.collapse
+  ul.nav.navbar-nav
+    li.active
+      a href="#" Home
     li
-      = link_to 'Logout', destroy_user_session_path, :method=>'delete'
-  - else
+      a href="#about" About
     li
-      = link_to 'Login', new_user_session_path
-  - if user_signed_in?
-    li
-      = link_to 'Edit account', edit_user_registration_path
-    - if current_user.has_role? :admin
+      a href="#contact" Contact
+  ul.nav.navbar-nav.pull-right
+    - if not user_signed_in?
+      li.dropdown
+        a.dropdown-toggle data-toggle="dropdown" href="#"
+          | pstoica
+          b.caret
+        ul.dropdown-menu
+          li
+            = link_to 'My Profile', edit_user_registration_path
+          li
+            = link_to 'Logout', destroy_user_session_path, :method=>'delete'
+    - else
       li
-        = link_to 'Admin', users_path
-  - else
-    li
-      = link_to 'Sign up', new_user_registration_path
+        = link_to 'Login', new_user_session_path
