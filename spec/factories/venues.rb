@@ -10,7 +10,8 @@ FactoryGirl.define do
         ", " + Faker::Address.state_abbr
     }
     send_day_offset 0
-    send_time "17:00"
+    send_hour 17
+    send_minute 30
     notes "Cool man."
   end
 

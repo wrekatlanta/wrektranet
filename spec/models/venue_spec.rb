@@ -7,10 +7,11 @@
 #  fax             :string(255)
 #  address         :string(255)
 #  send_day_offset :integer
-#  send_time       :time
 #  notes           :text
 #  created_at      :datetime
 #  updated_at      :datetime
+#  send_hour       :integer
+#  send_minute     :integer
 #
 
 require 'spec_helper'
