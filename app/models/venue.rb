@@ -16,4 +16,30 @@
 
 class Venue < ActiveRecord::Base
   has_many :contacts
+
+  attr_accessible :name, :fax, :address, :send_day_offset, :notes,
+                  :send_hour, :send_minute
+
+  validates :name, :presence => true
+  validates :fax, :format => /[\(\)0-9\- \+\.]{10,20}/, :allow_blank => true
+  validates :send_hour, :inclusion => 0..23
+  validates :send_minute, :inclusion => 0..59
+
+  # FIXME: make this generic
+  def strip_fax
+    self.fax.gsub!(/\D/, '')
+  end
+
+  def fax_formatted
+    digits = self.fax
+
+    if (digits.length == 11 and digits[0] == '1')
+      # Strip leading 1
+      digits.shift
+    end
+
+    if (digits.length == 10)
+      '(%s) %s-%s' % [ digits[0,3], digits[3,3], digits[6,4] ]
+    end
+  end
 end

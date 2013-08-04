@@ -17,5 +17,37 @@
 require 'spec_helper'
 
 describe Venue do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "has a valid factory" do
+    FactoryGirl.create(:venue).should be_valid
+  end
+
+  it "is invalid without a name name" do
+    FactoryGirl.build(:venue, name: nil).should_not be_valid
+  end
+
+  describe "send_hour attribute" do
+    it "is invalid below 0" do
+      FactoryGirl.build(:venue, send_hour: -1).should_not be_valid
+    end
+
+    it "is invalid above 23" do
+      FactoryGirl.build(:venue, send_hour: 24).should_not be_valid
+    end
+  end
+
+  describe "send_minute attribute" do
+    it "is invalid below 0" do
+      FactoryGirl.build(:venue, send_minute: -1).should_not be_valid
+    end
+
+    it "is invalid above 59" do
+      FactoryGirl.build(:venue, send_minute: 60).should_not be_valid
+    end
+  end
+
+  describe "#phone_formatted" do
+    subject { FactoryGirl.build(:venue, fax: "+1 404-555-5555") }
+
+    its(:phone_formatted).should { should eq "(404) 555-5555" }
+  end
 end

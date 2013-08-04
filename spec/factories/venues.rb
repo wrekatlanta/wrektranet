@@ -3,7 +3,6 @@
 FactoryGirl.define do
   factory :venue do
     name "Variety Playhouse"
-    fax "+1-212-9876543"
     address {
       Faker::Address.street_address +
         " "  + Faker::Address.city +
@@ -13,6 +12,10 @@ FactoryGirl.define do
     send_hour 17
     send_minute 30
     notes "Cool man."
+  end
+
+  trait :faxable do
+    fax "+1-212-9876543"
   end
 
   trait :send_early do

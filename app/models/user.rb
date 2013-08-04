@@ -28,6 +28,8 @@
 
 class User < ActiveRecord::Base
   rolify
+
+  before_save :strip_phone
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -54,5 +56,23 @@ class User < ActiveRecord::Base
   validates :last_name,  :presence => true
   validates :username,   :presence => true, :format => /[a-zA-Z]{2,8}/,
                          :uniqueness => { :case_sensitive => false }
-  validates :password,   :length => { :within => 8..40 }  
+  validates :password,   :length => { :within => 8..40 }
+
+  # FIXME: make this generic
+  def strip_phone
+    self.phone.gsub!(/\D/, '')
+  end
+
+  def phone_formatted
+    digits = self.phone
+
+    if (digits.length == 11 and digits[0] == '1')
+      # Strip leading 1
+      digits.shift
+    end
+
+    if (digits.length == 10)
+      '(%s) %s-%s' % [ digits[0,3], digits[3,3], digits[6,4] ]
+    end
+  end
 end
