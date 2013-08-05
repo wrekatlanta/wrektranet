@@ -1,4 +1,4 @@
-class Admin::ContestController < ApplicationController
+class Admin::VenuesController < ApplicationController
   layout 'two-column'
   load_and_authorize_resource
 
