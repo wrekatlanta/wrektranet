@@ -43,6 +43,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'simplecov', :require => false
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'rspec-rails'
