@@ -15,9 +15,12 @@
 #  updated_at            :datetime
 #  listener_plus_one     :boolean
 #  staff_plus_one        :boolean
+#  send_time             :datetime
 #
 
 class Contest < ActiveRecord::Base
+  before_save :set_send_time
+
   belongs_to :venue
   has_many :staff_tickets, dependent: :destroy
   has_many :listener_tickets, dependent: :destroy
@@ -34,6 +37,10 @@ class Contest < ActiveRecord::Base
   validates :staff_ticket_limit, numericality: { greater_than_or_equal_to: 0 }
 
   private
+  def set_send_time
+    self.send_time = self.date.beginning_of_day - venue.send_day_offest.days + venue.send_hour + venue.send_minute
+  end
+
   def staff_tickets_within_bounds
     return if self.staff_tickets.blank?
     errors.add(:base, "Too many staff tickets") if self.staff_tickets.count > self.staff_ticket_limit

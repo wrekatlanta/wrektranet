@@ -18,7 +18,7 @@ class Venue < ActiveRecord::Base
   before_save :strip_fax
 
   has_many :contacts
-  has_many :contests, dependent: :destroy
+  has_many :contests, dependent: :destroy, autosave: true
 
   attr_accessible :name, :fax, :address, :send_day_offset, :notes,
                   :send_hour, :send_minute

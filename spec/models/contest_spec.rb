@@ -15,6 +15,7 @@
 #  updated_at            :datetime
 #  listener_plus_one     :boolean
 #  staff_plus_one        :boolean
+#  send_time             :datetime
 #
 
 require 'spec_helper'
