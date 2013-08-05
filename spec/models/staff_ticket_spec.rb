@@ -34,4 +34,19 @@ describe StaffTicket do
     its(:awarded) { should be_true }
     its(:contest_director) { should eq contest_director }
   end
+
+  describe ".create_from_suggestion" do
+    let(:suggestion) { FactoryGirl.create(:contest_suggestion) }
+    let(:contest) { FactoryGirl.create(:contest) }
+
+    subject { StaffTicket.create_from_suggestion!(suggestion, contest) }
+    
+    it "should create a new staff ticket" do
+      subject.should be_a_kind_of(StaffTicket)
+    end
+
+    its(:user) { should eq suggestion.user }
+    its(:contest) { should eq contest }
+    its(:created_at) { should eq suggestion.created_at }
+  end
 end

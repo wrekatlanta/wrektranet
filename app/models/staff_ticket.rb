@@ -13,22 +13,27 @@
 #
 
 class StaffTicket < ActiveRecord::Base
-  after_save :clean_suggestions
-
   belongs_to :user
-  belongs_to :contest, polymorphic: true
+  belongs_to :contest
   belongs_to :contest_director, class_name: "User"
 
-  scope :suggestion, ->{ where(contest_type: "ContestSuggestion") }
-  scope :official, ->{ where(contest_type: "Contest") }
+  attr_accessible :user, :contest, :awarded, :created_at
 
   def award(user)
     self.contest_director = user
     self.awarded = true
   end
 
-  private
-  def clean_suggestions
-    ContestSuggestion.unassigned.delete_all
+  def self.create_from_suggestion!(contest_suggestion, contest)
+    result = StaffTicket.create({
+      user: contest_suggestion.user,
+      contest: contest,
+      created_at: contest_suggestion.created_at
+    })
+
+    contest_suggestion.archived = true
+    contest_suggestion.save
+
+    result
   end
 end

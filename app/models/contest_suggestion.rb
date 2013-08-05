@@ -18,4 +18,6 @@ class ContestSuggestion < ActiveRecord::Base
   validates :name, presence: true
   validates :date, presence: true
   validates :venue, presence: true
+
+  scope :archived, ->{ where(archived: true) }
 end
