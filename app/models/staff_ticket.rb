@@ -16,8 +16,6 @@ class StaffTicket < ActiveRecord::Base
   belongs_to :contest, autosave: true, validate: true
   belongs_to :contest_director, class_name: "User"
 
-  attr_accessible :user, :contest, :awarded, :created_at
-
   scope :awarded, -> { where(awarded: true) }
 
   def award(user)
@@ -26,12 +24,14 @@ class StaffTicket < ActiveRecord::Base
   end
 
   def self.create_from_suggestion!(contest_suggestion, contest)
-    contest_suggestion.update_attributes(archived: true)
+    contest_suggestion.archived = true
+    contest_suggestion.save!
 
-    create!({
-      user: contest_suggestion.user,
-      contest: contest,
-      created_at: contest_suggestion.created_at
-    })
+    ticket = StaffTicket.new
+    ticket.user = contest_suggestion.user
+    ticket.contest = contest
+    ticket.created_at = contest_suggestion.created_at
+    ticket.save!
+    ticket
   end
 end

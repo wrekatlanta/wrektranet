@@ -45,10 +45,6 @@ class User < ActiveRecord::Base
   has_many :listener_tickets
   has_many :contest_suggestions, dependent: :destroy
 
-  # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :username, :password, :password_confirmation, :remember_me,
-                  :first_name, :last_name, :display_name, :phone
-
   validates :phone,      format: /[\(\)0-9\- \+\.]{10,20}/, allow_blank: true
   validates :email,      presence: true, uniqueness: true,
                          format: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
