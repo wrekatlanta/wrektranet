@@ -18,6 +18,8 @@ class StaffTicket < ActiveRecord::Base
 
   attr_accessible :user, :contest, :awarded, :created_at
 
+  scope :awarded, -> { where(awarded: true) }
+
   def award(user)
     self.contest_director = user
     self.awarded = true

@@ -43,7 +43,7 @@ class Contest < ActiveRecord::Base
 
   def staff_tickets_within_bounds
     return if self.staff_tickets.blank?
-    errors.add(:base, "Too many staff tickets") if self.staff_tickets.count > self.staff_ticket_limit
+    errors.add(:base, "Too many staff tickets") if self.staff_tickets.awarded.count > self.staff_ticket_limit
   end
 
   def listener_tickets_within_bounds
