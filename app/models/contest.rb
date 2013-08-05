@@ -19,8 +19,8 @@
 
 class Contest < ActiveRecord::Base
   belongs_to :venue
-  has_many :staff_tickets
-  has_many :listener_tickets
+  has_many :staff_tickets, dependent: :destroy
+  has_many :listener_tickets, dependent: :destroy
 
   accepts_nested_attributes_for :staff_tickets, :listener_tickets, allow_destroy: true
 
