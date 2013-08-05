@@ -28,5 +28,21 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
+
+    if user.admin
+      can :manage, :all
+    end
+
+    if user.has_role? :contest_director
+      can :manage, Contest
+      can :manage, Venue
+      can :manage, StaffTicket
+    end
+
+    can [:read, :write, :destroy], ContestSuggestion
+    can [:read, :write], StaffTicket
+    can :manage, ListenerTicket
+
+    can :read, :all
   end
 end
