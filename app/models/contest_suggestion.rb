@@ -8,16 +8,14 @@
 #  venue      :string(255)
 #  created_at :datetime
 #  updated_at :datetime
+#  user_id    :integer
+#  archived   :boolean          default(FALSE)
 #
 
 class ContestSuggestion < ActiveRecord::Base
-  has_one :staff_ticket, as: :contest
+  belongs_to :user
 
   validates :name, presence: true
   validates :date, presence: true
   validates :venue, presence: true
-
-  scope :unassigned, ->{
-    joins("LEFT OUTER JOIN staff_tickets ON staff_tickets.contest_id = contest_suggestions.id").where("staff_tickets.contest_id IS null")
-  }
 end

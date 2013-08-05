@@ -22,6 +22,12 @@ class StaffTicket < ActiveRecord::Base
   scope :suggestion, ->{ where(contest_type: "ContestSuggestion") }
   scope :official, ->{ where(contest_type: "Contest") }
 
+  def award(user)
+    self.contest_director = user
+    self.awarded = true
+  end
+
+  private
   def clean_suggestions
     ContestSuggestion.unassigned.delete_all
   end

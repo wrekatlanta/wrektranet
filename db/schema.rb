@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130804223527) do
+ActiveRecord::Schema.define(version: 20130805042819) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,7 +31,11 @@ ActiveRecord::Schema.define(version: 20130804223527) do
     t.string   "venue"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "user_id"
+    t.boolean  "archived",   default: false
   end
+
+  add_index "contest_suggestions", ["user_id"], name: "index_contest_suggestions_on_user_id", using: :btree
 
   create_table "contests", force: true do |t|
     t.string   "name"

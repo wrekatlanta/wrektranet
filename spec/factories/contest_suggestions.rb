@@ -5,6 +5,5 @@ FactoryGirl.define do
     name "George and the Burdells"
     date { Time.zone.today.beginning_of_day + 1.day }
     venue "Under the Couch"
-    staff_ticket
   end
 end
