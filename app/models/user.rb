@@ -27,9 +27,9 @@
 #
 
 class User < ActiveRecord::Base
-  rolify
-
   before_save :strip_phone
+
+  rolify
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -41,9 +41,9 @@ class User < ActiveRecord::Base
     devise :database_authenticatable
   end
 
-  def name
-    display_name.presence || [first_name, last_name].join(" ")
-  end
+  has_many :staff_tickets, dependent: :destroy
+  has_many :listener_tickets
+  has_many :contest_suggestions, dependent: :destroy
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :username, :password, :password_confirmation, :remember_me,
@@ -57,6 +57,10 @@ class User < ActiveRecord::Base
   validates :username,   presence: true, format: /[a-zA-Z]{2,8}/,
                          uniqueness: { case_sensitive: false }
   validates :password,   length: { within: 8..40 }
+
+  def name
+    display_name.presence || [first_name, last_name].join(" ")
+  end
 
   # FIXME: make this generic
   def strip_phone

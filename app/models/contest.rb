@@ -22,7 +22,7 @@ class Contest < ActiveRecord::Base
   has_many :staff_tickets
   has_many :listener_tickets
 
-  accepts_nested_attributes_for :staff_tickets, :listener_tickets
+  accepts_nested_attributes_for :staff_tickets, :listener_tickets, allow_destroy: true
 
   validate :staff_tickets_within_bounds
   validate :listener_tickets_within_bounds
