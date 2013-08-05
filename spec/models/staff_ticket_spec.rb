@@ -19,13 +19,13 @@ describe StaffTicket do
     FactoryGirl.create(:staff_ticket).should be_valid
   end
 
-  describe "#award" do
+  describe "#award!" do
     subject { FactoryGirl.create(:staff_ticket) }
 
     let(:contest_director) { FactoryGirl.create(:contest_director) }
 
     before do
-      subject.award(contest_director)
+      subject.award!(contest_director)
     end
 
     its(:awarded) { should be_true }

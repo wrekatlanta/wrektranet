@@ -18,9 +18,10 @@ class StaffTicket < ActiveRecord::Base
 
   scope :awarded, -> { where(awarded: true) }
 
-  def award(user)
+  def award!(user)
     self.contest_director = user
     self.awarded = true
+    self.save!
   end
 
   def self.create_from_suggestion!(contest_suggestion, contest)
