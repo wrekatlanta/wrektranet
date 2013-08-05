@@ -11,7 +11,7 @@
 #
 
 class ContestSuggestion < ActiveRecord::Base
-  has_one :staff_ticket
+  has_one :staff_ticket, as: :contest
 
   validates :name, presence: true
   validates :date, presence: true

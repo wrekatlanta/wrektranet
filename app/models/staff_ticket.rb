@@ -13,7 +13,7 @@
 #
 
 class StaffTicket < ActiveRecord::Base
-  after_destroy :destroy_suggestions
+  after_save :clean_suggestions
 
   belongs_to :user
   belongs_to :contest, polymorphic: true
@@ -22,8 +22,7 @@ class StaffTicket < ActiveRecord::Base
   scope :suggestion, ->{ where(contest_type: "ContestSuggestion") }
   scope :official, ->{ where(contest_type: "Contest") }
 
-  private
-  def destroy_suggestions
-    self.contest_was.destroy unless self.contest_was.blank?
+  def clean_suggestions
+    ContestSuggestion.unassigned.delete_all
   end
 end

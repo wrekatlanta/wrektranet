@@ -37,10 +37,10 @@ describe Contest do
   end
 
   it "is invalid with a negative amount of listener tickets" do
-    FactoryGirl.build(:contest, listener_tickets: -1).should_not be_valid
+    FactoryGirl.build(:contest, listener_ticket_limit: -1).should_not be_valid
   end
 
   it "is invalid with a negative amount of staff tickets" do
-    FactoryGirl.build(:contest, staff_tickets: -1).should_not be_valid
+    FactoryGirl.build(:contest, staff_ticket_limit: -1).should_not be_valid
   end
 end
