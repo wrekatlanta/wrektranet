@@ -5,7 +5,6 @@
 #  id                  :integer          not null, primary key
 #  user_id             :integer
 #  contest_id          :integer
-#  contest_type        :string(255)
 #  contest_director_id :integer
 #  awarded             :boolean
 #  created_at          :datetime
