@@ -62,6 +62,10 @@ class User < ActiveRecord::Base
     display_name.presence || [first_name, last_name].join(" ")
   end
 
+  def admin?
+    self.admin
+  end
+
   # FIXME: make this generic
   def strip_phone
     self.phone.gsub!(/\D/, '') if self.phone
