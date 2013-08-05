@@ -57,4 +57,18 @@ describe Contest do
       subject.should_not be_valid
     end
   end
+
+  describe "listener ticket limit" do
+    subject { FactoryGirl.create(:contest, listener_ticket_limit: 3) }
+
+    it "should be valid under the limit" do
+      subject.listener_tickets << FactoryGirl.create_list(:listener_ticket, 3, contest: subject)
+      subject.should be_valid
+    end
+
+    it "is invalid over the limit" do
+      subject.listener_tickets << FactoryGirl.create_list(:listener_ticket, 4)
+      subject.should_not be_valid
+    end
+  end
 end
