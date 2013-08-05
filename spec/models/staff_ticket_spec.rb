@@ -22,9 +22,7 @@ describe StaffTicket do
   describe "#award" do
     subject { FactoryGirl.create(:staff_ticket) }
 
-    let(:contest_director) {
-      FactoryGirl.create(:contest_director)
-    }
+    let(:contest_director) { FactoryGirl.create(:contest_director) }
 
     before do
       subject.award(contest_director)
