@@ -25,15 +25,12 @@ class StaffTicket < ActiveRecord::Base
   end
 
   def self.create_from_suggestion!(contest_suggestion, contest)
-    result = StaffTicket.create({
+    contest_suggestion.update_attributes(archived: true)
+
+    StaffTicket.create({
       user: contest_suggestion.user,
       contest: contest,
       created_at: contest_suggestion.created_at
     })
-
-    contest_suggestion.archived = true
-    contest_suggestion.save
-
-    result
   end
 end

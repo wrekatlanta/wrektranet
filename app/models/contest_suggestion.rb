@@ -20,4 +20,6 @@ class ContestSuggestion < ActiveRecord::Base
   validates :venue, presence: true
 
   scope :archived, ->{ where(archived: true) }
+
+  attr_accessible :name, :date, :venue, :archived
 end

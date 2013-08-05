@@ -38,11 +38,16 @@ describe StaffTicket do
   describe ".create_from_suggestion" do
     let(:suggestion) { FactoryGirl.create(:contest_suggestion) }
     let(:contest) { FactoryGirl.create(:contest) }
-
     subject { StaffTicket.create_from_suggestion!(suggestion, contest) }
+
+    before { subject.save }
     
     it "should create a new staff ticket" do
       subject.should be_a_kind_of(StaffTicket)
+    end
+
+    it "should archive the suggestion" do
+      suggestion.archived.should eq true
     end
 
     its(:user) { should eq suggestion.user }
