@@ -38,7 +38,7 @@ class Contest < ActiveRecord::Base
 
   private
   def set_send_time
-    self.send_time = self.date.beginning_of_day - self.venue.send_day_offset.days + self.venue.send_hour + self.venue.send_minute
+    self.send_time = self.date.beginning_of_day - self.venue.send_day_offset.days + self.venue.send_hour.hours + self.venue.send_minute.minutes
   end
 
   def staff_tickets_within_bounds

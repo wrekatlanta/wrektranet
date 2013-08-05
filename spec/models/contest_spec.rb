@@ -72,4 +72,11 @@ describe Contest do
       subject.should_not be_valid
     end
   end
+
+  describe "#send_time" do
+    let(:venue) { FactoryGirl.create(:venue, send_day_offset: 2, send_hour: 17, send_minute: 30) }
+    subject { FactoryGirl.create(:contest, date: Time.zone.today.beginning_of_day + 1.day + 17.hours, venue: venue) }
+
+    its(:send_time) { should eq (Time.zone.today.beginning_of_day + 1.day - 2.days + 17.hours + 30.minutes) }
+  end
 end
