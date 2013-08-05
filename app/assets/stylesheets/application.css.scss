@@ -14,17 +14,6 @@
 
 @import "bootstrap";
 
-html, body {
-  height: 100%;
-}
-
-#wrap {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 auto;
-}
-
-#wrap > .container {
-  padding: 60px 15px 0;
+body {
+  padding-top: 60px;
 }

@@ -8,16 +8,15 @@ html
         = csrf_meta_tags
         = yield(:head)
   body
-    #wrap
-      .navbar.navbar-fixed-top
-        .container
-          button.navbar-toggle data-target=".nav-collapse" data-toggle="collapse" type="button"
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          = link_to "WREKtranet", root_path, class: "navbar-brand"
-          = render 'layouts/navigation'
+    .navbar.navbar-fixed-top
       .container
-        = yield
+        button.navbar-toggle data-target=".nav-collapse" data-toggle="collapse" type="button"
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        = link_to "WREKtranet", root_path, class: "navbar-brand"
+        = render 'layouts/navigation'
+    .container
+      = yield
 
     = javascript_include_tag "application"
