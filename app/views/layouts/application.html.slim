@@ -8,8 +8,8 @@ html
         = csrf_meta_tags
         = yield(:head)
   body
-    .container
-      .navbar
+    #wrap
+      .navbar.navbar-fixed-top
         .container
           button.navbar-toggle data-target=".nav-collapse" data-toggle="collapse" type="button"
             span.icon-bar
@@ -17,6 +17,7 @@ html
             span.icon-bar
           = link_to "WREKtranet", root_path, class: "navbar-brand"
           = render 'layouts/navigation'
-      = yield
+      .container
+        = yield
 
     = javascript_include_tag "application"
