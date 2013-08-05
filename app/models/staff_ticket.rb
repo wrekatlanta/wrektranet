@@ -14,7 +14,7 @@
 
 class StaffTicket < ActiveRecord::Base
   belongs_to :user
-  belongs_to :contest
+  belongs_to :contest, autosave: true, validate: true
   belongs_to :contest_director, class_name: "User"
 
   attr_accessible :user, :contest, :awarded, :created_at

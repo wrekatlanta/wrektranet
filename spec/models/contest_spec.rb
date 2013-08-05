@@ -43,4 +43,18 @@ describe Contest do
   it "is invalid with a negative amount of staff tickets" do
     FactoryGirl.build(:contest, staff_ticket_limit: -1).should_not be_valid
   end
+
+  describe "staff ticket limit" do
+    subject { FactoryGirl.create(:contest, staff_ticket_limit: 3) }
+
+    it "should be valid under the limit" do
+      subject.staff_tickets << FactoryGirl.create_list(:staff_ticket, 3, contest: subject)
+      subject.should be_valid
+    end
+
+    it "is invalid over the limit" do
+      subject.staff_tickets << FactoryGirl.create_list(:staff_ticket, 4)
+      subject.should_not be_valid
+    end
+  end
 end
