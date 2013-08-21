@@ -5,6 +5,7 @@ html
       title= yield(:title) + (" | " if content_for?(:title)) + "WREKtranet"
       meta content=(content_for?(:description) ? yield(:description) : "WREK") name="description" 
         = stylesheet_link_tag "application", :media => "all"
+        = stylesheet_link_tag "signin"
         = csrf_meta_tags
         = yield(:head)
   body
