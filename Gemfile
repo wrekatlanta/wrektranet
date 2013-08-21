@@ -14,6 +14,7 @@ group :doc do
 end
 
 gem 'bootstrap-sass', :git => 'git://github.com/thomas-mcdonald/bootstrap-sass.git', :branch => '3'
+gem 'active_link_to'
 gem 'cancan'
 gem 'devise', '~> 3.0.x'
 gem 'devise_ldap_authenticatable', '~> 0.8.x'
