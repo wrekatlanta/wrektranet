@@ -1,7 +1,7 @@
-h2 Sign in
-= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-vertical' }) do |f|
-  = f.input :email, :autofocus => true
-  = f.input :password
-  = f.input :remember_me, :as => :boolean if devise_mapping.rememberable?
-  = f.button :submit, "Sign in", :class => 'btn-primary'
-= render "devise/shared/links"
+= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: {class: 'form-signin' }) do |f|
+  h2.form-signin-heading WREKtranet Beta
+  = f.input_field :email, autofocus: true, placeholder: 'Initials', class: 'form-control'
+  = f.input_field :password, placeholder: 'Password', class: 'form-control'
+  - if devise_mapping.rememberable?
+    = f.input_field :remember_me, as: :boolean, inline_label: 'Remember me'
+  = f.button :submit, "Sign in", class: 'btn-large btn-primary btn-block'

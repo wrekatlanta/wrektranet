@@ -23,7 +23,7 @@ gem 'pg'
 gem 'protected_attributes'
 gem 'puma'
 gem 'rolify'
-gem 'simple_form', '~> 3.0.0.rc'
+gem 'simple_form'
 gem 'slim'
 
 group :development do

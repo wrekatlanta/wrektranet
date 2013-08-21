@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    meta content="width=device-width, initial-scale=1.0" name="viewport" 
+      title= yield(:title) + (" | " if content_for?(:title)) + "WREKtranet"
+      meta content=(content_for?(:description) ? yield(:description) : "WREK") name="description" 
+        = stylesheet_link_tag "application", :media => "all"
+        = csrf_meta_tags
+        = yield(:head)
+  body
+    .container
+      .col-lg-4.col-lg-push-4
+        = render 'layouts/messages'
+        = yield
