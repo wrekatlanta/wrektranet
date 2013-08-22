@@ -20,6 +20,7 @@
 #
 
 class Contest < ActiveRecord::Base
+  after_initialize :set_default_values
   before_save :set_send_time
 
   belongs_to :venue
@@ -41,17 +42,22 @@ class Contest < ActiveRecord::Base
   validates :staff_ticket_limit, numericality: { greater_than_or_equal_to: 0 }
 
   private
-  def set_send_time
-    self.send_time = self.date.beginning_of_day - self.venue.send_day_offset.days + self.venue.send_hour.hours + self.venue.send_minute.minutes
-  end
+    def set_send_time
+      self.send_time = self.date.beginning_of_day - self.venue.send_day_offset.days + self.venue.send_hour.hours + self.venue.send_minute.minutes
+    end
 
-  def staff_tickets_within_bounds
-    return if self.staff_tickets.blank?
-    errors.add(:base, "Too many staff tickets") if self.staff_tickets.awarded.count > self.staff_ticket_limit
-  end
+    def staff_tickets_within_bounds
+      return if self.staff_tickets.blank?
+      errors.add(:base, "Too many staff tickets") if self.staff_tickets.awarded.count > self.staff_ticket_limit
+    end
 
-  def listener_tickets_within_bounds
-    return if self.listener_tickets.blank?
-    errors.add(:base, "Too many listener tickets") if self.listener_tickets.length > self.listener_ticket_limit
-  end
+    def listener_tickets_within_bounds
+      return if self.listener_tickets.blank?
+      errors.add(:base, "Too many listener tickets") if self.listener_tickets.length > self.listener_ticket_limit
+    end
+
+    def set_default_values
+      self.listener_ticket_limit ||= 0
+      self.staff_ticket_limit ||= 0
+    end
 end

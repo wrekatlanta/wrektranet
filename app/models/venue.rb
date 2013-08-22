@@ -15,8 +15,8 @@
 #
 
 class Venue < ActiveRecord::Base
-  before_save :strip_fax
   after_initialize :set_default_values
+  before_save :strip_fax
 
   has_many :contacts
   has_many :contests, dependent: :destroy, autosave: true

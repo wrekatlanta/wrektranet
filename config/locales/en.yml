@@ -34,3 +34,15 @@ en:
       us_date: "%m/%d/%Y"
       us_time: "%-m/%d/%Y %I:%M %p"
       long_date: "%B %d, %Y"
+  simple_form:
+    labels:
+      contest:
+        pick_up: 'Pick up?'
+        listener_ticket_limit: 'Listener tickets'
+        staff_ticket_limit: 'Staff tickets'
+    options:
+      contest:
+        age_limit:
+          '0': 'None'
+          '18': '18+'
+          '21': '21+'
