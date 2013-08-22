@@ -1,5 +1,4 @@
 class Admin::ContestsController < Admin::BaseController
-  layout 'two-column'
   load_and_authorize_resource
 
   def index

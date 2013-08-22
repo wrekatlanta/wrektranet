@@ -10,13 +10,14 @@ html
   body
     .navbar.navbar-fixed-top
       .container
-        button.navbar-toggle data-target=".nav-collapse" data-toggle="collapse" type="button"
-          span.icon-bar
-          span.icon-bar
-          span.icon-bar
-        = link_to "WREKtranet", root_path, class: "navbar-brand"
+        .navbar-header
+          button.navbar-toggle data-target=".nav-collapse" data-toggle="collapse" type="button"
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          = link_to "WREKtranet", root_path, class: "navbar-brand"
         = render 'layouts/navigation'
     .container
-      = yield
+      = content_for?(:content) ? yield(:content) : yield
 
     = javascript_include_tag "application"

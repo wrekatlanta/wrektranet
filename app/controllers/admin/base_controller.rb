@@ -1,3 +1,3 @@
 class Admin::BaseController < ApplicationController
-  layout 'two-column'
+  layout 'admin'
 end
