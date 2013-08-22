@@ -32,13 +32,11 @@ class Contest < ActiveRecord::Base
 
   validate :staff_tickets_within_bounds
   validate :listener_tickets_within_bounds
-
   validates :name, presence: true
   validates :date, presence: true
   validates :age_limit, numericality: { greater_than_or_equal_to: 0 }
   validates :listener_ticket_limit, numericality: { greater_than_or_equal_to: 0 }
   validates :staff_ticket_limit, numericality: { greater_than_or_equal_to: 0 }
-
 
   private
   def set_send_time

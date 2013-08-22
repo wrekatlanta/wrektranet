@@ -4,6 +4,12 @@ Wrek::Application.routes.draw do
   devise_for :users
 
   namespace :admin do
-    resources :contests, :venues
+    resources :contests do
+      collection do
+        get 'past', to: :index, defaults: { filter: 'past' }
+      end
+    end
+
+    resources :venues
   end
 end
