@@ -16,6 +16,7 @@
 
 class Venue < ActiveRecord::Base
   before_save :strip_fax
+  after_initialize :set_default_values
 
   has_many :contacts
   has_many :contests, dependent: :destroy, autosave: true
@@ -25,8 +26,15 @@ class Venue < ActiveRecord::Base
   validates :send_hour, inclusion: 0..23
   validates :send_minute, inclusion: 0..59
 
-  # FIXME: make this generic
-  def strip_fax
-    self.fax.gsub!(/\D/, '') if self.fax
-  end
+  private
+    # FIXME: make this generic
+    def strip_fax
+      self.fax.gsub!(/\D/, '') if self.fax
+    end
+
+    def set_default_values
+      self.send_hour ||= 17
+      self.send_minute ||= 0
+      self.send_day_offset ||= 0
+    end
 end

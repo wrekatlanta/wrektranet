@@ -1,8 +1,5 @@
 - content_for :content do
   .row
-    .col-lg-9
-      = render 'layouts/messages'
-      = yield
     .col-lg-3
       .well.sidebar-nav
         ul.nav.nav-list
@@ -11,5 +8,8 @@
             = active_link_to 'Upcoming Contests', admin_contests_path, wrap_tag: :li
             = active_link_to 'Past Contests', admin_contests_path, wrap_tag: :li
             = active_link_to 'Venues', admin_venues_path, wrap_tag: :li
+    .col-lg-9
+      = render 'layouts/messages'
+      = yield
 
 = render template: 'layouts/application'
