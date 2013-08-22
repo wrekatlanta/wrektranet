@@ -28,6 +28,7 @@ class Contest < ActiveRecord::Base
 
   accepts_nested_attributes_for :staff_tickets, :listener_tickets, allow_destroy: true
 
+  default_scope order('date DESC')
   scope :upcoming, ->{ where("created_at >= :start_date", start_date: Time.zone.now.beginning_of_day) }
   scope :past, ->{ where("created_at < :start_date", start_date: Time.zone.now.beginning_of_day) }
 

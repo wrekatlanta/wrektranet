@@ -4,7 +4,7 @@ class Admin::ContestsController < Admin::BaseController
   def index
     @contests = @contests.
       includes(:venue).
-      paginate(page: params[:page], per_page: 3)
+      paginate(page: params[:page], per_page: 30)
 
     if params[:filter] == 'past'
       @contests = @contests.past
