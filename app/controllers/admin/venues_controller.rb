@@ -12,6 +12,8 @@ class Admin::VenuesController < Admin::BaseController
 
   def create
     @venue = Venue.new(venue_params)
+    authorize! :create, @venue
+
     if @venue.save
       redirect_to admin_venues_path, success: "#{@venue.name} created successfully."
     else
@@ -35,7 +37,10 @@ class Admin::VenuesController < Admin::BaseController
 
   private
     def venue_params
-      params.require(:venue).permit(:name, :fax, :address, :send_day_offset, :send_hour, :send_minute, contacts_attributes: [:email, :id, '_destroy'])
-      # FIXME: add :contact_attributes
+      params.require(:venue).permit(
+        :name, :fax, :address, :send_day_offset,
+        :send_hour, :send_minute,
+        contacts_attributes: [:email, :id, '_destroy']
+      )
     end
 end

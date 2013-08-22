@@ -52,7 +52,6 @@ class User < ActiveRecord::Base
   validates :last_name,  presence: true
   validates :username,   presence: true, format: /[a-zA-Z]{2,8}/,
                          uniqueness: { case_sensitive: false }
-  validates :password,   length: { within: 8..40 }
 
   def name
     display_name.presence || [first_name, last_name].join(" ")
