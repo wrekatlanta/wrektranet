@@ -11,18 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130805061727) do
+ActiveRecord::Schema.define(version: 20130822042558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "contacts", force: true do |t|
-    t.string   "name"
     t.string   "email"
-    t.string   "phone"
-    t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "venue_id"
   end
 
   create_table "contest_suggestions", force: true do |t|
@@ -123,16 +121,6 @@ ActiveRecord::Schema.define(version: 20130805061727) do
   end
 
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
-
-  create_table "venue_contacts", id: false, force: true do |t|
-    t.integer  "venue_id"
-    t.integer  "contact_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "venue_contacts", ["contact_id"], name: "index_venue_contacts_on_contact_id", using: :btree
-  add_index "venue_contacts", ["venue_id"], name: "index_venue_contacts_on_venue_id", using: :btree
 
   create_table "venues", force: true do |t|
     t.string   "name"

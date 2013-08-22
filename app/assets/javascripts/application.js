@@ -14,5 +14,6 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require angular
+//= require ui-utils
 //= require_directory ./admin
 //= require_tree .

@@ -1,22 +1,37 @@
 - defaults = {input_wrapper_html: {class: 'col-lg-6'}, label_html: {class: 'col-lg-2'}}
 
-= simple_form_for [:admin, @venue], html: {class: 'form-horizontal'}, defaults: defaults do |f|
-  = f.input :name, input_html: { class: 'form-control' }
-  = f.input :fax, input_html: { class: 'form-control' }
-  = f.input :address, as: :text, input_html: { class: 'form-control' }
-  .form-group
-    = f.label 'Send Time', class: 'col-lg-2'
-    .col-lg-10
-      .row
-        .col-lg-2
-          = f.input_field :send_hour, collection: 0..23, class: 'form-control', include_blank: false
-        .col-lg-2
-          = f.input_field :send_minute, collection: 0..59, class: 'form-control', include_blank: false
-  = f.input :send_day_offset do
-    = f.input_field :send_day_offset, collection: 0..10, class: 'form-control', include_blank: false
-    span.help-block How many days early should contests be sent?
-  div ng-controller="adminVenueCtrl"
-    | {{test}}
-  .form-group
-    .col-lg-offset-2.col-lg-10
-      = f.button :submit, class: 'btn-primary'
+div ng-controller="adminVenueCtrl" ng-init="venue = #{@venue.to_json(include: :contacts)}"
+  = simple_form_for [:admin, @venue], html: {name: 'venueForm', class: 'form-horizontal'}, defaults: defaults do |f|
+    = f.input :name, input_html: { class: 'form-control' }
+    = f.input :fax, input_html: { class: 'form-control' }
+    = f.input :address, as: :text, input_html: { class: 'form-control' }
+    .form-group
+      = f.label 'Send Time', class: 'col-lg-2'
+      .col-lg-10
+        .row
+          .col-lg-2
+            = f.input_field :send_hour, collection: 0..23, class: 'form-control', include_blank: false
+          .col-lg-2
+            = f.input_field :send_minute, collection: 0..59, class: 'form-control', include_blank: false
+    = f.input :send_day_offset do
+      = f.input_field :send_day_offset, collection: 0..10, class: 'form-control', include_blank: false
+      span.help-block How many days early should contests be sent?
+    .form-group
+      label.col-lg-2.control-label Contacts
+      .col-lg-10
+        .form-group ng-repeat="contact in venue.contacts" ng-hide="contact.destroy"
+          input type="hidden" name="venue[contacts][][id]" value="{{contact.id}}"
+          input type="hidden" name="venue[contacts][][email]" value="{{contact.email}}"
+          input type="hidden" name="venue[contacts][][_destroy]" value="{{contact.destroy}}"
+          .col-lg-4
+            input.form-control type="email" ng-model="contact.email" required="required"
+          .col-lg-1
+            button.btn.btn-danger.btn-block type="button" ng-click="deleteContact(contact)" -
+        .form-group
+          .col-lg-4
+            input.form-control type="email" name="newContactEmail" ng-model="newContact.email" ui-keydown="{'enter':'addContact($event)'}"
+          .col-lg-1
+            button.btn.btn-success.btn-block type="button" ng-click="addContact($event)" ng-disabled="venueForm.newContactEmail.$invalid || newContact.email.length === 0" +
+    .form-group
+      .col-lg-offset-2.col-lg-10
+        = f.button :submit, class: 'btn-primary'
