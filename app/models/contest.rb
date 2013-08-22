@@ -27,6 +27,9 @@ class Contest < ActiveRecord::Base
 
   accepts_nested_attributes_for :staff_tickets, :listener_tickets, allow_destroy: true
 
+  scope :upcoming, ->{ where("created_at >= :start_date", start_date: Time.zone.now.beginning_of_day) }
+  scope :past, ->{ where("created_at < :start_date", start_date: Time.zone.now.beginning_of_day) }
+
   validate :staff_tickets_within_bounds
   validate :listener_tickets_within_bounds
 
@@ -35,6 +38,7 @@ class Contest < ActiveRecord::Base
   validates :age_limit, numericality: { greater_than_or_equal_to: 0 }
   validates :listener_ticket_limit, numericality: { greater_than_or_equal_to: 0 }
   validates :staff_ticket_limit, numericality: { greater_than_or_equal_to: 0 }
+
 
   private
   def set_send_time
