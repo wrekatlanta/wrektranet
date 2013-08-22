@@ -29,7 +29,7 @@ class Contest < ActiveRecord::Base
 
   accepts_nested_attributes_for :staff_tickets, :listener_tickets, allow_destroy: true
 
-  default_scope order('date DESC')
+  default_scope ->{ order('date DESC') }
   scope :upcoming, ->{ where("send_time >= :start_date", start_date: Time.zone.now.beginning_of_day) }
   scope :past, ->{ where("send_time < :start_date", start_date: Time.zone.now.beginning_of_day) }
 
@@ -38,12 +38,12 @@ class Contest < ActiveRecord::Base
   validates :name, presence: true
   validates :date, presence: true
   validates :venue, presence: true
-  validates :age_limit, numericality: { greater_than_or_equal_to: 0 }
+  validates :age_limit, presence: true
   validates :listener_ticket_limit, numericality: { greater_than_or_equal_to: 0 }
   validates :staff_ticket_limit, numericality: { greater_than_or_equal_to: 0 }
 
   def set_send_time
-    self.send_time = self.date.beginning_of_day - self.venue.send_day_offset.days + self.venue.send_hour.hours + self.venue.send_minute.minutes
+    self.send_time = self.date.beginning_of_day - self.venue.send_day_offset.days + self.venue.send_hour.hours
   end
 
   private

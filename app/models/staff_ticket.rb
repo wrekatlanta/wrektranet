@@ -13,7 +13,7 @@
 
 class StaffTicket < ActiveRecord::Base
   belongs_to :user
-  belongs_to :contest, autosave: true, validate: true
+  belongs_to :contest, validate: true, counter_cache: :staff_count
   belongs_to :contest_director, class_name: "User"
 
   scope :awarded, -> { where(awarded: true) }

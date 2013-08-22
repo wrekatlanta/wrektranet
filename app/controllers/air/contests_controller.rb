@@ -1,9 +1,9 @@
-class Admin::ContestsController < Admin::BaseController
+class Air::ContestsController < Air::BaseController
   load_and_authorize_resource except: [:create]
 
   def index
     @contests = @contests.
-      includes(:venue, :listener_tickets, :staff_tickets).
+      includes(:venue).
       paginate(page: params[:page], per_page: 30)
 
     if params[:filter] == 'past'
@@ -23,7 +23,7 @@ class Admin::ContestsController < Admin::BaseController
     authorize! :create, @contest
 
     if @contest.save
-      redirect_to admin_contests_path, success: "#{@contest.name} created successfully."
+      redirect_to air_contests_path, success: "#{@contest.name} created successfully."
     else
       render :new
     end
@@ -34,7 +34,7 @@ class Admin::ContestsController < Admin::BaseController
 
   def update
     if @contest.update_attributes(contest_params)
-      redirect_to admin_contests_path, success: "#{@contest.name} updated successfully."
+      redirect_to air_contests_path, success: "#{@contest.name} updated successfully."
     else
       render :edit
     end
@@ -42,7 +42,7 @@ class Admin::ContestsController < Admin::BaseController
 
   def destroy
     if @contest.destroy
-      redirect_to admin_contests_path, success: "#{@contest.name} deleted successfully."
+      redirect_to air_contests_path, success: "#{@contest.name} deleted successfully."
     else
       render :edit
     end

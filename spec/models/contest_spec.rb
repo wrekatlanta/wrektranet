@@ -34,10 +34,6 @@ describe Contest do
     FactoryGirl.build(:contest, date: nil).should_not be_valid
   end
 
-  it "is invalid with a negative age limit" do
-    FactoryGirl.build(:contest, age_limit: -1).should_not be_valid
-  end
-
   it "is invalid with a negative amount of listener tickets" do
     FactoryGirl.build(:contest, listener_ticket_limit: -1).should_not be_valid
   end
@@ -76,9 +72,9 @@ describe Contest do
   end
 
   describe "#send_time" do
-    let(:venue) { FactoryGirl.create(:venue, send_day_offset: 2, send_hour: 17, send_minute: 30) }
+    let(:venue) { FactoryGirl.create(:venue, send_day_offset: 2, send_hour: 17) }
     subject { FactoryGirl.create(:contest, date: Time.zone.today.beginning_of_day + 1.day + 17.hours, venue: venue) }
 
-    its(:send_time) { should eq (Time.zone.today.beginning_of_day + 1.day - 2.days + 17.hours + 30.minutes) }
+    its(:send_time) { should eq (Time.zone.today.beginning_of_day + 1.day - 2.days + 17.hours) }
   end
 end

@@ -4,22 +4,22 @@ class ContestDecorator < ApplicationDecorator
   def listener_ticket_label
     label_class = fraction_label_class(
       object.listener_ticket_limit,
-      object.listener_tickets.count
+      object.listener_tickets.size
     )
 
     h.content_tag :span, class: "label #{label_class}" do
-      "#{object.listener_tickets.count}/#{object.listener_ticket_limit}"
+      "#{object.listener_tickets.size}/#{object.listener_ticket_limit}"
     end
   end
 
   def staff_ticket_label
     label_class = fraction_label_class(
       object.staff_ticket_limit,
-      object.staff_tickets.count
+      object.staff_tickets.size
     )
 
     h.content_tag :span, class: "label #{label_class}" do
-      "#{object.staff_tickets.count}/#{object.staff_ticket_limit}"
+      "#{object.staff_tickets.size}/#{object.staff_ticket_limit}"
     end
   end
 

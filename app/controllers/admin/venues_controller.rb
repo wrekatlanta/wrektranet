@@ -44,8 +44,7 @@ class Admin::VenuesController < Admin::BaseController
     def venue_params
       params.require(:venue).permit(
         :name, :fax, :address, :send_day_offset,
-        :send_hour, :send_minute,
-        contacts_attributes: [:email, :id, '_destroy']
+        :send_hour, contacts_attributes: [:email, :id, '_destroy']
       )
     end
 end

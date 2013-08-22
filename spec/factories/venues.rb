@@ -10,7 +10,6 @@ FactoryGirl.define do
     }
     send_day_offset 0
     send_hour 17
-    send_minute 30
     notes "Cool man."
   end
 

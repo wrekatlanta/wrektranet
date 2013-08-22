@@ -61,20 +61,6 @@ describe User do
     FactoryGirl.build(:user, email: "TEST@example.com").should_not be_valid
   end
 
-  describe "password validations" do
-    it "invalid with short passwords" do
-      short = "a" * 7
-      user = FactoryGirl.build(:user, password: short, password_confirmation: short)
-      user.should_not be_valid
-    end
-
-    it "is invalid with long passwords" do
-      short = "a" * 41
-      user = FactoryGirl.build(:user, password: short, password_confirmation: short)
-      user.should_not be_valid
-    end
-  end
-
   describe "admin attribute" do
     before(:each) do
       @user = FactoryGirl.create(:user)
