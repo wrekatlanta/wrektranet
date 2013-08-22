@@ -25,14 +25,14 @@ en:
       # Use the strftime parameters for formats.
       # When no format has been given, it uses default.
       # You can provide other formats here if you like!
-      default: "%-m/%d/%Y"
-      short: "%b %d"
-      long: "%B %d, %Y"
-      us_date: "%-m/%d/%Y"
+      default: "%-m/%-d/%Y"
+      short: "%b %-d"
+      long: "%B %-d, %Y"
+      us_date: "%-m/%-d/%Y"
   time:
     formats:
       us_date: "%m/%d/%Y"
-      us_time: "%-m/%d/%Y %I:%M %p"
+      us_time: "%-m/%-d/%Y %I:%M %p"
       long_date: "%B %d, %Y"
   simple_form:
     labels:
