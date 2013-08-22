@@ -11,9 +11,6 @@ class Admin::VenuesController < Admin::BaseController
   def create
   end
 
-  def show
-  end
-
   def edit
   end
 
