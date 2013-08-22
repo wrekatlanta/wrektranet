@@ -1,5 +1,7 @@
 h3 Venues
 
+= render 'navigation'
+
 table.table.table-striped
   thead
     tr
@@ -10,7 +12,7 @@ table.table.table-striped
   tbody
     - for venue in @venues do
       tr
-        td = link_to venue.name, [:admin, venue]
+        td = link_to venue.name, edit_admin_venue_path(venue)
         td = venue.contacts.map(&:email).join(', ')
         td = venue.fax
-        td = venue.address
+        td = simple_format(venue.address)

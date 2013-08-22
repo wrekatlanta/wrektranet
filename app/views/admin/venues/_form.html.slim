@@ -20,11 +20,11 @@ div ng-controller="adminVenueCtrl" ng-init="venue = #{@venue.to_json(include: :c
       label.col-lg-2.control-label Contacts
       .col-lg-10
         .form-group ng-repeat="contact in venue.contacts" ng-hide="contact.destroy"
-          input type="hidden" name="venue[contacts][][id]" value="{{contact.id}}"
-          input type="hidden" name="venue[contacts][][email]" value="{{contact.email}}"
-          input type="hidden" name="venue[contacts][][_destroy]" value="{{contact.destroy}}"
+          input type="hidden" name="venue[contacts_attributes][][id]" value="{{contact.id}}"
+          input type="hidden" name="venue[contacts_attributes][][email]" value="{{contact.email}}"
+          input type="hidden" name="venue[contacts_attributes][][_destroy]" value="{{contact.destroy}}"
           .col-lg-4
-            input.form-control type="email" ng-model="contact.email" required="required"
+            input.form-control type="email" ng-model="contact.email" ng-required="!contact.destroy"
           .col-lg-1
             button.btn.btn-danger.btn-block type="button" ng-click="deleteContact(contact)" -
         .form-group

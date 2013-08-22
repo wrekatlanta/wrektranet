@@ -21,6 +21,8 @@ class Venue < ActiveRecord::Base
   has_many :contacts
   has_many :contests, dependent: :destroy, autosave: true
 
+  accepts_nested_attributes_for :contacts, allow_destroy: true
+
   validates :name, presence: true
   validates :fax, format: /[\(\)0-9\- \+\.]{10,20}/, allow_blank: true
   validates :send_hour, inclusion: 0..23
