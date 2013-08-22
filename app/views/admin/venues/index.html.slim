@@ -10,11 +10,15 @@ table.table.table-striped
       th Fax
       th Address
   tbody
-    - for venue in @venues do
+    - unless @venues.empty?
+      - for venue in @venues do
+        tr
+          td = link_to venue.name, edit_admin_venue_path(venue)
+          td = venue.contacts.map(&:email).join(', ')
+          td = venue.fax
+          td = simple_format(venue.address)
+    - else
       tr
-        td = link_to venue.name, edit_admin_venue_path(venue)
-        td = venue.contacts.map(&:email).join(', ')
-        td = venue.fax
-        td = simple_format(venue.address)
+        td colspan="4" No results were found.
 
 = will_paginate @venues, renderer: BootstrapPagination::Rails, bootstrap: 3

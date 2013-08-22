@@ -11,6 +11,8 @@ class Admin::ContestsController < Admin::BaseController
     else
       @contests = @contests.upcoming
     end
+
+    @contests = @contests.decorate
   end
 
   def new
