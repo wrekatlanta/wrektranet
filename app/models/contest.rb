@@ -30,8 +30,8 @@ class Contest < ActiveRecord::Base
   accepts_nested_attributes_for :staff_tickets, :listener_tickets, allow_destroy: true
 
   default_scope order('date DESC')
-  scope :upcoming, ->{ where("created_at >= :start_date", start_date: Time.zone.now.beginning_of_day) }
-  scope :past, ->{ where("created_at < :start_date", start_date: Time.zone.now.beginning_of_day) }
+  scope :upcoming, ->{ where("send_time >= :start_date", start_date: Time.zone.now.beginning_of_day) }
+  scope :past, ->{ where("send_time < :start_date", start_date: Time.zone.now.beginning_of_day) }
 
   validate :staff_tickets_within_bounds
   validate :listener_tickets_within_bounds
@@ -42,11 +42,11 @@ class Contest < ActiveRecord::Base
   validates :listener_ticket_limit, numericality: { greater_than_or_equal_to: 0 }
   validates :staff_ticket_limit, numericality: { greater_than_or_equal_to: 0 }
 
-  private
-    def set_send_time
-      self.send_time = self.date.beginning_of_day - self.venue.send_day_offset.days + self.venue.send_hour.hours + self.venue.send_minute.minutes
-    end
+  def set_send_time
+    self.send_time = self.date.beginning_of_day - self.venue.send_day_offset.days + self.venue.send_hour.hours + self.venue.send_minute.minutes
+  end
 
+  private
     def staff_tickets_within_bounds
       return if self.staff_tickets.blank?
       errors.add(:base, "Too many staff tickets") if self.staff_tickets.awarded.count > self.staff_ticket_limit

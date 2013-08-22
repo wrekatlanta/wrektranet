@@ -17,9 +17,10 @@
 class Venue < ActiveRecord::Base
   after_initialize :set_default_values
   before_save :strip_fax
+  after_update :update_contest_times
 
   has_many :contacts
-  has_many :contests, dependent: :destroy, autosave: true
+  has_many :contests, dependent: :destroy
 
   accepts_nested_attributes_for :contacts, allow_destroy: true
 
@@ -32,6 +33,15 @@ class Venue < ActiveRecord::Base
     # FIXME: make this generic
     def strip_fax
       self.fax.gsub!(/\D/, '') if self.fax
+    end
+
+    def update_contest_times
+      if self.send_day_offset_changed? || self.send_hour_changed? || self.send_minute_changed?
+        self.contests.each do |contest|
+          contest.set_send_time
+          contest.save!
+        end
+      end
     end
 
     def set_default_values
