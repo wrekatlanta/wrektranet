@@ -5,14 +5,7 @@ div ng-controller="adminVenueCtrl" ng-init="venue = #{@venue.to_json(include: :c
     = f.input :name, input_html: { class: 'form-control' }
     = f.input :fax, input_html: { class: 'form-control' }
     = f.input :address, as: :text, input_html: { class: 'form-control' }
-    .form-group
-      = f.label 'Send Time', class: 'col-lg-2'
-      .col-lg-10
-        .row
-          .col-lg-2
-            = f.input_field :send_hour, collection: 0..23, class: 'form-control', include_blank: false
-          .col-lg-2
-            = f.input_field :send_minute, collection: 0..59, class: 'form-control', include_blank: false
+    = f.input :send_hour, collection: 0..23, input_html: { class: 'form-control' }, include_blank: false
     = f.input :send_day_offset do
       = f.input_field :send_day_offset, collection: 0..10, class: 'form-control', include_blank: false
       span.help-block How many days early should contests be sent?

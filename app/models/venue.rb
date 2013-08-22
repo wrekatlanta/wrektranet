@@ -11,7 +11,6 @@
 #  created_at      :datetime
 #  updated_at      :datetime
 #  send_hour       :integer
-#  send_minute     :integer
 #
 
 class Venue < ActiveRecord::Base
@@ -26,8 +25,8 @@ class Venue < ActiveRecord::Base
 
   validates :name, presence: true
   validates :fax, format: /[\(\)0-9\- \+\.]{10,20}/, allow_blank: true
-  validates :send_hour, inclusion: 0..23
-  validates :send_minute, inclusion: 0..59
+  validates :send_hour, inclusion: 0..23, presence: true
+  validates :send_day_offset, numericality: { greater_than_or_equal_to: 0 }, presence: true
 
   private
     # FIXME: make this generic
@@ -36,7 +35,7 @@ class Venue < ActiveRecord::Base
     end
 
     def update_contest_times
-      if self.send_day_offset_changed? || self.send_hour_changed? || self.send_minute_changed?
+      if self.send_day_offset_changed? || self.send_hour_changed?
         self.contests.each do |contest|
           contest.set_send_time
           contest.save!
@@ -46,7 +45,6 @@ class Venue < ActiveRecord::Base
 
     def set_default_values
       self.send_hour ||= 17
-      self.send_minute ||= 0
       self.send_day_offset ||= 0
     end
 end

@@ -11,7 +11,6 @@
 #  created_at      :datetime
 #  updated_at      :datetime
 #  send_hour       :integer
-#  send_minute     :integer
 #
 
 require 'spec_helper'
@@ -32,16 +31,6 @@ describe Venue do
 
     it "is invalid above 23" do
       FactoryGirl.build(:venue, send_hour: 24).should_not be_valid
-    end
-  end
-
-  describe "send_minute attribute" do
-    it "is invalid below 0" do
-      FactoryGirl.build(:venue, send_minute: -1).should_not be_valid
-    end
-
-    it "is invalid above 59" do
-      FactoryGirl.build(:venue, send_minute: 60).should_not be_valid
     end
   end
 end
