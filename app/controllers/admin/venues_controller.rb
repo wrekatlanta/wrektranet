@@ -2,6 +2,7 @@ class Admin::VenuesController < Admin::BaseController
   load_and_authorize_resource except: [:create]
 
   def index
+    @venues = @venues.includes(:contacts)
   end
 
   def new
