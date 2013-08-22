@@ -25,3 +25,6 @@
   .form-group
     .col-lg-offset-2.col-lg-10
       = f.button :submit, class: 'btn-primary'
+      - if @contest.persisted?
+        |  
+        = link_to 'Delete', [:admin, @contest], confirm: 'Are you sure you want to destroy this contest?', method: :delete, class: 'btn btn-danger'

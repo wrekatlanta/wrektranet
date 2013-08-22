@@ -33,6 +33,11 @@ class Admin::VenuesController < Admin::BaseController
   end
 
   def destroy
+    if @venue.destroy
+      redirect_to admin_venues_path, success: "#{@venue.name} deleted successfully."
+    else
+      render :edit
+    end
   end
 
   private

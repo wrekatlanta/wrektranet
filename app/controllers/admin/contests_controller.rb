@@ -39,6 +39,11 @@ class Admin::ContestsController < Admin::BaseController
   end
 
   def destroy
+    if @contest.destroy
+      redirect_to admin_contests_path, success: "#{@contest.name} deleted successfully."
+    else
+      render :edit
+    end
   end
 
   private

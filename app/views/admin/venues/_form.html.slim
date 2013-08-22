@@ -26,12 +26,17 @@ div ng-controller="adminVenueCtrl" ng-init="venue = #{@venue.to_json(include: :c
           .col-lg-4
             input.form-control type="email" ng-model="contact.email" ng-if="!contact.destroy" required="required"
           .col-lg-1
-            button.btn.btn-danger.btn-block type="button" ng-click="deleteContact(contact)" -
+            button.btn.btn-danger.btn-block type="button" ng-click="deleteContact(contact)"
+              i.glyphicon.glyphicon-minus
         .form-group
           .col-lg-4
             input.form-control type="email" name="newContactEmail" ng-model="newContact.email" ui-keydown="{'enter':'addContact($event)'}"
           .col-lg-1
-            button.btn.btn-success.btn-block type="button" ng-click="addContact($event)" ng-disabled="venueForm.newContactEmail.$invalid || newContact.email.length === 0" +
+            button.btn.btn-success.btn-block type="button" ng-click="addContact($event)" ng-disabled="venueForm.newContactEmail.$invalid || newContact.email.length === 0"
+              i.glyphicon.glyphicon-plus
     .form-group
       .col-lg-offset-2.col-lg-10
         = f.button :submit, class: 'btn-primary', :'ng-disabled' => 'venueForm.$invalid'
+        - if @venue.persisted?
+          |  
+          = link_to 'Delete', [:admin, @venue], confirm: 'Are you sure you want to destroy this venue?', method: :delete, class: 'btn btn-danger'
