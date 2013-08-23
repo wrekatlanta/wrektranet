@@ -3,6 +3,10 @@ Wrek::Application.routes.draw do
 
   devise_for :users
 
+  namespace :air do
+    resources :contests
+  end
+
   namespace :admin do
     resources :contests do
       collection do

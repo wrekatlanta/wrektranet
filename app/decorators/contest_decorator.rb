@@ -1,5 +1,5 @@
 class ContestDecorator < ApplicationDecorator
-  delegate :current_page, :per_page, :offset, :total_pages, :name, :date, :venue
+  delegate_all
 
   def listener_ticket_label
     label_class = fraction_label_class(

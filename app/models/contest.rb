@@ -30,8 +30,14 @@ class Contest < ActiveRecord::Base
   accepts_nested_attributes_for :staff_tickets, :listener_tickets, allow_destroy: true
 
   default_scope ->{ order('date DESC') }
-  scope :upcoming, ->{ where("send_time >= :start_date", start_date: Time.zone.now.beginning_of_day) }
-  scope :past, ->{ where("send_time < :start_date", start_date: Time.zone.now.beginning_of_day) }
+  scope :upcoming, ->{ where("date >= :start_date", start_date: Time.zone.now.beginning_of_day) }
+  scope :announceable, ->{
+    where(
+      "send_time >= :start_date",
+      start_date: Time.zone.now.beginning_of_day
+    ).where(sent: false)
+  }
+  scope :past, ->{ where("date < :start_date", start_date: Time.zone.now.beginning_of_day) }
 
   validate :staff_tickets_within_bounds
   validate :listener_tickets_within_bounds
