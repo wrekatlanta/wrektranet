@@ -1,4 +1,5 @@
-h3 Contests
+.page-header
+  h1 Contests
 
 table.table.table-striped
   thead
@@ -13,8 +14,7 @@ table.table.table-striped
     - unless @contests.empty?
       - for contest in @contests do
         tr class="#{contest.row_class}"
-          /td = link_to contest.name, edit_admin_contest_path(contest)
-          td = contest.name
+          td = link_to contest.name, air_contest_path(contest)
           td = l contest.date, format: :us_time
           td = contest.venue.name
           td = contest.listener_ticket_label
