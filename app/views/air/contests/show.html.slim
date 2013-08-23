@@ -1,27 +1,62 @@
 .page-header
   h1 = @contest.name
 
-dl.dl-horizontal.lead
-  dt Event
-  dd = @contest.name
-  dt Venue
-  dd = @contest.venue.name
-  dt Date
-  dd = l @contest.date, format: :long_date_day
-  dt Time
-  dd = l @contest.date, format: :short
-  dt Listeners
-  dd
-    = pluralize(@contest.listener_ticket_limit, @contest.listener_ticket_type)
-    br
-    - if @contest.pick_up
-      | Pick up at WREK
-    - else
-      | Guest List/Will Call
-  dt Age Limit
-  dd = t 'contests.age_limit', count: @contest.age_limit
-  dt.text-muted Staff
-  dd.text-muted = pluralize(@contest.staff_ticket_limit, @contest.staff_ticket_type)
-  - unless @contest.venue.address.blank?
-    dt.text-muted Address
-    dd.text-muted = simple_format(@contest.venue.address)
+.row
+  .col-lg-6
+    dl.dl-horizontal.lead
+      dt Event
+      dd = @contest.name
+      dt Venue
+      dd = @contest.venue.name
+      dt Date
+      dd = l @contest.date, format: :contest_date
+      dt Time
+      dd = l @contest.date, format: :short
+      dt Listeners
+      dd
+        = pluralize(@contest.listener_ticket_limit, @contest.listener_ticket_type)
+        br
+        - if @contest.pick_up
+          | Pick up at WREK
+        - else
+          | Guest List/Will Call
+      dt Age Limit
+      dd = t 'contests.age_limit', count: @contest.age_limit
+      dt.text-muted Staff
+      dd.text-muted = pluralize(@contest.staff_ticket_limit, @contest.staff_ticket_type)
+      - unless @contest.venue.address.blank?
+        dt.text-muted Address
+        dd.text-muted = simple_format(@contest.venue.address)
+  .col-lg-6
+    h3 Listener Tickets
+    form.form-inline
+      - for i in 1..4
+        p
+          .form-group>
+            input.form-control.input-sm type="text" placeholder="Name" required="required"
+          .form-group>
+            input.form-control.input-sm type="text" placeholder="Phone"
+          button.btn.btn-primary.btn-sm> type="button" ng-click="saveTicket(ticket)"
+            i.glyphicon.glyphicon-floppy-save
+          button.btn.btn-danger.btn-sm> type="button" ng-click="saveTicket(ticket)"
+            i.glyphicon.glyphicon-trash
+      p
+        .form-group>
+          input.form-control.input-sm type="text" placeholder="Name" required="required"
+        .form-group>
+          input.form-control.input-sm type="text" placeholder="Phone"
+        button.btn.btn-success.btn-sm> type="button" ng-click="addTicket()"
+          i.glyphicon.glyphicon-plus
+    h3 Staff Tickets
+    table.table
+      thead
+        tr
+          th Name
+          th Time
+      tbody
+        tr.success
+          td Patrick Stoica
+          td 8/24/2013 8:00 PM
+        tr.warning
+          td George Burdell
+          td 8/24/2013 8:00 PM
