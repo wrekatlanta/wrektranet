@@ -29,24 +29,29 @@
         dd.text-muted = simple_format(@contest.venue.address)
   .col-lg-6
     h3 Listener Tickets
+    table.table
+      thead
+        tr
+          th Name
+          th Phone
+          th Op
+          th
+      tbody
+        - for i in 1..4
+          tr
+            td George Burdell
+            td 404-894-2468
+            td pstoic
+            td
+              button.btn.btn-xs.btn-danger< type="button" ng-click="saveTicket(ticket)"
+                i.glyphicon.glyphicon-trash
     form.form-inline
-      - for i in 1..4
-        p
-          .form-group>
-            input.form-control.input-sm type="text" placeholder="Name" required="required"
-          .form-group>
-            input.form-control.input-sm type="text" placeholder="Phone"
-          button.btn.btn-primary.btn-sm> type="button" ng-click="saveTicket(ticket)"
-            i.glyphicon.glyphicon-floppy-save
-          button.btn.btn-danger.btn-sm> type="button" ng-click="saveTicket(ticket)"
-            i.glyphicon.glyphicon-trash
-      p
-        .form-group>
-          input.form-control.input-sm type="text" placeholder="Name" required="required"
-        .form-group>
-          input.form-control.input-sm type="text" placeholder="Phone"
-        button.btn.btn-success.btn-sm> type="button" ng-click="addTicket()"
-          i.glyphicon.glyphicon-plus
+      .form-group>
+        input.form-control.input-sm type="text" placeholder="Name" required="required"
+      .form-group>
+        input.form-control.input-sm type="text" placeholder="Phone"
+      button.btn.btn-primary.btn-sm> type="button" ng-click="addTicket()"
+        i.glyphicon.glyphicon-save
     h3 Staff Tickets
     table.table
       thead
