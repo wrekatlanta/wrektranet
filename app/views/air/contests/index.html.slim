@@ -12,7 +12,7 @@ table.table.table-striped
   tbody
     - unless @contests.empty?
       - for contest in @contests do
-        tr
+        tr class="#{contest.row_class}"
           /td = link_to contest.name, edit_admin_contest_path(contest)
           td = contest.name
           td = l contest.date, format: :us_time

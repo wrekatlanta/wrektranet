@@ -1,43 +1,50 @@
 class ContestDecorator < ApplicationDecorator
   delegate_all
 
+  def row_class
+    return fraction_class(
+      object.listener_ticket_limit,
+      object.listener_tickets.size
+    )    
+  end
+
   def listener_ticket_label
-    label_class = fraction_label_class(
+    label_class = fraction_class(
       object.listener_ticket_limit,
       object.listener_tickets.size
     )
 
-    h.content_tag :span, class: "label #{label_class}" do
+    h.content_tag :span, class: "label label-#{label_class}" do
       "#{object.listener_tickets.size}/#{object.listener_ticket_limit}"
     end
   end
 
   def staff_ticket_label
-    label_class = fraction_label_class(
+    label_class = fraction_class(
       object.staff_ticket_limit,
       object.staff_tickets.size
     )
 
-    h.content_tag :span, class: "label #{label_class}" do
+    h.content_tag :span, class: "label label-#{label_class}" do
       "#{object.staff_tickets.size}/#{object.staff_ticket_limit}"
     end
   end
 
   def sent_label
     label_class = object.sent ? 'label-danger' : 'label-success'
-    h.content_tag :span, class: "label #{label_class}" do
+    h.content_tag :span, class: "label label-#{label_class}" do
       object.sent ? 'Yes' : 'No'
     end
   end
 
   private
-    def fraction_label_class(amount, total)
+    def fraction_class(amount, total)
       if amount == 0
-        'label-success'
+        'success'
       elsif amount < total
-        'label-warning'
+        'warning'
       else
-        'label-danger'
+        'danger'
       end
     end
 end
