@@ -18,10 +18,10 @@ dl.dl-horizontal.lead
       | Pick up at WREK
     - else
       | Guest List/Will Call
-  dt Staff
-  dd = pluralize(@contest.staff_ticket_limit, @contest.staff_ticket_type)
   dt Age Limit
   dd = t 'contests.age_limit', count: @contest.age_limit
+  dt.text-muted Staff
+  dd.text-muted = pluralize(@contest.staff_ticket_limit, @contest.staff_ticket_type)
   - unless @contest.venue.address.blank?
-    dt Address
-    dd = simple_format(@contest.venue.address)
+    dt.text-muted Address
+    dd.text-muted = simple_format(@contest.venue.address)
