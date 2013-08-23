@@ -20,6 +20,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  contests:
+    age_limit:
+      zero: "None"
+      other: "%{count}+"
   date:
     formats:
       # Use the strftime parameters for formats.
@@ -32,8 +36,10 @@ en:
   time:
     formats:
       us_date: "%m/%d/%Y"
-      us_time: "%-m/%-d/%Y %I:%M %p"
+      us_time: "%-m/%-d/%Y %l:%M %p"
       long_date: "%B %d, %Y"
+      long_date_day: "%A, %B %d, %Y"
+      short: "%l:%M %p"
   simple_form:
     labels:
       contest:

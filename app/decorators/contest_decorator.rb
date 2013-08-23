@@ -2,10 +2,18 @@ class ContestDecorator < ApplicationDecorator
   delegate_all
 
   def row_class
-    return fraction_class(
+    fraction_class(
       object.listener_ticket_limit,
       object.listener_tickets.size
     )    
+  end
+
+  def listener_ticket_type
+    object.listener_plus_one ? 'pair' : 'single'
+  end
+
+  def staff_ticket_type
+    object.staff_plus_one ? 'pair' : 'single'
   end
 
   def listener_ticket_label

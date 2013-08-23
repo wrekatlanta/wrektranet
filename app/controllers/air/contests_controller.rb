@@ -11,5 +11,6 @@ class Air::ContestsController < Air::BaseController
   end
 
   def show
+    @contest = @contest.decorate
   end
 end

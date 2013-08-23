@@ -1,2 +1,27 @@
 .page-header
   h1 = @contest.name
+
+dl.dl-horizontal.lead
+  dt Event
+  dd = @contest.name
+  dt Venue
+  dd = @contest.venue.name
+  dt Date
+  dd = l @contest.date, format: :long_date_day
+  dt Time
+  dd = l @contest.date, format: :short
+  dt Listeners
+  dd
+    = pluralize(@contest.listener_ticket_limit, @contest.listener_ticket_type)
+    br
+    - if @contest.pick_up
+      | Pick up at WREK
+    - else
+      | Guest List/Will Call
+  dt Staff
+  dd = pluralize(@contest.staff_ticket_limit, @contest.staff_ticket_type)
+  dt Age Limit
+  dd = t 'contests.age_limit', count: @contest.age_limit
+  - unless @contest.venue.address.blank?
+    dt Address
+    dd = simple_format(@contest.venue.address)
