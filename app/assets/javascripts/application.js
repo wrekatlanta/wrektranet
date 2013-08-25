@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require lodash
 //= require angular
 //= require ui-utils
 //= require_directory ./admin
