@@ -12,6 +12,7 @@
 #
 
 class ListenerTicket < ActiveRecord::Base
-  belongs_to :contest, validate: true, counter_cache: :listener_count
+  belongs_to :contest, counter_cache: :listener_count
+  validates_associated :contest
   belongs_to :user
 end

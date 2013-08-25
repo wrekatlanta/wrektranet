@@ -37,18 +37,20 @@
           th Phone
           th Op
           th
-      tbody
-        tr ng-repeat="ticket in contest.listener_tickets" ng-cloak="ng-cloak"
+      tbody ng-cloak="ng-cloak"
+        tr ng-repeat="ticket in contest.listener_tickets"
           td = "{{ticket.name}}"
           td = "{{ticket.phone}}"
-          td = "{{ticket.user.username}}"
+          td 
+            span title="{{ticket.created_at}}"
+              | {{ticket.user.username}}
           td
             button.btn.btn-xs.btn-danger< type="button" ng-click="deleteTicket(ticket)"
               i.glyphicon.glyphicon-trash
         tr ng-if="contest.listener_tickets.length == 0"
           td colspan="4" No tickets have been awarded.
     - if @contest.announceable?
-      form.form-inline ng-submit="addTicket()"
+      form.form-inline ng-submit="addTicket()" ng-if="contest.listener_tickets.length < contest.listener_ticket_limit"
         .form-group>
           input.form-control.input-sm type="text" ng-model="newTicket.name" placeholder="Name" required="required"
         .form-group>
