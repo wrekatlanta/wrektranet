@@ -24,13 +24,13 @@ div ng-controller="adminVenueCtrl" ng-init="venue = #{@venue.to_json(include: :c
 
           .col-lg-1
             button.btn.btn-danger.btn-block type="button" ng-click="deleteContact(contact)"
-              i.glyphicon.glyphicon-minus
+              i.glyphicon.glyphicon-trash
         .form-group
           .col-lg-4
             input.form-control type="email" name="newContactEmail" ng-model="newContact.email" ui-keydown="{'enter':'addContact($event)'}"
 
           .col-lg-1
-            button.btn.btn-success.btn-block type="button" ng-click="addContact($event)" ng-disabled="venueForm.newContactEmail.$invalid || newContact.email.length === 0"
+            button.btn.btn-primary.btn-block type="button" ng-click="addContact($event)" ng-disabled="venueForm.newContactEmail.$invalid || newContact.email.length === 0"
               i.glyphicon.glyphicon-plus
 
     .form-group

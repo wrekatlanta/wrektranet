@@ -3,5 +3,6 @@
 angular.module("wrektranetRails", [
   "restangular",
   "ui.keypress",
-  "wrektranet.adminVenueCtrl"
+  "wrektranet.adminVenueCtrl",
+  "wrektranet.airContestCtrl"
 ]);
