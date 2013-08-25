@@ -4,14 +4,15 @@
 .row
   .col-lg-6
     dl.dl-horizontal.lead
-      dt Event
+      dt What
       dd = @contest.name
-      dt Venue
+      dt Where
       dd = @contest.venue.name
-      dt Date
-      dd = l @contest.date, format: :contest_date
-      dt Time
-      dd = l @contest.date, format: :short
+      dt When
+      dd
+        = l @contest.date, format: :contest_date
+        br
+        = l @contest.date, format: :short
       dt Listeners
       dd
         = pluralize(@contest.listener_ticket_limit, @contest.listener_ticket_type)
