@@ -53,7 +53,7 @@ class Contest < ActiveRecord::Base
   end
 
   def announceable?
-    !@contest.sent and (@contest.send_time >= Time.zone.now.beginning_of_day)
+    !self.sent and (self.send_time >= Time.zone.now.beginning_of_day)
   end
 
   private

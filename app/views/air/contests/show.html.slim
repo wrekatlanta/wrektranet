@@ -28,7 +28,7 @@
       - unless @contest.venue.address.blank?
         dt.text-muted Address
         dd.text-muted = simple_format(@contest.venue.address)
-  .col-lg-6
+  .col-lg-6 ng-controller="airContestCtrl" ng-init="contest = #{@contest.to_json(include: {listener_tickets: {include: :user}})}"
     h3 Listener Tickets
     table.table
       thead
@@ -38,21 +38,23 @@
           th Op
           th
       tbody
-        - for i in 1..4
-          tr
-            td George Burdell
-            td 404-894-2468
-            td pstoic
-            td
-              button.btn.btn-xs.btn-danger< type="button" ng-click="saveTicket(ticket)"
-                i.glyphicon.glyphicon-trash
-    form.form-inline
-      .form-group>
-        input.form-control.input-sm type="text" placeholder="Name" required="required"
-      .form-group>
-        input.form-control.input-sm type="text" placeholder="Phone"
-      button.btn.btn-primary.btn-sm> type="button" ng-click="addTicket()"
-        i.glyphicon.glyphicon-plus
+        tr ng-repeat="ticket in contest.listener_tickets" ng-cloak="ng-cloak"
+          td = "{{ticket.name}}"
+          td = "{{ticket.phone}}"
+          td = "{{ticket.user.username}}"
+          td
+            button.btn.btn-xs.btn-danger< type="button" ng-click="deleteTicket(ticket)"
+              i.glyphicon.glyphicon-trash
+        tr ng-if="contest.listener_tickets.length == 0"
+          td colspan="4" No tickets have been awarded.
+    - if @contest.announceable?
+      form.form-inline ng-submit="addTicket()"
+        .form-group>
+          input.form-control.input-sm type="text" ng-model="newTicket.name" placeholder="Name" required="required"
+        .form-group>
+          input.form-control.input-sm type="text" ng-model="newTicket.phone"  placeholder="Phone"
+        button.btn.btn-primary.btn-sm> type="submit"
+          i.glyphicon.glyphicon-plus
     h3 Staff Tickets
     table.table
       thead
