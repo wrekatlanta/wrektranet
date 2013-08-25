@@ -39,8 +39,6 @@ class Contest < ActiveRecord::Base
   }
   scope :past, ->{ where("date < :start_date", start_date: Time.zone.now.beginning_of_day) }
 
-  validate :staff_tickets_within_bounds
-  validate :listener_tickets_within_bounds
   validates :name, presence: true
   validates :date, presence: true
   validates :venue, presence: true
@@ -57,16 +55,6 @@ class Contest < ActiveRecord::Base
   end
 
   private
-    def staff_tickets_within_bounds
-      return if self.staff_tickets.blank?
-      errors.add(:base, "Too many staff tickets") if self.staff_tickets.awarded.count > self.staff_ticket_limit
-    end
-
-    def listener_tickets_within_bounds
-      return if self.listener_tickets.blank?
-      errors.add(:base, "Too many listener tickets") if self.listener_tickets.length > self.listener_ticket_limit
-    end
-
     def set_default_values
       self.listener_ticket_limit ||= 0
       self.staff_ticket_limit ||= 0

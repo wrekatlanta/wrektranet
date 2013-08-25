@@ -18,6 +18,8 @@ class StaffTicket < ActiveRecord::Base
 
   scope :awarded, -> { where(awarded: true) }
 
+  validate :ticket_count_within_limit, on: :create
+
   def award!(user)
     self.contest_director = user
     self.awarded = true
@@ -35,4 +37,11 @@ class StaffTicket < ActiveRecord::Base
     ticket.save!
     ticket
   end
+
+  private
+    def ticket_count_within_limit
+      if self.contest.staff_tickets(:reload).size >= self.contest.staff_ticket_limit
+        errors.add(:base, "Too many staff tickets")
+      end
+    end
 end
