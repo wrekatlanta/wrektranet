@@ -32,6 +32,8 @@ angular.module("wrektranet.airContestCtrl", [])
       contest.post('listener_tickets', $scope.newTicket).then(function() {
         resetTicket();
         $scope.updateTickets();
+      }, function() {
+        $scope.updateTickets();
       });
     };
 
