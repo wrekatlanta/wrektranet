@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module("wrektranetRails", [
-  "ngResource",
+  "restangular",
   "ui.keypress",
   "wrektranet.adminVenueCtrl"
 ]);

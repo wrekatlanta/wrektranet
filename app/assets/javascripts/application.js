@@ -15,6 +15,7 @@
 //= require bootstrap
 //= require lodash
 //= require angular
+//= require restangular
 //= require ui-utils
 //= require_directory ./admin
 //= require_tree .
