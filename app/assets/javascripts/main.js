@@ -1,8 +1,12 @@
 "use strict";
 
-angular.module("wrektranetRails", [
-  "restangular",
-  "ui.keypress",
+angular.module("wrektranet.controllers", [
   "wrektranet.adminVenueCtrl",
   "wrektranet.airContestCtrl"
+]);
+
+angular.module("wrektranet", [
+  "restangular",
+  "ui.keypress",
+  "wrektranet.controllers"
 ]);
