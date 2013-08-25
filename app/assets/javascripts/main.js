@@ -8,5 +8,6 @@ angular.module("wrektranet.controllers", [
 angular.module("wrektranet", [
   "restangular",
   "ui.keypress",
+  "ng-rails-csrf",
   "wrektranet.controllers"
 ]);

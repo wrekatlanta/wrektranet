@@ -15,6 +15,7 @@
 //= require bootstrap
 //= require lodash
 //= require angular
+//= require ng-rails-csrf
 //= require restangular
 //= require ui-utils
 //= require_directory ./admin
