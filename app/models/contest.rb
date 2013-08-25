@@ -52,6 +52,10 @@ class Contest < ActiveRecord::Base
     self.send_time = self.date.beginning_of_day - self.venue.send_day_offset.days + self.venue.send_hour.hours
   end
 
+  def announceable?
+    !@contest.sent and (@contest.send_time >= Time.zone.now.beginning_of_day)
+  end
+
   private
     def staff_tickets_within_bounds
       return if self.staff_tickets.blank?

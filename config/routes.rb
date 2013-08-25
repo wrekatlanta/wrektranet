@@ -4,7 +4,9 @@ Wrek::Application.routes.draw do
   devise_for :users
 
   namespace :air do
-    resources :contests
+    resources :contests do
+      resources :listener_tickets, shallow: true
+    end
   end
 
   namespace :admin do

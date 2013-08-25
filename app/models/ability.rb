@@ -29,20 +29,23 @@ class Ability
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
+    # basic permissions
+    can [:read, :write], ContestSuggestion
+    can [:destroy], ContestSuggestion, user_id: user.id
+    can :manage, ListenerTicket, contest: {sent: false}
+
+    can :read, :all
+
+    # admin
     if user.admin?
       can :manage, :all
     end
 
+    # contest director
     if user.has_role? :contest_director
       can :manage, Contest
       can :manage, Venue
       can :manage, StaffTicket
     end
-
-    can [:read, :write, :destroy], ContestSuggestion
-    can [:read, :write], StaffTicket
-    can :manage, ListenerTicket
-
-    can :read, :all
   end
 end
