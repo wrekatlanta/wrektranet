@@ -13,10 +13,11 @@
 
 class StaffTicket < ActiveRecord::Base
   belongs_to :user
-  belongs_to :contest, validate: true, counter_cache: :staff_count
+  belongs_to :contest, -> { includes([:venue]) }, validate: true, counter_cache: :staff_count
   belongs_to :contest_director, class_name: "User"
 
   scope :awarded, -> { where(awarded: true) }
+  scope :upcoming, -> { joins(:contest).where("contests.date >= :start_date", start_date: Time.zone.now.beginning_of_day) }
 
   validates_uniqueness_of :user_id, scope: [:contest_id]
   validate :ticket_count_within_limit, on: :create

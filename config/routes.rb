@@ -9,6 +9,10 @@ Wrek::Application.routes.draw do
     end
   end
 
+  namespace :staff do
+    resources :staff_tickets
+  end
+
   namespace :admin do
     resources :contests do
       collection do

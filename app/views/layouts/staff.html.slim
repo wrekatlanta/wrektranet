@@ -1,0 +1,12 @@
+- content_for :content do
+  .row
+    .col-lg-3
+      .well.sidebar-nav
+        ul.nav.nav-list
+          ul.nav
+            = active_link_to 'Ticket Signups', staff_staff_tickets_path, wrap_tag: :li
+    .col-lg-9
+      = render 'layouts/messages'
+      = yield
+
+= render template: 'layouts/application'
