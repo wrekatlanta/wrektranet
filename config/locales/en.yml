@@ -52,3 +52,7 @@ en:
           '0': 'None'
           '18': '18+'
           '21': '21+'
+  helpers:
+    submit:
+      staff_ticket:
+        create: "Signup"

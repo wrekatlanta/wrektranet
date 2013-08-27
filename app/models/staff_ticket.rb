@@ -20,6 +20,7 @@ class StaffTicket < ActiveRecord::Base
   scope :awarded, -> { where(awarded: true) }
   scope :upcoming, -> { joins(:contest).where("contests.date >= :start_date", start_date: Time.zone.now.beginning_of_day) }
 
+  validates :contest, presence: :true
   validates_uniqueness_of :user_id, scope: [:contest_id]
   validate :ticket_count_within_limit, on: :create
 

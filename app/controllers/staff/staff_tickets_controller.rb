@@ -1,5 +1,5 @@
 class Staff::StaffTicketsController < Staff::BaseController
-  load_and_authorize_resource :staff_ticket, except: [:destroy]
+  load_and_authorize_resource :staff_ticket, except: [:create, :destroy]
 
   def index
     @staff_tickets = @staff_tickets.
@@ -15,13 +15,22 @@ class Staff::StaffTicketsController < Staff::BaseController
       paginate(page: params[:page], per_page: 30).
       decorate
 
-    render 'index'
+    render :index
   end
 
   def new
+    @contests = Contest.announceable
   end
 
   def create
+    @staff_ticket = current_user.staff_tickets.new(staff_ticket_params)
+    authorize! :create, @staff_ticket
+
+    if @staff_ticket.save
+      redirect_to me_staff_tickets_path, success: "Successfully signed up for #{@staff_ticket.contest.name}."
+    else
+      render :new
+    end
   end
 
   def destroy
@@ -29,6 +38,6 @@ class Staff::StaffTicketsController < Staff::BaseController
 
   private
     def staff_ticket_params
-      params.require(:staff_ticket).permit(:contest)
+      params.require(:staff_ticket).permit(:contest, :commit, :contest_id)
     end
 end

@@ -1,0 +1,9 @@
+.page-header
+  h1 Signup
+
+= render 'navigation'
+
+- if @contests.blank?
+  p There are currently no upcoming contests you can sign up for.
+- else
+  = render 'form'
