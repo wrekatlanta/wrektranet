@@ -9,6 +9,15 @@ class Staff::StaffTicketsController < Staff::BaseController
       decorate
   end
 
+  def me
+    @staff_tickets = current_user.
+      staff_tickets.
+      paginate(page: params[:page], per_page: 30).
+      decorate
+
+    render 'index'
+  end
+
   def new
   end
 

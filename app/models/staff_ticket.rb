@@ -16,6 +16,7 @@ class StaffTicket < ActiveRecord::Base
   belongs_to :contest, -> { includes([:venue]) }, validate: true, counter_cache: :staff_count
   belongs_to :contest_director, class_name: "User"
 
+  default_scope ->{ order('created_at DESC') }
   scope :awarded, -> { where(awarded: true) }
   scope :upcoming, -> { joins(:contest).where("contests.date >= :start_date", start_date: Time.zone.now.beginning_of_day) }
 

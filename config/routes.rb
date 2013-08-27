@@ -10,7 +10,11 @@ Wrek::Application.routes.draw do
   end
 
   namespace :staff do
-    resources :staff_tickets
+    resources :staff_tickets, as: 'tickets' do
+      collection do
+        get 'me'
+      end
+    end
   end
 
   namespace :admin do
