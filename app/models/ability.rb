@@ -31,7 +31,7 @@ class Ability
 
     # basic permissions
     can [:read, :write], ContestSuggestion
-    can [:destroy], ContestSuggestion, user_id: user.id
+    can [:read, :write], StaffTicket
     can :manage, ListenerTicket, contest: {sent: false}
 
     can :read, :all
