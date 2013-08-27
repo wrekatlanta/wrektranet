@@ -29,15 +29,19 @@ class Contest < ActiveRecord::Base
 
   accepts_nested_attributes_for :staff_tickets, :listener_tickets, allow_destroy: true
 
-  default_scope ->{ order('date DESC') }
-  scope :upcoming, ->{ where("date >= :start_date", start_date: Time.zone.now.beginning_of_day) }
+  default_scope -> { order('date DESC') }
+  scope :upcoming, -> { where("date >= :start_date", start_date: Time.zone.now.beginning_of_day) }
+  scope :unsent, -> { where(sent: false) }
   scope :announceable, ->{
-    where(
+    unsent.where(
       "send_time >= :start_date",
       start_date: Time.zone.now.beginning_of_day
-    ).where(sent: false)
+    )
   }
   scope :past, ->{ where("date < :start_date", start_date: Time.zone.now.beginning_of_day) }
+  scope :without_user, -> (user) {
+    where("id NOT IN (?)", user.contests) unless user.contests.blank?
+  }
 
   validates :name, presence: true
   validates :date, presence: true

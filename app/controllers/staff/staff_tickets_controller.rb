@@ -19,7 +19,7 @@ class Staff::StaffTicketsController < Staff::BaseController
   end
 
   def new
-    @contests = Contest.announceable
+    @contests = Contest.announceable.without_user(current_user)
   end
 
   def create
