@@ -18,6 +18,7 @@ class StaffTicket < ActiveRecord::Base
 
   scope :awarded, -> { where(awarded: true) }
 
+  validates_uniqueness_of :user_id, scope: [:contest_id]
   validate :ticket_count_within_limit, on: :create
 
   def award!(user)
