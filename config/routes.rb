@@ -7,6 +7,8 @@ Wrek::Application.routes.draw do
     resources :contests do
       resources :listener_tickets, shallow: true
     end
+
+    resources :psas
   end
 
   namespace :staff do
