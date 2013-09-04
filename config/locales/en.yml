@@ -36,7 +36,7 @@ en:
   time:
     formats:
       us_date: "%m/%d/%Y"
-      us_time: "%-m/%-d/%Y %l:%M %p"
+      us_time: "%-m/%-d/%y %l:%M %p"
       long_date: "%B %d, %Y"
       contest_date: "%A, %B %d"
       short: "%l:%M %p"

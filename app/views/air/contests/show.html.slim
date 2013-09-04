@@ -70,3 +70,7 @@
         tr.warning
           td George Burdell
           td 8/24/2013 8:00 PM
+
+    = simple_form_for [:staff, @contest.staff_tickets.new], url: staff_tickets_path do |f|
+      = f.input :contest_id, as: :hidden
+      = f.button :submit, class: 'btn-primary'

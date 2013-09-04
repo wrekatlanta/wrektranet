@@ -3,7 +3,28 @@
 
 = render 'navigation'
 
-- if @contests.blank?
-  p There are currently no upcoming contests you can sign up for.
-- else
-  = render 'form'
+table.table.table-striped ng-controller="staffSignupCtrl" ng-init="contests = #{@contests.to_json(include: :venue)}"
+  thead
+    tr
+      th Event
+      th Time
+      th Venue
+      th Staff
+      th
+  tbody.ng-cloak
+    - unless @contests.empty?
+      tr ng-repeat="contest in contests"
+        td
+          a href="/air/contests/{{contest.id}}"
+            | {{contest.name}}
+        td = "{{contest.date | date:'short' }}"
+        td = "{{contest.venue.name}}"
+        td = "{{contest.staff_count}}/{{contest.staff_ticket_limit}}"
+        td
+          button.btn.btn-primary.btn-xs type="button" ng-click="signup(contest)" ng-disabled="contest.signed_up"
+            i.glyphicon ng-class="{'glyphicon-ok': contest.signed_up, 'glyphicon-plus': !contest.signed_up}"
+    - else
+      tr
+        td colspan="5" There are currently no tickets you can sign up for.
+
+= will_paginate @contests, renderer: BootstrapPagination::Rails, bootstrap: 3

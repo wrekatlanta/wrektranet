@@ -1,4 +1,5 @@
 class Staff::StaffTicketsController < Staff::BaseController
+  respond_to :html, :json
   load_and_authorize_resource :staff_ticket, except: [:create, :destroy]
 
   def index
@@ -19,18 +20,20 @@ class Staff::StaffTicketsController < Staff::BaseController
   end
 
   def new
-    @contests = Contest.announceable.without_user(current_user)
+    @contests = Contest.
+      announceable.
+      without_user(current_user).
+      paginate(page: params[:page], per_page: 30).
+      decorate
   end
 
   def create
     @staff_ticket = current_user.staff_tickets.new(staff_ticket_params)
     authorize! :create, @staff_ticket
 
-    if @staff_ticket.save
-      redirect_to me_staff_tickets_path, success: "Successfully signed up for #{@staff_ticket.contest.name}."
-    else
-      render :new
-    end
+    @staff_ticket.save
+
+    respond_with @staff_ticket, location: me_staff_tickets_path
   end
 
   def destroy
