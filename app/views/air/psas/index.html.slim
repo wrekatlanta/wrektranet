@@ -11,9 +11,10 @@ table.table.table-striped
       - for psa in @psas do
         tr
           td = link_to psa.title, air_psa_path(psa)
-          td = psa.updated_at
+          - if psa.psa_readings.first
+            td = psa.psa_readings.first.created_at
+          - else
+            td Unread!
     - else
       tr
         td colspan="2" No results were found.
-
-# = will_paginate @psas, renderer: BootstrapPagination::Rails, bootstrap: 3

@@ -9,7 +9,8 @@
       dt Body
       dd = @psa.body
 
-    form method="POST" action="create_psa_reading"
-      button.btn.btn-success
+    form method="POST" action=air_psa_psa_readings_path(@psa)
+      button.btn.btn-success type="submit"
         | I Read This!
+      = token_tag
 
