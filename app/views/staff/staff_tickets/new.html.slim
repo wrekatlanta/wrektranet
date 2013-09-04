@@ -9,7 +9,7 @@ table.table.table-striped ng-controller="staffSignupCtrl" ng-init="contests = #{
       th Event
       th Time
       th Venue
-      th Staff
+      th Remaining
       th
   tbody.ng-cloak
     - unless @contests.empty?
@@ -19,10 +19,11 @@ table.table.table-striped ng-controller="staffSignupCtrl" ng-init="contests = #{
             | {{contest.name}}
         td = "{{contest.date | date:'short' }}"
         td = "{{contest.venue.name}}"
-        td = "{{contest.staff_count}}/{{contest.staff_ticket_limit}}"
+        td = "{{contest.staff_ticket_limit - contest.staff_count}}"
         td
-          button.btn.btn-primary.btn-xs type="button" ng-click="signup(contest)" ng-disabled="contest.signed_up"
-            i.glyphicon ng-class="{'glyphicon-ok': contest.signed_up, 'glyphicon-plus': !contest.signed_up}"
+          div ng-hide="{{(contest.staff_ticket_limit - contest.staff_count) === 0}}"
+            button.btn.btn-primary.btn-xs type="button" ng-click="signup(contest)" ng-disabled="contest.signed_up"
+              i.glyphicon ng-class="{'glyphicon-ok': contest.signed_up, 'glyphicon-plus': !contest.signed_up}"
     - else
       tr
         td colspan="5" There are currently no tickets you can sign up for.
