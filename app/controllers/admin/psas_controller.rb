@@ -6,7 +6,7 @@ class Admin::PsasController < Admin::BaseController
     if params[:filter] == 'expired'
       @psas = @psas.expired
     else
-      @psas = @psas.unexpired
+      @psas = @psas.unexpired.approved
     end
 
   end
