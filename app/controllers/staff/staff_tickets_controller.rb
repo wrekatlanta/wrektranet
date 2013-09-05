@@ -21,7 +21,8 @@ class Staff::StaffTicketsController < Staff::BaseController
 
   def new
     @contests = Contest.
-      announceable.
+      upcoming.
+      unsent.
       without_user(current_user).
       paginate(page: params[:page], per_page: 30).
       decorate

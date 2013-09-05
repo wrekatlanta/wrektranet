@@ -1,5 +1,5 @@
 Wrek::Application.routes.draw do
-  root :to => "welcome#index"
+  root to: "welcome#index"
 
   devise_for :users
 
@@ -25,5 +25,6 @@ Wrek::Application.routes.draw do
     end
 
     resources :venues
+    resources :staff_tickets, as: 'tickets'
   end
 end

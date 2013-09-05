@@ -19,13 +19,17 @@ class StaffTicket < ActiveRecord::Base
   belongs_to :contest, -> { includes([:venue]) }, validate: true
   belongs_to :contest_director, class_name: "User"
 
-  default_scope -> { order('created_at DESC') }
-  scope :order_by_awarded, -> { order('awarded, created_at DESC') }
+  default_scope -> { order('staff_tickets.created_at DESC') }
+  scope :order_by_awarded, -> { order('awarded, staff_tickets.created_at DESC') }
   scope :awarded, -> { where(awarded: true) }
   scope :unawarded, -> { where(awarded: false) }
   scope :upcoming, -> {
     joins(:contest).
     where("contests.date >= :start_date", start_date: Time.zone.now.beginning_of_day)
+  }
+  scope :unsent, -> {
+    joins(:contest).
+    where(contest: { sent: false })
   }
 
   validates :contest, presence: :true

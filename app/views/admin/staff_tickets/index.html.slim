@@ -1,0 +1,23 @@
+.page-header
+  h1 Staff Tickets
+
+table.table.table-striped ng-controller="adminTicketCtrl" ng-init="tickets = #{@staff_tickets.to_json(include: [:contest, :user])}"
+  thead
+    tr
+      th User
+      th Event
+      th Time
+      th Venue
+      th Signup Time
+      th
+  tbody
+    - unless @staff_tickets.empty?
+      tr ng-repeat="ticket in tickets"
+        td = "{{ticket.user.username}}"
+        /td = link_to ticket.contest.name, air_contest_path(ticket.contest)
+        /td = l ticket.contest.date, format: :us_time
+        /td = ticket.contest.venue.name
+        /td = l ticket.created_at, format: :us_time
+    - else
+      tr
+        td colspan="6" No results were found.
