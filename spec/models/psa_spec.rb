@@ -1,5 +1,28 @@
 require 'spec_helper'
 
 describe Psa do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "has a valid factory" do
+    FactoryGirl.create(:psa).should be_valid
+  end
+
+  it "is invalid without a title" do
+    FactoryGirl.build(:psa, title: nil).should_not be_valid
+  end
+
+  it "is invalid without a body" do
+    FactoryGirl.build(:psa, body: nil).should_not be_valid
+  end
+
+  it "is invalid without an expiration date" do
+    FactoryGirl.build(:psa, expiration_date: nil).should_not be_valid
+  end
+
+  it "is invalid if the expiration date is in the past" do
+    FactoryGirl.build(:psa, expiration_date: Date.yesterday).should_not be_valid
+  end
+
+  it "is invalid if the status does not fall in the provided list" do
+    FactoryGirl.build(:psa, status: "waht").should_not be_valid
+  end
+
 end
