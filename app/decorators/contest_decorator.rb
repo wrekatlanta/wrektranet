@@ -34,7 +34,7 @@ class ContestDecorator < ApplicationDecorator
     )
 
     h.content_tag :span, class: "label label-#{label_class}" do
-      "#{object.staff_tickets.size}/#{object.staff_ticket_limit}"
+      "#{object.staff_count}/#{object.staff_ticket_limit}"
     end
   end
 

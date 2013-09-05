@@ -1,7 +1,7 @@
 .page-header
   h1 Staff Tickets
 
-table.table.table-striped ng-controller="adminTicketCtrl" ng-init="tickets = #{@staff_tickets.to_json(include: [:contest, :user])}"
+table.table.table-striped ng-controller="adminTicketListCtrl" ng-init="tickets = #{@staff_tickets.to_json(include: [:user, {contest: {include: :venue}}])}"
   thead
     tr
       th User
@@ -10,14 +10,29 @@ table.table.table-striped ng-controller="adminTicketCtrl" ng-init="tickets = #{@
       th Venue
       th Signup Time
       th
-  tbody
+  tbody.ng-cloak
     - unless @staff_tickets.empty?
-      tr ng-repeat="ticket in tickets"
+      tr ng-repeat="ticket in tickets" ng-controller="adminTicketCtrl"
         td = "{{ticket.user.username}}"
-        /td = link_to ticket.contest.name, air_contest_path(ticket.contest)
-        /td = l ticket.contest.date, format: :us_time
-        /td = ticket.contest.venue.name
-        /td = l ticket.created_at, format: :us_time
+        td
+          a href="/admin/contests/{{ticket.contest.id}}/edit"
+            | {{ticket.contest.name}}
+        td = "{{ticket.contest.date | date:'short'}}"
+        td = "{{ticket.contest.venue.name}}"
+        td = "{{ticket.contest.created_at | date:'short'}}"
+        td
+          span ng-switch="ticket.awarded"
+            span ng-switch-when="true"
+              button.btn.btn-xs.btn-danger ng-click="unaward(ticket)"
+                i.glyphicon.glyphicon-remove
+            span ng-switch-default=true
+              span ng-switch="isContestFull()"
+                span ng-switch-when="true"
+                  button.btn.btn-xs.btn-default disabled=true
+                    i.glyphicon.glyphicon-ban-circle
+                span ng-switch-default=true
+                  button.btn.btn-xs.btn-primary ng-click="award(ticket)"
+                    i.glyphicon.glyphicon-plus
     - else
       tr
         td colspan="6" No results were found.

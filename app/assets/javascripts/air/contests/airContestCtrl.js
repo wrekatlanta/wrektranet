@@ -23,7 +23,7 @@ angular.module("wrektranet.airContestCtrl", [])
         getList()
         .then(function(tickets) {
           $scope.contest.listener_tickets = tickets;
-        })
+        });
     };
 
     $scope.addTicket = function() {

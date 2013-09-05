@@ -1,4 +1,5 @@
 class Air::ContestsController < Air::BaseController
+  respond_to :html, :json
   load_and_authorize_resource except: [:create]
 
   def index
