@@ -1,6 +1,12 @@
 .page-header
   h1 Staff Tickets
 
+form.form-horizontal
+  .form-group
+    label.col-lg-8.control-label for="ticketFilter" Filter
+    .col-lg-4
+      input.form-control#ticketFilter type="text" ng-model="filter"
+
 table.table.table-striped ng-controller="adminTicketListCtrl" ng-init="tickets = #{@staff_tickets.to_json(include: [:user, {contest: {include: :venue}}])}"
   thead
     tr
@@ -12,7 +18,7 @@ table.table.table-striped ng-controller="adminTicketListCtrl" ng-init="tickets =
       th
   tbody.ng-cloak
     - unless @staff_tickets.empty?
-      tr ng-repeat="ticket in tickets" ng-controller="adminTicketCtrl"
+      tr ng-repeat="ticket in tickets | filter:filter" ng-controller="adminTicketCtrl"
         td = "{{ticket.user.username}}"
         td
           a href="/admin/contests/{{ticket.contest.id}}/edit"
