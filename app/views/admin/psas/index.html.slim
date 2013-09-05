@@ -1,0 +1,19 @@
+.page-header
+	h1 PSAs
+
+= render 'navigation'
+
+table.table.table-striped
+	thead
+		tr
+			th Title
+			th Status
+	tbody
+		- unless @psas.empty?
+			- for psa in @psas do
+				tr
+					td = link_to psa.title, edit_admin_psa_path(psa)
+					td = psa.status
+		- else
+			tr
+				td colspan="2" No PSAs found.

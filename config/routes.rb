@@ -7,6 +7,10 @@ Wrek::Application.routes.draw do
     resources :contests do
       resources :listener_tickets, shallow: true
     end
+
+    resources :psas do
+      resources :psa_readings
+    end
   end
 
   namespace :staff do
@@ -21,6 +25,12 @@ Wrek::Application.routes.draw do
     resources :contests do
       collection do
         get 'past', to: :index, defaults: { filter: 'past' }
+      end
+    end
+
+    resources :psas do
+      collection do
+        get 'expired', to: :index, defaults: { filter: 'expired' }
       end
     end
 
