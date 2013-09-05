@@ -1,0 +1,20 @@
+.page-header
+  h1 PSAs
+
+table.table.table-striped
+  thead
+    tr
+      th Title
+      th Last Read
+  tbody
+    - unless @psas.empty?
+      - for psa in @psas do
+        tr
+          td = link_to psa.title, air_psa_path(psa)
+          - if psa.psa_readings.first
+            td = psa.psa_readings.first.created_at
+          - else
+            td Unread!
+    - else
+      tr
+        td colspan="2" No results were found.
