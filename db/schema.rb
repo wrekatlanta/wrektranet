@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130822234237) do
+ActiveRecord::Schema.define(version: 20130905032404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,22 @@ ActiveRecord::Schema.define(version: 20130822234237) do
   add_index "listener_tickets", ["contest_id"], name: "index_listener_tickets_on_contest_id", using: :btree
   add_index "listener_tickets", ["user_id"], name: "index_listener_tickets_on_user_id", using: :btree
 
+  create_table "psa_readings", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "psa_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "psas", force: true do |t|
+    t.string   "title"
+    t.text     "body"
+    t.string   "status"
+    t.date     "expiration_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "roles", force: true do |t|
     t.string   "name"
     t.integer  "resource_id"
@@ -89,6 +105,15 @@ ActiveRecord::Schema.define(version: 20130822234237) do
   end
 
   add_index "staff_tickets", ["user_id"], name: "index_staff_tickets_on_user_id", using: :btree
+
+  create_table "transmitter_log_entries", force: true do |t|
+    t.datetime "sign_in"
+    t.datetime "sign_out"
+    t.integer  "user_id"
+    t.boolean  "automation"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                              default: "", null: false
