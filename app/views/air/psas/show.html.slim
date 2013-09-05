@@ -1,0 +1,16 @@
+.page-header
+  h1 = @psa.title
+
+.row
+  .col-md-12
+    dl
+      dt Title
+      dd = @psa.title
+      dt Body
+      dd = @psa.body
+
+    form method="POST" action=air_psa_psa_readings_path(@psa)
+      button.btn.btn-success type="submit"
+        | I Read This!
+      = token_tag
+
