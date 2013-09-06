@@ -23,11 +23,7 @@
           | Guest List/Will Call
       dt Age Limit
       dd = t 'contests.age_limit', count: @contest.age_limit
-      dt.text-muted Staff
-      dd.text-muted = pluralize(@contest.staff_ticket_limit, @contest.staff_ticket_type)
-      - unless @contest.venue.address.blank?
-        dt.text-muted Address
-        dd.text-muted = simple_format(@contest.venue.address)
+
   .col-lg-6 ng-controller="airContestCtrl" ng-init="contest = #{@contest.to_json(include: {listener_tickets: {include: :user}})}"
     h3 Listener Tickets
     table.table
@@ -57,6 +53,16 @@
           input.form-control.input-sm type="text" ng-model="newTicket.phone"  placeholder="Phone"
         button.btn.btn-primary.btn-sm> type="submit"
           i.glyphicon.glyphicon-plus
+
+.row
+  .col-lg-6
+    dl.dl-horizontal.lead
+      dt Staff
+      dd = pluralize(@contest.staff_ticket_limit, @contest.staff_ticket_type)
+      - unless @contest.venue.address.blank?
+        dt Address
+        dd = simple_format(@contest.venue.address)
+  .col-lg-6
     h3 Staff Tickets
     table.table
       thead
