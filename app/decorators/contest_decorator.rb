@@ -1,5 +1,6 @@
 class ContestDecorator < ApplicationDecorator
   delegate_all
+  #decorates_association :staff_tickets, with: StaffTicketDecorator
 
   def row_class
     fraction_class(
