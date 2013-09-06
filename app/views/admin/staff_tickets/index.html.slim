@@ -25,7 +25,7 @@ table.table.table-striped ng-controller="adminTicketListCtrl" ng-init="tickets =
             | {{ticket.contest.name}}
         td = "{{ticket.contest.date | date:'short'}}"
         td = "{{ticket.contest.venue.name}}"
-        td = "{{ticket.contest.created_at | date:'short'}}"
+        td = "{{ticket.created_at | date:'short'}}"
         td
           span ng-switch="ticket.awarded"
             span ng-switch-when="true"

@@ -4,7 +4,7 @@ class Admin::StaffTicketsController < Admin::BaseController
 
   def index
     @staff_tickets = @staff_tickets
-      .upcoming
+      .announceable
       .includes(:user)
       .includes(contest: :venue)
       .decorate

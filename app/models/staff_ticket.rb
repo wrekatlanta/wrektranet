@@ -24,35 +24,18 @@ class StaffTicket < ActiveRecord::Base
   scope :awarded, -> { where(awarded: true) }
   scope :unawarded, -> { where(awarded: false) }
   scope :upcoming, -> {
-    joins(:contest).
-    where("contests.date >= :start_date", start_date: Time.zone.now.beginning_of_day)
+    joins(:contest)
+      .where("contests.date >= :start_date", start_date: Time.zone.now.beginning_of_day)
   }
-  scope :unsent, -> {
-    joins(:contest).
-    where(contest: { sent: false })
+  scope :announceable, -> {
+    joins(:contest)
+      .where(contests: {sent: false})
+      .where("contests.send_time > :start_date", start_date: Time.zone.now)
   }
 
   validates :contest, presence: :true
   validates_uniqueness_of :user_id, scope: [:contest_id]
   validate :ticket_count_within_limit, on: :create
-
-  def award!(user)
-    self.contest_director = user
-    self.awarded = true
-    self.save!
-  end
-
-  def self.create_from_suggestion!(contest_suggestion, contest)
-    contest_suggestion.archived = true
-    contest_suggestion.save!
-
-    ticket = StaffTicket.new
-    ticket.user = contest_suggestion.user
-    ticket.contest = contest
-    ticket.created_at = contest_suggestion.created_at
-    ticket.save!
-    ticket
-  end
 
   private
     def ticket_count_within_limit

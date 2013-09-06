@@ -30,7 +30,7 @@ class ContestDecorator < ApplicationDecorator
   def staff_ticket_label
     label_class = fraction_class(
       object.staff_ticket_limit,
-      object.staff_tickets.size
+      object.staff_count
     )
 
     h.content_tag :span, class: "label label-#{label_class}" do
@@ -46,7 +46,7 @@ class ContestDecorator < ApplicationDecorator
   end
 
   private
-    def fraction_class(amount, total)
+    def fraction_class(amount, total=0)
       if amount == 0
         'success'
       elsif amount < total

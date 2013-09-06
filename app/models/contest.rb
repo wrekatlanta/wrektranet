@@ -31,14 +31,14 @@ class Contest < ActiveRecord::Base
 
   default_scope -> { order('date DESC') }
   scope :upcoming, -> { where("date >= :start_date", start_date: Time.zone.now.beginning_of_day) }
+  scope :past, ->{ where("send_time < :start_date", start_date: Time.zone.now) }
   scope :unsent, -> { where(sent: false) }
   scope :announceable, ->{
     unsent.where(
       "send_time >= :start_date",
-      start_date: Time.zone.now.beginning_of_day
+      start_date: Time.zone.now
     )
   }
-  scope :past, ->{ where("date < :start_date", start_date: Time.zone.now.beginning_of_day) }
   scope :without_user, -> (user) {
     where("id NOT IN (?)", user.contests) unless user.contests.blank?
   }
@@ -62,5 +62,6 @@ class Contest < ActiveRecord::Base
     def set_default_values
       self.listener_ticket_limit ||= 0
       self.staff_ticket_limit ||= 0
+      self.staff_count ||= 0
     end
 end

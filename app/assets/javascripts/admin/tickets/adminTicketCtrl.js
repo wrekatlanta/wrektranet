@@ -9,24 +9,25 @@ angular.module("wrektranet.adminTicketCtrl", [])
   function($scope, Restangular) {
     Restangular.setBaseUrl('/admin');
 
+    // notifies all tickets down if they need to update their contest object
     $scope.$on('updateContests', function(e, contest) {
       $scope.$broadcast('updateContest', contest);
     });
   }
 ])
 
-// used for individual ticket
+// controller for individual ticket rows
 .controller('adminTicketCtrl', [
   '$scope',
   'Restangular',
   function($scope, Restangular) {
     Restangular.setBaseUrl('/admin');
 
+    // updates the ticket's contest if the ID is the same
     $scope.$on('updateContest', function(e, contest) {
       console.log('ticket: ' + $scope.ticket.contest_id);
       console.log('contest: ' + contest.id);
       if ($scope.ticket.contest_id === contest.id) {
-        console.log(contest.staff_count);
         $scope.ticket.contest = contest;
       }
     });
