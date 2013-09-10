@@ -5,22 +5,38 @@ table.table.table-striped
   thead
     tr
       th Op Initials
+      th Automation?
       th Sign In
       th Automation?
       th Sign Out
-      th Automation?
   tbody
     - unless @tlogs.empty?
       - for tlog in @tlogs do
         tr
           td = link_to tlog.user.username, air_transmitter_log_entry_path(tlog)
-          td = tlog.sign_in
           td = tlog.automation_in
-          - if tlog.sign_out.nil?
-            td No Sign Out!
+          td = tlog.sign_in
+          td = tlog.automation_out
+          - if tlog.sign_out.nil? and tlog.user == current_user
+            td 
+              button.btn.btn-warning Logout
+          - elsif tlog.sign_out.nil?
+            td No Sign Out!          
           - else 
             td = tlog.sign_out
-          td = tlog.automation_out
-    - else
-      tr
-        td colspan="4" No results were found.
+    
+    tr
+      td = current_user.username
+      form method="POST" action=new_air_transmitter_log_entry_path
+        td 
+          input type="checkbox" name="transmitter_log_entry[automation_in]"
+        td 
+          button.btn.btn-success type="submit"
+            | Sign In
+          = token_tag
+      td
+      td
+
+  button.btn.btn-success type="submit"
+    | New TLog Entry 
+  = token_tag
