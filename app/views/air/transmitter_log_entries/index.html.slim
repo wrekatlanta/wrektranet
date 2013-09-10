@@ -1,0 +1,21 @@
+.page-header
+  h1 Transmitter Log
+
+table.table.table-striped
+  thead
+    tr
+      th Op Initials
+      th Sign In
+      th Sign Out
+      th Automation
+  tbody
+    - unless @tlogs.empty?
+      - for tlog in @tlogs do
+        tr
+          td = link_to tlog.user, air_transmitter_log_entry_path(tlog)
+          td = tlog.sign_in
+          td = tlog.sign_out
+          td = tlog.automation
+    - else
+      tr
+        td colspan="4" No results were found.
