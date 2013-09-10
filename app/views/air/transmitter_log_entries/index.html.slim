@@ -6,16 +6,21 @@ table.table.table-striped
     tr
       th Op Initials
       th Sign In
+      th Automation?
       th Sign Out
-      th Automation
+      th Automation?
   tbody
     - unless @tlogs.empty?
       - for tlog in @tlogs do
         tr
-          td = link_to tlog.user, air_transmitter_log_entry_path(tlog)
+          td = link_to tlog.user.username, air_transmitter_log_entry_path(tlog)
           td = tlog.sign_in
-          td = tlog.sign_out
-          td = tlog.automation
+          td = tlog.automation_in
+          - if tlog.sign_out.nil?
+            td No Sign Out!
+          - else 
+            td = tlog.sign_out
+          td = tlog.automation_out
     - else
       tr
         td colspan="4" No results were found.
