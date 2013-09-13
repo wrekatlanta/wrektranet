@@ -33,9 +33,10 @@ class Contest < ActiveRecord::Base
 
   default_scope -> { order('date DESC') }
   scope :upcoming, -> { where("date >= :start_date", start_date: Time.zone.now.beginning_of_day) }
-  scope :past, ->{ where("send_time < :start_date", start_date: Time.zone.now) }
+  scope :past, -> { where("send_time < :start_date", start_date: Time.zone.now) }
+  scope :sendable, -> (time) { where("send_time = :send_time", send_time: time) }
   scope :unsent, -> { where(sent: false) }
-  scope :announceable, ->{
+  scope :announceable, -> {
     unsent.where(
       "send_time >= :start_date",
       start_date: Time.zone.now
@@ -68,6 +69,16 @@ class Contest < ActiveRecord::Base
   def date_string=(value)
     @date_string = value
     self.date = parse_date
+  end
+
+  def self.send_contests(hour = Time.zone.now.hour)
+    time = Time.zone.now.beginning_of_day + hour.hours
+
+    self.sendable(time).each do |contest|
+      ContestMailer.ticket_email(contest).deliver
+      @contest.sent = true
+      @contest.save
+    end
   end
 
   private

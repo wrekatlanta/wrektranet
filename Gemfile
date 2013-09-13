@@ -28,6 +28,7 @@ gem 'simple_form', git: 'git://github.com/plataformatec/simple_form.git'
 gem 'will_paginate', '~> 3.0'
 gem 'will_paginate-bootstrap'
 gem 'chronic'
+gem 'whenever'
 
 group :development do
   gem 'unicorn-rails'
