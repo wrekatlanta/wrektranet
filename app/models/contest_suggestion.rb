@@ -19,7 +19,8 @@ class ContestSuggestion < ActiveRecord::Base
   validates :date, presence: true
   validates :venue, presence: true
 
-  scope :archived, ->{ where(archived: true) }
+  scope :archived, -> { where(archived: true) }
+  scope :upcoming, -> { where("date >= :start_date", start_date: Time.zone.now.beginning_of_day) }
 
   def date_string
     @date_string || date.try(:strftime, "%-m/%-d/%y %-l:%M %p")

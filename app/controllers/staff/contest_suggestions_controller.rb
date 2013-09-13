@@ -4,6 +4,7 @@ class Staff::ContestSuggestionsController < Staff::BaseController
   def index
     @contest_suggestions = @contest_suggestions.
       includes(:user).
+      upcoming.
       paginate(page: params[:page], per_page: 30)
   end
 
