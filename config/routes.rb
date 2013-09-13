@@ -19,6 +19,8 @@ Wrek::Application.routes.draw do
         get 'me'
       end
     end
+
+    resources :contest_suggestions
   end
 
   namespace :admin do

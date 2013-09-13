@@ -20,4 +20,22 @@ class ContestSuggestion < ActiveRecord::Base
   validates :venue, presence: true
 
   scope :archived, ->{ where(archived: true) }
+
+  def date_string
+    @date_string || date.try(:strftime, "%-m/%-d/%y %-l:%M %p")
+  end
+
+  def date_string=(value)
+    @date_string = value
+    self.date = parse_date
+  end
+
+  private
+    def date_string_is_date
+      errors.add(:date_string, "is invalid") unless parse_date
+    end
+
+    def parse_date
+      Chronic.parse(date_string)
+    end
 end
