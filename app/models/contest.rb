@@ -24,6 +24,7 @@ class Contest < ActiveRecord::Base
   before_save :set_send_time
 
   belongs_to :venue
+  belongs_to :recipient, class_name: "Venue"
   has_many :staff_tickets, dependent: :destroy
   has_many :listener_tickets, dependent: :destroy
   has_many :users, through: :staff_tickets
@@ -64,5 +65,6 @@ class Contest < ActiveRecord::Base
       self.listener_ticket_limit ||= 0
       self.staff_ticket_limit ||= 0
       self.staff_count ||= 0
+      self.listener_count ||= 0
     end
 end

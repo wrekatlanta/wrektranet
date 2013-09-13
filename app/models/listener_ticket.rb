@@ -21,7 +21,7 @@ class ListenerTicket < ActiveRecord::Base
 
   private
     def ticket_count_within_limit
-      if self.contest.listener_tickets(:reload).size >= self.contest.listener_ticket_limit
+      if self.contest.reload.listener_count >= self.contest.listener_ticket_limit
         errors.add(:base, "Too many listener tickets")
       end
     end

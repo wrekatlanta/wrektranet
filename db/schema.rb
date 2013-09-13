@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130822234237) do
+ActiveRecord::Schema.define(version: 20130913023837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,14 +46,16 @@ ActiveRecord::Schema.define(version: 20130822234237) do
     t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "listener_plus_one"
-    t.boolean  "staff_plus_one"
+    t.boolean  "listener_plus_one",     default: false
+    t.boolean  "staff_plus_one",        default: false
     t.datetime "send_time"
     t.boolean  "sent",                  default: false
     t.integer  "staff_count"
     t.integer  "listener_count"
+    t.integer  "recipient_id"
   end
 
+  add_index "contests", ["recipient_id"], name: "index_contests_on_recipient_id", using: :btree
   add_index "contests", ["venue_id"], name: "index_contests_on_venue_id", using: :btree
 
   create_table "listener_tickets", force: true do |t|
@@ -83,7 +85,7 @@ ActiveRecord::Schema.define(version: 20130822234237) do
     t.integer  "user_id"
     t.integer  "contest_id"
     t.integer  "contest_director_id"
-    t.boolean  "awarded"
+    t.boolean  "awarded",             default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -91,8 +93,8 @@ ActiveRecord::Schema.define(version: 20130822234237) do
   add_index "staff_tickets", ["user_id"], name: "index_staff_tickets_on_user_id", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "email",                              default: "", null: false
-    t.string   "encrypted_password",     limit: 128, default: "", null: false
+    t.string   "email",                              default: "",    null: false
+    t.string   "encrypted_password",     limit: 128, default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -103,13 +105,13 @@ ActiveRecord::Schema.define(version: 20130822234237) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "username",                                        null: false
+    t.string   "username",                                           null: false
     t.string   "phone"
     t.string   "first_name"
     t.string   "last_name"
     t.string   "display_name"
     t.string   "status"
-    t.boolean  "admin"
+    t.boolean  "admin",                              default: false
     t.integer  "buzzcard_id"
     t.integer  "buzzcard_facility_code"
   end
