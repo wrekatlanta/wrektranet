@@ -47,8 +47,7 @@ class User < ActiveRecord::Base
   has_many :contest_suggestions, dependent: :destroy
 
   validates :phone,      format: /[\(\)0-9\- \+\.]{10,20}/, allow_blank: true
-  validates :email,      presence: true, uniqueness: true,
-                         format: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :email,      presence: true, uniqueness: true
   validates :first_name, presence: true
   validates :last_name,  presence: true
   validates :username,   presence: true, format: /[a-zA-Z]{2,8}/,
