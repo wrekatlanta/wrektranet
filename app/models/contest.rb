@@ -76,8 +76,8 @@ class Contest < ActiveRecord::Base
 
     self.sendable(time).each do |contest|
       ContestMailer.ticket_email(contest).deliver
-      @contest.sent = true
-      @contest.save
+      contest.sent = true
+      contest.save
     end
   end
 
