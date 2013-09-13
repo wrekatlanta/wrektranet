@@ -51,10 +51,7 @@ class Contest < ActiveRecord::Base
   validates :age_limit, presence: true
   validates :listener_ticket_limit, numericality: { greater_than_or_equal_to: 0 }
   validates :staff_ticket_limit, numericality: { greater_than_or_equal_to: 0 }
-
-  def set_send_time
-    self.send_time = self.date.beginning_of_day - self.venue.send_day_offset.days + self.venue.send_hour.hours
-  end
+  validate :date_string_is_date
 
   def announceable?
     !self.sent and (self.send_time >= Time.zone.now.beginning_of_day)
@@ -64,11 +61,32 @@ class Contest < ActiveRecord::Base
     return self.alternate_recipient || self.venue
   end
 
+  def date_string
+    @date_string || date.try(:strftime, "%-m/%-d/%y %-l:%M %p")
+  end
+
+  def date_string=(value)
+    @date_string = value
+    self.date = parse_date
+  end
+
   private
+    def set_send_time
+      self.send_time = self.date.beginning_of_day - self.venue.send_day_offset.days + self.venue.send_hour.hours
+    end
+
     def set_default_values
       self.listener_ticket_limit ||= 0
       self.staff_ticket_limit ||= 0
       self.staff_count ||= 0
       self.listener_count ||= 0
+    end
+
+    def date_string_is_date
+      errors.add(:date_string, "is invalid") unless parse_date
+    end
+
+    def parse_date
+      Chronic.parse(date_string)
     end
 end

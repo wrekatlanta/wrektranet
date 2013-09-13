@@ -51,7 +51,7 @@ class Admin::ContestsController < Admin::BaseController
   private
     def contest_params
       params.require(:contest).permit(
-        :name, :date, :venue_id, :alternate_recipient_id,
+        :name, :date_string, :venue_id, :alternate_recipient_id,
         :age_limit, :listener_ticket_limit, :listener_plus_one,
         :staff_ticket_limit, :staff_plus_one,
         :notes
