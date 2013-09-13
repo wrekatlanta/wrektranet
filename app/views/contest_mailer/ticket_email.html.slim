@@ -1,0 +1,24 @@
+- content_for :teaser do
+  span WREK ticket winners for #{@contest.name}
+
+- content_for :content do
+  h1 Ticket Winners
+  p Hello! Here are our contest winners for #{@contest.name}!
+
+  h3 Callers:
+
+  ol
+    - for ticket in @contest.listener_tickets
+      li
+        | ticket.name
+        - if @contest.listener_plus_one
+          |  +1 
+
+  h3 Staff:
+
+  ol
+    - for ticket in @contest.staff_tickets.awarded
+      li
+        | ticket.user.name
+        - if @contest.staff_plus_one
+          |  +1 
