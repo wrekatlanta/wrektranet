@@ -46,14 +46,15 @@ describe Contest do
     subject { FactoryGirl.create(:contest, staff_ticket_limit: 3) }
 
     it "should be valid under the limit" do
-      subject.staff_tickets << FactoryGirl.build_list(:staff_ticket, 3, :awarded)
+      subject.staff_tickets << FactoryGirl.build_list(:staff_ticket, 3, :awarded, contest: subject)
       subject.should be_valid
     end
 
     it "is invalid over the limit" do
-      subject.staff_tickets << FactoryGirl.create_list(:staff_ticket, 4)
-      subject.staff_tickets << FactoryGirl.create_list(:staff_ticket, 4, :awarded)
-      subject.should_not be_valid
+      subject.staff_tickets << FactoryGirl.create_list(:staff_ticket, 4, contest: subject)
+      subject.staff_tickets << FactoryGirl.create_list(:staff_ticket, 3, :awarded, contest: subject)
+      staff_ticket = FactoryGirl.build(:staff_ticket, :awarded, contest: subject)
+      staff_ticket.should_not be_valid
     end
   end
 
@@ -66,8 +67,11 @@ describe Contest do
     end
 
     it "is invalid over the limit" do
-      subject.listener_tickets << FactoryGirl.create_list(:listener_ticket, 4)
-      subject.should_not be_valid
+      subject.listener_tickets << FactoryGirl.create_list(:listener_ticket, 3, contest: subject)
+      subject.listener_tickets.size.should eq 3
+
+      listener_ticket = FactoryGirl.build(:listener_ticket, contest: subject)
+      listener_ticket.should_not be_valid
     end
   end
 

@@ -45,7 +45,7 @@ class StaffTicket < ActiveRecord::Base
     end
 
     def update_counter_cache
-      self.contest.staff_count = StaffTicket.awarded.count
+      self.contest.staff_count = self.contest.staff_tickets.awarded.count
       self.contest.save
     end
 end
