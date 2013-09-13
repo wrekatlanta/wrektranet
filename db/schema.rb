@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130913023837) do
+ActiveRecord::Schema.define(version: 20130913030655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,16 +46,16 @@ ActiveRecord::Schema.define(version: 20130913023837) do
     t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "listener_plus_one",     default: false
-    t.boolean  "staff_plus_one",        default: false
+    t.boolean  "listener_plus_one",      default: false
+    t.boolean  "staff_plus_one",         default: false
     t.datetime "send_time"
-    t.boolean  "sent",                  default: false
+    t.boolean  "sent",                   default: false
     t.integer  "staff_count"
     t.integer  "listener_count"
-    t.integer  "recipient_id"
+    t.integer  "alternate_recipient_id"
   end
 
-  add_index "contests", ["recipient_id"], name: "index_contests_on_recipient_id", using: :btree
+  add_index "contests", ["alternate_recipient_id"], name: "index_contests_on_alternate_recipient_id", using: :btree
   add_index "contests", ["venue_id"], name: "index_contests_on_venue_id", using: :btree
 
   create_table "listener_tickets", force: true do |t|

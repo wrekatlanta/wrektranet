@@ -24,7 +24,7 @@ class Contest < ActiveRecord::Base
   before_save :set_send_time
 
   belongs_to :venue
-  belongs_to :recipient, class_name: "Venue"
+  belongs_to :alternate_recipient, class_name: "Venue"
   has_many :staff_tickets, dependent: :destroy
   has_many :listener_tickets, dependent: :destroy
   has_many :users, through: :staff_tickets
@@ -58,6 +58,10 @@ class Contest < ActiveRecord::Base
 
   def announceable?
     !self.sent and (self.send_time >= Time.zone.now.beginning_of_day)
+  end
+
+  def recipient
+    return self.alternate_recipient || self.venue
   end
 
   private
