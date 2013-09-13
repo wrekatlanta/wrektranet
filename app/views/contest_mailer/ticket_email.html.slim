@@ -3,22 +3,26 @@
 
 - content_for :content do
   h1 Ticket Winners
-  p Hello! Here are our contest winners for #{@contest.name}!
+  p Hello! Here are our contest winners for <strong>#{@contest.name}</strong>!
 
-  h3 Callers:
+  - unless @contest.listener_tickets.empty?
+    h3 Callers:
 
-  ol
-    - for ticket in @contest.listener_tickets
-      li
-        | ticket.name
-        - if @contest.listener_plus_one
-          |  +1 
+    ol
+      - for ticket in @contest.listener_tickets
+        li
+          = ticket.name
+          - if @contest.listener_plus_one
+            |  +1 
 
-  h3 Staff:
+  - unless @contest.staff_tickets.awarded.empty?
+    h3 Staff:
 
-  ol
-    - for ticket in @contest.staff_tickets.awarded
-      li
-        | ticket.user.name
-        - if @contest.staff_plus_one
-          |  +1 
+    ol
+      - for ticket in @contest.staff_tickets.awarded
+        li
+          = ticket.user.name
+          - if @contest.staff_plus_one
+            |  +1 
+
+  p Thank you, and let us know if you have any questions!

@@ -13,5 +13,7 @@ class Air::ContestsController < Air::BaseController
 
   def show
     @contest = @contest.decorate
+
+    ContestMailer.ticket_email(@contest).deliver
   end
 end
