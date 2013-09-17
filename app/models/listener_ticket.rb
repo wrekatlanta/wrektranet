@@ -13,7 +13,10 @@
 
 class ListenerTicket < ActiveRecord::Base
   belongs_to :contest, counter_cache: :listener_count
+  has_one :event, through: :contest
   belongs_to :user
+
+  default_scope -> { order('listener_tickets.created_at DESC') }
 
   validate :ticket_count_within_limit, on: :create
   validates :user, presence: true
