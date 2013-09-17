@@ -70,7 +70,7 @@ class Contest < ActiveRecord::Base
   end
 
   def date_string
-    @date_string || self.event.start_time.try(:strftime, "%-m/%-d/%y %-l:%M %p")
+    @date_string || self.try(:event).try(:start_time).try(:strftime, "%-m/%-d/%y %-l:%M %p")
   end
 
   def date_string=(value)
