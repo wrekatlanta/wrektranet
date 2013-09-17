@@ -5,6 +5,12 @@
 
 = render 'navigation'
 
+form.form-horizontal
+  .form-group
+    label.col-lg-8.control-label for="ticketFilter" Filter
+    .col-lg-4
+      input.form-control#ticketFilter type="text" ng-model="filter"
+
 table.table.table-striped ng-controller="staffSignupCtrl" ng-init="contests = #{@contests.to_json(include: [:venue, :event])}"
   thead
     tr
@@ -15,7 +21,7 @@ table.table.table-striped ng-controller="staffSignupCtrl" ng-init="contests = #{
       th
   tbody.ng-cloak
     - unless @contests.empty?
-      tr ng-repeat="contest in contests"
+      tr ng-repeat="contest in contests | filter:filter"
         td
           a href="/air/contests/{{contest.id}}"
             | {{contest.event.name}}
