@@ -1,0 +1,39 @@
+
+/* All levels of nav */
+.sidebar-nav {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding-top:    10px;
+  padding-bottom: 10px;
+  background-color: lighten($brand-primary, 43%);
+  border-radius: 5px;
+
+  .nav {
+    > li > a {
+      display: block;
+      color: $brand-primary;
+      padding: 5px 20px;
+
+      &:hover, &:focus {
+        text-decoration: none;
+        background-color: lighten($brand-primary, 40%);
+      }
+    }
+
+    > li.active {
+      background-color: lighten($brand-primary, 40%);
+      border-right: 1px solid $brand-primary;
+    }
+
+    .nav {
+      margin-bottom: 8px;
+
+      > li > a {
+        padding-top:    3px;
+        padding-bottom: 3px;
+        padding-left: 30px;
+        font-size: 90%;
+      }
+    }
+  }
+}
