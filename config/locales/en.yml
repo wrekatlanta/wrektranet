@@ -42,11 +42,12 @@ en:
       short: "%l:%M %p"
   simple_form:
     labels:
+      defaults:
+        start_time_string: 'Start time'
       contest:
         pick_up: 'Pick up?'
         listener_ticket_limit: 'Listener tickets'
         staff_ticket_limit: 'Staff tickets'
-        date_string: 'Date'
       contest_suggestion:
         date_string: 'Date'
     options:

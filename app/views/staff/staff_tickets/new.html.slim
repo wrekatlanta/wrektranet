@@ -5,7 +5,7 @@
 
 = render 'navigation'
 
-table.table.table-striped ng-controller="staffSignupCtrl" ng-init="contests = #{@contests.to_json(include: :venue)}"
+table.table.table-striped ng-controller="staffSignupCtrl" ng-init="contests = #{@contests.to_json(include: [:venue, :event])}"
   thead
     tr
       th Event
@@ -18,8 +18,8 @@ table.table.table-striped ng-controller="staffSignupCtrl" ng-init="contests = #{
       tr ng-repeat="contest in contests"
         td
           a href="/air/contests/{{contest.id}}"
-            | {{contest.name}}
-        td = "{{contest.date | date:'short' }}"
+            | {{contest.event.name}}
+        td = "{{contest.event.start_time | date:'short' }}"
         td = "{{contest.venue.name}}"
         td = "{{contest.staff_ticket_limit - contest.staff_count}}"
         td
