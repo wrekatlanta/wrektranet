@@ -21,7 +21,7 @@
 #  last_name              :string(255)
 #  display_name           :string(255)
 #  status                 :string(255)
-#  admin                  :boolean
+#  admin                  :boolean          default(FALSE)
 #  buzzcard_id            :integer
 #  buzzcard_facility_code :integer
 #

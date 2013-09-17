@@ -6,7 +6,8 @@ class Air::ContestsController < Air::BaseController
     @contests = @contests.
       includes(:venue).
       paginate(page: params[:page], per_page: 30).
-      announceable
+      announceable.
+      up_to(2.weeks)
 
     @contests = @contests.decorate
   end

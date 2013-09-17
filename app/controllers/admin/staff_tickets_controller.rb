@@ -5,8 +5,6 @@ class Admin::StaffTicketsController < Admin::BaseController
   def index
     @staff_tickets = @staff_tickets
       .announceable
-      .includes(:user)
-      .includes(contest: :venue)
       .decorate
   end
 
@@ -20,7 +18,7 @@ class Admin::StaffTicketsController < Admin::BaseController
     @staff_ticket.update_attributes(staff_ticket_params)
 
     render json: @staff_ticket.to_json({
-      include: [:user, {contest: {include: :venue}}]
+      include: [:user, {contest: {include: [:venue, :event]}}]
     })
   end
 
