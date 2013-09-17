@@ -29,18 +29,26 @@ class Contest < ActiveRecord::Base
   has_many :staff_tickets, dependent: :destroy
   has_many :listener_tickets, dependent: :destroy
   has_many :users, through: :staff_tickets
+  has_one :event, as: :eventable, dependent: :destroy
 
   accepts_nested_attributes_for :staff_tickets, :listener_tickets, allow_destroy: true
+  accepts_nested_attributes_for :event
 
-  default_scope -> { order('date DESC') }
-  scope :upcoming, -> { where("date >= :start_date", start_date: Time.zone.now.beginning_of_day) }
-  scope :past, -> { where("send_time < :start_date", start_date: Time.zone.now) }
+  default_scope -> { includes(:event).order('events.start_time DESC') }
+  scope :upcoming, -> { where("event.start_time >= :start_time", start_time: Time.zone.now.beginning_of_day) }
+  scope :past, -> { where("send_time < :start_time", start_time: Time.zone.now) }
   scope :sendable, -> (time) { where("send_time = :send_time", send_time: time) }
   scope :unsent, -> { where(sent: false) }
   scope :announceable, -> {
     unsent.where(
-      "send_time >= :start_date",
-      start_date: Time.zone.now
+      "send_time >= :start_time",
+      start_time: Time.zone.now
+    )
+  }
+  scope :up_to, -> (time = 2.weeks) {
+    where(
+      "send_time <= :start_time",
+      start_time: Time.zone.now.beginning_of_day + time
     )
   }
   scope :without_user, -> (user) {
@@ -62,12 +70,12 @@ class Contest < ActiveRecord::Base
   end
 
   def date_string
-    @date_string || date.try(:strftime, "%-m/%-d/%y %-l:%M %p")
+    @date_string || self.event.start_time.try(:strftime, "%-m/%-d/%y %-l:%M %p")
   end
 
   def date_string=(value)
     @date_string = value
-    self.date = parse_date
+    self.event.start_time = parse_date
   end
 
   def self.send_contests(hour = Time.zone.now.hour)
@@ -82,7 +90,7 @@ class Contest < ActiveRecord::Base
 
   private
     def set_send_time
-      self.send_time = self.date.beginning_of_day - self.venue.send_day_offset.days + self.venue.send_hour.hours
+      self.send_time = self.event.start_time.beginning_of_day - self.venue.send_day_offset.days + self.venue.send_hour.hours
     end
 
     def set_default_values
