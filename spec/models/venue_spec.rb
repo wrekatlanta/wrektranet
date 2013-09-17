@@ -36,23 +36,34 @@ describe Venue do
 
   subject { @venue }
 
-  context "when name is not present" do
-    before { @venue.name = nil }
-    it { should_not be_valid }
+  describe "#name" do
+    context "not present" do
+      before { @venue.name = nil }
+      it { should_not be_valid }
+    end
   end
 
-#  it "is invalid without a name" do
-#    @venue.
-#    FactoryGirl.build(:venue, name: nil).should_not be_valid
-#  end
-#
-#  describe "send_hour attribute" do
-#    it "is invalid below 0" do
-#      FactoryGirl.build(:venue, send_hour: -1).should_not be_valid
-#    end
-#
-#    it "is invalid above 23" do
-#      FactoryGirl.build(:venue, send_hour: 24).should_not be_valid
-#    end
-#  end
+  describe "#send_hour" do
+    context "not present" do
+      before { @venue.send_hour = nil }
+      it { should_not be_valid }
+    end
+
+    context "below 0" do
+      before { @venue.send_hour = -1 }
+      it { should_not be_valid }
+    end
+
+    context "above 23" do
+      before { @venue.send_hour = 24 }
+      it { should_not be_valid }
+    end
+  end
+
+  describe "#send_day_offset" do
+    context "not present" do
+      before { @venue.send_day_offset = nil }
+      it { should_not be_valid }
+    end
+  end
 end
