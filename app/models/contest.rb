@@ -35,7 +35,7 @@ class Contest < ActiveRecord::Base
   accepts_nested_attributes_for :event
 
   default_scope -> { includes(:event).order('events.start_time DESC') }
-  scope :upcoming, -> { where("event.start_time >= :start_time", start_time: Time.zone.now.beginning_of_day) }
+  scope :upcoming, -> { where("events.start_time >= :start_time", start_time: Time.zone.now.beginning_of_day) }
   scope :past, -> { where("send_time < :start_time", start_time: Time.zone.now) }
   scope :sendable, -> (time) { where("send_time = :send_time", send_time: time) }
   scope :unsent, -> { where(sent: false) }
@@ -59,7 +59,6 @@ class Contest < ActiveRecord::Base
   validates :age_limit, presence: true
   validates :listener_ticket_limit, numericality: { greater_than_or_equal_to: 0 }
   validates :staff_ticket_limit, numericality: { greater_than_or_equal_to: 0 }
-  validate :date_string_is_date
 
   def announceable?
     !self.sent and (self.send_time >= Time.zone.now.beginning_of_day)
@@ -67,15 +66,6 @@ class Contest < ActiveRecord::Base
 
   def recipient
     return self.alternate_recipient || self.venue
-  end
-
-  def date_string
-    @date_string || self.try(:event).try(:start_time).try(:strftime, "%-m/%-d/%y %-l:%M %p")
-  end
-
-  def date_string=(value)
-    @date_string = value
-    self.event.start_time = parse_date
   end
 
   def self.send_contests(hour = Time.zone.now.hour)
@@ -98,13 +88,7 @@ class Contest < ActiveRecord::Base
       self.staff_ticket_limit ||= 0
       self.staff_count ||= 0
       self.listener_count ||= 0
-    end
-
-    def date_string_is_date
-      errors.add(:date_string, "is invalid") unless parse_date
-    end
-
-    def parse_date
-      Chronic.parse(date_string)
+      self.staff_plus_one ||= true
+      self.listener_plus_one ||= true
     end
 end

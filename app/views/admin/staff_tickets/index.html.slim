@@ -9,7 +9,7 @@ form.form-horizontal
     .col-lg-4
       input.form-control#ticketFilter type="text" ng-model="filter"
 
-table.table.table-striped ng-controller="adminTicketListCtrl" ng-init="tickets = #{@staff_tickets.to_json(include: [:user, {contest: {include: :venue}}])}"
+table.table.table-striped ng-controller="adminTicketListCtrl" ng-init="tickets = #{@staff_tickets.to_json(include: [:user, {contest: {include: [:venue, :event]}}])}"
   thead
     tr
       th User
@@ -24,8 +24,8 @@ table.table.table-striped ng-controller="adminTicketListCtrl" ng-init="tickets =
         td = "{{ticket.user.username}}"
         td
           a href="/admin/contests/{{ticket.contest.id}}/edit"
-            | {{ticket.contest.name}}
-        td = "{{ticket.contest.date | date:'short'}}"
+            | {{ticket.contest.event.name}}
+        td = "{{ticket.contest.event.start_time | date:'short'}}"
         td = "{{ticket.contest.venue.name}}"
         td = "{{ticket.created_at | date:'short'}}"
         td
