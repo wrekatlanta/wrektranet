@@ -15,7 +15,7 @@ table.table.table-striped
   tbody
     - unless @contests.empty?
       - for contest in @contests do
-        tr class="#{contest.row_class}"
+        tr
           td = link_to contest.event.name, air_contest_path(contest)
           td = l contest.event.start_time, format: :us_time
           td = contest.venue.name
