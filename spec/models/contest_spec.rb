@@ -2,21 +2,22 @@
 #
 # Table name: contests
 #
-#  id                    :integer          not null, primary key
-#  name                  :string(255)
-#  date                  :datetime
-#  venue_id              :integer
-#  age_limit             :integer
-#  pick_up               :boolean
-#  listener_ticket_limit :integer
-#  staff_ticket_limit    :integer
-#  notes                 :text
-#  created_at            :datetime
-#  updated_at            :datetime
-#  listener_plus_one     :boolean
-#  staff_plus_one        :boolean
-#  send_time             :datetime
-#  sent                  :boolean
+#  id                     :integer          not null, primary key
+#  venue_id               :integer
+#  age_limit              :integer
+#  pick_up                :boolean
+#  listener_ticket_limit  :integer
+#  staff_ticket_limit     :integer
+#  notes                  :text
+#  created_at             :datetime
+#  updated_at             :datetime
+#  listener_plus_one      :boolean          default(FALSE)
+#  staff_plus_one         :boolean          default(FALSE)
+#  send_time              :datetime
+#  sent                   :boolean          default(FALSE)
+#  staff_count            :integer
+#  listener_count         :integer
+#  alternate_recipient_id :integer
 #
 
 require 'spec_helper'

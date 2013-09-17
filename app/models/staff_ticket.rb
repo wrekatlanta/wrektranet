@@ -6,7 +6,7 @@
 #  user_id             :integer
 #  contest_id          :integer
 #  contest_director_id :integer
-#  awarded             :boolean
+#  awarded             :boolean          default(FALSE)
 #  created_at          :datetime
 #  updated_at          :datetime
 #
