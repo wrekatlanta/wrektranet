@@ -15,8 +15,6 @@
 #
 
 class Event < ActiveRecord::Base
-  after_initialize :set_default_values
-
   belongs_to :eventable, polymorphic: true
 
   validates :name, presence: true
@@ -53,9 +51,5 @@ class Event < ActiveRecord::Base
 
     def parse_date(chronic_string)
       Chronic.parse(chronic_string)
-    end
-
-    def set_default_values
-      self.public = true
     end
 end
