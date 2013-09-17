@@ -10,7 +10,7 @@ FactoryGirl.define do
     }
     send_day_offset 0
     send_hour 17
-    notes "Cool man."
+    notes "Venue notes."
   end
 
   trait :faxable do

@@ -27,14 +27,6 @@ describe Contest do
     FactoryGirl.create(:contest).should be_valid
   end
 
-  it "is invalid without a name" do
-    FactoryGirl.build(:contest, name: nil).should_not be_valid
-  end
-
-  it "is invalid without a date" do
-    FactoryGirl.build(:contest, date: nil).should_not be_valid
-  end
-
   it "is invalid with a negative amount of listener tickets" do
     FactoryGirl.build(:contest, listener_ticket_limit: -1).should_not be_valid
   end

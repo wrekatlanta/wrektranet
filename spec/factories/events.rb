@@ -2,10 +2,9 @@
 
 FactoryGirl.define do
   factory :event do
-    eventable nil
-    name "MyString"
-    start_time "2013-09-17 14:34:54"
-    end_time "2013-09-17 14:34:54"
+    name "Event Title"
+    start_time { Time.zone.today.beginning_of_day + 1.day + 20.hours }
+    end_time nil
     all_day false
   end
 end
