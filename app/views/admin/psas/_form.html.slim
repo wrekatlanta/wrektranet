@@ -1,0 +1,13 @@
+- defaults = {input_wrapper_html: {class: 'col-lg-6'}, label_html: {class: 'col-lg-2'}}
+
+= simple_form_for [:admin, @psa], html: {name: 'psaForm', class: 'form-horizontal'}, defaults: defaults do |f|
+  = f.input :title, input_html: { class: 'form-control' }
+  = f.input :body, as: :text, input_html: { class: 'form-control' }
+  = f.input :expiration_date, as: :date, input_html: { class: 'form-control' }
+  = f.input :status, collection: Psa::STATUSES, input_html: { class: 'form-control' }
+  .form-group
+    .col-lg-offset-2.col-lg-10
+      = f.button :submit, class: 'btn-primary'
+      - if @psa.persisted?
+        |  
+        = link_to 'Delete', [:admin, @psa], confirm: 'Are you sure you want to delete this PSA?', method: :delete, class: 'btn btn-danger'
