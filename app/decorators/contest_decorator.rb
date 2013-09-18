@@ -40,7 +40,7 @@ class ContestDecorator < ApplicationDecorator
   end
 
   def sent_label
-    label_class = object.sent ? 'success' : 'danger'
+    label_class = object.sent ? 'danger' : 'success'
     h.content_tag :span, class: "label label-#{label_class}" do
       object.sent ? 'Yes' : 'No'
     end

@@ -92,4 +92,38 @@ describe Contest do
       }
     end
   end
+
+  describe "#announceable?" do
+    context "before contest has been sent" do
+      context "when send time is at least today" do
+        before { @contest.update_send_time }
+        its(:announceable?) { should be_true }
+      end
+
+      context "when send time is before today" do
+        before do
+          @contest.event.start_time = Time.zone.today.beginning_of_day - 1.day
+          @contest.update_send_time
+        end
+
+        its(:announceable?) { should be_false }
+      end
+    end
+
+    context "after contest has been sent" do
+      before { @contest.sent = true }
+      its(:announceable?) { should be_false }
+    end
+  end
+
+  describe "#recipient" do
+    context "with no alternate recipient" do
+      its(:recipient) { should eq venue }
+    end
+
+    context "with an alternate recipient" do
+      before { @contest.alternate_recipient = alternate_recipient }
+      its(:recipient) { should eq alternate_recipient }
+    end
+  end
 end
