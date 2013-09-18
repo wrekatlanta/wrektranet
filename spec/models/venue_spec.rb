@@ -15,12 +15,11 @@
 require 'spec_helper'
 
 describe Venue do
-  describe "factory" do
-    subject { FactoryGirl.create(:venue) }
-    it { should be_valid }
+  it "has a valid factory" do
+    FactoryGirl.create(:venue).should be_valid
   end
 
-  before {
+  before do
     venue_attrs = {
       name: "Variety Playhouse",
       address: (Faker::Address.street_address +
@@ -32,7 +31,7 @@ describe Venue do
     }
 
     @venue = Venue.new(venue_attrs)
-  }
+  end
 
   subject { @venue }
 

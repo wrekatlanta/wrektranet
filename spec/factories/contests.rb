@@ -2,9 +2,8 @@
 
 FactoryGirl.define do
   factory :contest do
-    name "George and the Burdells"
+    event
     venue
-    date { Time.zone.today.beginning_of_day + 1.day + 20.hours }
     age_limit 0
     pick_up false
     listener_ticket_limit 3
