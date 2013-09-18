@@ -29,7 +29,7 @@ class Venue < ActiveRecord::Base
     def update_contest_times
       if self.send_day_offset_changed? || self.send_hour_changed?
         self.contests.each do |contest|
-          contest.set_send_time
+          contest.update_send_time
           contest.save!
         end
       end

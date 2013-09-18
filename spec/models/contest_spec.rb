@@ -26,7 +26,8 @@ describe Contest do
   let(:venue) { FactoryGirl.create(:venue) }
   let(:alternate_recipient) { FactoryGirl.create(:venue) }
   let(:event) {
-    FactoryGirl.create(:event,
+    FactoryGirl.create(
+      :event,
       start_time: Time.zone.today.beginning_of_day + 1.day + 17.hours
     )
   }
@@ -65,7 +66,7 @@ describe Contest do
     end
   end
 
-  describe "#set_send_time" do
+  describe "#update_send_time" do
     let(:venue) { FactoryGirl.create(:venue, send_day_offset: 2, send_hour: 17) }
 
     before do
@@ -76,6 +77,18 @@ describe Contest do
     context "#before_save" do
       its(:send_time) {
         should eq (Time.zone.today.beginning_of_day + 1.day - 2.days + 17.hours)
+      }
+    end
+
+    context "after venue changes" do
+      before do
+        venue.send_day_offset = 0
+        venue.send_hour = 15
+        venue.save
+      end
+
+      its(:send_time) {
+        should eq (Time.zone.today.beginning_of_day + 1.day + 15.hours)
       }
     end
   end
