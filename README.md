@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-# Vagrant
+### Vagrant
 
 If you're not using the Rails Vagrant box, make sure you have Ruby 2, Rails 4, and PostgreSQL installed.
 
