@@ -18,6 +18,8 @@ If you're not using the Rails Vagrant box, make sure you have Ruby 2, Rails 4, a
 11. Install nodejs as a JavaScript runtime: `sudo apt-get install nodejs`
 13. `cd /vagrant/wrektranet-new` to get to the project directory.
 
+More info on this Vagrant box: https://github.com/amaia/rails-starter-box
+
 ### Dependencies
 
 1. `bundle` to install all the dependencies for this project.
