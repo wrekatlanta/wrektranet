@@ -52,6 +52,13 @@ describe Contest do
 
   subject { @contest }
 
+  describe "#age_limit" do
+    context "not present" do
+      before { @contest.age_limit = nil }
+      it { should_not be_valid }
+    end
+  end
+
   describe "#listener_ticket_limit" do
     context "below 0" do
       before { @contest.listener_ticket_limit = -1 }

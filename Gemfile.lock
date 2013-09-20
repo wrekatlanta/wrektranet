@@ -82,6 +82,7 @@ GEM
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
     chronic (0.10.2)
+    cliver (0.2.2)
     coderay (1.0.9)
     coffee-rails (4.0.0)
       coffee-script (>= 2.2.0)
@@ -202,6 +203,11 @@ GEM
       mini_portile (~> 0.5.0)
     orm_adapter (0.4.0)
     pg (0.16.0)
+    poltergeist (1.4.1)
+      capybara (~> 2.1.0)
+      cliver (~> 0.2.1)
+      multi_json (~> 1.0)
+      websocket-driver (>= 0.2.0)
     polyglot (0.3.3)
     pry (0.9.12.2)
       coderay (~> 1.0.5)
@@ -296,6 +302,7 @@ GEM
       unicorn
     warden (1.2.3)
       rack (>= 1.0)
+    websocket-driver (0.3.0)
     whenever (0.8.4)
       activesupport (>= 2.3.4)
       chronic (>= 0.6.3)
@@ -339,6 +346,7 @@ DEPENDENCIES
   launchy
   letter_opener
   pg
+  poltergeist
   quiet_assets
   rails!
   rails_12factor
