@@ -120,6 +120,16 @@ ActiveRecord::Schema.define(version: 20130917185454) do
 
   add_index "staff_tickets", ["user_id"], name: "index_staff_tickets_on_user_id", using: :btree
 
+  create_table "transmitter_log_entries", force: true do |t|
+    t.datetime "sign_in"
+    t.datetime "sign_out"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "automation_in",  default: false
+    t.boolean  "automation_out", default: false
+  end
+
   create_table "users", force: true do |t|
     t.string   "email",                              default: "",    null: false
     t.string   "encrypted_password",     limit: 128, default: "",    null: false
