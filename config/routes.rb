@@ -8,7 +8,9 @@ Wrek::Application.routes.draw do
       resources :listener_tickets, shallow: true
     end
 
-    resources :transmitter_log_entries
+    resources :transmitter_log_entries do
+      get 'unsigned', on: :collection
+    end
     
     resources :psas do
       resources :psa_readings

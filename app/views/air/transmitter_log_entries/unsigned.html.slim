@@ -1,5 +1,5 @@
 .page-header
-  h1 Transmitter Log
+  h1 Unsigned Logs
 
 = render 'navigation'
 
@@ -19,11 +19,9 @@ table.table.table-striped
           td = tlog.automation_in
           td = tlog.sign_in
           td = tlog.automation_out
-          - if tlog.sign_out.nil? and tlog == @tlogs.last and tlog.user == current_user
+          - if tlog.sign_out.nil? 
             td 
-              button.btn.btn-warning Logout
-          - elsif tlog.sign_out.nil?
-            td No Sign Out!          
+              button.btn.btn-warning Logout       
           - else 
             td = tlog.sign_out
     
