@@ -35,7 +35,12 @@ class Contest < ActiveRecord::Base
   accepts_nested_attributes_for :event
 
   default_scope -> { includes(:event).order('send_time DESC') }
-  scope :upcoming, -> { where("events.start_time >= :start_time", start_time: Time.zone.now.beginning_of_day) }
+  scope :upcoming, -> {
+    where(
+      "events.start_time >= :start_time",
+      start_time: Time.zone.now.beginning_of_day
+    ).references(:events)
+  }
   scope :past, -> { where("send_time < :start_time", start_time: Time.zone.now) }
   scope :sendable, -> (time) { where("send_time = :send_time", send_time: time) }
   scope :unsent, -> { where(sent: false) }

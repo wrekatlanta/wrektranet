@@ -13,10 +13,6 @@ FactoryGirl.define do
     notes "Venue notes."
   end
 
-  trait :faxable do
-    fax "+1-212-9876543"
-  end
-
   trait :send_early do
     send_day_offset 1
   end
