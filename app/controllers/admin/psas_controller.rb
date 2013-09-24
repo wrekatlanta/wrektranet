@@ -6,7 +6,7 @@ class Admin::PsasController < Admin::BaseController
     if params[:filter] == 'expired'
       @psas = @psas.expired
     else
-      @psas = @psas.unexpired.approved
+      @psas = @psas.unexpired
     end
 
   end
@@ -44,7 +44,7 @@ class Admin::PsasController < Admin::BaseController
   private
     def psa_params
       params.require(:psa).permit(
-        :title, :body, :status, :expiration_date
+        :title, :body, :status, :expiration_date_string
       )
     end
 	
