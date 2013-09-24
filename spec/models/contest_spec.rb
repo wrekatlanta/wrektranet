@@ -31,6 +31,8 @@ describe Contest do
       start_time: Time.zone.today.beginning_of_day + 1.day + 17.hours
     )
   }
+  let(:staff_ticket_limit) { 3 }
+  let(:listener_ticket_limit) { 3 }
 
   it "has a valid factory" do
     FactoryGirl.create(:contest).should be_valid
@@ -40,9 +42,9 @@ describe Contest do
     contest_attrs = {
       event: event,
       age_limit: 18,
-      listener_ticket_limit: 3,
+      listener_ticket_limit: listener_ticket_limit,
       listener_plus_one: true,
-      staff_ticket_limit: 3,
+      staff_ticket_limit: staff_ticket_limit,
       staff_plus_one: true,
       notes: "contest notes."
     }
