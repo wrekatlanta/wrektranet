@@ -50,6 +50,8 @@ en:
         staff_ticket_limit: 'Staff tickets'
       contest_suggestion:
         date_string: 'Date'
+      psa:
+        expiration_date_string: 'Expiration Date'
     options:
       contest:
         age_limit:
