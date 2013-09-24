@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :venue do
-    name "Variety Playhouse"
+    name { Faker::Name.first_name }
     address {
       Faker::Address.street_address +
         " "  + Faker::Address.city +

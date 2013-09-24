@@ -21,16 +21,18 @@ div ng-controller="adminVenueCtrl" ng-init="venue = #{@venue.to_json(include: :c
           .col-lg-4
             input.form-control type="email" ng-model="contact.email" ng-if="!contact.destroy" required="required"
 
-          .col-lg-1
-            button.btn.btn-danger.btn-block type="button" ng-click="deleteContact(contact)"
-              i.glyphicon.glyphicon-trash
+          .col-lg-6
+            button.btn.btn-danger.delete-contact type="button" ng-click="deleteContact(contact)"
+              i.glyphicon.glyphicon-trash>
+              | Remove Contact
         .form-group
           .col-lg-4
             input.form-control type="email" name="newContactEmail" ng-model="newContact.email" ui-keydown="{'enter':'addContact($event)'}"
 
-          .col-lg-1
-            button.btn.btn-primary.btn-block type="button" ng-click="addContact($event)" ng-disabled="venueForm.newContactEmail.$invalid || newContact.email.length === 0"
-              i.glyphicon.glyphicon-plus
+          .col-lg-6
+            button.btn.btn-primary#addContact type="button" ng-click="addContact($event)" ng-disabled="venueForm.newContactEmail.$invalid || newContact.email.length === 0"
+              i.glyphicon.glyphicon-plus>
+              | Add Contact
 
     .form-group
       .col-lg-offset-2.col-lg-10

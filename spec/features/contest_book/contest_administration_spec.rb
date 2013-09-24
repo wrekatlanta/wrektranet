@@ -64,17 +64,17 @@ feature "Viewing contests" do
 
     # upcoming scope
     FactoryGirl.create(:contest, venue: venue,
-      event: FactoryGirl.create(:event, start_time: today + 1.day + 20.hours))
+      event: FactoryGirl.create(:event, start_time: today + 1.day))
     FactoryGirl.create(:contest, venue: venue,
-      event: FactoryGirl.create(:event, start_time: today + 20.hours))
+      event: FactoryGirl.create(:event, start_time: today))
     FactoryGirl.create(:contest, venue: early_venue,
-      event: FactoryGirl.create(:event, start_time: today + 1.day + 20.hours))
+      event: FactoryGirl.create(:event, start_time: today + 1.day))
 
     # past scope
     FactoryGirl.create(:contest, :sent, venue: venue,
-      event: FactoryGirl.create(:event, start_time: today - 1.day + 20.hours))
+      event: FactoryGirl.create(:event, start_time: today - 1.day))
     FactoryGirl.create(:contest, :sent, venue: early_venue,
-      event: FactoryGirl.create(:event, start_time: today + 20.hours))
+      event: FactoryGirl.create(:event, start_time: today))
   end
 
   scenario "Admin views upcoming contests" do
