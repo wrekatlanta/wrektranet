@@ -39,4 +39,4 @@ div ng-controller="adminVenueCtrl" ng-init="venue = #{@venue.to_json(include: :c
         = f.button :submit, class: 'btn-primary', :'ng-disabled' => 'venueForm.$invalid'
         - if @venue.persisted?
           |  
-          = link_to 'Delete', [:admin, @venue], confirm: 'Are you sure you want to destroy this venue?', method: :delete, class: 'btn btn-danger'
+          = link_to 'Delete', [:admin, @venue], data: { confirm: 'Are you sure you want to destroy this venue?' }, method: :delete, class: 'btn btn-danger'

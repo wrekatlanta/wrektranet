@@ -5,7 +5,8 @@ feature "Contest administration" do
   let!(:early_venue) { FactoryGirl.create(:venue, :send_early, name: "The Masquerade") }
 
   before do
-    login_as FactoryGirl.create(:user, :admin)
+    user = FactoryGirl.create(:user, :admin)
+    login_with user
     visit admin_contests_path
   end
 
@@ -56,8 +57,8 @@ feature "Viewing contests" do
   let!(:venue) { FactoryGirl.create(:venue, name: "Variety Playhouse") }
   let!(:early_venue) { FactoryGirl.create(:venue, :send_early, name: "The Masquerade") }
 
-  before do
-    login_as FactoryGirl.create(:user, :admin)
+  before(:each) do
+    login_with FactoryGirl.create(:user, :admin)
     visit admin_contests_path
 
     today = Time.zone.today.beginning_of_day

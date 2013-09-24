@@ -10,7 +10,6 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 gem 'unicorn'
-gem 'poltergeist'
 
 group :doc do
   gem 'sdoc', require: false
@@ -51,7 +50,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'simplecov', require: false
+  gem 'simplecov', '~> 0.8.0.pre2', require: false
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'rspec-rails'
@@ -59,6 +58,7 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'poltergeist'
   gem 'database_cleaner'
   gem 'email_spec'
   gem 'launchy'

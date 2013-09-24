@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 feature "Venue administration" do
-  let(:user) { FactoryGirl.create(:user, :contest_director) }
+  let(:user) { FactoryGirl.create(:user, :admin) }
 
-  before do
-    login_as user
-
+  before(:each) do
     FactoryGirl.create_list(:venue, 4)
+
+    login_with user
     visit admin_venues_path
   end
 
@@ -16,6 +16,7 @@ feature "Venue administration" do
 
   scenario "Admin creates a new venue", js: true do
     click_link "Add New"
+    current_path.should == new_admin_venue_path
 
     fill_in "Name", with: "Variety Playhouse"
     fill_in "Address", with: "1234 Candy Lane"
@@ -37,10 +38,37 @@ feature "Venue administration" do
 
     click_button "Create Venue"
 
-    venue = Venue.unscoped.last
-    expect(venue.name).to eq "Variety Playhouse"
-    expect(venue.contacts.count).to eq 2
+    expect(page).to have_content("Variety Playhouse created successfully.")
 
     current_path.should == admin_venues_path
+  end
+
+  scenario "Admin removes contacts from venue", js: true do
+    venue = FactoryGirl.create(:venue, name: "Editable Venue")
+    venue_name = venue.name
+    FactoryGirl.create_list(:contact, 3, venue: venue)
+
+    visit edit_admin_venue_path(venue)
+
+    click_button "Remove Contact", match: :first
+    click_button "Remove Contact", match: :first
+
+    click_button "Update Venue"
+    current_path.should == admin_venues_path
+    expect(page).to have_content("#{venue_name} updated successfully.")
+
+    visit edit_admin_venue_path(venue)
+    expect(page).to have_css(".btn-danger", 1)
+  end
+
+  scenario "Admin deletes a venue", js: true do
+    venue = FactoryGirl.create(:venue)
+    venue_name = venue.name
+
+    visit edit_admin_venue_path(venue)
+
+    click_link "Delete"
+    current_path.should == admin_venues_path
+    expect(page).to have_content(venue_name + " deleted successfully.")
   end
 end
