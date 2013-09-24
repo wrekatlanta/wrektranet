@@ -13,5 +13,9 @@ FactoryGirl.define do
     trait :pick_up do
       pick_up true
     end
+
+    trait :sent do
+      sent true
+    end
   end
 end

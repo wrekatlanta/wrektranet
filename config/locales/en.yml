@@ -45,7 +45,7 @@ en:
       defaults:
         start_time_string: 'Start time'
       contest:
-        pick_up: 'Pick up?'
+        pick_up: 'Pick up at WREK?'
         listener_ticket_limit: 'Listener tickets'
         staff_ticket_limit: 'Staff tickets'
       contest_suggestion:

@@ -71,9 +71,9 @@ feature "Viewing contests" do
       event: FactoryGirl.create(:event, start_time: today + 1.day + 20.hours))
 
     # past scope
-    FactoryGirl.create(:contest, venue: venue,
+    FactoryGirl.create(:contest, :sent, venue: venue,
       event: FactoryGirl.create(:event, start_time: today - 1.day + 20.hours))
-    FactoryGirl.create(:contest, venue: early_venue,
+    FactoryGirl.create(:contest, :sent, venue: early_venue,
       event: FactoryGirl.create(:event, start_time: today + 20.hours))
   end
 
@@ -82,6 +82,7 @@ feature "Viewing contests" do
     current_path.should == admin_contests_path
 
     expect(page).to have_selector('td', 3)
+    expect(page).to have_selector('.label-success', 9)
   end
 
   scenario "Admin views past contests" do
@@ -89,5 +90,7 @@ feature "Viewing contests" do
     current_path.should == past_admin_contests_path
 
     expect(page).to have_selector('td', 2)
+    expect(page).to have_selector('.label-success', 4)
+    expect(page).to have_selector('.label-danger', 2)
   end
 end
