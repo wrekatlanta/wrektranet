@@ -1,3 +1,5 @@
+- content_for :title, "Contests"
+
 .page-header
   h1 Contests
 
@@ -16,8 +18,8 @@ table.table.table-striped
     - unless @contests.empty?
       - for contest in @contests do
         tr
-          td = link_to contest.name, edit_admin_contest_path(contest)
-          td = l contest.date, format: :us_time
+          td = link_to contest.event.name, edit_admin_contest_path(contest)
+          td = l contest.event.start_time, format: :us_time
           td = link_to contest.venue.name, edit_admin_venue_path(contest.venue)
           td = contest.listener_ticket_label
           td = contest.staff_ticket_label

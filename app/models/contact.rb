@@ -12,6 +12,5 @@
 class Contact < ActiveRecord::Base
   belongs_to :venue
 
-  validates :email, presence: true,
-            format: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :email, presence: true
 end

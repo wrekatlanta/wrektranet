@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130910211557) do
+ActiveRecord::Schema.define(version: 20130917185454) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,8 +36,6 @@ ActiveRecord::Schema.define(version: 20130910211557) do
   add_index "contest_suggestions", ["user_id"], name: "index_contest_suggestions_on_user_id", using: :btree
 
   create_table "contests", force: true do |t|
-    t.string   "name"
-    t.datetime "date"
     t.integer  "venue_id"
     t.integer  "age_limit"
     t.boolean  "pick_up"
@@ -46,15 +44,31 @@ ActiveRecord::Schema.define(version: 20130910211557) do
     t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "listener_plus_one"
-    t.boolean  "staff_plus_one"
+    t.boolean  "listener_plus_one",      default: false
+    t.boolean  "staff_plus_one",         default: false
     t.datetime "send_time"
-    t.boolean  "sent",                  default: false
+    t.boolean  "sent",                   default: false
     t.integer  "staff_count"
     t.integer  "listener_count"
+    t.integer  "alternate_recipient_id"
   end
 
+  add_index "contests", ["alternate_recipient_id"], name: "index_contests_on_alternate_recipient_id", using: :btree
   add_index "contests", ["venue_id"], name: "index_contests_on_venue_id", using: :btree
+
+  create_table "events", force: true do |t|
+    t.integer  "eventable_id"
+    t.string   "eventable_type"
+    t.string   "name"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.boolean  "all_day",        default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "public",         default: true
+  end
+
+  add_index "events", ["eventable_id", "eventable_type"], name: "index_events_on_eventable_id_and_eventable_type", using: :btree
 
   create_table "listener_tickets", force: true do |t|
     t.string   "name"
@@ -99,7 +113,7 @@ ActiveRecord::Schema.define(version: 20130910211557) do
     t.integer  "user_id"
     t.integer  "contest_id"
     t.integer  "contest_director_id"
-    t.boolean  "awarded"
+    t.boolean  "awarded",             default: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -117,8 +131,8 @@ ActiveRecord::Schema.define(version: 20130910211557) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                              default: "", null: false
-    t.string   "encrypted_password",     limit: 128, default: "", null: false
+    t.string   "email",                              default: "",    null: false
+    t.string   "encrypted_password",     limit: 128, default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -129,13 +143,13 @@ ActiveRecord::Schema.define(version: 20130910211557) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "username",                                        null: false
+    t.string   "username",                                           null: false
     t.string   "phone"
     t.string   "first_name"
     t.string   "last_name"
     t.string   "display_name"
     t.string   "status"
-    t.boolean  "admin"
+    t.boolean  "admin",                              default: false
     t.integer  "buzzcard_id"
     t.integer  "buzzcard_facility_code"
   end

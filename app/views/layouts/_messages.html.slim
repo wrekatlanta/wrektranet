@@ -1,4 +1,4 @@
 - flash.each do |type, msg|
   - if msg.is_a?(String)
-    .alert(class="alert-#{type == :alert ? :info : type}")
+    .alert(class="alert-#{[:notice, :alert].include?(type) ? :info : type}")
       = msg

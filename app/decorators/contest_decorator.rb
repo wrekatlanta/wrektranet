@@ -1,5 +1,6 @@
 class ContestDecorator < ApplicationDecorator
   delegate_all
+  #decorates_association :staff_tickets, with: StaffTicketDecorator
 
   def row_class
     fraction_class(
@@ -30,23 +31,23 @@ class ContestDecorator < ApplicationDecorator
   def staff_ticket_label
     label_class = fraction_class(
       object.staff_ticket_limit,
-      object.staff_tickets.size
+      object.staff_count
     )
 
     h.content_tag :span, class: "label label-#{label_class}" do
-      "#{object.staff_tickets.size}/#{object.staff_ticket_limit}"
+      "#{object.staff_count}/#{object.staff_ticket_limit}"
     end
   end
 
   def sent_label
-    label_class = object.sent ? 'label-danger' : 'label-success'
+    label_class = object.sent ? 'success' : 'danger'
     h.content_tag :span, class: "label label-#{label_class}" do
       object.sent ? 'Yes' : 'No'
     end
   end
 
   private
-    def fraction_class(amount, total)
+    def fraction_class(amount, total=0)
       if amount == 0
         'success'
       elsif amount < total

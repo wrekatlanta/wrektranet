@@ -1,0 +1,33 @@
+- content_for :title, "Signup"
+
+.page-header
+  h1 Signup
+
+= render 'navigation'
+
+table.table.table-striped ng-controller="staffSignupCtrl" ng-init="contests = #{@contests.to_json(include: [:venue, :event])}"
+  thead
+    tr
+      th Event
+      th Time
+      th Venue
+      th Remaining
+      th
+  tbody.ng-cloak
+    - unless @contests.empty?
+      tr ng-repeat="contest in contests"
+        td
+          a href="/air/contests/{{contest.id}}"
+            | {{contest.event.name}}
+        td = "{{contest.event.start_time | date:'short' }}"
+        td = "{{contest.venue.name}}"
+        td = "{{contest.staff_ticket_limit - contest.staff_count}}"
+        td
+          div ng-hide="{{(contest.staff_ticket_limit - contest.staff_count) === 0}}"
+            button.btn.btn-primary.btn-xs type="button" ng-click="signup(contest)" ng-disabled="contest.signed_up"
+              i.glyphicon ng-class="{'glyphicon-ok': contest.signed_up, 'glyphicon-plus': !contest.signed_up}"
+    - else
+      tr
+        td colspan="5" There are currently no tickets you can sign up for.
+
+= will_paginate @contests, renderer: BootstrapPagination::Rails, bootstrap: 3

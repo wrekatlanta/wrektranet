@@ -2,7 +2,9 @@
 
 angular.module("wrektranet.controllers", [
   "wrektranet.adminVenueCtrl",
-  "wrektranet.airContestCtrl"
+  "wrektranet.airContestCtrl",
+  "wrektranet.staffSignupCtrl",
+  "wrektranet.adminTicketCtrl"
 ]);
 
 angular.module("wrektranet", [

@@ -21,7 +21,7 @@
 #  last_name              :string(255)
 #  display_name           :string(255)
 #  status                 :string(255)
-#  admin                  :boolean
+#  admin                  :boolean          default(FALSE)
 #  buzzcard_id            :integer
 #  buzzcard_facility_code :integer
 #
@@ -42,12 +42,12 @@ class User < ActiveRecord::Base
   end
 
   has_many :staff_tickets, dependent: :destroy
+  has_many :contests, through: :staff_tickets
   has_many :listener_tickets
   has_many :contest_suggestions, dependent: :destroy
 
   validates :phone,      format: /[\(\)0-9\- \+\.]{10,20}/, allow_blank: true
-  validates :email,      presence: true, uniqueness: true,
-                         format: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  validates :email,      presence: true, uniqueness: true
   validates :first_name, presence: true
   validates :last_name,  presence: true
   validates :username,   presence: true, format: /[a-zA-Z]{2,8}/,
