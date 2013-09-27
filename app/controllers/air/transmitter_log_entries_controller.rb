@@ -18,6 +18,7 @@ class Air::TransmitterLogEntriesController < Air::BaseController
   end
 
   def update
+    puts transmitter_log_entry_params
     if @transmitter_log_entry.update(transmitter_log_entry_params)
       redirect_to air_transmitter_log_entries_path, success: "Successfully updated the transmitter log."
     else
@@ -32,7 +33,7 @@ class Air::TransmitterLogEntriesController < Air::BaseController
 
   private
     def transmitter_log_entry_params
-      params.permit(:automation_in, :automation_out, :sign_out)
+      params.require(:transmitter_log_entry).permit(:automation_in, :automation_out, :sign_out)
     end
 
 end

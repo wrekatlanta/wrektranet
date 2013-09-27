@@ -10,6 +10,7 @@ table.table.table-striped
       th Automation?
       th Sign In
       th Automation?
+      th Time Out
       th Sign Out
   tbody
     - unless @tlogs.empty?
@@ -18,21 +19,10 @@ table.table.table-striped
           td = link_to tlog.user.username, air_transmitter_log_entry_path(tlog)
           td = tlog.automation_in
           td = tlog.sign_in
-          td = tlog.automation_out
-          - if tlog.sign_out.nil? 
-            td 
-              button.btn.btn-warning Logout       
-          - else 
-            td = tlog.sign_out
-    
-    tr
-      td = current_user.username
-      form method="POST" action=air_transmitter_log_entries_path
-        td 
-          input type="checkbox" name="automation_in"
-        td 
-          button.btn.btn-success type="submit"
-            | Sign In
-          = token_tag
-      td
-      td
+          = simple_form_for [:air, tlog], html: {name: 'transmitterLogEntryForm', class: 'form-inline'} do |f|
+            td
+              = f.input_field :automation_out, input_html: { class: 'form-control' }
+            td
+              = f.input_field :sign_out, input_html: { class: 'form-control' }
+            td
+              = f.button :submit, 'Sign Out', class: 'btn-primary'
