@@ -5,3 +5,4 @@
   - if devise_mapping.rememberable?
     = f.input_field :remember_me, as: :boolean, inline_label: 'Remember me'
   = f.button :submit, "Sign in", class: 'btn-lg btn-primary btn-block'
+  = link_to "Sign in with Google", user_omniauth_authorize_path(:google_apps), class: 'btn btn-lg btn-success btn-block'
