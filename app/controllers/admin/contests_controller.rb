@@ -53,7 +53,7 @@ class Admin::ContestsController < Admin::BaseController
       params.require(:contest).permit(
         :venue_id, :alternate_recipient_id,
         :age_limit, :listener_ticket_limit, :listener_plus_one,
-        :staff_ticket_limit, :staff_plus_one,
+        :pick_up, :staff_ticket_limit, :staff_plus_one,
         :notes, event_attributes: [:name, :start_time_string, :public]
       )
     end

@@ -36,7 +36,7 @@ class StaffTicket < ActiveRecord::Base
 
   validates :contest, presence: :true
   validates_uniqueness_of :user_id, scope: [:contest_id]
-  validate :ticket_count_within_limit, on: :create
+  validate :ticket_count_within_limit, on: :update
 
   private
     def ticket_count_within_limit
