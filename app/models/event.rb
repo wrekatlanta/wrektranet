@@ -18,9 +18,9 @@ class Event < ActiveRecord::Base
   belongs_to :eventable, polymorphic: true
 
   validates :name, presence: true
-  validate :start_time_string_is_date
   validates :start_time, presence: true
-  #validate :end_time_string_is_date, unless: -> { self.end_time.blank? }
+  validate :start_time_string_is_date
+  validate :end_time_string_is_date, unless: -> { self.end_time.blank? }
 
   def start_time_string
     @start_time_string || self.try(:start_time).try(:strftime, "%-m/%-d/%y %-l:%M %p")

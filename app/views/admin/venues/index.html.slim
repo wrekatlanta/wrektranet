@@ -10,7 +10,6 @@ table.table.table-striped
     tr
       th Venue
       th Contacts
-      th Fax
       th Address
   tbody
     - unless @venues.empty?
@@ -18,7 +17,6 @@ table.table.table-striped
         tr
           td = link_to venue.name, edit_admin_venue_path(venue)
           td = venue.contacts.map(&:email).join(', ')
-          td = venue.fax
           td = simple_format(venue.address)
     - else
       tr

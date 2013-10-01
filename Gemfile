@@ -19,10 +19,11 @@ gem 'bootstrap-sass', git: 'git://github.com/thomas-mcdonald/bootstrap-sass.git'
 gem 'active_link_to'
 gem 'cancan'
 gem 'devise', '~> 3.0.x'
-gem 'devise_ldap_authenticatable', '~> 0.8.x'
+gem 'omniauth'
+gem 'omniauth-google-apps'
 gem 'figaro'
 gem 'pg'
-gem 'rolify'
+gem 'rolify', '~> 3.3.0.rc4'
 gem 'draper', '~> 1.0'
 gem 'simple_form', git: 'git://github.com/plataformatec/simple_form.git'
 gem 'will_paginate', '~> 3.0'
@@ -34,7 +35,7 @@ group :development do
   gem 'unicorn-rails'
   gem 'better_errors'
   gem 'annotate', '>= 2.5.0'
-  gem 'binding_of_caller', platforms: [:mri_19, :rbx]
+  gem 'binding_of_caller'
   gem 'guard-bundler'
   gem 'guard-cucumber'
   gem 'guard-rails'
@@ -50,7 +51,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'simplecov', require: false
+  gem 'simplecov', '~> 0.8.0.pre2', require: false
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'rspec-rails'
@@ -58,7 +59,7 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'cucumber-rails', require: false
+  gem 'poltergeist'
   gem 'database_cleaner'
   gem 'email_spec'
   gem 'launchy'
