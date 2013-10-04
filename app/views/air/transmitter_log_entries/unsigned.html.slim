@@ -3,26 +3,21 @@
 
 = render 'navigation'
 
-table.table.table-striped
+table.table.table-striped ng-controller="airTransmitterLogCtrl" ng-init="tlogs = #{@tlogs.to_json({include: :user})}" ng-cloak="ng-cloak"
   thead
     tr
       th Op Initials
       th Automation?
       th Sign In
       th Automation?
-      th Time Out
       th Sign Out
   tbody
-    - unless @tlogs.empty?
-      - for tlog in @tlogs do
-        tr
-          td = link_to tlog.user.username, air_transmitter_log_entry_path(tlog)
-          td = tlog.automation_in
-          td = tlog.sign_in
-          = simple_form_for [:air, tlog], html: {name: 'transmitterLogEntryForm', class: 'form-inline'} do |f|
-            td
-              = f.input_field :automation_out, input_html: { class: 'form-control' }
-            td
-              = f.input_field :sign_out, input_html: { class: 'form-control' }
-            td
-              = f.button :submit, 'Sign Out', class: 'btn-primary'
+    tr ng-repeat="tlog in tlogs | orderBy:'sign_in'"
+      td = "{{tlog.user.username}}"
+      td = "{{tlog.automation_in}}"
+      td = "{{tlog.sign_in | date:'HH:mm'}}"
+      td ng-if="tlog.user.username == '#{current_user.username}' && !tlog.sign_out"
+        input type="checkbox" ng-model="tlog.automation_out"
+      td ng-if="tlog.user.username == '#{current_user.username}' && !tlog.sign_out"
+        time-picker time="time_out"
+        button.btn.btn-warning.btn-xs ng-click="signOut(tlog, time_out)" Sign Out

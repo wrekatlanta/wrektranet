@@ -27,10 +27,12 @@ angular.module("wrektranet.airTransmitterLogCtrl", [])
     $scope.signOut = function(tlog, time_out) {
       var tlog_entry = Restangular.
         restangularizeElement(null, tlog, 'transmitter_log_entries');
-      tlog.sign_out = time_out;
-      tlog_entry.put();
-      console.log("sign_out", tlog);
 
+      tlog.sign_out = time_out;
+      
+      tlog_entry.put().then(function() {
+        $scope.updateLogs();
+      });
     };
 
     $scope.newLog = function(new_log) {
