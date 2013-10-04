@@ -21,11 +21,10 @@ class Air::TransmitterLogEntriesController < Air::BaseController
   end
 
   def update
-    puts transmitter_log_entry_params
     if @transmitter_log_entry.update(transmitter_log_entry_params)
-      redirect_to air_transmitter_log_entries_path, success: "Successfully updated the transmitter log."
+      respond_with @transmitter_log_entry, success: "Successfully updated the transmitter log."
     else
-      redirect_to unsigned_air_transmitter_log_entries_path, error: "Could not update the Transmitter Log."
+      respond_with @transmitter_log_entry, error: "Could not update the Transmitter Log."
     end
   end
 

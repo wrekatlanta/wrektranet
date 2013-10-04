@@ -12,7 +12,7 @@ angular.module("wrektranet.airTransmitterLogCtrl", [])
       var time = new Date();
 
       $scope.new_log = {
-        'sign_in': time.getHours() + ':' + Math.floor(time.getMinutes()/10)*10
+        'sign_in': time.getHours() + ':' + Math.floor(time.getMinutes()/10)*10,
       };
     };
 
@@ -24,8 +24,13 @@ angular.module("wrektranet.airTransmitterLogCtrl", [])
       });
     };
 
-    $scope.signOut = function(tlog) {
-      console.log("sign_out");
+    $scope.signOut = function(tlog, time_out) {
+      var tlog_entry = Restangular.
+        restangularizeElement(null, tlog, 'transmitter_log_entries');
+      tlog.sign_out = time_out;
+      tlog_entry.put();
+      console.log("sign_out", tlog);
+
     };
 
     $scope.newLog = function(new_log) {
@@ -83,9 +88,11 @@ angular.module("wrektranet.airTransmitterLogCtrl", [])
 
       // Once model defaulted to current time, update the selectors.
       scope.$watch('time', function(newVal, oldVal) {
-        var hours_and_mins = newVal.split(':');
-        hour.prop('selectedIndex', Number(hours_and_mins[0]));
-        minute.prop('selectedIndex', Number(hours_and_mins[1])/10);
+        if (newVal) {
+          var hours_and_mins = newVal.split(':');
+          hour.prop('selectedIndex', Number(hours_and_mins[0]));
+          minute.prop('selectedIndex', Number(hours_and_mins[1])/10);  
+        }
       });
     }    
   };
