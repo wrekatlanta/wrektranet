@@ -3,7 +3,7 @@
 
 = render 'navigation'
 
-table.table.table-striped ng-controller="airTransmitterLogCtrl" ng-init="tlogs = #{@tlogs.to_json}"
+table.table.table-striped ng-controller="airTransmitterLogCtrl" ng-init="tlogs = #{@tlogs.to_json}" ng-cloak="ng-cloak"
   thead
     tr
       th Op Initials
@@ -17,6 +17,19 @@ table.table.table-striped ng-controller="airTransmitterLogCtrl" ng-init="tlogs =
       td = "{{tlog.automation_in}}"
       td = "{{tlog.sign_in}}"
       td = "{{tlog.automation_out}}"
-      td ng-if="if tlog.user.username == #{@current_user.username}"
-        button.btn.btn-success type="submit" ng-click="signOut(tlog)" Sign In
-      td ng-if="if tlog.user.username != #{@current_user.username}" = "{{tlog.sign_out}}"
+      td
+      / td ng-if="if tlog.user.username == #{@current_user.username}"
+        /button.btn.btn-success type="submit" ng-click="signOut(tlog)" Sign Out
+      / td ng-if="if tlog.user.username != #{@current_user.username}" = "{{tlog.sign_out}}"
+
+    tr
+      td = current_user.username
+      td
+        input type="checkbox" ng-model="new_log.automation_in"
+      td 
+        / select ng-model="new_log.sign_in_hour" ng-options=""
+        time-picker time="new_log.sign_in"
+        button.btn.btn-success.btn-xs ng-click="newLog(new_log)" Sign In
+      td = "{{new_log.sign_in}}"
+      td
+

@@ -1,20 +1,23 @@
 class Air::TransmitterLogEntriesController < Air::BaseController
-  load_and_authorize_resource except: [:delete]
+  respond_to :json, :html
+
+  load_and_authorize_resource :transmitter_log_entry, except: [:delete, :create]
 
   def index
     @tlogs = TransmitterLogEntry.today
+
+    respond_with @tlogs, include: :user
   end
 
   def create
     @tlog = TransmitterLogEntry.new(transmitter_log_entry_params)
-    @tlog.user = current_user
-    @tlog.sign_in = Time.zone.now
+    authorize! :create, @tlog
 
-    if @tlog.save
-      redirect_to air_transmitter_log_entries_path, success: "You have signed in."
-    else
-      redirect_to air_transmitter_log_entries_path, error: "Something has gone awry."
-    end
+    @tlog.user = current_user
+    
+    @tlog.save
+
+    respond_with :air, @tlog
   end
 
   def update
@@ -33,7 +36,7 @@ class Air::TransmitterLogEntriesController < Air::BaseController
 
   private
     def transmitter_log_entry_params
-      params.require(:transmitter_log_entry).permit(:automation_in, :automation_out, :sign_out)
+      params.require(:transmitter_log_entry).permit(:sign_in, :automation_in, :automation_out, :sign_out)
     end
 
 end
