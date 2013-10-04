@@ -3,7 +3,7 @@
 
 = render 'navigation'
 
-table.table.table-striped
+table.table.table-striped ng-controller="airTransmitterLogCtrl" ng-init="tlogs = #{@tlogs.to_json}"
   thead
     tr
       th Op Initials
@@ -12,29 +12,11 @@ table.table.table-striped
       th Automation?
       th Sign Out
   tbody
-    - unless @tlogs.empty?
-      - for tlog in @tlogs do
-        tr
-          td = link_to tlog.user.username, air_transmitter_log_entry_path(tlog)
-          td = tlog.automation_in
-          td = tlog.sign_in
-          td = tlog.automation_out
-          - if tlog.sign_out.nil? and tlog == @tlogs.last and tlog.user == current_user
-            td 
-              button.btn.btn-warning Logout
-          - elsif tlog.sign_out.nil?
-            td No Sign Out!          
-          - else 
-            td = tlog.sign_out
-    
-    tr
-      td = current_user.username
-      form method="POST" action=air_transmitter_log_entries_path
-        td 
-          input type="checkbox" name="automation_in"
-        td 
-          button.btn.btn-success type="submit"
-            | Sign In
-          = token_tag
-      td
-      td
+    tr ng-repeat="tlog in tlogs"
+      td = "{{tlog.user.username}}"
+      td = "{{tlog.automation_in}}"
+      td = "{{tlog.sign_in}}"
+      td = "{{tlog.automation_out}}"
+      td ng-if="if tlog.user.username == #{@current_user.username}"
+        button.btn.btn-success type="submit" ng-click="signOut(tlog)" Sign In
+      td ng-if="if tlog.user.username != #{@current_user.username}" = "{{tlog.sign_out}}"
