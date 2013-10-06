@@ -77,16 +77,6 @@ class Contest < ActiveRecord::Base
     self.send_time = self.event.start_time.beginning_of_day - self.venue.send_day_offset.days + self.venue.send_hour.hours
   end
 
-  def self.send_contests(hour = Time.zone.now.hour)
-    time = Time.zone.now.beginning_of_day + hour.hours
-
-    self.sendable(time).each do |contest|
-      ContestMailer.ticket_email(contest).deliver
-      contest.sent = true
-      contest.save
-    end
-  end
-
   private
     def set_default_values
       self.listener_ticket_limit ||= 0
