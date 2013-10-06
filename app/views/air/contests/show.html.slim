@@ -1,20 +1,20 @@
-- content_for :title, "Contest: #{@contest.name}"
+- content_for :title, "Contest: #{@contest.event.name}"
 
 .page-header
-  h1 = @contest.name
+  h1 = @contest.event.name
 
 .row
   .col-lg-6
     dl.dl-horizontal.lead
       dt What
-      dd = @contest.name
+      dd = @contest.event.name
       dt Where
       dd = @contest.venue.name
       dt When
       dd
-        = l @contest.date, format: :contest_date
+        = l @contest.event.start_time, format: :contest_date
         br
-        = l @contest.date, format: :short
+        = l @contest.event.start_time, format: :short
       dt Listeners
       dd
         = pluralize(@contest.listener_ticket_limit, @contest.listener_ticket_type)

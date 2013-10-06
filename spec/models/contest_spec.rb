@@ -2,83 +2,137 @@
 #
 # Table name: contests
 #
-#  id                    :integer          not null, primary key
-#  name                  :string(255)
-#  date                  :datetime
-#  venue_id              :integer
-#  age_limit             :integer
-#  pick_up               :boolean
-#  listener_ticket_limit :integer
-#  staff_ticket_limit    :integer
-#  notes                 :text
-#  created_at            :datetime
-#  updated_at            :datetime
-#  listener_plus_one     :boolean
-#  staff_plus_one        :boolean
-#  send_time             :datetime
-#  sent                  :boolean
+#  id                     :integer          not null, primary key
+#  venue_id               :integer
+#  age_limit              :integer
+#  pick_up                :boolean
+#  listener_ticket_limit  :integer
+#  staff_ticket_limit     :integer
+#  notes                  :text
+#  created_at             :datetime
+#  updated_at             :datetime
+#  listener_plus_one      :boolean          default(FALSE)
+#  staff_plus_one         :boolean          default(FALSE)
+#  send_time              :datetime
+#  sent                   :boolean          default(FALSE)
+#  staff_count            :integer
+#  listener_count         :integer
+#  alternate_recipient_id :integer
 #
 
 require 'spec_helper'
 
 describe Contest do
+  let(:venue) { FactoryGirl.create(:venue) }
+  let(:alternate_recipient) { FactoryGirl.create(:venue) }
+  let(:event) {
+    FactoryGirl.create(
+      :event,
+      start_time: Time.zone.today.beginning_of_day + 1.day + 17.hours
+    )
+  }
+  let(:staff_ticket_limit) { 3 }
+  let(:listener_ticket_limit) { 3 }
+
   it "has a valid factory" do
     FactoryGirl.create(:contest).should be_valid
   end
 
-  it "is invalid without a name" do
-    FactoryGirl.build(:contest, name: nil).should_not be_valid
+  before do
+    contest_attrs = {
+      event: event,
+      age_limit: 18,
+      listener_ticket_limit: listener_ticket_limit,
+      listener_plus_one: true,
+      staff_ticket_limit: staff_ticket_limit,
+      staff_plus_one: true,
+      notes: "contest notes."
+    }
+
+    @contest = venue.contests.new(contest_attrs)
   end
 
-  it "is invalid without a date" do
-    FactoryGirl.build(:contest, date: nil).should_not be_valid
-  end
+  subject { @contest }
 
-  it "is invalid with a negative amount of listener tickets" do
-    FactoryGirl.build(:contest, listener_ticket_limit: -1).should_not be_valid
-  end
-
-  it "is invalid with a negative amount of staff tickets" do
-    FactoryGirl.build(:contest, staff_ticket_limit: -1).should_not be_valid
-  end
-
-  describe "staff ticket limit" do
-    subject { FactoryGirl.create(:contest, staff_ticket_limit: 3) }
-
-    it "should be valid under the limit" do
-      subject.staff_tickets << FactoryGirl.build_list(:staff_ticket, 3, :awarded, contest: subject)
-      subject.should be_valid
-    end
-
-    it "is invalid over the limit" do
-      subject.staff_tickets << FactoryGirl.create_list(:staff_ticket, 4, contest: subject)
-      subject.staff_tickets << FactoryGirl.create_list(:staff_ticket, 3, :awarded, contest: subject)
-      staff_ticket = FactoryGirl.build(:staff_ticket, :awarded, contest: subject)
-      staff_ticket.should_not be_valid
+  describe "#age_limit" do
+    context "not present" do
+      before { @contest.age_limit = nil }
+      it { should_not be_valid }
     end
   end
 
-  describe "listener ticket limit" do
-    subject { FactoryGirl.create(:contest, listener_ticket_limit: 3) }
-
-    it "should be valid under the limit" do
-      subject.listener_tickets << FactoryGirl.build_list(:listener_ticket, 3)
-      subject.should be_valid
-    end
-
-    it "is invalid over the limit" do
-      subject.listener_tickets << FactoryGirl.create_list(:listener_ticket, 3, contest: subject)
-      subject.listener_tickets.size.should eq 3
-
-      listener_ticket = FactoryGirl.build(:listener_ticket, contest: subject)
-      listener_ticket.should_not be_valid
+  describe "#listener_ticket_limit" do
+    context "below 0" do
+      before { @contest.listener_ticket_limit = -1 }
+      it { should_not be_valid }
     end
   end
 
-  describe "#send_time" do
+  describe "#staff_ticket_limit" do
+    context "below 0" do
+      before { @contest.staff_ticket_limit = -1 }
+      it { should_not be_valid }
+    end
+  end
+
+  describe "#update_send_time" do
     let(:venue) { FactoryGirl.create(:venue, send_day_offset: 2, send_hour: 17) }
-    subject { FactoryGirl.create(:contest, date: Time.zone.today.beginning_of_day + 1.day + 17.hours, venue: venue) }
 
-    its(:send_time) { should eq (Time.zone.today.beginning_of_day + 1.day - 2.days + 17.hours) }
+    before do
+      @contest.venue = venue
+      @contest.save
+    end
+
+    context "#before_save" do
+      its(:send_time) {
+        should eq (Time.zone.today.beginning_of_day + 1.day - 2.days + 17.hours)
+      }
+    end
+
+    context "after venue changes" do
+      before do
+        venue.send_day_offset = 0
+        venue.send_hour = 15
+        venue.save
+      end
+
+      its(:send_time) {
+        should eq (Time.zone.today.beginning_of_day + 1.day + 15.hours)
+      }
+    end
+  end
+
+  describe "#announceable?" do
+    context "before contest has been sent" do
+      context "when send time is at least today" do
+        before { @contest.update_send_time }
+        its(:announceable?) { should be_true }
+      end
+
+      context "when send time is before today" do
+        before do
+          @contest.event.start_time = Time.zone.today.beginning_of_day - 1.day
+          @contest.update_send_time
+        end
+
+        its(:announceable?) { should be_false }
+      end
+    end
+
+    context "after contest has been sent" do
+      before { @contest.sent = true }
+      its(:announceable?) { should be_false }
+    end
+  end
+
+  describe "#recipient" do
+    context "with no alternate recipient" do
+      its(:recipient) { should eq venue }
+    end
+
+    context "with an alternate recipient" do
+      before { @contest.alternate_recipient = alternate_recipient }
+      its(:recipient) { should eq alternate_recipient }
+    end
   end
 end

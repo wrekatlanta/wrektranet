@@ -23,7 +23,7 @@ class Admin::ContestsController < Admin::BaseController
     authorize! :create, @contest
 
     if @contest.save
-      redirect_to admin_contests_path, success: "#{@contest.name} created successfully."
+      redirect_to admin_contests_path, success: "#{@contest.event.name} created successfully."
     else
       render :new
     end
@@ -34,7 +34,7 @@ class Admin::ContestsController < Admin::BaseController
 
   def update
     if @contest.update_attributes(contest_params)
-      redirect_to admin_contests_path, success: "#{@contest.name} updated successfully."
+      redirect_to admin_contests_path, success: "#{@contest.event.name} updated successfully."
     else
       render :edit
     end
@@ -42,7 +42,7 @@ class Admin::ContestsController < Admin::BaseController
 
   def destroy
     if @contest.destroy
-      redirect_to admin_contests_path, success: "#{@contest.name} deleted successfully."
+      redirect_to admin_contests_path, success: "#{@contest.event.name} deleted successfully."
     else
       render :edit
     end
@@ -51,10 +51,10 @@ class Admin::ContestsController < Admin::BaseController
   private
     def contest_params
       params.require(:contest).permit(
-        :name, :date_string, :venue_id, :alternate_recipient_id,
+        :venue_id, :alternate_recipient_id,
         :age_limit, :listener_ticket_limit, :listener_plus_one,
-        :staff_ticket_limit, :staff_plus_one,
-        :notes
+        :pick_up, :staff_ticket_limit, :staff_plus_one,
+        :notes, event_attributes: [:name, :start_time_string, :public]
       )
     end
 end

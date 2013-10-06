@@ -1,8 +1,10 @@
 - defaults = {input_wrapper_html: {class: 'col-lg-6'}, label_html: {class: 'col-lg-2'}}
 
 = simple_form_for [:admin, @contest], html: {name: 'contestForm', class: 'form-horizontal'}, defaults: defaults do |f|
-  = f.input :name, input_html: { class: 'form-control' }
-  = f.input :date_string, input_html: { class: 'form-control' }, required: true
+  = f.simple_fields_for :event_attributes, (@contest.event || @contest.build_event) do |e|
+    = e.input :name, input_html: { class: 'form-control' }
+    = e.input :start_time_string, input_html: { class: 'form-control' }, required: true
+    = e.input :public, as: :boolean
   = f.association :venue, include_blank: false, input_html: { class: 'form-control' }
   = f.association :alternate_recipient, include_blank: true, input_html: { class: 'form-control' }
   = f.input :age_limit, collection: [:'0', :'18', :'21'], include_blank: false, input_html: { class: 'form-control' }
@@ -12,8 +14,10 @@
       .row
         .col-lg-2
           = f.input_field :listener_ticket_limit, class: 'form-control'
-        .col-lg-6
+        .col-lg-1
           = f.input_field :listener_plus_one, as: :boolean, inline_label: '+1'
+        .col-lg-5
+          = f.input_field :pick_up, as: :boolean, inline_label: 'Pick up at station?'
   .form-group
     = f.label 'Staff Tickets', class: 'col-lg-2'
     .col-lg-10
@@ -28,4 +32,4 @@
       = f.button :submit, class: 'btn-primary'
       - if @contest.persisted?
         |  
-        = link_to 'Delete', [:admin, @contest], confirm: 'Are you sure you want to destroy this contest?', method: :delete, class: 'btn btn-danger'
+        = link_to 'Delete', [:admin, @contest], data: { confirm: 'Are you sure you want to destroy this contest?' }, method: :delete, class: 'btn btn-danger'

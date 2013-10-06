@@ -8,7 +8,7 @@ FactoryGirl.define do
 
     trait :awarded do
       awarded true
-      contest_director
+      user
     end
   end
 end

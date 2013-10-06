@@ -1,9 +1,9 @@
 - content_for :teaser do
-  span WREK ticket winners for #{@contest.name}
+  span WREK ticket winners for #{@contest.event.name}
 
 - content_for :content do
   h1 Ticket Winners
-  p Hello! Here are our contest winners for <strong>#{@contest.name}</strong>!
+  p Hello! Here are our contest winners for <strong>#{@contest.event.name}</strong>!
 
   - unless @contest.listener_tickets.empty?
     h3 Callers:

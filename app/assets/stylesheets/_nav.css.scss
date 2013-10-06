@@ -21,6 +21,7 @@
     }
 
     > li.active {
+      font-weight: bold;
       background-color: lighten($brand-primary, 40%);
       border-right: 1px solid $brand-primary;
     }

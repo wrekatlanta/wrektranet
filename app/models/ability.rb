@@ -30,22 +30,24 @@ class Ability
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
     # basic permissions
-    can [:read, :write], ContestSuggestion
-    can [:read, :write], StaffTicket
-    can :manage, ListenerTicket, contest: {sent: false}
+    unless user.blank?
+        can [:read, :write], ContestSuggestion
+        can [:read, :write], StaffTicket
+        can :manage, ListenerTicket, contest: {sent: false}
 
-    can :read, :all
+        can :read, :all
 
-    # admin
-    if user.admin?
-      can :manage, :all
-    end
+        # admin
+        if user.admin?
+          can :manage, :all
+        end
 
-    # contest director
-    if user.has_role? :contest_director
-      can :manage, Contest
-      can :manage, Venue
-      can :manage, StaffTicket
+        # contest director
+        if user.has_role? :contest_director
+          can :manage, Contest
+          can :manage, Venue
+          can :manage, StaffTicket
+        end
     end
   end
 end

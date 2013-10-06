@@ -9,7 +9,7 @@ form.form-horizontal
     .col-lg-4
       input.form-control#ticketFilter type="text" ng-model="filter"
 
-table.table.table-striped ng-controller="adminTicketListCtrl" ng-init="tickets = #{@staff_tickets.to_json(include: [:user, {contest: {include: :venue}}])}"
+table.table.table-striped ng-controller="adminTicketListCtrl" ng-init="tickets = #{@staff_tickets.to_json(include: [:user, {contest: {include: [:venue, :event]}}])}"
   thead
     tr
       th User
@@ -17,22 +17,23 @@ table.table.table-striped ng-controller="adminTicketListCtrl" ng-init="tickets =
       th Time
       th Venue
       th Signup Time
-      th
+      th style="width: 10%;"
   tbody.ng-cloak
     - unless @staff_tickets.empty?
       tr ng-repeat="ticket in tickets | filter:filter" ng-controller="adminTicketCtrl"
         td = "{{ticket.user.username}}"
         td
           a href="/admin/contests/{{ticket.contest.id}}/edit"
-            | {{ticket.contest.name}}
-        td = "{{ticket.contest.date | date:'short'}}"
+            | {{ticket.contest.event.name}}
+        td = "{{ticket.contest.event.start_time | date:'short'}}"
         td = "{{ticket.contest.venue.name}}"
         td = "{{ticket.created_at | date:'short'}}"
-        td
+        td.text-right
           span ng-switch="ticket.awarded"
             span ng-switch-when="true"
               button.btn.btn-xs.btn-danger ng-click="unaward(ticket)"
-                i.glyphicon.glyphicon-remove
+                i.glyphicon.glyphicon-remove>
+                | Revoke
             span ng-switch-default=true
               span ng-switch="isContestFull()"
                 span ng-switch-when="true"
@@ -40,7 +41,8 @@ table.table.table-striped ng-controller="adminTicketListCtrl" ng-init="tickets =
                     i.glyphicon.glyphicon-ban-circle
                 span ng-switch-default=true
                   button.btn.btn-xs.btn-primary ng-click="award(ticket)"
-                    i.glyphicon.glyphicon-plus
+                    i.glyphicon.glyphicon-plus>
+                    | Award 
     - else
       tr
         td colspan="6" No results were found.
