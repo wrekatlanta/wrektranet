@@ -11,6 +11,7 @@ class Air::TransmitterLogEntriesController < Air::BaseController
 
   def create
     @tlog = TransmitterLogEntry.new(transmitter_log_entry_params)
+    # Workaround due to cancan bug in load_and_authorize_resource stepping on strong params toes
     authorize! :create, @tlog
 
     @tlog.user = current_user
