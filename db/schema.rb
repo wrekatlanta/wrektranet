@@ -175,7 +175,6 @@ ActiveRecord::Schema.define(version: 20131008195827) do
 
   create_table "venues", force: true do |t|
     t.string   "name"
-    t.string   "fax"
     t.string   "address"
     t.integer  "send_day_offset"
     t.text     "notes"

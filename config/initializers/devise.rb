@@ -203,4 +203,12 @@ Devise.setup do |config|
   #   manager.intercept_401 = false
   #   manager.default_strategies(:scope => :user).unshift :some_external_strategy
   # end
+
+  # Google Apps Single Sign On
+  require 'openid/store/filesystem'
+
+  config.omniauth :google_apps, {
+    store: OpenID::Store::Filesystem.new('/tmp'),
+    domain: 'wrek.org'
+  }
 end

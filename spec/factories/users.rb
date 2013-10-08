@@ -5,9 +5,9 @@ FactoryGirl.define do
     result
   end
 
-  factory :user, aliases: [:contest_director] do
+  factory :user do
     email { Faker::Internet.email }
-    username
+    username { Faker::Internet.user_name }
     password "password"
     password_confirmation "password"
     first_name { Faker::Name.first_name }
@@ -18,6 +18,10 @@ FactoryGirl.define do
 
     trait :admin do
       admin true
+    end
+
+    trait :contest_director do
+      after(:create) {|user| user.add_role(:contest_director)}
     end
   end
 end
