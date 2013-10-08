@@ -15,7 +15,7 @@ class TransmitterLogEntry < ActiveRecord::Base
       if not self.sign_out.nil?
 
         if self.sign_out.time < self.sign_in.time
-          self.sign_out = self.sign_out.change(day: self.sign_in.day + 1, month: self.sign_in.month, year: self.sign_in.year)
+          self.sign_out = self.sign_out.change(day: self.sign_in.tomorrow.day, month: self.sign_in.month, year: self.sign_in.year)
         else
           self.sign_out = self.sign_out.change(day: self.sign_in.day, month: self.sign_in.month, year: self.sign_in.year)
         end
