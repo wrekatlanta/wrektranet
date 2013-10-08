@@ -12,7 +12,7 @@ class TransmitterLogEntry < ActiveRecord::Base
 
   private
     def set_expiration_time
-      if not self.sign_out.nil?
+      if not self.sign_out.nil? and not self.sign_in.nil?
 
         if self.sign_out.time < self.sign_in.time
           self.sign_out = self.sign_out.change(day: self.sign_in.tomorrow.day, month: self.sign_in.month, year: self.sign_in.year)
