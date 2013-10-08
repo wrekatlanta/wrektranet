@@ -11,7 +11,9 @@ Wrek::Application.routes.draw do
     end
 
     resources :transmitter_log_entries do
-      get 'unsigned', on: :collection
+      collection do
+        get 'unsigned'
+      end
     end
     
     resources :psas do

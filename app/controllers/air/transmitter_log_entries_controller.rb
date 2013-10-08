@@ -1,7 +1,7 @@
 class Air::TransmitterLogEntriesController < Air::BaseController
   respond_to :json, :html
 
-  load_and_authorize_resource :transmitter_log_entry, except: [:delete, :create]
+  load_and_authorize_resource :transmitter_log_entry, except: [:delete, :create, :unsigned]
 
   def index
     @tlogs = TransmitterLogEntry.today
@@ -31,6 +31,8 @@ class Air::TransmitterLogEntriesController < Air::BaseController
 
   def unsigned
     @tlogs = TransmitterLogEntry.unsigned.where(user: current_user)
+    authorize! :read, @tlogs
+
   end
 
 
