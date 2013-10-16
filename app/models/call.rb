@@ -14,4 +14,9 @@ class Call < ActiveRecord::Base
     STATUSES = ['Warning', 'OK', 'Block']
     validates :status, inclusion: { in: STATUSES } 
 
+    before_save :init
+    def init
+        self.time ||= Time.current()
+        self.status ||= "OK"
+    end
 end
