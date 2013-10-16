@@ -1,0 +1,33 @@
+- content_for :title, "Recent Calls"
+
+.page-header
+  h1 Recent Calls 
+
+table.table.table-striped
+  thead
+    tr
+      th Time
+      th Line
+      th Number
+      th Short Name
+      th Status
+      th Full Name
+      th Duration
+      th Wait
+  tbody
+    - unless @calls.empty?
+      - for call in @calls do
+        tr
+          td = call.time
+          td = call.line  
+          td = call.number 
+          td = call.shortName
+          td = call.status
+          td = call.fullName
+          td = call.duration
+          td = call.wait
+    - else
+      tr
+        td colspan="4" No results were found.
+
+#= will_paginate @calls, renderer: BootstrapPagination::Rails, bootstrap: 3
