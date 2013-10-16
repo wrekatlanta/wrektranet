@@ -13,6 +13,7 @@ Wrek::Application.routes.draw do
     resources :psas do
       resources :psa_readings
     end
+    resources :calls
   end
 
   namespace :staff do
