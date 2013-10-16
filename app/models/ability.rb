@@ -31,8 +31,12 @@ class Ability
 
     # basic permissions
     unless user.blank?
-        can [:read, :write], ContestSuggestion
-        can [:read, :write], StaffTicket
+        can [:read, :update, :create], ContestSuggestion
+        can [:read, :update, :create], StaffTicket
+        can [:read, :update, :create], TransmitterLogEntry
+        can [:read], Psa
+        can [:read, :create], PsaReading
+
         can :manage, ListenerTicket, contest: {sent: false}
 
         can :read, :all
@@ -47,6 +51,12 @@ class Ability
           can :manage, Contest
           can :manage, Venue
           can :manage, StaffTicket
+        end
+
+        # psa director
+        if user.has_role? :psa_director
+            can :manage, Psa
+            can :manage, PsaReading
         end
     end
   end

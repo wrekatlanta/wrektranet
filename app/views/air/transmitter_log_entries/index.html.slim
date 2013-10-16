@@ -1,0 +1,36 @@
+.page-header
+  h1 Transmitter Log
+
+= render 'navigation'
+
+table.table.table-striped ng-controller="airTransmitterLogCtrl" ng-init="tlogs = #{@tlogs.to_json({include: :user})}" ng-cloak="ng-cloak"
+  thead
+    tr
+      th Op Initials
+      th Automation?
+      th Sign In
+      th Automation?
+      th Sign Out
+  tbody
+    tr ng-repeat="tlog in tlogs | orderBy:'sign_in'"
+      td = "{{tlog.user.username}}"
+      td = "{{tlog.automation_in}}"
+      td = "{{tlog.sign_in | date:'HH:mm'}}"
+      td ng-if="tlog.user.username == '#{current_user.username}' && !tlog.sign_out"
+        input type="checkbox" ng-model="tlog.automation_out"
+      td ng-if="tlog.user.username == '#{current_user.username}' && !tlog.sign_out"
+        time-picker time="time_out"
+        button.btn.btn-warning.btn-xs.tlog-action ng-click="signOut(tlog, time_out)" Sign Out
+      td ng-if="tlog.user.username != '#{current_user.username}' || tlog.sign_out" = "{{tlog.automation_out}}"
+      td ng-if="tlog.user.username != '#{current_user.username}' || tlog.sign_out" = "{{tlog.sign_out | date:'HH:mm'}}"
+
+    tr
+      td = current_user.username
+      td
+        input type="checkbox" ng-model="new_log.automation_in"
+      td 
+        time-picker time="new_log.sign_in"
+        button.btn.btn-success.btn-xs.tlog-action ng-click="newLog(new_log)" Sign In
+      td
+      td
+
