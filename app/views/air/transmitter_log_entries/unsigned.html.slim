@@ -20,6 +20,6 @@ table.table.table-striped ng-controller="airTransmitterLogCtrl" ng-init="tlogs =
         input type="checkbox" ng-model="tlog.automation_out"
       td ng-if="tlog.user.username == '#{current_user.username}' && !tlog.sign_out"
         time-picker time="time_out"
-        button.btn.btn-warning.btn-xs ng-click="signOut(tlog, time_out)" Sign Out
+        button.btn.btn-warning.btn-xs.tlog-action ng-click="signOut(tlog, time_out)" Sign Out
     tr ng-if="!tlogs.length"
       td colspan="5" No unsigned tlogs for you. Yay!
