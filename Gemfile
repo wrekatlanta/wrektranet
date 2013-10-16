@@ -20,7 +20,6 @@ gem 'active_link_to'
 gem 'cancan'
 gem 'devise', '~> 3.0.x'
 gem 'omniauth'
-gem 'omniauth-google-apps'
 gem 'figaro'
 gem 'pg'
 gem 'rolify', '~> 3.3.0.rc4'
@@ -30,6 +29,10 @@ gem 'will_paginate', '~> 3.0'
 gem 'will_paginate-bootstrap'
 gem 'chronic'
 gem 'whenever'
+
+# APIs
+gem 'omniauth-google-apps'
+gem 'google-api-client'
 
 group :development do
   gem 'unicorn-rails'
