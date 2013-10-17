@@ -78,3 +78,5 @@ pickle-email-*.html
 
 /config/client_secrets.json
 /config/client.p12
+
+/lib/tasks/*.html
