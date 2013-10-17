@@ -16,7 +16,7 @@ namespace :import do
       email = row.css('td:nth-child(4)')[0].content
       initials = row.css('td:nth-child(5)')[0].content.downcase
 
-      unless User.find_by(username: initials)
+      if not User.find_by(username: initials) and not email.blank?
         password = Devise.friendly_token[0,20]
 
         user = User.create!({
