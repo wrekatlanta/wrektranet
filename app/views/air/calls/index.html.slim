@@ -3,6 +3,7 @@
 .page-header
   h1 Recent Calls 
 
+
 table.table.table-striped
   thead
     tr
@@ -30,3 +31,8 @@ table.table.table-striped
       tr
         td colspan="4" No results were found.
 = will_paginate @calls 
+= form_tag("/numPages", method: "get") do
+  = label_tag(:q, "Show:")
+  = text_field_tag(:q)
+  = submit_tag("Submit")
+end
