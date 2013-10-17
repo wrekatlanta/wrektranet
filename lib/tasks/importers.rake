@@ -1,7 +1,7 @@
 namespace :import do
   require 'nokogiri'
 
-  task users: [:environment] do
+  task :users => [:environment] do
     f = File.open(Rails.root.join('lib', 'tasks', 'staff.html'))
     doc = Nokogiri::HTML(f)
 
@@ -15,7 +15,7 @@ namespace :import do
       phone = row.css('td:nth-child(3)')[0].content
       initials = row.css('td:nth-child(5)')[0].content
 
-      unless User.find_by(username: initials) do
+      unless User.find_by(username: initials)
         password = Devise.friendly_token[0,20]
 
         User.create!({
@@ -48,9 +48,7 @@ namespace :import do
       end
     end
 
-    client.execute batch
-
-    #result = client.execute(api_method: directory.users.list, parameters: {domain: 'wrek.org'})
+    client.execute(batch)
 
     f.close
   end
