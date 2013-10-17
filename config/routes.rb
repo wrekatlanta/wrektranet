@@ -1,7 +1,7 @@
 Wrek::Application.routes.draw do
   root to: "welcome#index"
 
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
 
   namespace :air do
     root to: "dashboard#index"
@@ -10,6 +10,12 @@ Wrek::Application.routes.draw do
       resources :listener_tickets, shallow: true
     end
 
+    resources :transmitter_log_entries do
+      collection do
+        get 'unsigned'
+      end
+    end
+    
     resources :psas do
       resources :psa_readings
     end
@@ -41,6 +47,9 @@ Wrek::Application.routes.draw do
       collection do
         get 'expired', to: :index, defaults: { filter: 'expired' }
       end
+    end
+
+    resources :transmitter_log_entries do
     end
 
     resources :venues

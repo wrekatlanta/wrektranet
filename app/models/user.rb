@@ -33,13 +33,10 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  devise :registerable, :recoverable, :rememberable, :trackable, :validatable
+  devise :registerable, :recoverable, :rememberable, :trackable,
+    :validatable, :database_authenticatable
 
-  if YAML.load(ENV["USE_LDAP"])
-    devise :devise_ldap_authenticatable
-  else
-    devise :database_authenticatable
-  end
+  devise :omniauthable, omniauth_providers: [:google_apps]
 
   has_many :staff_tickets, dependent: :destroy
   has_many :contests, through: :staff_tickets
@@ -64,5 +61,30 @@ class User < ActiveRecord::Base
   # FIXME: make this generic
   def strip_phone
     self.phone.gsub!(/\D/, '') if self.phone
+  end
+
+  def self.find_for_googleapps_oauth(access_token, signed_in_resource = nil)
+    data = access_token['info']
+
+    if user = User.where(email: data['email']).first
+      return user
+    else
+      # create a user with stub password
+      User.create!({
+        email: data['email'],
+        username: data['email'][/[^@]+/],
+        first_name: data['first_name'],
+        last_name: data['last_name'],
+        password: Devise.friendly_token[0,20]
+      })
+    end
+  end
+
+  def self.new_with_session(params, session)
+    super.tap do |user|
+      if data = session['devise.googleapps_data'] && session['devise.googleapps_data']['user_info']
+        user.email = data['email']
+      end
+    end
   end
 end

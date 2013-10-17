@@ -22,7 +22,7 @@
 
 class Contest < ActiveRecord::Base
   after_initialize :set_default_values
-  before_save :set_send_time
+  before_save :update_send_time
 
   belongs_to :venue
   belongs_to :alternate_recipient, class_name: "Venue"
@@ -35,7 +35,12 @@ class Contest < ActiveRecord::Base
   accepts_nested_attributes_for :event
 
   default_scope -> { includes(:event).order('send_time DESC') }
-  scope :upcoming, -> { where("events.start_time >= :start_time", start_time: Time.zone.now.beginning_of_day) }
+  scope :upcoming, -> {
+    where(
+      "events.start_time >= :start_time",
+      start_time: Time.zone.now.beginning_of_day
+    ).references(:events)
+  }
   scope :past, -> { where("send_time < :start_time", start_time: Time.zone.now) }
   scope :sendable, -> (time) { where("send_time = :send_time", send_time: time) }
   scope :unsent, -> { where(sent: false) }
@@ -68,21 +73,11 @@ class Contest < ActiveRecord::Base
     return self.alternate_recipient || self.venue
   end
 
-  def self.send_contests(hour = Time.zone.now.hour)
-    time = Time.zone.now.beginning_of_day + hour.hours
-
-    self.sendable(time).each do |contest|
-      ContestMailer.ticket_email(contest).deliver
-      contest.sent = true
-      contest.save
-    end
+  def update_send_time
+    self.send_time = self.event.start_time.beginning_of_day - self.venue.send_day_offset.days + self.venue.send_hour.hours
   end
 
   private
-    def set_send_time
-      self.send_time = self.event.start_time.beginning_of_day - self.venue.send_day_offset.days + self.venue.send_hour.hours
-    end
-
     def set_default_values
       self.listener_ticket_limit ||= 0
       self.staff_ticket_limit ||= 0

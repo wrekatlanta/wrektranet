@@ -1,0 +1,25 @@
+.page-header
+  h1 Unsigned Logs
+
+= render 'navigation'
+
+table.table.table-striped ng-controller="airTransmitterLogCtrl" ng-init="tlogs = #{@tlogs.to_json({include: :user})}" ng-cloak="ng-cloak"
+  thead
+    tr
+      th Op Initials
+      th Automation?
+      th Sign In
+      th Automation?
+      th Sign Out
+  tbody
+    tr ng-repeat="tlog in tlogs | orderBy:'sign_in'"
+      td = "{{tlog.user.username}}"
+      td = "{{tlog.automation_in}}"
+      td = "{{tlog.sign_in | date:'HH:mm'}}"
+      td ng-if="tlog.user.username == '#{current_user.username}' && !tlog.sign_out"
+        input type="checkbox" ng-model="tlog.automation_out"
+      td ng-if="tlog.user.username == '#{current_user.username}' && !tlog.sign_out"
+        time-picker time="time_out"
+        button.btn.btn-warning.btn-xs.tlog-action ng-click="signOut(tlog, time_out)" Sign Out
+    tr ng-if="!tlogs.length"
+      td colspan="5" No unsigned tlogs for you. Yay!

@@ -12,5 +12,26 @@
 require 'spec_helper'
 
 describe Contact do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:venue) { FactoryGirl.create(:venue) }
+
+  it "has a valid factory" do
+    FactoryGirl.build(:contact).should be_valid
+  end
+
+  before do
+    contact_attrs = {
+      email: "gpb@wrek.org"
+    }
+
+    @contact = venue.contacts.new(contact_attrs)
+  end
+
+  subject { @contact }
+
+  describe "#email" do
+    context "not present" do
+      before { @contact.email = nil }
+      it { should_not be_valid }
+    end
+  end
 end

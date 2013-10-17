@@ -15,19 +15,42 @@
 require 'spec_helper'
 
 describe ContestSuggestion do
+  let(:user) { FactoryGirl.create(:user) }
+
   it "has a valid factory" do
     FactoryGirl.create(:contest_suggestion).should be_valid
   end
 
-  it "is invalid without a name name" do
-    FactoryGirl.build(:contest_suggestion, name: nil).should_not be_valid
+  before do
+    contest_suggestion_attrs = {
+      name: "George and the Burdells",
+      date: Time.zone.today.beginning_of_day + 1.day,
+      venue: "Under the Couch"
+    }
+
+    @contest_suggestion = user.contest_suggestions.new(contest_suggestion_attrs)
   end
 
-  it "is invalid without a date" do
-    FactoryGirl.build(:contest_suggestion, date: nil).should_not be_valid
+  subject { @contest_suggestion }
+
+  describe "#name" do
+    context "not present" do
+      before { @contest_suggestion.name = nil }
+      it { should_not be_valid }
+    end
   end
 
-  it "is invalid without a venue" do
-    FactoryGirl.build(:contest_suggestion, venue: nil).should_not be_valid
+  describe "#date" do
+    context "not present" do
+      before { @contest_suggestion.date = nil }
+      it { should_not be_valid }
+    end
+  end
+
+  describe "#venue" do
+    context "not present" do
+      before { @contest_suggestion.venue = nil }
+      it { should_not be_valid }
+    end
   end
 end

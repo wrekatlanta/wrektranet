@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131015030808) do
+ActiveRecord::Schema.define(version: 20131008195827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,6 +94,14 @@ ActiveRecord::Schema.define(version: 20131015030808) do
 
   add_index "listener_tickets", ["contest_id"], name: "index_listener_tickets_on_contest_id", using: :btree
   add_index "listener_tickets", ["user_id"], name: "index_listener_tickets_on_user_id", using: :btree
+
+  create_table "power_readings", force: true do |t|
+    t.float    "plate_current"
+    t.float    "plate_voltage"
+    t.float    "power_out"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "psa_readings", force: true do |t|
     t.integer  "user_id"
@@ -180,7 +188,6 @@ ActiveRecord::Schema.define(version: 20131015030808) do
 
   create_table "venues", force: true do |t|
     t.string   "name"
-    t.string   "fax"
     t.string   "address"
     t.integer  "send_day_offset"
     t.text     "notes"
