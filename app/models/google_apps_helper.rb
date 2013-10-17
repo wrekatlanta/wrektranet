@@ -16,9 +16,9 @@ module GoogleAppsHelper
       token_credential_uri: 'https://accounts.google.com/o/oauth2/token',
       audience: 'https://accounts.google.com/o/oauth2/token',
       scope: ['https://www.googleapis.com/auth/admin.directory.user'],
-      issuer: '248139186331-h4co97r8ual8pt0eimsm75kfr66petsp@developer.gserviceaccount.com',
+      issuer: ENV['GOOGLE_APPS_ISSUER'],
       signing_key: @@key,
-      person: 'pstoic@wrek.org'
+      person: ENV['GOOGLE_APPS_PERSON']
     )
 
     @@client.authorization.fetch_access_token!
