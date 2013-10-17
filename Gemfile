@@ -29,6 +29,7 @@ gem 'will_paginate', '~> 3.0'
 gem 'will_paginate-bootstrap'
 gem 'chronic'
 gem 'whenever'
+gem 'nokogiri'
 
 # APIs
 gem 'omniauth-google-apps'
