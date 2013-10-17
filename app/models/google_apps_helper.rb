@@ -10,7 +10,7 @@ module GoogleAppsHelper
       :application_version => '0.0.1'
     )
 
-    @@key ||= Google::APIClient::KeyUtils.load_from_pkcs12(Rails.root.join('config', 'client.p12'), 'notasecret')
+    @@key ||= OpenSSL::PKey::RSA.new(ENV["GOOGLE_APPS_KEY"], 'notasecret')
 
     @@client.authorization = Signet::OAuth2::Client.new(
       token_credential_uri: 'https://accounts.google.com/o/oauth2/token',
