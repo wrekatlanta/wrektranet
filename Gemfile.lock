@@ -384,6 +384,7 @@ DEPENDENCIES
   jquery-rails
   launchy
   letter_opener
+  nokogiri
   omniauth
   omniauth-google-apps
   pg
