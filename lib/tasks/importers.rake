@@ -53,7 +53,5 @@ namespace :import do
     end
 
     client.execute(batch)
-
-    f.close
   end
 end
