@@ -65,14 +65,15 @@ class User < ActiveRecord::Base
 
   def self.find_for_googleapps_oauth(access_token, signed_in_resource = nil)
     data = access_token['info']
+    username = data['email'][/[^@]+/]
 
-    if user = User.where(email: data['email']).first
+    if user = User.find_by(username: username)
       return user
     else
       # create a user with stub password
       User.create!({
         email: data['email'],
-        username: data['email'][/[^@]+/],
+        username: username,
         first_name: data['first_name'],
         last_name: data['last_name'],
         password: Devise.friendly_token[0,20]
