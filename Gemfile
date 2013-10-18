@@ -36,6 +36,7 @@ gem 'omniauth-google-apps'
 gem 'google-api-client'
 
 group :development do
+  gem 'guard', '>=2.1.0'
   gem 'unicorn-rails'
   gem 'better_errors'
   gem 'annotate', '>= 2.5.0'
