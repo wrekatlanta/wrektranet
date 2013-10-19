@@ -30,6 +30,8 @@ Wrek::Application.routes.draw do
       end
     end
 
+    resources :listener_logs
+
     resources :contest_suggestions
   end
 

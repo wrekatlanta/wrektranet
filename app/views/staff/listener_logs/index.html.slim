@@ -1,0 +1,67 @@
+- content_for :title, "Listener Log"
+- content_for :head, stylesheet_link_tag("listener_logs")
+
+.page-header
+  h1 Listener Log
+
+.row
+  .col-lg-4.text-center
+    h4 Main 128
+    .listener-count 5
+
+  .col-lg-4.text-center
+    h4 Main 24
+    .listener-count 6
+
+  .col-lg-4.text-center
+    h4 HD2 
+    .listener-count 7
+
+hr
+
+#highchart
+
+
+
+-content_for :scripts do
+  javascript:
+    $(function () { 
+      Highcharts.setOptions({                                            
+        global : {
+          useUTC : false
+        }
+      });
+      
+      $('#highchart').highcharts({
+        chart: {
+          type: 'spline'
+        },
+        title: {
+          text: 'Listeners in Past 24 Hours'
+        },
+        xAxis: {
+          type: 'datetime',
+          title: {
+            text: 'Time'
+          },
+          dateTimeLabelFormats: { // don't display the dummy year
+            hour: '%H:%M'
+          }
+        },
+        yAxis: {
+          title: {
+            text: 'Listeners'
+          },
+          min: 0
+        },
+        tooltip: {
+          formatter: function() {
+            return '<strong>' + this.series.name + '</strong><br/>'+
+            this.y + ' Listeners<br/><em>' + Highcharts.dateFormat('%H:%M %e %b %Y', this.x) + '</em>';
+          }
+        },
+        series: [{name: 'Main 128', data: #{raw @main_128.to_json} }, 
+                {name: 'Main 24', data: #{raw @main_24.to_json} },
+                {name: 'HD2 128', data: #{raw @hd2_128.to_json} }]
+      });
+    });
