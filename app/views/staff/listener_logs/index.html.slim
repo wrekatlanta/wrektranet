@@ -7,15 +7,15 @@
 .row
   .col-lg-4.text-center
     h4 Main 128
-    .listener-count 5
+    #main_128.listener-count 
 
   .col-lg-4.text-center
     h4 Main 24
-    .listener-count 6
+    #main_24.listener-count 
 
   .col-lg-4.text-center
     h4 HD2 
-    .listener-count 7
+    #hd2_128.listener-count 
 
 hr
 
@@ -65,3 +65,4 @@ hr
                 {name: 'HD2 128', data: #{raw @hd2_128.to_json} }]
       });
     });
+-content_for :scripts, javascript_include_tag("staff/listener_logs/current");
