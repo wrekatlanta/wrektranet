@@ -74,7 +74,7 @@ class Contest < ActiveRecord::Base
   end
 
   def update_send_time
-    self.send_time = self.event.start_time.beginning_of_day - self.venue.send_day_offset.days + self.venue.send_hour.hours
+    self.send_time = self.event.start_time.beginning_of_day - self.recipient.send_day_offset.days + self.recipient.send_hour.hours
   end
 
   private

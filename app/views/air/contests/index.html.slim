@@ -28,8 +28,8 @@
               td = contest.listener_ticket_label
               td = contest.staff_ticket_label
               td = l contest.send_time, format: :us_time
-        - else
-          tr
-            td colspan="4" No results were found.
 
   = will_paginate @contests, renderer: BootstrapPagination::Rails, bootstrap: 3
+
+- if @contest_days.empty?
+  p There are no contests to announce within the next two weeks.
