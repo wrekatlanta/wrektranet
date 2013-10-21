@@ -30,9 +30,5 @@ table.table.table-striped
     - else
       tr
         td colspan="4" No results were found.
-= will_paginate @calls 
-= form_tag("/numPages", method: "get") do
-  = label_tag(:q, "Show:")
-  = text_field_tag(:q)
-  = submit_tag("Submit")
+    = will_paginate @calls
 end
