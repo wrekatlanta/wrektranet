@@ -5,6 +5,7 @@
         ul.nav
           = active_link_to 'Ticket Signups', staff_tickets_path, wrap_tag: :li
           = active_link_to 'Contest Suggestions', staff_contest_suggestions_path, wrap_tag: :li
+          = active_link_to 'Listener Log', staff_listener_logs_path, wrap_tag: :li
     .col-lg-9
       = render 'layouts/messages'
       = yield

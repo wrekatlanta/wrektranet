@@ -21,3 +21,4 @@ html ng-app="wrektranet"
       = content_for?(:content) ? yield(:content) : yield
 
     = javascript_include_tag "application"
+    = yield(:scripts)

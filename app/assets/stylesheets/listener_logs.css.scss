@@ -1,0 +1,13 @@
+// Place all the styles related to the ListenerLog controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.listener-count {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+#highchart {
+    width: 100%; 
+    height: 400px;
+}

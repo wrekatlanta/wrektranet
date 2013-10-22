@@ -36,6 +36,7 @@ class Ability
         can [:read, :update, :create], TransmitterLogEntry
         can [:read], Psa
         can [:read, :create], PsaReading
+        can [:read], ListenerLog
 
         can :manage, ListenerTicket, contest: {sent: false}
 
