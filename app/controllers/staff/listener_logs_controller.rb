@@ -2,7 +2,7 @@ class Staff::ListenerLogsController < Staff::BaseController
   require 'nokogiri'
   require 'open-uri'
   respond_to :json, :html
-  load_and_authorize_resource except: [:create, :edit, :show]
+  load_and_authorize_resource except: [:create, :edit, :show, :current]
 
 
   def index
