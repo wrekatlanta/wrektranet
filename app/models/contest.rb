@@ -57,7 +57,8 @@ class Contest < ActiveRecord::Base
     )
   }
   scope :without_user, -> (user) {
-    where("id NOT IN (?)", user.contests) unless user.contests.blank?
+    # FIXME: replace array with subquery once Rails 4.1/figaro bug is fixed
+    where("id NOT IN (?)", user.contests.to_a) unless user.contests.blank?
   }
 
   validates :venue, presence: true
