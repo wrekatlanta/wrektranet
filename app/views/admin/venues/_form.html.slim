@@ -9,7 +9,7 @@ div ng-controller="adminVenueCtrl" ng-init="venue = #{@venue.to_json(include: :c
       = f.input_field :send_day_offset, collection: 0..10, class: 'form-control', include_blank: false
       span.help-block How many days early should contests be sent?
 
-    .form-group
+    .form-group.ng-cloak
       label.col-lg-2.control-label Contacts
 
       .col-lg-10
