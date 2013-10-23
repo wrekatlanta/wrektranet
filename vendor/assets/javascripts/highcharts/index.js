@@ -1,0 +1,1 @@
+//= require ./3.0.6/highcharts.js
