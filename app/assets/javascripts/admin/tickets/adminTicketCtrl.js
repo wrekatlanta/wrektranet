@@ -25,8 +25,6 @@ angular.module("wrektranet.adminTicketCtrl", [])
 
     // updates the ticket's contest if the ID is the same
     $scope.$on('updateContest', function(e, contest) {
-      console.log('ticket: ' + $scope.ticket.contest_id);
-      console.log('contest: ' + contest.id);
       if ($scope.ticket.contest_id === contest.id) {
         $scope.ticket.contest = contest;
       }

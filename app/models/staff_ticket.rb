@@ -40,7 +40,7 @@ class StaffTicket < ActiveRecord::Base
 
   private
     def ticket_count_within_limit
-      if self.contest.reload.staff_count >= self.contest.staff_ticket_limit
+      if self.awarded and self.contest.reload.staff_count >= self.contest.staff_ticket_limit
         errors.add(:base, "Too many staff tickets")
       end
     end
