@@ -3,7 +3,7 @@ require 'spec_helper'
 feature "Contest administration" do
   let!(:venue) { FactoryGirl.create(:venue, name: "Variety Playhouse") }
   let!(:early_venue) { FactoryGirl.create(:venue, :send_early, name: "The Masquerade") }
-  let!(:today) { today = Time.zone.today.beginning_of_day }
+  let!(:today) { Time.zone.today.beginning_of_day }
 
   let!(:upcoming_contests) {
     [
