@@ -3,6 +3,27 @@ require 'spec_helper'
 feature "Contest administration" do
   let!(:venue) { FactoryGirl.create(:venue, name: "Variety Playhouse") }
   let!(:early_venue) { FactoryGirl.create(:venue, :send_early, name: "The Masquerade") }
+  let!(:today) { today = Time.zone.today.beginning_of_day }
+
+  let!(:upcoming_contests) {
+    [
+      FactoryGirl.create(:contest, venue: venue,
+        event: FactoryGirl.create(:event, start_time: today + 1.day)),
+      FactoryGirl.create(:contest, venue: venue,
+        event: FactoryGirl.create(:event, start_time: today)),
+      FactoryGirl.create(:contest, venue: early_venue,
+        event: FactoryGirl.create(:event, start_time: today + 1.day))
+    ]
+  }
+
+  let!(:past_contests) {
+    [
+      FactoryGirl.create(:contest, :sent, venue: venue,
+        event: FactoryGirl.create(:event, start_time: today - 1.day)),
+      FactoryGirl.create(:contest, :sent, venue: early_venue,
+        event: FactoryGirl.create(:event, start_time: today))
+    ]
+  }
 
   before do
     user = FactoryGirl.create(:user, :admin)
@@ -49,38 +70,6 @@ feature "Contest administration" do
     click_link "Delete"
     current_path.should == admin_contests_path
     expect(page).to have_content("#{contest.event.name} deleted successfully.")
-  end
-end
-
-feature "Viewing contests" do
-  let!(:venue) { FactoryGirl.create(:venue, name: "Variety Playhouse") }
-  let!(:early_venue) { FactoryGirl.create(:venue, :send_early, name: "The Masquerade") }
-  let!(:today) { today = Time.zone.today.beginning_of_day }
-
-  let!(:upcoming_contests) {
-    [
-      FactoryGirl.create(:contest, venue: venue,
-        event: FactoryGirl.create(:event, start_time: today + 1.day)),
-      FactoryGirl.create(:contest, venue: venue,
-        event: FactoryGirl.create(:event, start_time: today)),
-      FactoryGirl.create(:contest, venue: early_venue,
-        event: FactoryGirl.create(:event, start_time: today + 1.day))
-    ]
-  }
-
-  let!(:past_contests) {
-    [
-      FactoryGirl.create(:contest, :sent, venue: venue,
-        event: FactoryGirl.create(:event, start_time: today - 1.day)),
-      FactoryGirl.create(:contest, :sent, venue: early_venue,
-        event: FactoryGirl.create(:event, start_time: today))
-    ]
-  }
-
-  before(:each) do
-    admin = FactoryGirl.create(:user, :admin)
-    login_with admin
-    visit admin_contests_path
   end
 
   scenario "Admin views upcoming contests" do
