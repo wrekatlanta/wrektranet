@@ -17,7 +17,7 @@ table.table.table-striped
 					td = tlog.user.username
 					td = tlog.automation_in
 					td = tlog.sign_in
-					td Contact User
+					td = mail_to tlog.user.email, "Contact User"
 		- else
 			tr
 				td colspan="3" No unsigned transmitter log found.
