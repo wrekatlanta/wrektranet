@@ -7,12 +7,23 @@ class PowerReading < ActiveRecord::Base
 
 
   private
-    def scrape_reading
-      doc = Nokogiri::HTML(open(url))
+    def scrape_reading      
+      # Obviously this will change to the transmitter IP later on.
+      file = File.join(Rails.public_path, 'sample.xml')
 
-      # Need to modify the php to have better selectors for values or walk through table.
-      self.plate_current = doc.at_css(".level").text(/1/)
-      self.plate_voltage = doc.at_css(".level").text(/2/)
-      self.power_out = doc.at_css(".level").text(/3/)
+      doc = Nokogiri::XML::Reader(open(file))
+      doc.each do |node|
+
+        case node.attribute('name')
+        when "PLTCUR"
+          self.plate_current = node.attribute('value')
+        when "PLTVLT"
+          self.plate_voltage = node.attribute('value')
+        when "PWROUT"
+          self.power_out = node.attribute('value')
+        end
+
+      end
+
     end
 end

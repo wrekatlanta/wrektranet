@@ -1,0 +1,18 @@
+<ARC16 timestamp="2013-10-24 16:00:07">
+    <Channel channel="1" name="PLTCUR" label="PlateCurr" value="2.70" units="A" status="Silence OFF"/>
+    <Channel channel="2" name="PLTVLT" label="PlateVolt" value="9.31" units="kV" status="Tone OFF"/>
+    <Channel channel="3" name="PWROUT" label="PowerOut" value="14.53" units="kW" status="OFF"/>
+    <Channel channel="4" name="BUPCUR" label="BU PltCur" value="0.00" units="A" status="Day"/>
+    <Channel channel="5" name="BUPVLT" label="BU PltVlt" value="0.02" units="kV" status="Side Lights OK"/>
+    <Channel channel="6" name="BUFWD" label="BU PwrOut" value="0.00" units="kW" status="Beacon Light OK"/>
+    <Channel channel="7" name="BRDFWD" label="Bird Fwd" value="0.15" units="kW" status="Exciter Composite"/>
+    <Channel channel="8" name="BRDRFL" label="Bird Rfl" value="12." units="W" status="Omnia On"/>
+    <Channel channel="9" name="ACLINE" label="AC Line" value="118.4" units="V" status="Dehydrator OK"/>
+    <Channel channel="10" name="ROOM" label="Room Temp" value="72.5" units="Deg F" status="HD Carriers OK"/>
+    <Channel channel="11" name="AC2" label="AC2 Temp" value="59.0" units="Deg F" status="Overmodulation OFF"/>
+    <Channel channel="12" name="AC1" label="AC1 Temp" value="69.5" units="Deg F" status="APC OK"/>
+    <Channel channel="13" name="------" label="" value="0.4" units="" status="Primary OK"/>
+    <Channel channel="14" name="------" label="" value="0.4" units="" status="HD-1 ON"/>
+    <Channel channel="15" name="------" label="" value="-4." units="" status="HD-2 ON"/>
+    <Channel channel="16" name="------" label="" value="0.12" units="" status="Time Alignment OK"/>
+</ARC16>

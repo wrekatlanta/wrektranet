@@ -2,6 +2,7 @@ class TransmitterLogEntry < ActiveRecord::Base
   belongs_to :user
 
   before_validation :set_expiration_time
+  before_create :new_power_reading
 
   validates :user, presence: true
   validates :sign_in, presence: true
@@ -20,6 +21,10 @@ class TransmitterLogEntry < ActiveRecord::Base
           self.sign_out = self.sign_out.change(day: self.sign_in.day, month: self.sign_in.month, year: self.sign_in.year)
         end
       end
+    end
+
+    def new_power_reading
+      PowerReading.create
     end
 
 end
