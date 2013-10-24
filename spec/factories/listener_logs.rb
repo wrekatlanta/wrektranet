@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :listener_log do
-    hd2_128 ""
-    main_128 ""
-    main_24 ""
+    hd2_128 6
+    main_128 6
+    main_24 6
   end
 end
