@@ -4,18 +4,18 @@
 .page-header
   h1 Listener Log
 
-.row
+.row ng-controller="listenerLogsCtrl"
   .col-lg-4.text-center
     h4 Main 128
-    #main_128.listener-count 
+    #main_128.listener-count.ng-cloak = "{{ main_128 }}"
 
   .col-lg-4.text-center
     h4 Main 24
-    #main_24.listener-count 
+    #main_24.listener-count.ng-cloak = "{{ main_24 }}"
 
   .col-lg-4.text-center
     h4 HD2 
-    #hd2_128.listener-count 
+    #hd2_128.listener-count.ng-cloak = "{{ hd2_128 }}"
 
 hr
 
@@ -65,4 +65,3 @@ hr
                 {name: 'HD2 128', data: #{raw @hd2_128.to_json} }]
       });
     });
--content_for :scripts, javascript_include_tag("staff/listener_logs/current");
