@@ -28,14 +28,14 @@
 
   .col-lg-6 ng-controller="airContestCtrl" ng-init="contest = #{@contest.to_json(include: {listener_tickets: {include: :user}})}"
     h3 Listener Tickets
-    table.table
+    table.table.ng-cloak
       thead
         tr
           th Name
           th Phone
           th Op
           th
-      tbody.ng-cloak
+      tbody
         tr ng-repeat="ticket in contest.listener_tickets"
           td = "{{ticket.name}}"
           td = "{{ticket.phone}}"
