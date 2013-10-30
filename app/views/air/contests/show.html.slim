@@ -28,14 +28,14 @@
 
   .col-lg-6 ng-controller="airContestCtrl" ng-init="contest = #{@contest.to_json(include: {listener_tickets: {include: :user}})}"
     h3 Listener Tickets
-    table.table
+    table.table.ng-cloak
       thead
         tr
           th Name
           th Phone
           th Op
           th
-      tbody.ng-cloak
+      tbody
         tr ng-repeat="ticket in contest.listener_tickets"
           td = "{{ticket.name}}"
           td = "{{ticket.phone}}"
@@ -48,7 +48,7 @@
         tr ng-if="contest.listener_tickets.length == 0"
           td colspan="4" No tickets have been awarded.
     - if @contest.announceable?
-      form.form-inline ng-submit="addTicket()" ng-if="contest.listener_tickets.length < contest.listener_ticket_limit"
+      form.form-inline.ng-cloak ng-submit="addTicket()" ng-if="contest.listener_tickets.length < contest.listener_ticket_limit"
         .form-group>
           input.form-control.input-sm type="text" ng-model="newTicket.name" placeholder="Name" required="required"
         .form-group>

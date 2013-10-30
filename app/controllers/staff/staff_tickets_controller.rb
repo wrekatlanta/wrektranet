@@ -1,6 +1,6 @@
 class Staff::StaffTicketsController < Staff::BaseController
   respond_to :html, :json
-  load_and_authorize_resource :staff_ticket, except: [:create, :destroy]
+  load_and_authorize_resource :staff_ticket, except: [:create, :destroy, :me]
 
   def index
     @staff_tickets = @staff_tickets.
@@ -29,7 +29,7 @@ class Staff::StaffTicketsController < Staff::BaseController
 
   def create
     @staff_ticket = current_user.staff_tickets.new(staff_ticket_params)
-    authorize! :create, @staff_ticket
+    authorize! :create, StaffTicket
 
     @staff_ticket.save
 

@@ -9,7 +9,7 @@ div ng-controller="adminVenueCtrl" ng-init="venue = #{@venue.to_json(include: :c
       = f.input_field :send_day_offset, collection: 0..10, class: 'form-control', include_blank: false
       span.help-block How many days early should contests be sent?
 
-    .form-group
+    .form-group.ng-cloak
       label.col-lg-2.control-label Contacts
 
       .col-lg-10
@@ -27,7 +27,7 @@ div ng-controller="adminVenueCtrl" ng-init="venue = #{@venue.to_json(include: :c
               | Remove Contact
         .form-group
           .col-lg-4
-            input.form-control type="email" name="newContactEmail" ng-model="newContact.email" ui-keydown="{'enter':'addContact($event)'}"
+            input.form-control type="email" name="newContactEmail" ng-model="newContact.email" ui-keydown="{'enter': 'addContact($event)'}"
 
           .col-lg-6
             button.btn.btn-primary#addContact type="button" ng-click="addContact($event)" ng-disabled="venueForm.newContactEmail.$invalid || newContact.email.length === 0"

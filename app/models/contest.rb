@@ -34,12 +34,12 @@ class Contest < ActiveRecord::Base
   accepts_nested_attributes_for :staff_tickets, :listener_tickets, allow_destroy: true
   accepts_nested_attributes_for :event
 
-  default_scope -> { includes(:event).order('send_time DESC') }
+  default_scope -> { includes(:event).order('send_time ASC') }
   scope :upcoming, -> {
     where(
       "events.start_time >= :start_time",
       start_time: Time.zone.now.beginning_of_day
-    ).references(:events)
+    ).order('start_time ASC').references(:events)
   }
   scope :past, -> { where("send_time < :start_time", start_time: Time.zone.now) }
   scope :sendable, -> (time) { where("send_time = :send_time", send_time: time) }
@@ -57,7 +57,8 @@ class Contest < ActiveRecord::Base
     )
   }
   scope :without_user, -> (user) {
-    where("id NOT IN (?)", user.contests) unless user.contests.blank?
+    # FIXME: replace array with subquery once Rails 4.1/figaro bug is fixed
+    where("id NOT IN (?)", user.contests.to_a) unless user.contests.blank?
   }
 
   validates :venue, presence: true
@@ -83,7 +84,7 @@ class Contest < ActiveRecord::Base
       self.staff_ticket_limit ||= 0
       self.staff_count ||= 0
       self.listener_count ||= 0
-      self.staff_plus_one ||= true
-      self.listener_plus_one ||= true
+      self.staff_plus_one = true if self.staff_plus_one.nil?
+      self.listener_plus_one = true if self.listener_plus_one.nil?
     end
 end

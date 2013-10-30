@@ -9,7 +9,7 @@ form.form-horizontal
     .col-lg-4
       input.form-control#ticketFilter type="text" ng-model="filter"
 
-table.table.table-striped ng-controller="adminTicketListCtrl" ng-init="tickets = #{@staff_tickets.to_json(include: [:user, {contest: {include: [:venue, :event]}}])}"
+table.table.table-striped.ng-cloak ng-controller="adminTicketListCtrl" ng-init="tickets = #{@staff_tickets.to_json(include: [:user, {contest: {include: [:venue, :event]}}])}"
   thead
     tr
       th User
@@ -18,7 +18,7 @@ table.table.table-striped ng-controller="adminTicketListCtrl" ng-init="tickets =
       th Venue
       th Signup Time
       th style="width: 10%;"
-  tbody.ng-cloak
+  tbody
     - unless @staff_tickets.empty?
       tr ng-repeat="ticket in tickets | filter:filter" ng-controller="adminTicketCtrl"
         td = "{{ticket.user.username}}"

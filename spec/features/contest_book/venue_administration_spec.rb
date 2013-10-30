@@ -1,17 +1,22 @@
 require 'spec_helper'
 
 feature "Venue administration" do
-  let(:user) { FactoryGirl.create(:user, :admin) }
+  let(:admin) { FactoryGirl.create(:user, :admin) }
+  let!(:venues) { FactoryGirl.create_list(:venue, 4) }
 
   before(:each) do
-    FactoryGirl.create_list(:venue, 4)
-
-    login_with user
+    login_with admin
     visit admin_venues_path
   end
 
   scenario "Admin views venues" do
-    expect(page).to have_selector('td', 3)
+    venues.each do |venue|
+      expect(page).to have_content(venue.name)
+      expect(page).to have_content(venue.address)
+      venue.contacts.each do |contact|
+        expect(page).to have_content(contact.email)
+      end
+    end
   end
 
   scenario "Admin creates a new venue", js: true do
@@ -30,35 +35,48 @@ feature "Venue administration" do
     click_button "Add Contact"
     click_button "Remove Contact"
 
-    fill_in "newContactEmail", with: "test1@email.com"
-    click_button "Add Contact"
+    number_of_contacts = 3
 
-    fill_in "newContactEmail", with: "test2@email.com"
-    click_button "Add Contact"
+    number_of_contacts.times do |n|
+      fill_in "newContactEmail", with: "test#{n}@email.com"
+      click_button "Add Contact"
+    end
 
     click_button "Create Venue"
 
-    expect(page).to have_content("Variety Playhouse created successfully.")
-
     current_path.should == admin_venues_path
+    expect(page).to have_content("Variety Playhouse created successfully.")
+    expect(page).to_not have_content("test@email.com")
+    number_of_contacts.times do |n|
+      expect(page).to have_content("test#{n}@email.com")
+    end
   end
 
   scenario "Admin removes contacts from venue", js: true do
     venue = FactoryGirl.create(:venue, name: "Editable Venue")
     venue_name = venue.name
-    FactoryGirl.create_list(:contact, 3, venue: venue)
+
+    removed_contacts = FactoryGirl.create_list(:contact, 2, venue: venue)
+    saved_contacts = FactoryGirl.create_list(:contact, 2, venue: venue)
 
     visit edit_admin_venue_path(venue)
 
-    click_button "Remove Contact", match: :first
-    click_button "Remove Contact", match: :first
+    removed_contacts.size.times do
+      click_button "Remove Contact", match: :first
+    end
 
     click_button "Update Venue"
+
     current_path.should == admin_venues_path
     expect(page).to have_content("#{venue_name} updated successfully.")
 
-    visit edit_admin_venue_path(venue)
-    expect(page).to have_css(".btn-danger", 1)
+    removed_contacts.each do |contact|
+      expect(page).to_not have_content contact.email
+    end
+
+    saved_contacts.each do |contact|
+      expect(page).to have_content contact.email
+    end
   end
 
   scenario "Admin deletes a venue", js: true do
