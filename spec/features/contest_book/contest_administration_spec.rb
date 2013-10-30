@@ -85,7 +85,7 @@ feature "Contest administration" do
 
   scenario "Admin views past contests" do
     click_link "Past"
-    current_path.should == past_admin_contests_path
+    current_url.should == admin_contests_url(:filter => 'past')
 
     past_contests.each do |contest|
       expect(page).to have_content contest.event.name
