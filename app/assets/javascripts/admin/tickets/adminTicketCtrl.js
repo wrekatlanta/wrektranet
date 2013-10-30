@@ -12,7 +12,41 @@ angular.module("wrektranet.adminTicketCtrl", [])
     // notifies all tickets down if they need to update their contest object
     $scope.$on('updateContests', function(e, contest) {
       $scope.$broadcast('updateContest', contest);
+
+      if ($scope.contest.id === contest.id) {
+        $scope.contest = contest;
+      }
     });
+
+    $scope.addTicket = function() {
+      var ticket, restangularTicket;
+
+      ticket = {
+        contest_id: $scope.contest.id,
+        user_id: $scope.user_id
+      };
+
+      restangularTicket = Restangular
+        .restangularizeElement(null, ticket, 'staff_tickets');
+
+      restangularTicket
+        .post()
+        .then(function(newTicket) {
+          if (newTicket.id !== false) {
+            $scope.tickets.push(newTicket);
+            $scope.user_id = null;
+            $scope.$emit('updateContests', newTicket.contest);
+          }
+        });
+    };
+
+    $scope.isContestFull = function() {
+      var limit, total;
+
+      limit = $scope.contest.staff_ticket_limit;
+      total = $scope.contest.staff_count;
+      return (limit - total === 0);
+    };
   }
 ])
 

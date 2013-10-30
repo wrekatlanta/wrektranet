@@ -42,7 +42,9 @@ Wrek::Application.routes.draw do
   namespace :admin do
     root to: "dashboard#index"
 
-    resources :contests
+    resources :contests do
+      resources :staff_tickets, shallow: true
+    end
 
     resources :psas do
       collection do

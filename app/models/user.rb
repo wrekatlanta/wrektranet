@@ -43,6 +43,8 @@ class User < ActiveRecord::Base
   has_many :listener_tickets
   has_many :contest_suggestions, dependent: :destroy
 
+  default_scope -> { order('username ASC') }
+
   validates :phone,      format: /[\(\)0-9\- \+\.]{10,20}/, allow_blank: true
   validates :email,      presence: true, uniqueness: true
   validates :first_name, presence: true
@@ -54,6 +56,10 @@ class User < ActiveRecord::Base
     display_name.presence || [first_name, last_name].join(" ")
   end
 
+  def username_with_name
+    username + " - " + name
+  end
+
   def admin?
     self.admin
   end
@@ -61,6 +67,10 @@ class User < ActiveRecord::Base
   # FIXME: make this generic
   def strip_phone
     self.phone.gsub!(/\D/, '') if self.phone
+  end
+
+  def self.find_by_username(username)
+    User.first(conditions: ["lower(username) = ?", username.downcase])
   end
 
   def self.find_for_googleapps_oauth(access_token, signed_in_resource = nil)

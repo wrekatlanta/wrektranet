@@ -34,7 +34,8 @@ class StaffTicket < ActiveRecord::Base
       .where("contests.send_time > :start_date", start_date: Time.zone.now)
   }
 
-  validates :contest, presence: :true
+  validates :contest_id, presence: :true
+  validates :user_id, presence: :true
   validates_uniqueness_of :user_id, scope: [:contest_id]
   validate :ticket_count_within_limit, on: :update
 
