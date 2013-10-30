@@ -67,4 +67,16 @@ feature "Contest air giveaway" do
       expect(page).to_not have_content(contest.event.name)
     end
   end
+
+  scenario "User views a contest"
+    
+  end
+
+  scenario "User adds listener tickets"
+
+  end
+
+  scenario "User deletes a listener ticket"
+
+  end
 end
