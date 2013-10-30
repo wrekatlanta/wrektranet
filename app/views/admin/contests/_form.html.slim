@@ -28,7 +28,7 @@
           = f.input_field :staff_plus_one, as: :boolean, inline_label: '+1'
         - if @contest.persisted? and @contest.staff_ticket_limit > 0
           .col-lg-5
-            = link_to 'Manage tickets &raquo;'.html_safe, admin_contest_staff_tickets_path(@contest), class: 'btn btn-info btn-sm'
+            = link_to 'Manage tickets &raquo;'.html_safe, admin_contest_staff_tickets_path(@contest), class: 'btn btn-info'
   = f.input :notes, input_html: { class: 'form-control' }
   .form-group
     .col-lg-offset-2.col-lg-10
