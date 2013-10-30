@@ -64,25 +64,26 @@
       - unless @contest.venue.address.blank?
         dt Address
         dd = simple_format(@contest.venue.address)
-  .col-lg-6
-    h3 Staff Tickets
-    table.table
-      thead
-        tr
-          th Name
-          th Signup Time
-          th
-      tbody
-        - for ticket in @contest.staff_tickets.decorate
+  - unless @contest.staff_ticket_limit == 0
+    .col-lg-6
+      h3 Staff Tickets
+      table.table
+        thead
           tr
-            td = ticket.user.username
-            td = l ticket.created_at, format: :us_time
-            td = ticket.status_label
-        - if @contest.staff_tickets.empty?
-          tr
-            td colspan="3" No one has signed up yet.
+            th Name
+            th Signup Time
+            th
+        tbody
+          - for ticket in @contest.staff_tickets.decorate
+            tr
+              td = ticket.user.username
+              td = l ticket.created_at, format: :us_time
+              td = ticket.status_label
+          - if @contest.staff_tickets.empty?
+            tr
+              td colspan="3" No one has signed up yet.
 
-    - unless @contest.users.include? current_user
-      = simple_form_for [:staff, @contest.staff_tickets.new], url: staff_tickets_path do |f|
-        = f.input :contest_id, as: :hidden
-        = f.button :submit, class: 'btn-primary'
+      - unless @contest.users.include? current_user
+        = simple_form_for [:staff, @contest.staff_tickets.new], url: staff_tickets_path do |f|
+          = f.input :contest_id, as: :hidden
+          = f.button :submit, class: 'btn-primary'

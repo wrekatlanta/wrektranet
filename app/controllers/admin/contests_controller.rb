@@ -23,7 +23,7 @@ class Admin::ContestsController < Admin::BaseController
     authorize! :create, @contest
 
     if @contest.save
-      redirect_to admin_contests_path, success: "#{@contest.event.name} created successfully."
+      redirect_to new_admin_contest_path, success: "#{@contest.event.name} created successfully."
     else
       render :new
     end

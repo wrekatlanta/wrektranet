@@ -50,7 +50,7 @@ feature "Contest administration" do
     check "contest[staff_plus_one]"
 
     click_button "Create Contest"
-    current_path.should == admin_contests_path
+    current_path.should == new_admin_contest_path
     expect(page).to have_content("George and the Burdells created successfully.")
   end
 
