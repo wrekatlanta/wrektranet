@@ -84,7 +84,7 @@ class Contest < ActiveRecord::Base
       self.staff_ticket_limit ||= 0
       self.staff_count ||= 0
       self.listener_count ||= 0
-      self.staff_plus_one ||= true
-      self.listener_plus_one ||= true
+      self.staff_plus_one = true if self.staff_plus_one.nil?
+      self.listener_plus_one = true if self.listener_plus_one.nil?
     end
 end
