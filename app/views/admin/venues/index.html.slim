@@ -16,7 +16,7 @@ table.table.table-striped
       - for venue in @venues do
         tr
           td = link_to venue.name, edit_admin_venue_path(venue)
-          td = venue.contacts.map(&:email).join(', ')
+          td = venue.contacts.map(&:email).join('<br>').html_safe
           td = simple_format(venue.address)
     - else
       tr

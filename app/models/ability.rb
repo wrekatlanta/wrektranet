@@ -31,8 +31,8 @@ class Ability
 
     # basic permissions
     unless user.blank?
-        can [:read, :update, :create], ContestSuggestion
-        can [:read, :update, :create], StaffTicket
+        can [:read, :create], ContestSuggestion
+        can [:read, :create], StaffTicket
         can [:read, :update, :create], TransmitterLogEntry
         can [:read], Psa
         can [:read, :create], PsaReading

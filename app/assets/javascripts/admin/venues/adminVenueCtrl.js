@@ -11,10 +11,14 @@ angular.module("wrektranet.adminVenueCtrl", [])
 
     $scope.addContact = function(event) {
       var contact = angular.copy($scope.newContact);
+      event.preventDefault();
+
+      if (contact.email.length === 0 || $scope.venueForm.newContactEmail.$invalid) {
+        return false;
+      }
+
       $scope.venue.contacts.push(contact);
       $scope.newContact.email = "";
-
-      event.preventDefault();
     };
 
     $scope.deleteContact = function(contact) {
