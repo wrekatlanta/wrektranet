@@ -42,11 +42,7 @@ Wrek::Application.routes.draw do
   namespace :admin do
     root to: "dashboard#index"
 
-    resources :contests do
-      collection do
-        get 'past', to: :index, defaults: { filter: 'past' }
-      end
-    end
+    resources :contests
 
     resources :psas do
       collection do
