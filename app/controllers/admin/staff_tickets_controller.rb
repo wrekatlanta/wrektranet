@@ -5,11 +5,12 @@ class Admin::StaffTicketsController < Admin::BaseController
   def index
     if params.has_key?(:contest_id)
       @contest = Contest.find(params[:contest_id])
+      @staff_tickets = @contest.staff_tickets
+    else
+      @staff_tickets = @staff_tickets.announceable
     end
 
-    @staff_tickets = @staff_tickets
-      .announceable
-      .decorate
+    @staff_tickets = @staff_tickets.decorate
   end
 
   def create
