@@ -42,7 +42,11 @@ class Contest < ActiveRecord::Base
     ).order('start_time ASC').references(:events)
   }
   scope :past, -> { where("send_time < :start_time", start_time: Time.zone.now) }
-  scope :sendable, -> (time) { where("send_time = :send_time", send_time: time) }
+  scope :sendable, -> (time) {
+    # matches send time and makes sure there are listener tickets if listener tickets are allowed
+    # if there are no listener tickets allowed, check if there are staff counts
+    where("send_time = :send_time and (listener_count > 0 or (listener_ticket_limit = 0 and staff_count > 0))", send_time: time)
+  }
   scope :unsent, -> { where(sent: false) }
   scope :announceable, -> {
     unsent.where(
