@@ -6,6 +6,7 @@ class Staff::StaffTicketsController < Staff::BaseController
     @staff_tickets = @staff_tickets.
       upcoming.
       includes(:user).
+      paginate(page: params[:page], per_page: 30).
       decorate
   end
 
@@ -22,7 +23,6 @@ class Staff::StaffTicketsController < Staff::BaseController
     @contests = Contest.
       announceable.
       without_user(current_user).
-      paginate(page: params[:page], per_page: 30).
       decorate
   end
 
