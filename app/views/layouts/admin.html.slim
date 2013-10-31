@@ -14,6 +14,8 @@
             = active_link_to 'PSAs', admin_psas_path, wrap_tag: :li
           - if Settings.transmitter_log_enabled?
             = active_link_to 'Transmitter Log', admin_transmitter_log_entries_path, wrap_tag: :li
+          - if current_user.admin?
+            = active_link_to 'Users', admin_users_path, wrap_tag: :li
     .col-lg-9
       = render 'layouts/messages'
       = yield
