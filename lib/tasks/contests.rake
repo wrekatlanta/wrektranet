@@ -1,4 +1,4 @@
-task :send_contests, :hour do |t, args|
+task :send_contests => [:environment], :hour do |t, args|
   args.with_defaults(hour: Time.zone.now.hour)
 
   time = Time.zone.now.beginning_of_day + hour.hours

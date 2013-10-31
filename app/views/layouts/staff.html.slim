@@ -3,7 +3,7 @@
     .col-lg-3
       .sidebar-nav
         ul.nav
-          - if Settings.transmitter_log_enabled?
+          - if Settings.contest_book_enabled?
             = active_link_to 'Ticket Signups', staff_tickets_path, wrap_tag: :li
             = active_link_to 'Contest Suggestions', staff_contest_suggestions_path, wrap_tag: :li
           - if Settings.listener_log_enabled?
