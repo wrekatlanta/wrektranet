@@ -3,17 +3,20 @@
 .page-header
   h1 Air Dashboard
 
-h3
-  = link_to 'T-Log', air_transmitter_log_entries_path
+- if Settings.transmitter_log_enabled?
+  h3
+    = link_to 'T-Log', air_transmitter_log_entries_path
 
-p Sign the dang T-log!
+  p Sign the dang T-log!
 
-h3
-  = link_to 'Contests', air_contests_path
+- if Settings.contest_book_enabled?
+  h3
+    = link_to 'Contests', air_contests_path
 
-p Give away concert tickets to listeners.
+  p Give away concert tickets to listeners.
 
-h3
-  = link_to 'PSAs', air_psas_path
+- if Settings.psa_book_enabled?
+  h3
+    = link_to 'PSAs', air_psas_path
 
-p Announce public service announcements.
+  p Announce public service announcements.

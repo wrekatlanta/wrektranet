@@ -3,14 +3,17 @@
     .col-lg-3
       .sidebar-nav
         ul.nav
-          li
-            a Contest Book
-            ul.nav
-              = active_link_to 'Contests', admin_contests_path, wrap_tag: :li
-              = active_link_to 'Venues', admin_venues_path, wrap_tag: :li
-              = active_link_to 'Signups', admin_tickets_path, wrap_tag: :li
-          = active_link_to 'PSAs', admin_psas_path, wrap_tag: :li
-          = active_link_to 'Transmitter Log', admin_transmitter_log_entries_path, wrap_tag: :li
+          - if Settings.contest_book_enabled?
+            li
+              a Contest Book
+              ul.nav
+                = active_link_to 'Contests', admin_contests_path, wrap_tag: :li
+                = active_link_to 'Venues', admin_venues_path, wrap_tag: :li
+                = active_link_to 'Signups', admin_tickets_path, wrap_tag: :li
+          - if Settings.psa_book_enabled?
+            = active_link_to 'PSAs', admin_psas_path, wrap_tag: :li
+          - if Settings.transmitter_log_enabled?
+            = active_link_to 'Transmitter Log', admin_transmitter_log_entries_path, wrap_tag: :li
     .col-lg-9
       = render 'layouts/messages'
       = yield
