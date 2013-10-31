@@ -3,6 +3,8 @@ class Admin::StaffTicketsController < Admin::BaseController
   load_and_authorize_resource except: [:create]
 
   def index
+    authorize! :manage, StaffTicket
+
     if params.has_key?(:contest_id)
       @contest = Contest.find(params[:contest_id])
       @staff_tickets = @contest.staff_tickets
