@@ -68,15 +68,15 @@ feature "Contest air giveaway" do
     end
   end
 
-  scenario "User views a contest"
+  scenario "User views a contest" do
     
   end
 
-  scenario "User adds listener tickets"
+  scenario "User adds listener tickets" do
 
   end
 
-  scenario "User deletes a listener ticket"
+  scenario "User deletes a listener ticket" do
 
   end
 end
