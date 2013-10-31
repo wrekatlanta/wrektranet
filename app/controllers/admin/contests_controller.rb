@@ -2,6 +2,8 @@ class Admin::ContestsController < Admin::BaseController
   load_and_authorize_resource except: [:create]
 
   def index
+    authorize! :manage, Contest
+
     @contests = @contests.
       includes(:venue, :listener_tickets, :staff_tickets).
       paginate(page: params[:page], per_page: 30)

@@ -64,6 +64,30 @@ class User < ActiveRecord::Base
     self.admin
   end
 
+  def exec?(roles = [:contest_director])
+    result = self.admin?
+
+    if result
+      true
+    else
+      roles.each do |role|
+        result ||= self.has_role?(role) 
+      end
+    end
+
+    return result
+  end
+
+  def authorize_exec!(roles = [:contest_director])
+    unless self.exec?(roles)
+      raise CanCan::AccessDenied
+    end
+  end
+
+  def contest_director?
+    self.exec?([:contest_director])
+  end
+
   # FIXME: make this generic
   def strip_phone
     self.phone.gsub!(/\D/, '') if self.phone

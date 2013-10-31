@@ -2,6 +2,8 @@ class Admin::VenuesController < Admin::BaseController
   load_and_authorize_resource except: [:create]
 
   def index
+    authorize! :manage, Venue
+
     @venues = @venues.
       includes(:contacts).
       paginate(page: params[:page], per_page: 30)

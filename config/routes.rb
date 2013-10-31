@@ -55,6 +55,7 @@ Wrek::Application.routes.draw do
     resources :transmitter_log_entries do
     end
 
+    resources :users
     resources :venues
     resources :staff_tickets, as: 'tickets'
   end

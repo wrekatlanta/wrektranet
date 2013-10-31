@@ -9,4 +9,7 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, :alert => exception.message
   end
 
+  def authorize_exec
+    current_user.authorize_exec!
+  end
 end
