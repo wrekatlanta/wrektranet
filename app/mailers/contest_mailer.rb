@@ -4,7 +4,7 @@ class ContestMailer < ActionMailer::Base
 
   def ticket_email(contest)
     @contest = contest
-    date = l(contest.date, format: :contest_date)
+    date = l(contest.event.start_time, format: :contest_date)
 
     mail(to: @contest.recipient.contacts.map(&:email), subject: "[WREK] Contest Winners for #{date}")
   end
