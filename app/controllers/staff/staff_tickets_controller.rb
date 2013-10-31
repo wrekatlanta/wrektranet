@@ -6,7 +6,6 @@ class Staff::StaffTicketsController < Staff::BaseController
     @staff_tickets = @staff_tickets.
       upcoming.
       includes(:user).
-      paginate(page: params[:page], per_page: 30).
       decorate
   end
 
