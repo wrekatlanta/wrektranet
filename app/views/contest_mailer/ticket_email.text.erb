@@ -1,0 +1,24 @@
+<% content_for :teaser do %>WREK ticket winners for <%= @contest.event.name %><% end %>
+
+<% content_for :content do %>
+Ticket Winners
+------------------------------------------------------------
+Hello! Here are our contest winners for #{@contest.event.name}!
+
+<% unless @contest.listener_tickets.empty? %>
+Callers:
+------------------------------------------------------------
+<% for ticket in @contest.listener_tickets %>
+* <%= ticket.name %><% if @contest.listener_plus_one %> +1<% end %>
+<% end %>
+<% end %>
+
+<% unless @contest.staff_tickets.awarded.empty? %>
+Staff:
+------------------------------------------------------------
+<% for ticket in @contest.staff_tickets.awarded %>
+* <%= ticket.user.name %><% if @contest.staff_plus_one %> +1<% end %>
+<% end %>
+<% end %>
+
+Thank you, and let us know if you have any questions!<% end %>
