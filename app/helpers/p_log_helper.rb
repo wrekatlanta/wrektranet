@@ -1,0 +1,2 @@
+module PLogHelper
+end
