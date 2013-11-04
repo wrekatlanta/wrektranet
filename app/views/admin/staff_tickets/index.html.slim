@@ -27,9 +27,6 @@ div ng-controller="adminTicketListCtrl"
       tr ng-repeat="ticket in tickets | filter:filter" ng-controller="adminTicketCtrl"
         td = "{{ticket.user.username}}"
         td
-          a href="/admin/contests/{{ticket.contest.id}}/staff_tickets"
-            | {{ticket.contest.event.name}}
-        td
           span ng-switch="isEditingName || ticket.display_name == null"
             span ng-switch-when="true"
               span ng-switch="isEditingName"
@@ -46,6 +43,9 @@ div ng-controller="adminTicketListCtrl"
               | {{ticket.display_name}} 
               a> href="javascript:0" ng-click="openEdit()" (edit)
               a href="javascript:0" ng-click="revertName()" (revert)
+        td
+          a href="/admin/contests/{{ticket.contest.id}}/staff_tickets"
+            | {{ticket.contest.event.name}}
         td = "{{ticket.contest.event.start_time | date:'short'}}"
         td = "{{ticket.contest.venue.name}}"
         td = "{{ticket.created_at | date:'short'}}"
