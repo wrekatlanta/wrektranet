@@ -9,14 +9,19 @@
 
   p Sign the dang T-log!
 
+- if Settings.psa_book_enabled?
+  h3
+    = link_to 'PSAs', air_psas_path
+
+  p Announce public service announcements.
+
 - if Settings.contest_book_enabled?
   h3
     = link_to 'Contests', air_contests_path
 
   p Give away concert tickets to listeners.
 
-- if Settings.psa_book_enabled?
   h3
-    = link_to 'PSAs', air_psas_path
+    = link_to 'Calendar', air_events_path
 
-  p Announce public service announcements.
+  p Let your listeners know about events in and around Atlanta.

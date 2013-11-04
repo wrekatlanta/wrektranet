@@ -14,4 +14,8 @@ module Settings
   def self.listener_log_enabled?
     Rails.env.development?
   end
+
+  def self.calendar_enabled?
+    ENV.has_key? 'EVENT_CALENDAR_ID'
+  end
 end

@@ -6,6 +6,8 @@ Wrek::Application.routes.draw do
   namespace :air do
     root to: "dashboard#index"
 
+    resources :events, only: [:index]
+
     resources :contests do
       resources :listener_tickets, shallow: true
     end
