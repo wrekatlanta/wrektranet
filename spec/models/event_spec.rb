@@ -12,6 +12,7 @@
 #  created_at     :datetime
 #  updated_at     :datetime
 #  public         :boolean          default(TRUE)
+#  google_id      :string(255)
 #
 
 require 'spec_helper'

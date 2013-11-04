@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: transmitter_log_entries
+#
+#  id             :integer          not null, primary key
+#  sign_in        :datetime
+#  sign_out       :datetime
+#  user_id        :integer
+#  created_at     :datetime
+#  updated_at     :datetime
+#  automation_in  :boolean          default(FALSE)
+#  automation_out :boolean          default(FALSE)
+#
+
 class TransmitterLogEntry < ActiveRecord::Base
   belongs_to :user
 

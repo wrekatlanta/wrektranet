@@ -12,6 +12,7 @@
 #  created_at     :datetime
 #  updated_at     :datetime
 #  public         :boolean          default(TRUE)
+#  google_id      :string(255)
 #
 
 class Event < ActiveRecord::Base
@@ -50,7 +51,7 @@ class Event < ActiveRecord::Base
     if Rails.env.production? and ENV.has_key?('EVENT_CALENDAR_ID') and self.public
       client = GoogleAppsHelper.create_client
       calendar = client.discovered_api('calendar', 'v3')
-      client.execute(
+      result = client.execute(
         api_method: calendar.events.insert,
         parameters: { 'calendarId' => ENV['EVENT_CALENDAR_ID'] },
         body_object: {
@@ -64,6 +65,9 @@ class Event < ActiveRecord::Base
           location: self.try(:eventable).try(:venue).try(:name)
         }
       )
+
+      self.google_id = result.data.id
+      self.save!
     end
   end
 

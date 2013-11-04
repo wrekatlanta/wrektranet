@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: power_readings
+#
+#  id            :integer          not null, primary key
+#  plate_current :float
+#  plate_voltage :float
+#  power_out     :float
+#  created_at    :datetime
+#  updated_at    :datetime
+#
+
 class PowerReading < ActiveRecord::Base
   before_validation :scrape_reading
 
