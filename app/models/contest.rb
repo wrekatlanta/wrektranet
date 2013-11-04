@@ -74,6 +74,10 @@ class Contest < ActiveRecord::Base
     !self.sent and (self.send_time >= Time.zone.now.beginning_of_day)
   end
 
+  def up_to?(time = 2.weeks)
+    self.send_time <= (Time.zone.now.beginning_of_day + time)
+  end
+
   def recipient
     return self.alternate_recipient || self.venue
   end

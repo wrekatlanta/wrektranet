@@ -15,7 +15,10 @@ module GoogleAppsHelper
     @@client.authorization = Signet::OAuth2::Client.new(
       token_credential_uri: 'https://accounts.google.com/o/oauth2/token',
       audience: 'https://accounts.google.com/o/oauth2/token',
-      scope: ['https://www.googleapis.com/auth/admin.directory.user'],
+      scope: [
+        'https://www.googleapis.com/auth/admin.directory.user',
+        'https://www.googleapis.com/auth/calendar'
+      ],
       issuer: ENV['GOOGLE_APPS_ISSUER'],
       signing_key: @@key,
       person: ENV['GOOGLE_APPS_PERSON']
