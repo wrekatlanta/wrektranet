@@ -70,12 +70,9 @@ class Contest < ActiveRecord::Base
   validates :listener_ticket_limit, numericality: { greater_than_or_equal_to: 0 }
   validates :staff_ticket_limit, numericality: { greater_than_or_equal_to: 0 }
 
-  def announceable?
-    !self.sent and (self.send_time >= Time.zone.now.beginning_of_day)
-  end
-
-  def up_to?(time = 2.weeks)
-    self.send_time <= (Time.zone.now.beginning_of_day + time)
+  def announceable?(time = 2.weeks)
+    today = Time.zone.now.beginning_of_day
+    !self.sent and (self.send_time >= today) and (self.send_time <= (today + time))
   end
 
   def recipient
