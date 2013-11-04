@@ -49,6 +49,6 @@ class Admin::StaffTicketsController < Admin::BaseController
 
   private
     def staff_ticket_params
-      params.require(:staff_ticket).permit(:id, :awarded, :user_id)
+      params.require(:staff_ticket).permit(:id, :display_name, :awarded, :user_id)
     end
 end

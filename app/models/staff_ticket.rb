@@ -9,6 +9,7 @@
 #  awarded             :boolean          default(FALSE)
 #  created_at          :datetime
 #  updated_at          :datetime
+#  name                :string(255)
 #
 
 class StaffTicket < ActiveRecord::Base
@@ -38,6 +39,10 @@ class StaffTicket < ActiveRecord::Base
   validates :user_id, presence: :true
   validates_uniqueness_of :user_id, scope: [:contest_id]
   validate :ticket_count_within_limit, on: :update
+
+  def name
+    self.display_name.presence || self.user.name
+  end
 
   private
     def ticket_count_within_limit

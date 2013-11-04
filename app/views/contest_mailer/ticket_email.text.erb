@@ -17,7 +17,7 @@ Callers:
 Staff:
 ------------------------------------------------------------
 <% for ticket in @contest.staff_tickets.awarded %>
-* <%= ticket.user.name %><% if @contest.staff_plus_one %> +1<% end %>
+* <%= ticket.name %><% if @contest.staff_plus_one %> +1<% end %>
 <% end %>
 <% end %>
 

@@ -64,6 +64,9 @@ angular.module("wrektranet.adminTicketCtrl", [])
       }
     });
 
+    $scope.isEditingName = false;
+    $scope.nameBackup = null;
+
     $scope.isContestFull = function() {
       var limit, total;
 
@@ -72,28 +75,66 @@ angular.module("wrektranet.adminTicketCtrl", [])
       return (limit - total === 0);
     };
 
-    $scope.award = function(ticket) {
+    $scope.openEdit = function() {
+      $scope.nameBackup = $scope.ticket.display_name;
+
+      if (!$scope.ticket.display_name) {
+        $scope.ticket.display_name = '';
+      }
+
+      $scope.isEditingName = true;
+    };
+
+    $scope.cancelEdit = function() {
+      $scope.ticket.display_name = $scope.nameBackup;
+      $scope.isEditingName = false;
+    };
+
+    $scope.revertName = function() {
       var restangularTicket = Restangular.
-        restangularizeElement(null, ticket, 'staff_tickets');
+        restangularizeElement(null, $scope.ticket, 'staff_tickets');
+
+      restangularTicket.display_name = null;
+      restangularTicket
+        .put()
+        .then(function() {
+          $scope.isEditingName = false;
+        });
+    };
+
+    $scope.saveName = function() {
+      var restangularTicket = Restangular.
+        restangularizeElement(null, $scope.ticket, 'staff_tickets');
+
+      restangularTicket
+        .put()
+        .then(function() {
+          $scope.isEditingName = false;
+        });
+    };
+
+    $scope.award = function() {
+      var restangularTicket = Restangular.
+        restangularizeElement(null, $scope.ticket, 'staff_tickets');
 
       restangularTicket.awarded = true;
       restangularTicket
         .put()
         .then(function(updatedTicket) {
-          ticket.awarded = true;
+          $scope.ticket.awarded = true;
           $scope.$emit('updateContests', updatedTicket.contest);
         });
     };
 
-    $scope.unaward = function(ticket) {
+    $scope.unaward = function() {
       var restangularTicket = Restangular
-        .restangularizeElement(null, ticket, 'staff_tickets');
+        .restangularizeElement(null, $scope.ticket, 'staff_tickets');
 
       restangularTicket.awarded = false;
       restangularTicket
         .put()
         .then(function(updatedTicket) {
-          ticket.awarded = false;
+          $scope.ticket.awarded = false;
           $scope.$emit('updateContests', updatedTicket.contest);
         });
     };
