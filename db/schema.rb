@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131104022148) do
+ActiveRecord::Schema.define(version: 20131104034911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,6 +133,7 @@ ActiveRecord::Schema.define(version: 20131104022148) do
     t.boolean  "awarded",             default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "display_name"
   end
 
   add_index "staff_tickets", ["user_id"], name: "index_staff_tickets_on_user_id", using: :btree

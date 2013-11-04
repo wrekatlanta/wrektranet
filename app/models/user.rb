@@ -122,4 +122,11 @@ class User < ActiveRecord::Base
       end
     end
   end
+
+  def serializable_hash(options={})
+    options = { 
+      methods: [:name]
+    }.update(options)
+    super(options)
+  end
 end

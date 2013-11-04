@@ -9,6 +9,7 @@
 #  awarded             :boolean          default(FALSE)
 #  created_at          :datetime
 #  updated_at          :datetime
+#  name                :string(255)
 #
 
 require 'spec_helper'
