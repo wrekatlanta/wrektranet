@@ -5,14 +5,4 @@
 
 = render 'navigation'
 
-- defaults = {input_wrapper_html: {class: 'col-lg-6'}, label_html: {class: 'col-lg-2'}}
-
-= simple_form_for [:admin, @user], html: {class: 'form-horizontal'}, defaults: defaults do |f|
-  = f.input :username, input_html: { class: 'form-control' }
-  = f.input :email, input_html: { class: 'form-control' }
-  = f.input :first_name, input_html: { class: 'form-control' }
-  = f.input :last_name, input_html: { class: 'form-control' }
-  = f.input :phone, input_html: { class: 'form-control' }
-  .form-group
-    .col-lg-offset-2.col-lg-10
-      = f.button :submit, class: 'btn-primary'
+= render 'form'

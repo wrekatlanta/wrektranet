@@ -1,7 +1,8 @@
 Wrek::Application.routes.draw do
   root to: "welcome#index"
 
-  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
+  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks",
+                                    registrations: "registrations" }
 
   namespace :air do
     root to: "dashboard#index"

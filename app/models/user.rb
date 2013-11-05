@@ -28,6 +28,7 @@
 
 class User < ActiveRecord::Base
   before_save :strip_phone
+  after_update :sync_to_google_apps
 
   rolify
   # Include default devise modules. Others available are:
@@ -91,6 +92,32 @@ class User < ActiveRecord::Base
   # FIXME: make this generic
   def strip_phone
     self.phone.gsub!(/\D/, '') if self.phone
+  end
+
+  def sync_to_google_apps
+    if Rails.env.production?
+      client = GoogleAppsHelper.create_client
+      directory = client.discovered_api('admin', 'directory_v1')
+      client.execute(
+        api_method: directory.users.patch,
+        parameters: {
+          userKey: self.username + '@wrek.org'
+        },
+        body_object: {
+          name: {
+            familyName: self.last_name,
+            givenName: self.first_name
+          },
+          phones: [
+            {
+              primary: true,
+              type: "mobile",
+              value: self.phone.presence || ''
+            }
+          ]
+        }
+      )
+    end
   end
 
   def self.find_by_username(username)
