@@ -28,7 +28,8 @@ namespace :import do
           phone: phone
         })
 
-        batch.add(api_method: directory.users.insert,
+        batch.add(
+          api_method: directory.users.insert,
           body_object: {
             name: {
               familyName: last_name,
@@ -36,6 +37,7 @@ namespace :import do
             },
             password: password,
             primaryEmail: initials + '@wrek.org',
+            changePasswordAtNextLogin: true,
             phones: [
               {
                 primary: true,
