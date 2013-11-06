@@ -121,14 +121,14 @@ class User < ActiveRecord::Base
   end
 
   def self.find_by_username(username)
-    User.first(conditions: ["lower(username) = ?", username.downcase])
+    User.where("lower(username) = ?", username.downcase).first
   end
 
   def self.find_for_googleapps_oauth(access_token, signed_in_resource = nil)
     data = access_token['info']
     username = data['email'][/[^@]+/]
 
-    if user = User.find_by(username: username)
+    if user = User.find_by_username(username: username)
       return user
     else
       # create a user with stub password
