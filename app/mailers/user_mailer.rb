@@ -7,8 +7,8 @@ class UserMailer < ActionMailer::Base
     delivery_options = { user_name: ENV['GMAIL_IT_USERNAME'],
                          password: ENV['GMAIL_IT_PASSWORD'] }
 
-    mail.delivery_method.settings.merge!(delivery_options)
-
-    mail(to: email, subject: "[WREK] Your New Google Apps Account")
+    mail(to: email,
+         subject: "[WREK] Your New Google Apps Account",
+         delivery_method_options: delivery_options)
   end
 end
