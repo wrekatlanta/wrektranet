@@ -5,27 +5,28 @@
 
 = render 'navigation'
 
-table.table.table-striped
-  thead
-    tr
-      th Username
-      th Name
-      th Phone
-      th Status
-      th Admin
-      th Roles
-  tbody
-    - unless @users.empty?
-      - for user in @users do
-        tr
-          td = link_to user.username, edit_admin_user_path(user)
-          td = user.name
-          td = number_to_phone user.phone
-          td = user.status
-          td = user.admin? ? 'Yes' : 'No'
-          td = user.roles.map(&:name).join('<br>').html_safe
-    - else
+.table-responsive
+  table.table.table-striped
+    thead
       tr
-        td colspan="4" No results were found.
+        th Username
+        th Name
+        th Phone
+        th Status
+        th Admin
+        th Roles
+    tbody
+      - unless @users.empty?
+        - for user in @users do
+          tr
+            td = link_to user.username, edit_admin_user_path(user)
+            td = user.name
+            td = number_to_phone user.phone
+            td = user.status
+            td = user.admin? ? 'Yes' : 'No'
+            td = user.roles.map(&:name).join('<br>').html_safe
+      - else
+        tr
+          td colspan="4" No results were found.
 
 = will_paginate @contests, renderer: BootstrapPagination::Rails, bootstrap: 3

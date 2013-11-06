@@ -5,27 +5,28 @@
 
 = render 'navigation'
 
-table.table.table-striped
-  thead
-    tr
-      th Event
-      th Time
-      th Venue
-      th Listeners
-      th Staff
-      th Sent
-  tbody
-    - unless @contests.empty?
-      - for contest in @contests do
-        tr
-          td = link_to contest.event.name, edit_admin_contest_path(contest)
-          td = l contest.event.start_time, format: :us_time
-          td = link_to contest.venue.name, edit_admin_venue_path(contest.venue)
-          td = contest.listener_ticket_label
-          td = contest.staff_ticket_label
-          td = contest.sent_label
-    - else
+.table-responsive
+  table.table.table-striped
+    thead
       tr
-        td colspan="4" No results were found.
+        th Event
+        th Time
+        th Venue
+        th Listeners
+        th Staff
+        th Sent
+    tbody
+      - unless @contests.empty?
+        - for contest in @contests do
+          tr
+            td = link_to contest.event.name, edit_admin_contest_path(contest)
+            td = l contest.event.start_time, format: :us_time
+            td = link_to contest.venue.name, edit_admin_venue_path(contest.venue)
+            td = contest.listener_ticket_label
+            td = contest.staff_ticket_label
+            td = contest.sent_label
+      - else
+        tr
+          td colspan="4" No results were found.
 
 = will_paginate @contests, renderer: BootstrapPagination::Rails, bootstrap: 3

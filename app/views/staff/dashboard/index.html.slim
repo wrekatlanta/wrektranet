@@ -3,19 +3,18 @@
 .page-header
   h1 Staff Dashboard
 
-- if Settings.contest_book_enabled?
-  h3
-    = link_to 'Ticket Signups', staff_tickets_path
+.list-group
 
-  p Sign up for tickets and see what other people have signed up for. Be sure to do your digitizations!
+  - if Settings.contest_book_enabled?
+    = link_to staff_tickets_path, class: 'list-group-item' do
+      h4.list-group-item-heading Ticket Signups
+      p.list-group-item-text Sign up for tickets and see what other people have signed up for. Be sure to do your digitizations!
 
-  h3
-    = link_to 'Contest Suggestions', staff_contest_suggestions_path 
+    = link_to staff_contest_suggestions_path, class: 'list-group-item' do
+      h4.list-group-item-heading Contest Suggestions
+      p.list-group-item-text Is there a concert you'd like to see in the contest book? Submit a suggestion.
 
-  p Is there a concert you'd like to see in the contest book? Submit a suggestion.
-
-- if Settings.listener_log_enabled?
-  h3
-    = link_to 'Listener Logs', staff_listener_logs_path
-
-  p Curious to see what the current online listenership is? Want to see our listeners over time?
+  - if Settings.listener_log_enabled?
+    = link_to staff_listener_logs_path, class: 'list-group-item' do
+      h4.list-group-item-heading Listener Logs
+      p.list-group-item-text Curious to see what the current online listenership is? Want to see our listeners over time?
