@@ -128,7 +128,7 @@ class User < ActiveRecord::Base
     data = access_token['info']
     username = data['email'][/[^@]+/]
 
-    if user = User.find_by_username(username: username)
+    if user = User.find_by_username(username)
       return user
     else
       # create a user with stub password
