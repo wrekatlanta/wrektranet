@@ -16,7 +16,7 @@ class Admin::ProgramLogEntrySchedulesController < Admin::BaseController
     authorize! :create, @program_log_entry_schedule
 
     if @program_log_entry_schedule.save
-      redirect_to admin_program_log_entry_schedules_path, success: "#{@program_log_entry_schedule.name} created successfully."
+      redirect_to admin_program_log_entry_schedules_path, success: "Program log schedule created successfully."
     else
       render :new
     end
@@ -27,7 +27,7 @@ class Admin::ProgramLogEntrySchedulesController < Admin::BaseController
 
   def update
     if @program_log_entry_schedule.update_attributes(program_log_entry_schedule_params)
-      redirect_to admin_program_log_entry_schedule_schedules_path, success: "#{@program_log_entry_schedule.name} updated successfully."
+      redirect_to admin_program_log_entry_schedules_path, success: "Program log schedule updated successfully."
     else
       render :edit
     end
@@ -35,7 +35,7 @@ class Admin::ProgramLogEntrySchedulesController < Admin::BaseController
 
   def destroy
     if @program_log_entry_schedule.destroy
-      redirect_to admin_program_log_entry_schedule_schedules_path, success: "#{@program_log_entry_schedule.name} deleted successfully."
+      redirect_to admin_program_log_entry_schedule_schedules_path, success: "Program log schedule deleted successfully."
     else
       render :edit
     end

@@ -7,13 +7,13 @@ class CreateProgramLogEntrySchedules < ActiveRecord::Migration
       t.time :start_time
       t.time :end_time
       t.integer :repeat_interval
-      t.boolean :sunday
-      t.boolean :monday
-      t.boolean :tuesday
-      t.boolean :wednesday
-      t.boolean :thursday
-      t.boolean :friday
-      t.boolean :saturday
+      t.boolean :sunday, default: false
+      t.boolean :monday, default: false
+      t.boolean :tuesday, default: false
+      t.boolean :wednesday, default: false
+      t.boolean :thursday, default: false
+      t.boolean :friday, default: false
+      t.boolean :saturday, default: false
 
       t.timestamps
     end

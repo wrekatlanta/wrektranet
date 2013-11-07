@@ -3,7 +3,6 @@
 = simple_form_for [:admin, @program_log_entry], html: {class: 'form-horizontal'}, defaults: defaults do |f|
   / fill out this form, here's an example field:
   = f.input :name, input_html: { class: 'form-control' }
-  / checkboxes should not have the form-control class
   .form-group
     .col-lg-offset-2.col-lg-10
       = f.button :submit, class: 'btn-primary'
