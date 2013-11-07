@@ -48,6 +48,17 @@ class ProgramLogEntrySchedule < ActiveRecord::Base
     self.expiration_date = parse_date(value)
   end
 
+  # Finds schedules for a given day of the week (using Time#wday)
+  def self.find_by_wday(wday = nil)
+    wday_mapping = ['sunday', 'monday', 'tuesday', 'wednesday',
+                    'thursday', 'friday', 'saturday']
+
+    wday ||= Time.zone.now.wday
+    day = wday_mapping[wday] || wday_mapping[0]
+
+    where(day => true)
+  end
+
   private
     def expiration_date_in_future
       errors.add(:expiration_date, "Cannot be in the past.") if
