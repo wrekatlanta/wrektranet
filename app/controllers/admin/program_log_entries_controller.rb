@@ -12,11 +12,11 @@ class Admin::ProgramLogEntriesController < Admin::BaseController
   end
 
   def create
-    @program_log_entry = program_log_entry.new(program_log_entry_params)
+    @program_log_entry = ProgramLogEntry.new(program_log_entry_params)
     authorize! :create, @program_log_entry
 
     if @program_log_entry.save
-      redirect_to new_admin_program_log_entry_path, success: "#{@program_log_entry.name} created successfully."
+      redirect_to admin_program_log_entries_path, success: "#{@program_log_entry.name} created successfully."
     else
       render :new
     end

@@ -12,11 +12,11 @@ class Admin::ProgramLogEntrySchedulesController < Admin::BaseController
   end
 
   def create
-    @program_log_entry_schedule = program_log_entry_schedule.new(program_log_entry_schedule_params)
+    @program_log_entry_schedule = ProgramLogEntrySchedule.new(program_log_entry_schedule_params)
     authorize! :create, @program_log_entry_schedule
 
     if @program_log_entry_schedule.save
-      redirect_to new_admin_program_log_entry_schedule_path, success: "#{@program_log_entry_schedule.name} created successfully."
+      redirect_to admin_program_log_entry_schedules_path, success: "#{@program_log_entry_schedule.name} created successfully."
     else
       render :new
     end

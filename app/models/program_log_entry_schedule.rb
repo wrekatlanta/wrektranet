@@ -28,6 +28,7 @@ class ProgramLogEntrySchedule < ActiveRecord::Base
 
   belongs_to :program_log_entry
 
+  validate :program_log_entry, presence: true
   validate :start_date_string_is_date, unless: -> { self.start_date.blank? }
   validate :expiration_date_string_is_date, unless: -> { self.expiration_date.blank? }
   validate :expiration_date_in_future, on: :save, unless: -> { self.expiration_date.blank? }
