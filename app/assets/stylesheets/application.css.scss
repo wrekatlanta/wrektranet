@@ -21,3 +21,11 @@ body {
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
+
+.panel > .table-responsive {
+  margin-bottom: 0;
+
+  > .table {
+    margin-bottom: 0;
+  }
+}

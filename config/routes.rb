@@ -1,15 +1,24 @@
 Wrek::Application.routes.draw do
   root to: "welcome#index"
 
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks",
+                                    registrations: "registrations" }
 
   namespace :air do
     root to: "dashboard#index"
+
+    resources :events, only: [:index]
 
     resources :contests do
       resources :listener_tickets, shallow: true
     end
 
+    resources :transmitter_log_entries do
+      collection do
+        get 'unsigned'
+      end
+    end
+    
     resources :psas do
       resources :psa_readings
     end
@@ -24,6 +33,12 @@ Wrek::Application.routes.draw do
       end
     end
 
+    resources :listener_logs do
+      collection do
+        get 'current'
+      end
+    end
+
     resources :contest_suggestions
   end
 
@@ -31,9 +46,7 @@ Wrek::Application.routes.draw do
     root to: "dashboard#index"
 
     resources :contests do
-      collection do
-        get 'past', to: :index, defaults: { filter: 'past' }
-      end
+      resources :staff_tickets, shallow: true
     end
 
     resources :psas do
@@ -42,6 +55,10 @@ Wrek::Application.routes.draw do
       end
     end
 
+    resources :transmitter_log_entries do
+    end
+
+    resources :users
     resources :venues
     resources :staff_tickets, as: 'tickets'
   end

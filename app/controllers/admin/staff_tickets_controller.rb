@@ -3,9 +3,34 @@ class Admin::StaffTicketsController < Admin::BaseController
   load_and_authorize_resource except: [:create]
 
   def index
-    @staff_tickets = @staff_tickets
-      .announceable
-      .decorate
+    authorize! :manage, StaffTicket
+
+    if params.has_key?(:contest_id)
+      @contest = Contest.find(params[:contest_id])
+      @staff_tickets = @contest.staff_tickets
+    else
+      @staff_tickets = @staff_tickets.announceable
+    end
+
+    @staff_tickets = @staff_tickets.decorate
+  end
+
+  def create
+    @staff_ticket = StaffTicket.new(staff_ticket_params)
+    authorize! :create, @staff_ticket
+
+    if params.has_key?(:contest_id)
+      @contest = Contest.find(params[:contest_id])
+      @staff_ticket.contest = @contest
+    end
+
+    @staff_ticket.contest_director = current_user
+    @staff_ticket.awarded = true
+    @staff_ticket.save
+
+    render json: @staff_ticket.to_json({
+      include: [:user, {contest: {include: [:venue, :event]}}]
+    })
   end
 
   def update
@@ -15,7 +40,7 @@ class Admin::StaffTicketsController < Admin::BaseController
       staff_ticket_params.merge!(contest_director_id: nil)
     end
 
-    @staff_ticket.update_attributes(staff_ticket_params)
+    @staff_ticket.update_attributes!(staff_ticket_params)
 
     render json: @staff_ticket.to_json({
       include: [:user, {contest: {include: [:venue, :event]}}]
@@ -24,6 +49,6 @@ class Admin::StaffTicketsController < Admin::BaseController
 
   private
     def staff_ticket_params
-      params.require(:staff_ticket).permit(:id, :awarded)
+      params.require(:staff_ticket).permit(:id, :display_name, :awarded, :user_id)
     end
 end

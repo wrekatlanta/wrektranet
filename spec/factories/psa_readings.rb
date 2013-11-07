@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :psa_reading do
-    user_id 1
-    psa_id 1
+    user
+    psa
   end
 end

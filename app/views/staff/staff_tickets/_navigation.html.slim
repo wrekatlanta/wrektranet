@@ -1,5 +1,5 @@
 ul.nav.nav-tabs
-  = active_link_to 'Upcoming', staff_tickets_path(filter: nil), wrap_tag: :li, active: :exclusive
+  = active_link_to 'Everyone', staff_tickets_path(filter: nil), wrap_tag: :li, active: :exclusive
   = active_link_to 'Your Signups', me_staff_tickets_path, wrap_tag: :li, active: :exclusive
   = active_link_to 'Signup', new_staff_ticket_path, wrap_tag: :li, active: :exclusive
 br

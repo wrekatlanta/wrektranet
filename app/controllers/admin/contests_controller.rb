@@ -2,6 +2,8 @@ class Admin::ContestsController < Admin::BaseController
   load_and_authorize_resource except: [:create]
 
   def index
+    authorize! :manage, Contest
+
     @contests = @contests.
       includes(:venue, :listener_tickets, :staff_tickets).
       paginate(page: params[:page], per_page: 30)
@@ -23,7 +25,7 @@ class Admin::ContestsController < Admin::BaseController
     authorize! :create, @contest
 
     if @contest.save
-      redirect_to admin_contests_path, success: "#{@contest.event.name} created successfully."
+      redirect_to new_admin_contest_path, success: "#{@contest.event.name} created successfully."
     else
       render :new
     end
@@ -53,7 +55,7 @@ class Admin::ContestsController < Admin::BaseController
       params.require(:contest).permit(
         :venue_id, :alternate_recipient_id,
         :age_limit, :listener_ticket_limit, :listener_plus_one,
-        :staff_ticket_limit, :staff_plus_one,
+        :pick_up, :staff_ticket_limit, :staff_plus_one,
         :notes, event_attributes: [:name, :start_time_string, :public]
       )
     end

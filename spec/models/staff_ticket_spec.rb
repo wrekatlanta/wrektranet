@@ -9,46 +9,65 @@
 #  awarded             :boolean          default(FALSE)
 #  created_at          :datetime
 #  updated_at          :datetime
+#  name                :string(255)
 #
 
 require 'spec_helper'
 
 describe StaffTicket do
+  let(:contest) { FactoryGirl.create(:contest) }
+  let(:user) { FactoryGirl.create(:user) }
 
   it "has a valid factory" do
     FactoryGirl.create(:staff_ticket).should be_valid
   end
 
-  describe "#award!" do
-    subject { FactoryGirl.create(:staff_ticket) }
+  before do
+    staff_ticket_attrs = {
+      contest: contest
+    }
 
-    let(:contest_director) { FactoryGirl.create(:contest_director) }
-
-    before do
-      subject.award!(contest_director)
-    end
-
-    its(:awarded) { should be_true }
-    its(:contest_director) { should eq contest_director }
+    @staff_ticket = user.staff_tickets.new(staff_ticket_attrs)
   end
 
-  describe ".create_from_suggestion" do
-    let(:suggestion) { FactoryGirl.create(:contest_suggestion) }
-    let(:contest) { FactoryGirl.create(:contest) }
-    subject { StaffTicket.create_from_suggestion!(suggestion, contest) }
+  subject { @staff_ticket }
 
-    before { subject.save }
-    
-    it "should create a new staff ticket" do
-      subject.should be_a_kind_of(StaffTicket)
+  describe "#awarded" do
+    context "initialization" do
+      its(:awarded) { should eq false }
+    end
+  end
+
+  describe "awarded limit per contest" do
+    before do
+      @staff_ticket.awarded = false
+      @staff_ticket.save
     end
 
-    it "should archive the suggestion" do
-      suggestion.archived.should eq true
+    let(:contest) { FactoryGirl.create(:contest, staff_ticket_limit: 3) }
+
+    context "where the limit has not been reached" do
+      before do
+        FactoryGirl.create_list(:staff_ticket, contest.staff_ticket_limit - 1,
+          :awarded, contest: contest)
+      end
+
+      it "allows the new staff ticket to be approved" do
+        @staff_ticket.awarded = true
+        expect(@staff_ticket.save).to be_true
+      end
     end
 
-    its(:user) { should eq suggestion.user }
-    its(:contest) { should eq contest }
-    its(:created_at) { should eq suggestion.created_at }
+    context "where the limit has been reached" do
+      before do
+        FactoryGirl.create_list(:staff_ticket, contest.staff_ticket_limit,
+          :awarded, contest: contest)
+      end
+
+      it "does not allow the new staff ticket to be approved" do
+        @staff_ticket.awarded = true
+        expect(@staff_ticket.save).to be_false
+      end
+    end
   end
 end

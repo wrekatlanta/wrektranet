@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130917185454) do
+ActiveRecord::Schema.define(version: 20131104034911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,9 +66,18 @@ ActiveRecord::Schema.define(version: 20130917185454) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "public",         default: true
+    t.string   "google_id"
   end
 
   add_index "events", ["eventable_id", "eventable_type"], name: "index_events_on_eventable_id_and_eventable_type", using: :btree
+
+  create_table "listener_logs", force: true do |t|
+    t.integer  "hd2_128"
+    t.integer  "main_128"
+    t.integer  "main_24"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "listener_tickets", force: true do |t|
     t.string   "name"
@@ -81,6 +90,14 @@ ActiveRecord::Schema.define(version: 20130917185454) do
 
   add_index "listener_tickets", ["contest_id"], name: "index_listener_tickets_on_contest_id", using: :btree
   add_index "listener_tickets", ["user_id"], name: "index_listener_tickets_on_user_id", using: :btree
+
+  create_table "power_readings", force: true do |t|
+    t.float    "plate_current"
+    t.float    "plate_voltage"
+    t.float    "power_out"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "psa_readings", force: true do |t|
     t.integer  "user_id"
@@ -116,9 +133,20 @@ ActiveRecord::Schema.define(version: 20130917185454) do
     t.boolean  "awarded",             default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "display_name"
   end
 
   add_index "staff_tickets", ["user_id"], name: "index_staff_tickets_on_user_id", using: :btree
+
+  create_table "transmitter_log_entries", force: true do |t|
+    t.datetime "sign_in"
+    t.datetime "sign_out"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "automation_in",  default: false
+    t.boolean  "automation_out", default: false
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                              default: "",    null: false
@@ -157,7 +185,6 @@ ActiveRecord::Schema.define(version: 20130917185454) do
 
   create_table "venues", force: true do |t|
     t.string   "name"
-    t.string   "fax"
     t.string   "address"
     t.integer  "send_day_offset"
     t.text     "notes"

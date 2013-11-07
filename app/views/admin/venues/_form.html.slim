@@ -3,14 +3,13 @@
 div ng-controller="adminVenueCtrl" ng-init="venue = #{@venue.to_json(include: :contacts)}"
   = simple_form_for [:admin, @venue], html: {name: 'venueForm', class: 'form-horizontal'}, defaults: defaults do |f|
     = f.input :name, input_html: { class: 'form-control' }
-    = f.input :fax, input_html: { class: 'form-control' }
     = f.input :address, as: :text, input_html: { class: 'form-control' }
     = f.input :send_hour, collection: 0..23, input_html: { class: 'form-control' }, include_blank: false
     = f.input :send_day_offset do
       = f.input_field :send_day_offset, collection: 0..10, class: 'form-control', include_blank: false
       span.help-block How many days early should contests be sent?
 
-    .form-group
+    .form-group.ng-cloak
       label.col-lg-2.control-label Contacts
 
       .col-lg-10
@@ -22,20 +21,22 @@ div ng-controller="adminVenueCtrl" ng-init="venue = #{@venue.to_json(include: :c
           .col-lg-4
             input.form-control type="email" ng-model="contact.email" ng-if="!contact.destroy" required="required"
 
-          .col-lg-1
-            button.btn.btn-danger.btn-block type="button" ng-click="deleteContact(contact)"
-              i.glyphicon.glyphicon-trash
+          .col-lg-6
+            button.btn.btn-danger.delete-contact type="button" ng-click="deleteContact(contact)"
+              i.glyphicon.glyphicon-trash>
+              | Remove Contact
         .form-group
           .col-lg-4
-            input.form-control type="email" name="newContactEmail" ng-model="newContact.email" ui-keydown="{'enter':'addContact($event)'}"
+            input.form-control type="email" name="newContactEmail" ng-model="newContact.email" ui-keydown="{'enter': 'addContact($event)'}"
 
-          .col-lg-1
-            button.btn.btn-primary.btn-block type="button" ng-click="addContact($event)" ng-disabled="venueForm.newContactEmail.$invalid || newContact.email.length === 0"
-              i.glyphicon.glyphicon-plus
+          .col-lg-6
+            button.btn.btn-primary#addContact type="button" ng-click="addContact($event)" ng-disabled="venueForm.newContactEmail.$invalid || newContact.email.length === 0"
+              i.glyphicon.glyphicon-plus>
+              | Add Contact
 
     .form-group
       .col-lg-offset-2.col-lg-10
         = f.button :submit, class: 'btn-primary', :'ng-disabled' => 'venueForm.$invalid'
         - if @venue.persisted?
           |  
-          = link_to 'Delete', [:admin, @venue], confirm: 'Are you sure you want to destroy this venue?', method: :delete, class: 'btn btn-danger'
+          = link_to 'Delete', [:admin, @venue], data: { confirm: 'Are you sure you want to destroy this venue?' }, method: :delete, class: 'btn btn-danger'

@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :psa do
-    title "Chip Alert"
-    body "Chip is very horny today."
+    title "Chad Kroger Alert"
+    body "Chad Kroger is very horny today."
     status "new"
     expiration_date Date.tomorrow
   end

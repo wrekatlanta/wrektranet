@@ -5,23 +5,22 @@
 
 = render 'navigation'
 
-table.table.table-striped
-  thead
-    tr
-      th Venue
-      th Contacts
-      th Fax
-      th Address
-  tbody
-    - unless @venues.empty?
-      - for venue in @venues do
-        tr
-          td = link_to venue.name, edit_admin_venue_path(venue)
-          td = venue.contacts.map(&:email).join(', ')
-          td = venue.fax
-          td = simple_format(venue.address)
-    - else
+.table-responsive
+  table.table.table-striped
+    thead
       tr
-        td colspan="4" No results were found.
+        th Venue
+        th Contacts
+        th Address
+    tbody
+      - unless @venues.empty?
+        - for venue in @venues do
+          tr
+            td = link_to venue.name, edit_admin_venue_path(venue)
+            td = venue.contacts.map(&:email).join('<br>').html_safe
+            td = simple_format(venue.address)
+      - else
+        tr
+          td colspan="4" No results were found.
 
 = will_paginate @venues, renderer: BootstrapPagination::Rails, bootstrap: 3

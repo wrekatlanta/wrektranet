@@ -21,7 +21,7 @@
     ol
       - for ticket in @contest.staff_tickets.awarded
         li
-          = ticket.user.name
+          = ticket.name
           - if @contest.staff_plus_one
             |  +1 
 

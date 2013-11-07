@@ -20,7 +20,7 @@ class ContestDecorator < ApplicationDecorator
   def listener_ticket_label
     label_class = fraction_class(
       object.listener_ticket_limit,
-      object.listener_tickets.size
+      object.listener_count
     )
 
     h.content_tag :span, class: "label label-#{label_class}" do
@@ -40,17 +40,17 @@ class ContestDecorator < ApplicationDecorator
   end
 
   def sent_label
-    label_class = object.sent ? 'success' : 'danger'
+    label_class = object.sent ? 'danger' : 'success'
     h.content_tag :span, class: "label label-#{label_class}" do
       object.sent ? 'Yes' : 'No'
     end
   end
 
   private
-    def fraction_class(amount, total=0)
-      if amount == 0
+    def fraction_class(limit, total=0)
+      if total == 0
         'success'
-      elsif amount < total
+      elsif total < limit
         'warning'
       else
         'danger'
