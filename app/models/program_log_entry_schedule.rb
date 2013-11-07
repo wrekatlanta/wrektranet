@@ -21,6 +21,9 @@
 #
 
 class ProgramLogEntrySchedule < ActiveRecord::Base
+  serialize :start_time, Tod::TimeOfDay
+  serialize :end_time, Tod::TimeOfDay
+
   belongs_to :program_log_entry
 
   validate :start_date_string_is_date, unless: -> { self.start_date.blank? }
@@ -44,15 +47,6 @@ class ProgramLogEntrySchedule < ActiveRecord::Base
     @expiration_date_string = value
     self.expiration_date = parse_date(value)
   end
-
-  private
-    def start_date_string_is_date
-      errors.add(:start_date_string, "is invalid") unless parse_date(start_date_string)
-    end
-
-    def parse_date(chronic_string)
-      Chronic.parse(chronic_string)
-    end
 
   private
     def expiration_date_in_future
