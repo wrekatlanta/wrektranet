@@ -1,4 +1,12 @@
 - defaults = {input_wrapper_html: {class: 'col-lg-6'}, label_html: {class: 'col-lg-2'}}
 
 = simple_form_for [:admin, @program_log_entry], html: {class: 'form-horizontal'}, defaults: defaults do |f|
-  / fill out this form
+  / fill out this form, here's an example field:
+  = f.input :name, input_html: { class: 'form-control' }
+  / checkboxes should not have the form-control class
+  .form-group
+    .col-lg-offset-2.col-lg-10
+      = f.button :submit, class: 'btn-primary'
+      - if @program_log_entry.persisted?
+        |  
+        = link_to 'Delete', [:admin, @program_log_entry], data: { confirm: 'Are you sure you want to destroy this schedule?' }, method: :delete, class: 'btn btn-danger'
