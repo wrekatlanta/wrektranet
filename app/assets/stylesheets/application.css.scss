@@ -24,8 +24,8 @@ body {
 
 .panel > .table-responsive {
   margin-bottom: 0;
-}
 
-.table-responsive > .table {
-  margin-bottom: 0;
+  > .table {
+    margin-bottom: 0;
+  }
 }

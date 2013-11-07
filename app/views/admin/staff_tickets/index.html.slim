@@ -24,7 +24,7 @@ div ng-controller="adminTicketListCtrl"
           th style="width: 10%;"
       tbody
         tr ng-if="tickets.length === 0"
-          td colspan="6" No signups found.
+          td colspan="7" No signups found.
         tr ng-repeat="ticket in tickets | filter:filter" ng-controller="adminTicketCtrl"
           td = "{{ticket.user.username}}"
           td
