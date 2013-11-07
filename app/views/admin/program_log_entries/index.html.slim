@@ -1,0 +1,11 @@
+- content_for :title, "Program Log Entries"
+
+.page-header
+  h1 Program Log Entries
+
+= render 'navigation'
+
+/ insert a table of plog entries here with links to edit them
+/ be sure to add a "no results found" condition
+
+= will_paginate @program_log_entries, renderer: BootstrapPagination::Rails, bootstrap: 3

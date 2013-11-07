@@ -21,6 +21,8 @@
 #
 
 class ProgramLogEntrySchedule < ActiveRecord::Base
+  require 'tod'
+
   serialize :start_time, Tod::TimeOfDay
   serialize :end_time, Tod::TimeOfDay
 
