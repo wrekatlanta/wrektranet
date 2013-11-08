@@ -64,9 +64,6 @@ angular.module("wrektranet.adminTicketCtrl", [])
       }
     });
 
-    $scope.isEditingName = false;
-    $scope.nameBackup = null;
-
     $scope.isContestFull = function() {
       var limit, total;
 
@@ -76,18 +73,14 @@ angular.module("wrektranet.adminTicketCtrl", [])
     };
 
     $scope.openEdit = function() {
-      $scope.nameBackup = $scope.ticket.display_name;
+      var newName = null;
 
-      if (!$scope.ticket.display_name) {
-        $scope.ticket.display_name = '';
+      newName = prompt("Enter a custom name for this ticket:", $scope.ticket.display_name);
+
+      if (newName !== null) {
+        $scope.ticket.display_name = newName;
+        $scope.saveName();
       }
-
-      $scope.isEditingName = true;
-    };
-
-    $scope.cancelEdit = function() {
-      $scope.ticket.display_name = $scope.nameBackup;
-      $scope.isEditingName = false;
     };
 
     $scope.revertName = function() {
@@ -95,22 +88,14 @@ angular.module("wrektranet.adminTicketCtrl", [])
         restangularizeElement(null, $scope.ticket, 'staff_tickets');
 
       restangularTicket.display_name = null;
-      restangularTicket
-        .put()
-        .then(function() {
-          $scope.isEditingName = false;
-        });
+      restangularTicket.put();
     };
 
     $scope.saveName = function() {
       var restangularTicket = Restangular.
         restangularizeElement(null, $scope.ticket, 'staff_tickets');
 
-      restangularTicket
-        .put()
-        .then(function() {
-          $scope.isEditingName = false;
-        });
+      restangularTicket.put();
     };
 
     $scope.award = function() {

@@ -8,6 +8,10 @@ angular.module("wrektranet.staffSignupCtrl", [])
   function($scope, Restangular) {
     Restangular.setBaseUrl('/staff');
 
+    $scope.isContestFull = function(contest) {
+      return (contest.staff_ticket_limit - contest.staff_count) === 0;
+    };
+
     $scope.signup = function(contest) {
       var ticket = {
         staff_ticket: {

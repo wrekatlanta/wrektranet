@@ -15,25 +15,26 @@ form.form-horizontal
   table.table.table-striped.ng-cloak ng-controller="staffSignupCtrl" ng-init="contests = #{@contests.to_json(include: [:venue, :event])}"
     thead
       tr
-        th Event
-        th Time
-        th Venue
-        th Remaining
         th style="width: 10%;"
+          span.sr-only Signup
+        th style="width: 28%;" Event
+        th style="width: 17%;" Time
+        th style="width: 20%;" Venue
+        th Remaining
     tbody
       - unless @contests.empty?
         tr ng-repeat="contest in contests | filter:filter"
+          td.text-right
+            div ng-hide="isContestFull(contest)"
+              button.btn.btn-primary.btn-xs type="button" ng-click="signup(contest)" ng-disabled="contest.signed_up"
+                i.glyphicon> ng-class="{'glyphicon-ok': contest.signed_up, 'glyphicon-plus': !contest.signed_up}"
+                | Sign up
           td
             a href="/air/contests/{{contest.id}}"
               | {{contest.event.name}}
           td = "{{contest.event.start_time | date:'short' }}"
           td = "{{contest.venue.name}}"
           td = "{{contest.staff_ticket_limit - contest.staff_count}}"
-          td.text-right
-            div ng-hide="{{(contest.staff_ticket_limit - contest.staff_count) === 0}}"
-              button.btn.btn-primary.btn-xs type="button" ng-click="signup(contest)" ng-disabled="contest.signed_up"
-                i.glyphicon> ng-class="{'glyphicon-ok': contest.signed_up, 'glyphicon-plus': !contest.signed_up}"
-                | Sign up
       - else
         tr
           td colspan="5" There are currently no tickets you can sign up for.
