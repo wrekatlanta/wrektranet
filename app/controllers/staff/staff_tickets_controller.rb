@@ -37,7 +37,7 @@ class Staff::StaffTicketsController < Staff::BaseController
 
   def destroy
     if @staff_ticket.destroy
-      respond_with success: true
+      respond_with @staff_ticket, success: true, location: me_staff_tickets_path
     end
   end
 
