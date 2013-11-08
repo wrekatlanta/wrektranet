@@ -23,9 +23,11 @@ div ng-controller="adminTicketListCtrl"
           th style="width: 15%;" Time
           th style="width: 15%;" Venue
           th style="width: 15%;" Signup Time
+          th
+            span.sr-only Delete
       tbody
         tr ng-if="tickets.length === 0"
-          td colspan="7" No signups found.
+          td colspan="8" No signups found.
         tr ng-repeat="ticket in tickets | filter:filter" ng-controller="adminTicketCtrl"
           td.text-right
             span ng-switch="ticket.awarded"
@@ -55,6 +57,9 @@ div ng-controller="adminTicketListCtrl"
           td = "{{ticket.contest.event.start_time | date:'short'}}"
           td = "{{ticket.contest.venue.name}}"
           td = "{{ticket.created_at | date:'short'}}"
+          td
+            button.btn.btn-xs.btn-danger ng-click="remove()"
+              i.glyphicon.glyphicon-trash
 
   - if @contest
     form.form-inline.ng-cloak ng-submit="addTicket()" ng-hide="isContestFull()"

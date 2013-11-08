@@ -47,6 +47,12 @@ class Admin::StaffTicketsController < Admin::BaseController
     })
   end
 
+  def destroy
+    if @staff_ticket.destroy
+      respond_with success: true
+    end
+  end
+
   private
     def staff_ticket_params
       params.require(:staff_ticket).permit(:id, :display_name, :awarded, :user_id)

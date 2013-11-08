@@ -123,5 +123,19 @@ angular.module("wrektranet.adminTicketCtrl", [])
           $scope.$emit('updateContests', updatedTicket.contest);
         });
     };
+
+    $scope.remove = function() {
+      var restangularTicket = Restangular
+        .restangularizeElement(null, $scope.ticket, 'staff_tickets');
+
+      if (confirm("Are you sure you want to delete this signup?")) {
+        restangularTicket
+          .remove()
+          .then(function() {
+            _.remove($scope.tickets, $scope.ticket);
+            $scope.ticket = null;
+          });
+      }
+    };
   }
 ]);
