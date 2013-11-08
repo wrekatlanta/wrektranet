@@ -42,6 +42,8 @@ class Ability
 
         can :read, :all
 
+        can :destroy, StaffTicket, user_id: user.id
+
         # admin
         if user.admin?
           can :manage, :all

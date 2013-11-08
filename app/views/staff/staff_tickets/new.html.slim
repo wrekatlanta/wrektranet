@@ -26,9 +26,15 @@ form.form-horizontal
         tr ng-repeat="contest in contests | filter:filter"
           td.text-right
             div ng-hide="isContestFull(contest)"
-              button.btn.btn-primary.btn-xs type="button" ng-click="signup(contest)" ng-disabled="contest.signed_up"
-                i.glyphicon> ng-class="{'glyphicon-ok': contest.signed_up, 'glyphicon-plus': !contest.signed_up}"
-                | Sign up
+              span ng-switch="contest.signed_up"
+                span ng-switch-when="true"
+                  button.btn.btn-info.btn-xs type="button" ng-click="remove(contest)"
+                    i.glyphicon.glyphicon-remove>
+                    | Undo
+                span ng-switch-default=true
+                  button.btn.btn-primary.btn-xs type="button" ng-click="signup(contest)"
+                    i.glyphicon.glyphicon-ok>
+                    | Sign up
           td
             a href="/air/contests/{{contest.id}}"
               | {{contest.event.name}}
