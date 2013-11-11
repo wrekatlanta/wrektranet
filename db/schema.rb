@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131104034911) do
+ActiveRecord::Schema.define(version: 20131111201942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,25 +51,14 @@ ActiveRecord::Schema.define(version: 20131104034911) do
     t.integer  "staff_count"
     t.integer  "listener_count"
     t.integer  "alternate_recipient_id"
+    t.string   "name"
+    t.datetime "start_time"
+    t.boolean  "public",                 default: true
+    t.string   "google_event_id"
   end
 
   add_index "contests", ["alternate_recipient_id"], name: "index_contests_on_alternate_recipient_id", using: :btree
   add_index "contests", ["venue_id"], name: "index_contests_on_venue_id", using: :btree
-
-  create_table "events", force: true do |t|
-    t.integer  "eventable_id"
-    t.string   "eventable_type"
-    t.string   "name"
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.boolean  "all_day",        default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "public",         default: true
-    t.string   "google_id"
-  end
-
-  add_index "events", ["eventable_id", "eventable_type"], name: "index_events_on_eventable_id_and_eventable_type", using: :btree
 
   create_table "listener_logs", force: true do |t|
     t.integer  "hd2_128"
@@ -98,6 +87,33 @@ ActiveRecord::Schema.define(version: 20131104034911) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "program_log_entries", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "program_log_entry_schedules", force: true do |t|
+    t.integer  "program_log_entry_id"
+    t.date     "start_date"
+    t.date     "expiration_date"
+    t.time     "start_time"
+    t.time     "end_time"
+    t.integer  "repeat_interval"
+    t.boolean  "sunday",               default: false
+    t.boolean  "monday",               default: false
+    t.boolean  "tuesday",              default: false
+    t.boolean  "wednesday",            default: false
+    t.boolean  "thursday",             default: false
+    t.boolean  "friday",               default: false
+    t.boolean  "saturday",             default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "program_log_entry_schedules", ["program_log_entry_id"], name: "index_program_log_entry_schedules_on_program_log_entry_id", using: :btree
 
   create_table "psa_readings", force: true do |t|
     t.integer  "user_id"
