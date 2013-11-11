@@ -7,13 +7,12 @@ class MoveEventToContest < ActiveRecord::Migration
 
     Contest.reset_column_information
 
-    Contest.find_each do |contest|
-      contest.name = contest.event.name
-      contest.start_time = contest.event.start_time
-      contest.public = contest.event.public
-      contest.google_event_id = contest.event.google_id
-      contest.save!
-    end
+    execute "UPDATE contests c, events e
+              SET c.name = e.name,
+                  c.start_time = e.start_time,
+                  c.public = e.public,
+                  c.google_event_id = e.google_id
+              WHERE c.id = e.eventable_id"
 
     drop_table :events
   end
