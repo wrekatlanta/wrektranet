@@ -12,7 +12,7 @@
 
 div ng-controller="adminTicketListCtrl"
   .table-responsive
-    table.table.table-striped.ng-cloak ng-init="contest = #{@contest ? @contest.to_json : 'null'}; tickets = #{@staff_tickets.to_json(include: [:user, {contest: {include: [:venue, :event]}}])}"
+    table.table.table-striped.ng-cloak ng-init="contest = #{@contest ? @contest.to_json : 'null'}; tickets = #{@staff_tickets.to_json(include: [:user, {contest: {include: [:venue]}}])}"
       thead
         tr
           th style="width: 10%;"

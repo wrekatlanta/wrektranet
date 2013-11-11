@@ -12,7 +12,7 @@ form.form-horizontal
       input.form-control#ticketFilter type="text" ng-model="filter"
 
 .table-responsive
-  table.table.table-striped.ng-cloak ng-controller="staffSignupCtrl" ng-init="contests = #{@contests.to_json(include: [:venue, :event])}"
+  table.table.table-striped.ng-cloak ng-controller="staffSignupCtrl" ng-init="contests = #{@contests.to_json(include: [:venue])}"
     thead
       tr
         th style="width: 10%;"
