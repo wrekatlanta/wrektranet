@@ -37,8 +37,8 @@ form.form-horizontal
                     | Sign up
           td
             a href="/air/contests/{{contest.id}}"
-              | {{contest.event.name}}
-          td = "{{contest.event.start_time | date:'short' }}"
+              | {{contest.name}}
+          td = "{{contest.start_time | date:'short' }}"
           td = "{{contest.venue.name}}"
           td = "{{contest.staff_ticket_limit - contest.staff_count}}"
       - else

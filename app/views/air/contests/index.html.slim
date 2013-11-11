@@ -23,8 +23,8 @@
           - unless contests.empty?
             - for contest in contests do
               tr
-                td = link_to contest.event.name, air_contest_path(contest)
-                td = l contest.event.start_time, format: :us_time
+                td = link_to contest.name, air_contest_path(contest)
+                td = l contest.start_time, format: :us_time
                 td = contest.venue.name
                 td = contest.listener_ticket_label
                 td = contest.staff_ticket_label

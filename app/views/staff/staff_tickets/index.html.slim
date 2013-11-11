@@ -24,8 +24,8 @@
           tr
             td.text-right = ticket.status_label
             td = ticket.user.username
-            td = link_to ticket.contest.event.name, air_contest_path(ticket.contest)
-            td = l ticket.contest.event.start_time, format: :us_time
+            td = link_to ticket.contest.name, air_contest_path(ticket.contest)
+            td = l ticket.contest.start_time, format: :us_time
             td = ticket.contest.venue.name
             td = l ticket.created_at, format: :us_time
             td

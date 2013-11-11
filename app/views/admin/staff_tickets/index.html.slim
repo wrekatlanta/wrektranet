@@ -53,8 +53,8 @@ div ng-controller="adminTicketListCtrl"
               | (undo)
           td
             a href="/admin/contests/{{ticket.contest.id}}/staff_tickets"
-              | {{ticket.contest.event.name}}
-          td = "{{ticket.contest.event.start_time | date:'short'}}"
+              | {{ticket.contest.name}}
+          td = "{{ticket.contest.start_time | date:'short'}}"
           td = "{{ticket.contest.venue.name}}"
           td = "{{ticket.created_at | date:'short'}}"
           td
