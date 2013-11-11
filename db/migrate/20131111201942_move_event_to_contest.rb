@@ -12,6 +12,7 @@ class MoveEventToContest < ActiveRecord::Migration
       contest.start_time = contest.event.start_time
       contest.public = contest.event.public
       contest.google_event_id = contest.event.google_id
+      contest.save!
     end
 
     drop_table :events
