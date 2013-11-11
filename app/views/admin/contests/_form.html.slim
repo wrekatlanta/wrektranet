@@ -15,9 +15,9 @@
         .col-lg-2
           = f.input_field :listener_ticket_limit, class: 'form-control'
         .col-lg-1
-          = f.input_field :listener_plus_one, as: :boolean, inline_label: '+1'
+          = f.input_field :listener_plus_one, as: :boolean, inline_label: 'Pair'
         .col-lg-5
-          = f.input_field :pick_up, as: :boolean, inline_label: 'Pick up at station?'
+          = f.input_field :pick_up, as: :boolean, inline_label: 'Pick up at station'
   .form-group
     = f.label 'Staff Tickets', class: 'col-lg-2'
     .col-lg-10
@@ -25,7 +25,7 @@
         .col-lg-2
           = f.input_field :staff_ticket_limit, class: 'form-control'
         .col-lg-1
-          = f.input_field :staff_plus_one, as: :boolean, inline_label: '+1'
+          = f.input_field :staff_plus_one, as: :boolean, inline_label: 'Pair'
         - if @contest.persisted? and @contest.staff_ticket_limit > 0
           .col-lg-5
             = link_to 'Manage tickets &raquo;'.html_safe, admin_contest_staff_tickets_path(@contest), class: 'btn btn-info'
