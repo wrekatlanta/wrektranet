@@ -5,6 +5,20 @@
 
 hr
 
+em
+	| Showing transmitter logs for 
+	- if @start
+		= l @start, format: :us_date
+	- else 
+		= l Time.now, format: :us_date
+
+	|  to 
+
+	- if @end
+		= l @end, format: :us_date
+	- else
+		= l Time.now, format: :us_date
+
 table.table.table-striped
 	thead
 		tr
