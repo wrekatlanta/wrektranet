@@ -1,14 +1,34 @@
 .page-header
-	h1 Unsigned Transmitter Logs
+	h1 Transmitter Log Explorer
 
+= render 'navigation'
+
+= render 'filter_form'
+
+hr
+
+em
+	| Showing transmitter logs for 
+	- if @start
+		= l @start, format: :us_date
+	- else 
+		= l Time.now, format: :us_date
+
+	|  to 
+
+	- if @end
+		= l @end, format: :us_date
+	- else
+		= l Time.now, format: :us_date
 
 table.table.table-striped
 	thead
 		tr
 			th Op Initials
-			th Automation?
+			th Automation In?
 			th Sign In
-			th Contact
+			th Automation Out?
+			th Sign Out
 
 	tbody
 		- unless @tlogs.empty?
@@ -16,8 +36,12 @@ table.table.table-striped
 				tr
 					td = tlog.user.username
 					td = tlog.automation_in
-					td = tlog.sign_in
-					td = mail_to tlog.user.email, "Contact User"
+					td = l tlog.sign_in, format: :us_time
+					td = tlog.automation_out
+					- if tlog.sign_out
+						td = l tlog.sign_out, format: :us_time
+					- else
+						td Not Signed Out
 		- else
 			tr
-				td colspan="4" No unsigned transmitter log found.
+				td colspan="5" No transmitter logs found for this date.
