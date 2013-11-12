@@ -1,14 +1,18 @@
 .page-header
-	h1 Unsigned Transmitter Logs
+	h1 Transmitter Logs
 
+= render 'filter_form'
+
+hr
 
 table.table.table-striped
 	thead
 		tr
 			th Op Initials
-			th Automation?
+			th Automation In?
 			th Sign In
-			th Contact
+			th Automation Out?
+			th Sign Out
 
 	tbody
 		- unless @tlogs.empty?
@@ -16,8 +20,10 @@ table.table.table-striped
 				tr
 					td = tlog.user.username
 					td = tlog.automation_in
-					td = tlog.sign_in
-					td = mail_to tlog.user.email, "Contact User"
+					td = l tlog.sign_in, format: :us_time
+					td = tlog.automation_out
+					td = l tlog.sign_out, format: :us_time
+					/ # td = mail_to tlog.user.email, "Contact User"
 		- else
 			tr
-				td colspan="4" No unsigned transmitter log found.
+				td colspan="4" No transmitter logs found for this date.
