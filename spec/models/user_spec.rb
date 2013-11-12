@@ -27,6 +27,7 @@
 #
 
 require 'spec_helper'
+require 'cancan/matchers'
 
 describe User do
   it "has a valid factory" do
@@ -100,7 +101,96 @@ describe User do
     end
   end
 
-  describe "role associations" do
-    pending "test user role"
+  describe "abilities" do
+    subject(:ability) { Ability.new(user) }
+    let(:user) { nil }
+
+    context "when is an active staff member" do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:user2) { FactoryGirl.create(:user) }
+
+      # read
+      it {
+        should be_able_to(:read, Contest.new)
+        should be_able_to(:read, ContestSuggestion.new)
+        should be_able_to(:read, Venue.new)
+        should be_able_to(:read, ListenerLog.new)
+        should be_able_to(:read, ListenerTicket.new)
+        should be_able_to(:read, PowerReading.new)
+        should be_able_to(:read, Psa.new)
+        should be_able_to(:read, PsaReading.new)
+        should be_able_to(:read, Role.new)
+        should be_able_to(:read, StaffTicket.new)
+        should be_able_to(:read, TransmitterLogEntry.new)
+        should be_able_to(:read, User.new)
+        should be_able_to(:read, Venue.new)
+      }
+
+      # create
+      it {
+        should be_able_to(:create, ContestSuggestion.new)
+        should be_able_to(:create, ListenerTicket.new)
+        should be_able_to(:create, PsaReading.new)
+        should be_able_to(:create, StaffTicket.new)
+        should be_able_to(:create, TransmitterLogEntry.new)
+      }
+
+      # update
+      it {
+        should be_able_to(:update, TransmitterLogEntry.new(user_id: user.id))
+        should_not be_able_to(:update, TransmitterLogEntry.new(user_id: user2.id))
+      }
+
+      # destroy
+      it {
+        should be_able_to(:destroy, ListenerTicket.new(user_id: user.id))
+        should be_able_to(:destroy, StaffTicket.new(user_id: user.id))
+        should_not be_able_to(:destroy, ListenerTicket.new(user_id: user2.id))
+        should_not be_able_to(:destroy, StaffTicket.new(user_id: user2.id))
+      }
+    end
+
+    context "when is a contest director" do
+      let(:user) { FactoryGirl.create(:user, :contest_director) }
+
+      # manage
+      it {
+        should be_able_to(:manage, Contest)
+        should be_able_to(:manage, Venue)
+        should be_able_to(:manage, StaffTicket)
+        should be_able_to(:manage, ListenerTicket)
+      }
+    end
+
+    context "when is a psa director" do
+      let(:user) { FactoryGirl.create(:user, :psa_director) }
+
+      # manage
+      it {
+        should be_able_to(:manage, Psa)
+        should be_able_to(:manage, PsaReading)
+      }
+    end
+
+    context "when is an admin" do
+      let(:user) { FactoryGirl.create(:user, :admin) }
+
+      # manage
+      it {
+        should be_able_to(:manage, Contest.new)
+        should be_able_to(:manage, ContestSuggestion.new)
+        should be_able_to(:manage, Venue.new)
+        should be_able_to(:manage, ListenerLog.new)
+        should be_able_to(:manage, ListenerTicket.new)
+        should be_able_to(:manage, PowerReading.new)
+        should be_able_to(:manage, Psa.new)
+        should be_able_to(:manage, PsaReading.new)
+        should be_able_to(:manage, Role.new)
+        should be_able_to(:manage, StaffTicket.new)
+        should be_able_to(:manage, TransmitterLogEntry.new)
+        should be_able_to(:manage, User.new)
+        should be_able_to(:manage, Venue.new)
+      }
+    end
   end
 end

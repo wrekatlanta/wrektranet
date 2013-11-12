@@ -23,5 +23,9 @@ FactoryGirl.define do
     trait :contest_director do
       after(:create) {|user| user.add_role(:contest_director)}
     end
+
+    trait :psa_director do
+      after(:create) {|user| user.add_role(:psa_director)}
+    end
   end
 end
