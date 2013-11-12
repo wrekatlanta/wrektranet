@@ -38,28 +38,29 @@ class Ability
         can [:read, :create], PsaReading
         can [:read], ListenerLog
 
-        can :manage, ListenerTicket, contest: {sent: false}
+        can :manage, ListenerTicket, contest: {sent: false}, user_id: user.id
 
         can :read, :all
 
         can :destroy, StaffTicket, user_id: user.id
-
-        # admin
-        if user.admin?
-          can :manage, :all
-        end
 
         # contest director
         if user.has_role? :contest_director
           can :manage, Contest
           can :manage, Venue
           can :manage, StaffTicket
+          can :manage, ListenerTicket
         end
 
         # psa director
         if user.has_role? :psa_director
             can :manage, Psa
             can :manage, PsaReading
+        end
+
+        # admin
+        if user.admin?
+          can :manage, :all
         end
     end
   end
