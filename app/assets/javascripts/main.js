@@ -14,4 +14,10 @@ angular.module("wrektranet", [
   "ui.keypress",
   "ng-rails-csrf",
   "wrektranet.controllers"
-]);
+]).
+  config([
+    'RestangularProvider',
+    function(RestangularProvider) {
+      RestangularProvider.setRequestSuffix('.json');
+    }
+  ]);

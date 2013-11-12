@@ -45,6 +45,7 @@
           td
             button.btn.btn-xs.btn-danger< type="button" ng-click="deleteTicket(ticket)" ng-if="user_can_destroy_all || current_user.id == ticket.user_id"
               i.glyphicon.glyphicon-trash
+              span.sr-only Delete Ticket
         tr ng-if="contest.listener_tickets.length == 0"
           td colspan="4" No tickets have been awarded.
     - if @contest.announceable?
@@ -55,7 +56,7 @@
           input.form-control.input-sm type="text" ng-model="newTicket.phone"  placeholder="Phone"
         button.btn.btn-primary.btn-sm> type="submit"
           i.glyphicon.glyphicon-plus
-
+          span.sr-only Add Ticket
 .row
   .col-lg-6
     dl.dl-horizontal.lead

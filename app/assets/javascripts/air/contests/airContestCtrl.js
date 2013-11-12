@@ -20,8 +20,8 @@ angular.module("wrektranet.airContestCtrl", [])
       Restangular.
         one('contests', $scope.contest.id).
         all('listener_tickets').
-        getList()
-        .then(function(tickets) {
+        getList().
+        then(function(tickets) {
           $scope.contest.listener_tickets = tickets;
         });
     };
