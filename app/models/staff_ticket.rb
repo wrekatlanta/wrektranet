@@ -21,17 +21,24 @@ class StaffTicket < ActiveRecord::Base
   belongs_to :contest_director, class_name: "User"
 
   default_scope -> { order('staff_tickets.created_at DESC') }
+
   scope :order_by_awarded, -> { order('awarded, staff_tickets.created_at DESC') }
+
   scope :awarded, -> { where(awarded: true) }
+
   scope :unawarded, -> { where(awarded: false) }
+
   scope :upcoming, -> {
     includes(:contest)
       .where("contests.start_time >= :start_date", start_date: Time.zone.now.beginning_of_day)
+      .references(:contests)
   }
+  
   scope :announceable, -> {
     includes(:contest)
       .where(contests: {sent: false})
       .where("contests.send_time > :start_date", start_date: Time.zone.now)
+      .references(:contests)
   }
 
   validates :contest_id, presence: :true

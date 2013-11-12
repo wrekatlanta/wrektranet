@@ -20,4 +20,15 @@ feature "Contest suggestion" do
 
     expect(page).to_not have_content past_suggestion.name
   end
+
+  scenario "User creates a contest suggestion" do
+    click_link("Add New")
+
+    fill_in "Name", with: "Event Name"
+    fill_in "Date", with: "next week"
+    fill_in "Venue", with: "Venue Name"
+    click_button "Create Contest suggestion"
+
+    expect(page).to have_content "Your suggestion has been added."
+  end
 end
