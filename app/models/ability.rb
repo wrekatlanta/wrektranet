@@ -38,7 +38,8 @@ class Ability
         can [:read, :create], PsaReading
         can [:read], ListenerLog
 
-        can :manage, ListenerTicket, contest: {sent: false}, user_id: user.id
+        can :create, ListenerTicket
+        can :destroy, ListenerTicket, user_id: user.id
 
         can :read, :all
 

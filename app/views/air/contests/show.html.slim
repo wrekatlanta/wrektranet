@@ -26,7 +26,7 @@
       dt Age Limit
       dd = t 'contests.age_limit', count: @contest.age_limit
 
-  .col-lg-6 ng-controller="airContestCtrl" ng-init="contest = #{@contest.to_json(include: {listener_tickets: {include: :user}})}"
+  .col-lg-6 ng-controller="airContestCtrl" ng-init="contest = #{@contest.to_json(include: {listener_tickets: {include: :user}})}; current_user = #{current_user.to_json}; user_can_destroy_all = #{current_user.has_role_or_admin?(:contest_director).to_json};"
     h3 Listener Tickets
     table.table.ng-cloak
       thead
@@ -43,7 +43,7 @@
             span title="{{ticket.created_at}}"
               | {{ticket.user.username}}
           td
-            button.btn.btn-xs.btn-danger< type="button" ng-click="deleteTicket(ticket)"
+            button.btn.btn-xs.btn-danger< type="button" ng-click="deleteTicket(ticket)" ng-if="user_can_destroy_all || current_user.id == ticket.user_id"
               i.glyphicon.glyphicon-trash
         tr ng-if="contest.listener_tickets.length == 0"
           td colspan="4" No tickets have been awarded.

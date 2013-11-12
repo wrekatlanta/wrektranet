@@ -66,6 +66,8 @@ class User < ActiveRecord::Base
   end
 
   def exec?(roles = [:contest_director])
+    roles = [roles] unless roles.kind_of? Array
+
     result = self.admin?
 
     if result
@@ -78,6 +80,8 @@ class User < ActiveRecord::Base
 
     return result
   end
+
+  alias_method :has_role_or_admin?, :exec?
 
   def authorize_exec!(roles = [:contest_director])
     unless self.exec?(roles)
