@@ -56,6 +56,9 @@ Wrek::Application.routes.draw do
     end
 
     resources :transmitter_log_entries do
+      collection do
+        get 'unsigned'
+      end
     end
 
     resources :users
