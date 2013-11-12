@@ -38,8 +38,10 @@ table.table.table-striped
 					td = tlog.automation_in
 					td = l tlog.sign_in, format: :us_time
 					td = tlog.automation_out
-					td = l tlog.sign_out, format: :us_time
-					/ # td = mail_to tlog.user.email, "Contact User"
+					- if tlog.sign_out
+						td = l tlog.sign_out, format: :us_time
+					- else
+						td Not Signed Out
 		- else
 			tr
-				td colspan="4" No transmitter logs found for this date.
+				td colspan="5" No transmitter logs found for this date.
