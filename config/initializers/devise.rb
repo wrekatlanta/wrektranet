@@ -8,7 +8,7 @@ Devise.setup do |config|
   config.ldap_config = "#{Rails.root}/config/ldap.yml"
   config.ldap_check_group_membership = false
   config.ldap_check_attributes = false
-  config.ldap_use_admin_to_bind = false
+  config.ldap_use_admin_to_bind = true
   config.ldap_ad_group_check = false
   
   config.secret_key = 'b06393c1874ed1d0f622e6dff8f9023821d1611bc1e30d3dcfa5a9db14a4f3da43874911bd63b9503283314c19d3368b7c2c6902112617d5c7ed56b181e5eca4'
