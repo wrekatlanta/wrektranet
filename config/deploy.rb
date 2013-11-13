@@ -28,6 +28,19 @@ namespace :deploy do
     end
   end
 
+  task :cold do
+    transaction do
+      update
+      setup_db  #replacing migrate in original
+      start
+    end
+  end
+
+  task :setup_db, roles: :app do
+    raise RuntimeError.new('db:setup aborted!') unless Capistrano::CLI.ui.ask("About to `rake db:setup`. Are you sure to wipe the entire database (anything other than 'yes' aborts):") == 'yes'
+    run "cd #{current_path}; bundle exec rake db:setup RAILS_ENV=#{rails_env}"
+  end
+
   task :setup_config, roles: :app do
     sudo "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{application}"
     sudo "ln -nfs #{current_path}/config/unicorn_init.sh /etc/init.d/unicorn_#{application}"
