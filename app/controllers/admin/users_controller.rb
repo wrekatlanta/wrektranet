@@ -20,32 +20,6 @@ class Admin::UsersController < Admin::BaseController
     @user.password = password
 
     if @user.save
-      if Rails.env.production?
-        client = GoogleAppsHelper.create_client
-        directory = client.discovered_api('admin', 'directory_v1')
-        client.execute(
-          api_method: directory.users.insert,
-          body_object: {
-            name: {
-              familyName: @user.last_name,
-              givenName: @user.first_name
-            },
-            password: password,
-            primaryEmail: @user.username + '@wrek.org',
-            changePasswordAtNextLogin: true,
-            phones: [
-              {
-                primary: true,
-                type: "mobile",
-                value: @user.phone.presence || ''
-              }
-            ]
-          }
-        )
-
-        UserMailer.import_email(@user, password, @user.email).deliver
-      end
-
       redirect_to admin_users_path, success: "#{@user.username} created successfully. They have received an email with further instructions."
     else
       render :new

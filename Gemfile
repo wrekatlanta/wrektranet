@@ -25,7 +25,6 @@ gem 'bootstrap-sass', git: 'git://github.com/thomas-mcdonald/bootstrap-sass.git'
 gem 'active_link_to'
 gem 'cancan'
 gem 'devise', '~> 3.0.x'
-gem 'omniauth'
 gem 'figaro'
 gem 'rolify', '~> 3.3.0.rc4'
 gem 'draper', '~> 1.0'
@@ -36,8 +35,9 @@ gem 'chronic'
 gem 'whenever'
 gem 'nokogiri'
 
+gem 'devise_ldap_authenticatable'
+
 # APIs
-gem 'omniauth-google-apps'
 gem 'google-api-client'
 
 group :development do

@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/plataformatec/simple_form.git
-  revision: 1d85b03463192ffa89eb77b6878ae13ff5dbd353
+  revision: 6b9e0f3d0ecde4311e511d90899f4192bea9b738
   specs:
     simple_form (3.0.0)
       actionpack (>= 4.0.0, < 4.1)
@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 085a847fec3b2b61d7e79a1f387860217a72fe9e
+  revision: 6a5e3647a8bfdca7ece7db30508a8b5db9709426
   branch: 4-0-stable
   specs:
     actionmailer (4.0.1)
@@ -117,6 +117,9 @@ GEM
       railties (>= 3.2.6, < 5)
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
+    devise_ldap_authenticatable (0.8.1)
+      devise (>= 3.0)
+      net-ldap (>= 0.3.1, < 0.6.0)
     diff-lcs (1.2.5)
     docile (1.1.0)
     draper (1.3.0)
@@ -184,7 +187,6 @@ GEM
       haml (>= 3.0)
       nokogiri
       ruby_parser
-    hashie (2.0.5)
     highline (1.6.20)
     hike (1.2.3)
     hpricot (0.8.6)
@@ -204,7 +206,7 @@ GEM
     jwt (0.1.8)
       multi_json (>= 1.5)
     kgio (2.8.1)
-    launchy (2.3.0)
+    launchy (2.4.0)
       addressable (~> 2.3)
     letter_opener (1.1.2)
       launchy (~> 2.2)
@@ -225,6 +227,7 @@ GEM
     multi_test (0.0.2)
     multipart-post (1.2.0)
     mysql2 (0.3.14)
+    net-ldap (0.3.1)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-sftp (2.1.2)
@@ -234,18 +237,7 @@ GEM
       net-ssh (>= 2.6.5)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
-    omniauth (1.1.4)
-      hashie (>= 1.2, < 3)
-      rack
-    omniauth-google-apps (0.1.0)
-      omniauth (~> 1.0)
-      omniauth-openid (~> 1.0)
-      ruby-openid (~> 2.3.0)
-      ruby-openid-apps-discovery (~> 1.2.0)
-    omniauth-openid (1.0.1)
-      omniauth (~> 1.0)
-      rack-openid (~> 1.3.1)
-    orm_adapter (0.4.0)
+    orm_adapter (0.5.0)
     poltergeist (1.4.1)
       capybara (~> 2.1.0)
       cliver (~> 0.2.1)
@@ -259,9 +251,6 @@ GEM
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     rack (1.5.2)
-    rack-openid (1.3.1)
-      rack (>= 1.1.0)
-      ruby-openid (>= 2.1.8)
     rack-test (0.6.2)
       rack (>= 1.0)
     rails_12factor (0.0.2)
@@ -295,9 +284,6 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
-    ruby-openid (2.3.0)
-    ruby-openid-apps-discovery (1.2.0)
-      ruby-openid (>= 2.1.7)
     ruby_parser (3.1.3)
       sexp_processor (~> 4.1)
     rvm-capistrano (1.5.1)
@@ -386,6 +372,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   database_cleaner
   devise (~> 3.0.x)
+  devise_ldap_authenticatable
   draper (~> 1.0)
   email_spec
   factory_girl_rails
@@ -406,8 +393,6 @@ DEPENDENCIES
   letter_opener
   mysql2
   nokogiri
-  omniauth
-  omniauth-google-apps
   poltergeist
   quiet_assets
   rails!
