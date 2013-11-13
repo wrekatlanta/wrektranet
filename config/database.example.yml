@@ -33,6 +33,3 @@ production:
   database: wrektranet_production
   pool: 5
   host: localhost
-
-cucumber:
-  <<: *test

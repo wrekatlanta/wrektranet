@@ -47,7 +47,6 @@ group :development do
   gem 'annotate', '>= 2.5.0'
   gem 'binding_of_caller'
   gem 'guard-bundler'
-  gem 'guard-cucumber'
   gem 'guard-rails'
   gem 'guard-rspec'
   gem 'haml-rails'

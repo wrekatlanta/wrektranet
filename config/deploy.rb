@@ -51,6 +51,12 @@ namespace :deploy do
   end
   after "deploy:setup", "deploy:setup_config"
 
+  task :update_config do
+    put File.read("config/database.yml"), "#{shared_path}/config/database.yml"
+    put File.read("config/application.yml"), "#{shared_path}/config/application.yml"
+    put File.read("config/ldap.yml"), "#{shared_path}/config/ldap.yml"
+  end
+
   task :symlink_config, roles: :app do
     run "ln -nfs #{shared_path}/config/application.yml #{release_path}/config/application.yml"
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
