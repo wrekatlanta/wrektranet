@@ -1,21 +1,9 @@
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form-signin' }) do |f|
-  h2.form-signin-heading style="text-align: center;" WREKtranet 2.0
+  h2.form-signin-heading.text-center WREKtranet 2.0
   - if Rails.env.production?
-    .lead
-      | Don't have an account? Please contact 
-      a href="mailto:it.director@wrek.org" it.director@wrek.org
-      | .
-    .lead
-      | You can temporarily use:
-      dl.dl-horizontal
-        dt Username
-        dd gpb
-        dt Password
-        dd bernice911
-    .lead Please close the browser when you're done!
-  - else
-    = f.input_field :email, autofocus: true, placeholder: 'Initials', class: 'form-control', pattern: false
-    = f.input_field :password, placeholder: 'Password', class: 'form-control'
-    - if devise_mapping.rememberable?
-      = f.input_field :remember_me, as: :boolean, inline_label: 'Remember me'
-    = f.button :submit, "Sign in", class: 'btn-lg btn-primary btn-block'
+    .lead You can now use your old WREKtranet account! If it doesn't work, try resetting your password.
+  = f.input_field :email, autofocus: true, placeholder: 'Initials', class: 'form-control', pattern: false
+  = f.input_field :password, placeholder: 'Password', class: 'form-control'
+  - if devise_mapping.rememberable?
+    = f.input_field :remember_me, as: :boolean, inline_label: 'Remember me'
+  = f.button :submit, "Sign in", class: 'btn-lg btn-primary btn-block'
