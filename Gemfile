@@ -2,6 +2,11 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 
 gem 'rails', github: 'rails/rails', branch: '4-0-stable'
+
+gem 'unicorn'
+gem 'capistrano'
+gem 'rvm-capistrano'
+
 gem 'sass-rails', '~> 4.0.0'
 gem 'slim'
 gem 'uglifier', '>= 1.3.0'
@@ -9,11 +14,12 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
-gem 'unicorn'
 
 group :doc do
   gem 'sdoc', require: false
 end
+
+gem 'mysql2'
 
 gem 'bootstrap-sass', git: 'git://github.com/thomas-mcdonald/bootstrap-sass.git', branch: '3'
 gem 'active_link_to'
@@ -21,7 +27,6 @@ gem 'cancan'
 gem 'devise', '~> 3.0.x'
 gem 'omniauth'
 gem 'figaro'
-gem 'pg'
 gem 'rolify', '~> 3.3.0.rc4'
 gem 'draper', '~> 1.0'
 gem 'simple_form', git: 'git://github.com/plataformatec/simple_form.git'
