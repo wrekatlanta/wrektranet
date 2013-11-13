@@ -7,41 +7,30 @@
 
 hr
 
-em
-	| Showing transmitter logs for 
-	- if @start
-		= l @start, format: :us_date
-	- else 
-		= l Time.now, format: :us_date
+-unless @day_view.empty?
+	- for day in @day_view.keys
 
-	|  to 
-
-	- if @end
-		= l @end, format: :us_date
-	- else
-		= l Time.now, format: :us_date
-
-table.table.table-striped
-	thead
-		tr
-			th Op Initials
-			th Automation In?
-			th Sign In
-			th Automation Out?
-			th Sign Out
-
-	tbody
-		- unless @tlogs.empty?
-			- for tlog in @tlogs do
+		h4 = l day, format: :us_date
+		table.table.table-striped
+			thead
 				tr
-					td = tlog.user.username
-					td = tlog.automation_in
-					td = l tlog.sign_in, format: :us_time
-					td = tlog.automation_out
-					- if tlog.sign_out
-						td = l tlog.sign_out, format: :us_time
-					- else
-						td Not Signed Out
-		- else
-			tr
-				td colspan="5" No transmitter logs found for this date.
+					th Op Initials
+					th Automation In?
+					th Sign In
+					th Automation Out?
+					th Sign Out
+
+			tbody
+					- for tlog in @day_view[day]
+						tr
+							td = tlog.user.username
+							td = tlog.automation_in
+							td = l tlog.sign_in, format: :us_time
+							td = tlog.automation_out
+							- if tlog.sign_out
+								td = l tlog.sign_out, format: :us_time
+							- else
+								td Not Signed Out
+
+- else
+	p No transmitter logs found for this date range.
