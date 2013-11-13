@@ -28,6 +28,7 @@
 
 class User < ActiveRecord::Base
   before_save :strip_phone
+  before_create :get_ldap_data
 
   rolify
   # Include default devise modules. Others available are:
@@ -110,5 +111,19 @@ class User < ActiveRecord::Base
       methods: [:name]
     }.update(options)
     super(options)
+  end
+
+  def get_ldap_data
+    if Rails.env.production?
+      self.legacy_id  = Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeNumber")
+      self.first_name = Devise::LDAP::Adapter.get_ldap_param(self.username, "givenName")
+      self.last_name  = Devise::LDAP::Adapter.get_ldap_param(self.username, "sn")
+      self.status     = Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeType")
+    end
+  end
+
+  def get_ldap_data!
+    self.get_ldap_data
+    self.save!
   end
 end

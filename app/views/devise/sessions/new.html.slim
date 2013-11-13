@@ -1,7 +1,8 @@
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form-signin' }) do |f|
   h2.form-signin-heading.text-center WREKtranet 2.0
   - if Rails.env.production?
-    .lead You can now use your old WREKtranet account! If it doesn't work, try resetting your password.
+    .lead You can now use your old WREKtranet account!
+    .lead If it doesn't work, try resetting your password.
   = f.input_field :username, autofocus: true, placeholder: 'Initials', class: 'form-control', pattern: false
   = f.input_field :password, placeholder: 'Password', class: 'form-control'
   - if devise_mapping.rememberable?
