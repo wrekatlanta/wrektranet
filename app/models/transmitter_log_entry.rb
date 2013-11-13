@@ -24,6 +24,16 @@ class TransmitterLogEntry < ActiveRecord::Base
   scope :signed, ->{ where("sign_out IS NOT NULL") }
   scope :unsigned, ->{ where("sign_in IS NOT NULL and sign_out IS NULL") }
 
+  def self.bucket_format(logs)
+    buckets = {}
+    # We will be grouping by date for better reporting
+    logs.each do |log|
+      ( buckets[log.sign_in.to_date] ||= [] ) << log
+    end
+
+    return buckets
+  end
+
 
   private
     def set_expiration_time

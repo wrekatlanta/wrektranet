@@ -5,23 +5,12 @@ class Admin::TransmitterLogEntriesController < Admin::BaseController
 
   def index
 
-    @tlogs = TransmitterLogEntry.all
+    start_date = params[:start].blank? ? Time.zone.today : Chronic.parse(params[:start])
+    end_date = params[:end].blank? ? Time.zone.today : Chronic.parse(params[:end])
 
-    # Perform filtering if start and end are specified.
-    if not params[:start].blank?
-      @start = Chronic.parse(params[:start]).beginning_of_day
-      @tlogs = @tlogs.where("sign_in >= ?", @start)
-    end
+    tlogs = TransmitterLogEntry.where("sign_in >= ?", start_date.beginning_of_day).where("sign_out <= ? OR sign_out is NULL", end_date.end_of_day)
 
-    if not params[:end].blank?
-      @end = Chronic.parse(params[:end]).end_of_day
-      @tlogs = @tlogs.where("sign_out <= ?", @end)
-    end
-
-    # Otherwise give today
-    if params[:end].blank? and params[:start].blank?
-      @tlogs = TransmitterLogEntry.today
-    end
+    @day_view = TransmitterLogEntry.bucket_format(tlogs)
 
   end
 
