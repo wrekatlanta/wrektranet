@@ -56,11 +56,6 @@ describe User do
     end
   end
 
-  it "is invalid with a duplicate email address" do
-    FactoryGirl.create(:user, email: "test@example.com")
-    FactoryGirl.build(:user, email: "TEST@example.com").should_not be_valid
-  end
-
   describe "admin attribute" do
     before(:each) do
       @user = FactoryGirl.create(:user)

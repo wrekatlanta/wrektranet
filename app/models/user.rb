@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
   default_scope -> { order('username ASC') }
 
   validates :phone,      format: /[\(\)0-9\- \+\.]{10,20}/, allow_blank: true
-  validates :email,      presence: true, uniqueness: true
+  validates :email,      presence: true
   validates :first_name, presence: true
   validates :last_name,  presence: true
   validates :username,   presence: true, format: /[a-zA-Z]{2,8}/,
