@@ -20,5 +20,9 @@
 # Learn more: http://github.com/javan/whenever
 
 every 1.hour do
-   runner "Contest.send_contests"
+   rake "send_contests"
+end
+
+every 10.minutes do
+  rake "log_listeners"
 end
