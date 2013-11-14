@@ -74,3 +74,8 @@ pickle-email-*.html
 
 # vim artifacts
 **.swp
+
+*.crt
+*.pem
+*.csr
+*.key
