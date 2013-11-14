@@ -28,7 +28,7 @@
 
 class User < ActiveRecord::Base
   before_save :strip_phone
-  before_create :get_ldap_data
+  before_validation :get_ldap_data, on: :create
 
   rolify
   # Include default devise modules. Others available are:
