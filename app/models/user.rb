@@ -28,7 +28,7 @@
 
 class User < ActiveRecord::Base
   before_save :strip_phone
-  before_create :get_ldap_data
+  before_validation :get_ldap_data, on: :create
 
   rolify
   # Include default devise modules. Others available are:
@@ -115,15 +115,20 @@ class User < ActiveRecord::Base
 
   def get_ldap_data
     if Rails.env.production?
-      self.legacy_id  = Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeNumber")
-      self.first_name = Devise::LDAP::Adapter.get_ldap_param(self.username, "givenName")
-      self.last_name  = Devise::LDAP::Adapter.get_ldap_param(self.username, "sn")
-      self.status     = Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeType")
+      self.legacy_id  = Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeNumber")[0]
+      self.first_name = Devise::LDAP::Adapter.get_ldap_param(self.username, "givenName")[0]
+      self.last_name  = Devise::LDAP::Adapter.get_ldap_param(self.username, "sn")[0]
+      self.status     = Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeType")[0]
+      self.email      = Devise::LDAP::Adapter.get_ldap_param(self.username, "mail")[0]
     end
   end
 
   def get_ldap_data!
-    self.get_ldap_data
+    self.legacy_id  ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeNumber")[0]
+    self.first_name ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "givenName")[0]
+    self.last_name  ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "sn")[0]
+    self.status     ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeType")[0]
+    self.email      ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "mail")[0]
     self.save!
   end
 end
