@@ -18,4 +18,8 @@ module Settings
   def self.calendar_enabled?
     ENV.has_key? 'EVENT_CALENDAR_ID'
   end
+
+  def self.profiles_enabled?
+    Rails.env.development?
+  end
 end

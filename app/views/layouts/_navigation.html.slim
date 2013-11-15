@@ -10,7 +10,8 @@
         = current_user.name
         b.caret
       ul.dropdown-menu
-        li
-          = link_to 'Edit Profile', edit_user_registration_path
+        - if Settings.profiles_enabled?
+          li
+            = link_to 'Edit Profile', edit_user_registration_path
         li
           = link_to 'Logout', destroy_user_session_path, method: 'delete'
