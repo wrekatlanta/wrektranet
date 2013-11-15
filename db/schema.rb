@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131113195824) do
+ActiveRecord::Schema.define(version: 20131115015918) do
 
   create_table "contacts", force: true do |t|
     t.string   "email"
@@ -77,6 +77,14 @@ ActiveRecord::Schema.define(version: 20131113195824) do
   add_index "listener_tickets", ["contest_id"], name: "index_listener_tickets_on_contest_id", using: :btree
   add_index "listener_tickets", ["user_id"], name: "index_listener_tickets_on_user_id", using: :btree
 
+  create_table "permissions", force: true do |t|
+    t.string   "action"
+    t.string   "subject_class"
+    t.integer  "subject_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
   create_table "power_readings", force: true do |t|
     t.float    "plate_current"
     t.float    "plate_voltage"
@@ -100,6 +108,16 @@ ActiveRecord::Schema.define(version: 20131113195824) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "role_permissions", force: true do |t|
+    t.integer  "role_id"
+    t.integer  "permission_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "role_permissions", ["permission_id"], name: "index_role_permissions_on_permission_id", using: :btree
+  add_index "role_permissions", ["role_id"], name: "index_role_permissions_on_role_id", using: :btree
 
   create_table "roles", force: true do |t|
     t.string   "name"
@@ -134,29 +152,40 @@ ActiveRecord::Schema.define(version: 20131113195824) do
     t.boolean  "automation_out", default: false
   end
 
+  create_table "user_roles", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "role_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "user_roles", ["role_id"], name: "index_user_roles_on_role_id", using: :btree
+  add_index "user_roles", ["user_id"], name: "index_user_roles_on_user_id", using: :btree
+
   create_table "users", force: true do |t|
-    t.string   "email",                              default: "",    null: false
-    t.string   "encrypted_password",     limit: 128, default: "",    null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      default: 0
+    t.integer  "sign_in_count",          default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "username",                                           null: false
+    t.string   "username",                               null: false
     t.string   "phone"
     t.string   "first_name"
     t.string   "last_name"
     t.string   "display_name"
     t.string   "status"
-    t.boolean  "admin",                              default: false
+    t.boolean  "admin",                  default: false
     t.integer  "buzzcard_id"
     t.integer  "buzzcard_facility_code"
     t.integer  "legacy_id"
+    t.string   "remember_token"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

@@ -4,7 +4,7 @@
 #
 #  id                     :integer          not null, primary key
 #  email                  :string(255)      default(""), not null
-#  encrypted_password     :string(128)      default(""), not null
+#  encrypted_password     :string(255)      default(""), not null
 #  reset_password_token   :string(255)
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
@@ -24,11 +24,14 @@
 #  admin                  :boolean          default(FALSE)
 #  buzzcard_id            :integer
 #  buzzcard_facility_code :integer
+#  legacy_id              :integer
+#  remember_token         :string(255)
 #
 
 class User < ActiveRecord::Base
   before_save :strip_phone
   before_validation :get_ldap_data, on: :create
+  before_create :remember_value
 
   rolify
   # Include default devise modules. Others available are:
@@ -121,6 +124,10 @@ class User < ActiveRecord::Base
       self.status     = Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeType")[0]
       self.email      = Devise::LDAP::Adapter.get_ldap_param(self.username, "mail")[0]
     end
+  end
+
+  def remember_value
+    self.remember_token ||= Devise.friendly_token
   end
 
   def get_ldap_data!
