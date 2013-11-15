@@ -31,7 +31,7 @@ class Psa < ActiveRecord::Base
   scope :unexpired, -> { where("expiration_date >= ?", Time.zone.today) }
   scope :expired, -> { where("expiration_date < ?", Time.zone.today) }
   scope :approved, -> { includes(:psa_readings).where(status: 'approved') }
-  scope :order_by_read, -> { includes(:psa_readings).order('psa_readings.created_at DESC NULLS LAST') }
+  scope :order_by_read, -> { includes(:psa_readings).order('psa_readings.created_at DESC') }
 
   def bad_expiration_date
     errors.add(:expiration_date, "cannot be in the past.") if
