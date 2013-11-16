@@ -170,6 +170,7 @@ class User < ActiveRecord::Base
 
       if not ldap.add(dn: dn, attributes: user_attr)
         return false
+      end
 
     end
   end
