@@ -49,6 +49,13 @@ GIT
       thor (>= 0.18.1, < 2.0)
 
 GIT
+  remote: git://github.com/ruby-ldap/ruby-net-ldap.git
+  revision: bbef82f22494864f5c0e53d4dffb21cead3fc274
+  branch: master
+  specs:
+    net-ldap (0.5.0)
+
+GIT
   remote: git://github.com/thomas-mcdonald/bootstrap-sass.git
   revision: 9c6c07f74ff515cf38380b014cfede14a4f0eae4
   branch: 3
@@ -215,7 +222,6 @@ GEM
     multi_json (1.8.2)
     multipart-post (1.2.0)
     mysql2 (0.3.14)
-    net-ldap (0.3.1)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
     net-sftp (2.1.2)
@@ -379,6 +385,7 @@ DEPENDENCIES
   launchy
   letter_opener
   mysql2
+  net-ldap!
   nokogiri
   poltergeist
   quiet_assets

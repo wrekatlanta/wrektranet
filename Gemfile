@@ -34,6 +34,7 @@ gem 'will_paginate-bootstrap'
 gem 'chronic'
 gem 'whenever'
 gem 'nokogiri'
+gem 'net-ldap', git: 'git://github.com/ruby-ldap/ruby-net-ldap.git', branch: 'master'
 
 gem 'devise_ldap_authenticatable'
 

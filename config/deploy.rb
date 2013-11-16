@@ -94,6 +94,6 @@ namespace :deploy do
 
   def run_interactively(command, server=nil)
     server ||= find_servers_for_task(current_task).first
-    exec %Q(ssh #{server.host} -t 'sudo su - #{user} -c "cd #{current_path} && #{command}"')
+    exec %Q(ssh #{user}@#{server.host} -t 'sudo su - #{user} -c "cd #{current_path} && #{command}"')
   end
 end
