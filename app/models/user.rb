@@ -30,6 +30,7 @@
 
 class User < ActiveRecord::Base
   before_save :strip_phone
+  before_create :add_to_ldap
   before_validation :get_ldap_data, on: :create
   before_create :remember_value
 
@@ -139,5 +140,37 @@ class User < ActiveRecord::Base
     self.status       ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeType")[0]
     self.email        ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "mail")[0]
     self.save!
+  end
+
+  def add_to_ldap
+    require('net/ldap')
+    if Rails.env.production?
+      # Load piece of LDAP config we need
+      ldap_conf = YAML::load(open("#{Rails.root}/config/ldap.yml"))["production"].symbolize_keys
+
+      # Translate admin fields and encryption to Net-LDAP fields
+      ldap_conf[:auth] = {method: :simple, username: ldap_conf[:admin_user], password: ldap_conf[:admin_password]}
+      ldap_conf[:encryption] = ldap_conf[:ssl] ? {method: :simple_tls} : nil
+
+      # Connect with LDAP
+      ldap_handle = Net::LDAP.new(ldap_conf)
+
+      # Build user attributes in line with the LDAP 'schema'
+      dn = "cn=#{self.username},ou=People,dc=staff,dc=wrek,dc=org"
+      user_attr = {
+        cn: self.username,
+        objectclass: "inetOrgPerson",
+        displayname: self.name,
+        mail: self.email,
+        employeenumber: -1,
+        givenname: self.first_name,
+        sn: self.last_name,
+        userpassword: "{SHA1}#{Digest::SHA1.base64digest self.password}"
+      }
+
+      if not ldap.add(dn: dn, attributes: user_attr)
+        return false
+
+    end
   end
 end
