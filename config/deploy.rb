@@ -85,6 +85,13 @@ namespace :deploy do
     end
   end
 
+  namespace :db do
+    desc "Remote console"
+    task :rollback, roles: :app do
+      run_interactively "bundle exec rake db:rollback"
+    end
+  end
+
   def run_interactively(command, server=nil)
     server ||= find_servers_for_task(current_task).first
     exec %Q(ssh #{server.host} -t 'sudo su - #{user} -c "cd #{current_path} && #{command}"')
