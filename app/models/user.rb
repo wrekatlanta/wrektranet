@@ -118,7 +118,7 @@ class User < ActiveRecord::Base
   end
 
   def get_ldap_data
-    if Rails.env.production?
+    if Rails.env.production? and not Devise::LDAP::Adapter.get_ldap_param(self.username, "cn").nil?
       self.legacy_id    = Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeNumber")[0]
       self.first_name   = Devise::LDAP::Adapter.get_ldap_param(self.username, "givenName")[0]
       self.last_name    = Devise::LDAP::Adapter.get_ldap_param(self.username, "sn")[0]
@@ -143,7 +143,6 @@ class User < ActiveRecord::Base
   end
 
   def add_to_ldap
-    require('net/ldap')
     if Rails.env.production?
       # Load piece of LDAP config we need
       ldap_conf = YAML::load(open("#{Rails.root}/config/ldap.yml"))["production"].symbolize_keys
@@ -168,7 +167,7 @@ class User < ActiveRecord::Base
         userpassword: "{SHA1}#{Digest::SHA1.base64digest self.password}"
       }
 
-      if not ldap.add(dn: dn, attributes: user_attr)
+      unless ldap.add(dn: dn, attributes: user_attr)
         return false
       end
 
