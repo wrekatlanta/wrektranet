@@ -167,11 +167,10 @@ class User < ActiveRecord::Base
         userpassword: "{SHA1}#{Digest::SHA1.base64digest self.password}"
       }
 
-      Rails.logger.debug dn
-      Rails.logger.debug user_attr
+      puts dn
+      puts user_attr
 
       unless ldap_handle.add(dn: dn, attributes: user_attr)
-        Rails.logger.debug ldap_handle.get_operation_result
         puts ldap_handle.get_operation_result
         return false
       end
