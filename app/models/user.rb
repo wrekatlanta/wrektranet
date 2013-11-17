@@ -33,6 +33,7 @@ class User < ActiveRecord::Base
   before_create :add_to_ldap
   before_validation :get_ldap_data, on: :create
   before_create :remember_value
+  before_destroy :delete_from_ldap
 
   rolify
   # Include default devise modules. Others available are:
@@ -177,4 +178,26 @@ class User < ActiveRecord::Base
 
     end
   end
+
+  def delete_from_ldap
+    if Rails.env.production?
+      # Load piece of LDAP config we need
+      ldap_conf = YAML::load(open("#{Rails.root}/config/ldap.yml"))["production"].symbolize_keys
+
+      # Translate admin fields and encryption to Net-LDAP fields
+      ldap_conf[:auth] = {method: :simple, username: ldap_conf[:admin_user], password: ldap_conf[:admin_password]}
+      ldap_conf[:encryption] = ldap_conf[:ssl] ? {method: :simple_tls} : nil
+
+      # Connect with LDAP
+      ldap_handle = Net::LDAP.new(ldap_conf)
+      dn = "cn=#{self.username},ou=People,dc=staff,dc=wrek,dc=org"
+
+      unless ldap_handle.delete(dn: dn)
+        puts ldap_handle.get_operation_result
+        return false
+      end
+
+    end
+  end
+
 end
