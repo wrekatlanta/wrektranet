@@ -161,7 +161,7 @@ class User < ActiveRecord::Base
         objectclass: "inetOrgPerson",
         displayname: self.name,
         mail: self.email,
-        employeenumber: -1,
+        employeenumber: "-1",
         givenname: self.first_name,
         sn: self.last_name,
         userpassword: "{SHA1}#{Digest::SHA1.base64digest self.password}"
