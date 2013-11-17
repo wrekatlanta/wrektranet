@@ -167,7 +167,7 @@ class User < ActiveRecord::Base
         userpassword: "{SHA1}#{Digest::SHA1.base64digest self.password}"
       }
 
-      unless ldap.add(dn: dn, attributes: user_attr)
+      unless ldap_handle.add(dn: dn, attributes: user_attr)
         return false
       end
 
