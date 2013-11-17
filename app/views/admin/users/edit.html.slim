@@ -1,0 +1,8 @@
+- content_for :title, "Edit User: #{@user.username}"
+
+.page-header
+  h1 Edit User #{@user.username}
+
+= render 'navigation'
+
+= render 'form'

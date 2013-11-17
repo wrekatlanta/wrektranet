@@ -1,0 +1,19 @@
+- defaults = {input_wrapper_html: {class: 'col-lg-6'}, label_html: {class: 'col-lg-2'}}
+
+= simple_form_for [:admin, @user], html: {class: 'form-horizontal'}, defaults: defaults do |f|
+  = f.input :username, input_html: { class: 'form-control' }, readonly: @user.persisted?
+  = f.input :email, input_html: { class: 'form-control' }
+  = f.input :first_name, input_html: { class: 'form-control' }
+  = f.input :last_name, input_html: { class: 'form-control' }
+  = f.input :display_name, input_html: { class: 'form-control' }
+  = f.input :phone, input_html: { class: 'form-control' }
+  = f.input :admin, as: :boolean
+  = f.association :roles, as: :check_boxes
+  .form-group
+    .col-lg-offset-2.col-lg-10
+      = f.button :submit, class: 'btn-primary'
+      - if @user.persisted?
+        |  
+        = link_to 'Delete', [:admin, @user], data: { confirm: 'Are you sure you want to delete this user?' }, method: :delete, class: 'btn btn-danger'
+      - else
+        span.help-block A Google Apps invite will be sent to the new user.

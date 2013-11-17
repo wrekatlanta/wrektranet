@@ -5,25 +5,26 @@
 
 = render 'navigation'
 
-table.table.table-striped
-  thead
-    tr
-      th User
-      th Event
-      th Date
-      th Venue
-      th Created
-  tbody
-    - unless @contest_suggestions.empty?
-      - for suggestion in @contest_suggestions do
-        tr
-          td = suggestion.user.username
-          td = suggestion.name
-          td = l suggestion.date, format: :us_time
-          td = suggestion.venue
-          td = l suggestion.created_at, format: :us_time
-    - else
+.table-responsive
+  table.table.table-striped
+    thead
       tr
-        td colspan="6" No results were found.
+        th User
+        th Event
+        th Date
+        th Venue
+        th Created
+    tbody
+      - unless @contest_suggestions.empty?
+        - for suggestion in @contest_suggestions do
+          tr
+            td = suggestion.user.username
+            td = suggestion.name
+            td = l suggestion.date, format: :us_date
+            td = suggestion.venue
+            td = l suggestion.created_at, format: :us_time
+      - else
+        tr
+          td colspan="6" No results were found.
 
 = will_paginate @contest_suggestions, renderer: BootstrapPagination::Rails, bootstrap: 3

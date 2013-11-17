@@ -5,27 +5,35 @@
 
 = render 'navigation'
 
-table.table.table-striped
-  thead
-    tr
-      th User
-      th Event
-      th Time
-      th Venue
-      th Signup Time
-      th Status
-  tbody
-    - unless @staff_tickets.empty?
-      - for ticket in @staff_tickets do
-        tr
-          td = ticket.user.username
-          td = link_to ticket.contest.event.name, air_contest_path(ticket.contest)
-          td = l ticket.contest.event.start_time, format: :us_time
-          td = ticket.contest.venue.name
-          td = l ticket.created_at, format: :us_time
-          td = ticket.status_label
-    - else
+.table-responsive
+  table.table.table-striped
+    thead
       tr
-        td colspan="6" No results were found.
+        th style="width: 10%;" 
+          span.sr-only Status
+        th User
+        th style="width: 28%;" Event
+        th style="width: 17%;" Time
+        th style="width: 20%;" Venue
+        th style="width: 17%;" Signup Time
+        th
+          span.sr-only Delete
+    tbody
+      - unless @staff_tickets.empty?
+        - for ticket in @staff_tickets do
+          tr
+            td.text-right = ticket.status_label
+            td = ticket.user.username
+            td = link_to ticket.contest.name, air_contest_path(ticket.contest)
+            td = l ticket.contest.start_time, format: :us_time
+            td = ticket.contest.venue.name
+            td = l ticket.created_at, format: :us_time
+            td
+              - if ticket.user == current_user
+                = link_to staff_ticket_path(ticket), data: { confirm: 'Are you sure you want to delete this signup?' }, method: :delete, class: 'btn btn-danger btn-xs' do
+                  i.glyphicon.glyphicon-trash
+      - else
+        tr
+          td colspan="7" No results were found.
 
 = will_paginate @staff_tickets, renderer: BootstrapPagination::Rails, bootstrap: 3

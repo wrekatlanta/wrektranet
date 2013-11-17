@@ -12,7 +12,7 @@ table.table.table-striped
         tr
           td = link_to psa.title, air_psa_path(psa)
           - if psa.psa_readings.first
-            td = psa.psa_readings.first.created_at
+            td = l psa.psa_readings.first.created_at, format: :us_time
           - else
             td Unread!
     - else

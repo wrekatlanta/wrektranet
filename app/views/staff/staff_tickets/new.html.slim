@@ -11,30 +11,36 @@ form.form-horizontal
     .col-lg-4
       input.form-control#ticketFilter type="text" ng-model="filter"
 
-table.table.table-striped.ng-cloak ng-controller="staffSignupCtrl" ng-init="contests = #{@contests.to_json(include: [:venue, :event])}"
-  thead
-    tr
-      th Event
-      th Time
-      th Venue
-      th Remaining
-      th style="width: 10%;"
-  tbody
-    - unless @contests.empty?
-      tr ng-repeat="contest in contests | filter:filter"
-        td
-          a href="/air/contests/{{contest.id}}"
-            | {{contest.event.name}}
-        td = "{{contest.event.start_time | date:'short' }}"
-        td = "{{contest.venue.name}}"
-        td = "{{contest.staff_ticket_limit - contest.staff_count}}"
-        td.text-right
-          div ng-hide="{{(contest.staff_ticket_limit - contest.staff_count) === 0}}"
-            button.btn.btn-primary.btn-xs type="button" ng-click="signup(contest)" ng-disabled="contest.signed_up"
-              i.glyphicon> ng-class="{'glyphicon-ok': contest.signed_up, 'glyphicon-plus': !contest.signed_up}"
-              | Sign up
-    - else
+.table-responsive
+  table.table.table-striped.ng-cloak ng-controller="staffSignupCtrl" ng-init="contests = #{@contests.to_json(include: [:venue])}"
+    thead
       tr
-        td colspan="5" There are currently no tickets you can sign up for.
-
-= will_paginate @contests, renderer: BootstrapPagination::Rails, bootstrap: 3
+        th style="width: 10%;"
+          span.sr-only Signup
+        th style="width: 28%;" Event
+        th style="width: 17%;" Time
+        th style="width: 20%;" Venue
+        th Remaining
+    tbody
+      - unless @contests.empty?
+        tr ng-repeat="contest in contests | filter:filter"
+          td.text-right
+            div ng-hide="isContestFull(contest)"
+              span ng-switch="contest.signed_up"
+                span ng-switch-when="true"
+                  button.btn.btn-info.btn-xs type="button" ng-click="remove(contest)"
+                    i.glyphicon.glyphicon-remove>
+                    | Undo
+                span ng-switch-default=true
+                  button.btn.btn-primary.btn-xs type="button" ng-click="signup(contest)"
+                    i.glyphicon.glyphicon-ok>
+                    | Sign up
+          td
+            a href="/air/contests/{{contest.id}}"
+              | {{contest.name}}
+          td = "{{contest.start_time | date:'short' }}"
+          td = "{{contest.venue.name}}"
+          td = "{{contest.staff_ticket_limit - contest.staff_count}}"
+      - else
+        tr
+          td colspan="5" There are currently no tickets you can sign up for.

@@ -3,23 +3,23 @@
 .page-header
   h1 Air Dashboard
 
-h3
-  = link_to 'T-Log', air_transmitter_log_entries_path
+.list-group
 
-p Sign the dang T-log!
+  - if Settings.transmitter_log_enabled?
+      = link_to air_transmitter_log_entries_path, class: 'list-group-item' do
+        h4.list-group-item-heading T-Log
+        p.list-group-item-text Sign the dang T-Log!
 
-h3
-  = link_to 'Contests', air_contests_path
+  - if Settings.psa_book_enabled?
+      = link_to air_psas_path, class: 'list-group-item' do
+        h4.list-group-item-heading PSAs
+        p.list-group-item-text Announce public service announcements.
 
-p Give away concert tickets to listeners.
+  - if Settings.contest_book_enabled?
+    = link_to air_contests_path, class: 'list-group-item' do
+      h4.list-group-item-heading Contests
+      p.list-group-item-text Give away concert tickets to listeners.
 
-h3
-  = link_to 'PSAs', air_psas_path
-
-p Announce public service announcements.
-
-h3
-  = link_to 'Recent Calls', air_calls_path
-
-p Look at recent calls.
-
+    = link_to air_events_path, class: 'list-group-item' do
+      h4.list-group-item-heading Calendar
+      p.list-group-item-text Let your listeners know about events in and around Atlanta.

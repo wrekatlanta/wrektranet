@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131016043248) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20131115015918) do
 
   create_table "calls", force: true do |t|
     t.datetime "time"
@@ -64,6 +61,10 @@ ActiveRecord::Schema.define(version: 20131016043248) do
     t.integer  "staff_count"
     t.integer  "listener_count"
     t.integer  "alternate_recipient_id"
+    t.string   "name"
+    t.datetime "start_time"
+    t.boolean  "public",                 default: true
+    t.string   "google_event_id"
   end
 
   add_index "contests", ["alternate_recipient_id"], name: "index_contests_on_alternate_recipient_id", using: :btree
@@ -79,6 +80,7 @@ ActiveRecord::Schema.define(version: 20131016043248) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "public",         default: true
+    t.string   "google_id"
   end
 
   add_index "events", ["eventable_id", "eventable_type"], name: "index_events_on_eventable_id_and_eventable_type", using: :btree
@@ -145,6 +147,7 @@ ActiveRecord::Schema.define(version: 20131016043248) do
     t.boolean  "awarded",             default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "display_name"
   end
 
   add_index "staff_tickets", ["user_id"], name: "index_staff_tickets_on_user_id", using: :btree
@@ -181,9 +184,12 @@ ActiveRecord::Schema.define(version: 20131016043248) do
     t.boolean  "admin",                              default: false
     t.integer  "buzzcard_id"
     t.integer  "buzzcard_facility_code"
+    t.integer  "legacy_id"
+    t.string   "remember_token"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["legacy_id"], name: "index_users_on_legacy_id", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 

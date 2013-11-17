@@ -7,21 +7,16 @@ feature "Contest administration" do
 
   let!(:upcoming_contests) {
     [
-      FactoryGirl.create(:contest, venue: venue,
-        event: FactoryGirl.create(:event, start_time: today + 1.day)),
-      FactoryGirl.create(:contest, venue: venue,
-        event: FactoryGirl.create(:event, start_time: today)),
-      FactoryGirl.create(:contest, venue: early_venue,
-        event: FactoryGirl.create(:event, start_time: today + 1.day))
+      FactoryGirl.create(:contest, venue: venue, start_time: today + 1.day),
+      FactoryGirl.create(:contest, venue: venue, start_time: today),
+      FactoryGirl.create(:contest, venue: early_venue, start_time: today + 1.day)
     ]
   }
 
   let!(:past_contests) {
     [
-      FactoryGirl.create(:contest, :sent, venue: venue,
-        event: FactoryGirl.create(:event, start_time: today - 1.day)),
-      FactoryGirl.create(:contest, :sent, venue: early_venue,
-        event: FactoryGirl.create(:event, start_time: today))
+      FactoryGirl.create(:contest, :sent, venue: venue, start_time: today - 1.day),
+      FactoryGirl.create(:contest, :sent, venue: early_venue, start_time: today)
     ]
   }
 
@@ -50,7 +45,7 @@ feature "Contest administration" do
     check "contest[staff_plus_one]"
 
     click_button "Create Contest"
-    current_path.should == admin_contests_path
+    current_path.should == new_admin_contest_path
     expect(page).to have_content("George and the Burdells created successfully.")
   end
 
@@ -60,7 +55,7 @@ feature "Contest administration" do
 
     click_button "Update Contest"
     current_path.should == admin_contests_path
-    expect(page).to have_content("#{contest.event.name} updated successfully.")
+    expect(page).to have_content("#{contest.name} updated successfully.")
   end
 
   scenario "Admin deletes a contest" do
@@ -69,7 +64,7 @@ feature "Contest administration" do
 
     click_link "Delete"
     current_path.should == admin_contests_path
-    expect(page).to have_content("#{contest.event.name} deleted successfully.")
+    expect(page).to have_content("#{contest.name} deleted successfully.")
   end
 
   scenario "Admin views upcoming contests" do
@@ -77,7 +72,7 @@ feature "Contest administration" do
     current_path.should == admin_contests_path
 
     upcoming_contests.each do |contest|
-      expect(page).to have_content contest.event.name
+      expect(page).to have_content contest.name
     end
 
     expect(page).to have_selector('.label-success', 9)
@@ -85,10 +80,10 @@ feature "Contest administration" do
 
   scenario "Admin views past contests" do
     click_link "Past"
-    current_path.should == past_admin_contests_path
+    current_url.should == admin_contests_url(:filter => 'past')
 
     past_contests.each do |contest|
-      expect(page).to have_content contest.event.name
+      expect(page).to have_content contest.name
     end
     expect(page).to have_selector('.label-success', 4)
     expect(page).to have_selector('.label-danger', 2)

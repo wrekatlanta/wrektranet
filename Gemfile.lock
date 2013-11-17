@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/plataformatec/simple_form.git
-  revision: b5ae13112ccd6b2ec12a3c5190bc6264c993b42d
+  revision: 6b9e0f3d0ecde4311e511d90899f4192bea9b738
   specs:
     simple_form (3.0.0)
       actionpack (>= 4.0.0, < 4.1)
@@ -8,49 +8,56 @@ GIT
 
 GIT
   remote: git://github.com/rails/rails.git
-  revision: 7b2f64fca71c8d13428eb48b65399736a8327554
+  revision: 6a5e3647a8bfdca7ece7db30508a8b5db9709426
   branch: 4-0-stable
   specs:
-    actionmailer (4.0.0)
-      actionpack (= 4.0.0)
+    actionmailer (4.0.1)
+      actionpack (= 4.0.1)
       mail (~> 2.5.4)
-    actionpack (4.0.0)
-      activesupport (= 4.0.0)
+    actionpack (4.0.1)
+      activesupport (= 4.0.1)
       builder (~> 3.1.0)
       erubis (~> 2.7.0)
       rack (~> 1.5.2)
       rack-test (~> 0.6.2)
-    activemodel (4.0.0)
-      activesupport (= 4.0.0)
+    activemodel (4.0.1)
+      activesupport (= 4.0.1)
       builder (~> 3.1.0)
-    activerecord (4.0.0)
-      activemodel (= 4.0.0)
+    activerecord (4.0.1)
+      activemodel (= 4.0.1)
       activerecord-deprecated_finders (~> 1.0.2)
-      activesupport (= 4.0.0)
+      activesupport (= 4.0.1)
       arel (~> 4.0.0)
-    activesupport (4.0.0)
+    activesupport (4.0.1)
       i18n (~> 0.6, >= 0.6.4)
       minitest (~> 4.2)
       multi_json (~> 1.3)
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
-    rails (4.0.0)
-      actionmailer (= 4.0.0)
-      actionpack (= 4.0.0)
-      activerecord (= 4.0.0)
-      activesupport (= 4.0.0)
+    rails (4.0.1)
+      actionmailer (= 4.0.1)
+      actionpack (= 4.0.1)
+      activerecord (= 4.0.1)
+      activesupport (= 4.0.1)
       bundler (>= 1.3.0, < 2.0)
-      railties (= 4.0.0)
+      railties (= 4.0.1)
       sprockets-rails (~> 2.0.0)
-    railties (4.0.0)
-      actionpack (= 4.0.0)
-      activesupport (= 4.0.0)
+    railties (4.0.1)
+      actionpack (= 4.0.1)
+      activesupport (= 4.0.1)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
 
 GIT
+  remote: git://github.com/ruby-ldap/ruby-net-ldap.git
+  revision: bbef82f22494864f5c0e53d4dffb21cead3fc274
+  branch: master
+  specs:
+    net-ldap (0.5.0)
+
+GIT
   remote: git://github.com/thomas-mcdonald/bootstrap-sass.git
-  revision: 0e88056ac5d58fb0bbd23d3fe929eac01712d964
+  revision: 9c6c07f74ff515cf38380b014cfede14a4f0eae4
   branch: 3
   specs:
     bootstrap-sass (3.0.0.0)
@@ -79,6 +86,12 @@ GEM
       debug_inspector (>= 0.0.1)
     builder (3.1.4)
     cancan (1.6.10)
+    capistrano (2.15.5)
+      highline
+      net-scp (>= 1.0.0)
+      net-sftp (>= 2.0.0)
+      net-ssh (>= 2.0.14)
+      net-ssh-gateway (>= 1.1.0)
     capybara (2.1.0)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -89,7 +102,7 @@ GEM
       timers (~> 1.1.0)
     chronic (0.10.2)
     cliver (0.2.2)
-    coderay (1.0.9)
+    coderay (1.1.0)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -97,24 +110,22 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
-    cucumber (1.3.8)
-      builder (>= 2.1.2)
-      diff-lcs (>= 1.1.3)
-      gherkin (~> 2.12.1)
-      multi_json (>= 1.7.5, < 2.0)
-      multi_test (>= 0.0.2)
     database_cleaner (1.2.0)
     debug_inspector (0.0.2)
-    devise (3.1.1)
+    devise (3.2.0)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
-    diff-lcs (1.2.4)
+    devise_ldap_authenticatable (0.8.1)
+      devise (>= 3.0)
+      net-ldap (>= 0.3.1, < 0.6.0)
+    diff-lcs (1.2.5)
     docile (1.1.0)
-    draper (1.2.1)
+    draper (1.3.0)
       actionpack (>= 3.0)
+      activemodel (>= 3.0)
       activesupport (>= 3.0)
       request_store (~> 1.0.3)
     email_spec (1.5.0)
@@ -123,22 +134,20 @@ GEM
     erubis (2.7.0)
     execjs (2.0.2)
     extlib (0.9.16)
-    factory_girl (4.2.0)
+    factory_girl (4.3.0)
       activesupport (>= 3.0.0)
-    factory_girl_rails (4.2.1)
-      factory_girl (~> 4.2.0)
+    factory_girl_rails (4.3.0)
+      factory_girl (~> 4.3.0)
       railties (>= 3.0.0)
     faker (1.2.0)
       i18n (~> 0.5)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
-    ffi (1.9.0)
+    ffi (1.9.3)
     figaro (0.7.0)
       bundler (~> 1.0)
       rails (>= 3, < 5)
     formatador (0.2.4)
-    gherkin (2.12.2)
-      multi_json (~> 1.3)
     google-api-client (0.6.4)
       addressable (>= 2.3.2)
       autoparse (>= 0.3.3)
@@ -149,24 +158,21 @@ GEM
       multi_json (>= 1.0.0)
       signet (~> 0.4.5)
       uuidtools (>= 2.1.0)
-    guard (2.2.2)
+    guard (2.2.3)
       formatador (>= 0.2.4)
       listen (~> 2.1)
       lumberjack (~> 1.0)
       pry (>= 0.9.12)
       thor (>= 0.18.1)
-    guard-bundler (0.1.3)
-      bundler (>= 1.0.0)
-      guard (>= 0.2.2)
-    guard-cucumber (1.4.0)
-      cucumber (>= 1.2.0)
-      guard (>= 1.1.0)
+    guard-bundler (2.0.0)
+      bundler (~> 1.0)
+      guard (~> 2.2)
     guard-rails (0.4.7)
       guard (>= 0.2.2)
-    guard-rspec (4.0.3)
+    guard-rspec (4.0.4)
       guard (>= 2.1.1)
       rspec (~> 2.14)
-    haml (4.0.3)
+    haml (4.1.0.alpha.2)
       tilt
     haml-rails (0.4)
       actionpack (>= 3.1, < 4.1)
@@ -177,7 +183,7 @@ GEM
       haml (>= 3.0)
       nokogiri
       ruby_parser
-    hashie (2.0.5)
+    highline (1.6.20)
     hike (1.2.3)
     hpricot (0.8.6)
     html2haml (1.0.1)
@@ -196,11 +202,11 @@ GEM
     jwt (0.1.8)
       multi_json (>= 1.5)
     kgio (2.8.1)
-    launchy (2.3.0)
+    launchy (2.4.0)
       addressable (~> 2.3)
     letter_opener (1.1.2)
       launchy (~> 2.2)
-    listen (2.1.1)
+    listen (2.2.0)
       celluloid (>= 0.15.2)
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
@@ -211,42 +217,34 @@ GEM
       treetop (~> 1.4.8)
     method_source (0.8.2)
     mime-types (1.25)
-    mini_portile (0.5.1)
+    mini_portile (0.5.2)
     minitest (4.7.5)
     multi_json (1.8.2)
-    multi_test (0.0.2)
     multipart-post (1.2.0)
+    mysql2 (0.3.14)
+    net-scp (1.1.2)
+      net-ssh (>= 2.6.5)
+    net-sftp (2.1.2)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.7.0)
+    net-ssh-gateway (1.2.0)
+      net-ssh (>= 2.6.5)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
-    omniauth (1.1.4)
-      hashie (>= 1.2, < 3)
-      rack
-    omniauth-google-apps (0.1.0)
-      omniauth (~> 1.0)
-      omniauth-openid (~> 1.0)
-      ruby-openid (~> 2.3.0)
-      ruby-openid-apps-discovery (~> 1.2.0)
-    omniauth-openid (1.0.1)
-      omniauth (~> 1.0)
-      rack-openid (~> 1.3.1)
-    orm_adapter (0.4.0)
-    pg (0.17.0)
+    orm_adapter (0.5.0)
     poltergeist (1.4.1)
       capybara (~> 2.1.0)
       cliver (~> 0.2.1)
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
     polyglot (0.3.3)
-    pry (0.9.12.2)
-      coderay (~> 1.0.5)
+    pry (0.9.12.3)
+      coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     rack (1.5.2)
-    rack-openid (1.3.1)
-      rack (>= 1.1.0)
-      ruby-openid (>= 2.1.8)
     rack-test (0.6.2)
       rack (>= 1.0)
     rails_12factor (0.0.2)
@@ -269,8 +267,8 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
-    rspec-core (2.14.6)
-    rspec-expectations (2.14.3)
+    rspec-core (2.14.7)
+    rspec-expectations (2.14.4)
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.14.4)
     rspec-rails (2.14.0)
@@ -280,11 +278,10 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
-    ruby-openid (2.3.0)
-    ruby-openid-apps-discovery (1.2.0)
-      ruby-openid (>= 2.1.7)
     ruby_parser (3.1.3)
       sexp_processor (~> 4.1)
+    rvm-capistrano (1.5.1)
+      capistrano (~> 2.15.4)
     sass (3.2.12)
     sass-rails (4.0.1)
       railties (>= 4.0.0, < 5.0)
@@ -299,13 +296,13 @@ GEM
       faraday (~> 0.8.1)
       jwt (>= 0.1.5)
       multi_json (>= 1.0.0)
-    simplecov (0.8.0.pre2)
+    simplecov (0.8.1)
       docile (~> 1.1.0)
       lockfile (>= 2.1.0)
       multi_json
-      simplecov-html (~> 0.7.1)
-    simplecov-html (0.7.1)
-    slim (2.0.1)
+      simplecov-html (~> 0.8.0)
+    simplecov-html (0.8.0)
+    slim (2.0.2)
       temple (~> 0.6.6)
       tilt (>= 1.3.3, < 2.1)
     slop (3.4.6)
@@ -330,10 +327,10 @@ GEM
     turbolinks (1.3.0)
       coffee-rails
     tzinfo (0.3.38)
-    uglifier (2.2.1)
+    uglifier (2.3.1)
       execjs (>= 0.3.0)
-      multi_json (~> 1.0, >= 1.0.2)
-    unicorn (4.6.3)
+      json (>= 1.8.0)
+    unicorn (4.7.0)
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
@@ -363,11 +360,13 @@ DEPENDENCIES
   binding_of_caller
   bootstrap-sass!
   cancan
+  capistrano
   capybara
   chronic
   coffee-rails (~> 4.0.0)
   database_cleaner
   devise (~> 3.0.x)
+  devise_ldap_authenticatable
   draper (~> 1.0)
   email_spec
   factory_girl_rails
@@ -376,7 +375,6 @@ DEPENDENCIES
   google-api-client
   guard (>= 2.1.0)
   guard-bundler
-  guard-cucumber
   guard-rails
   guard-rspec
   haml-rails
@@ -386,10 +384,9 @@ DEPENDENCIES
   jquery-rails
   launchy
   letter_opener
+  mysql2
+  net-ldap!
   nokogiri
-  omniauth
-  omniauth-google-apps
-  pg
   poltergeist
   quiet_assets
   rails!
@@ -399,6 +396,7 @@ DEPENDENCIES
   rb-inotify
   rolify (~> 3.3.0.rc4)
   rspec-rails
+  rvm-capistrano
   sass-rails (~> 4.0.0)
   sdoc
   simple_form!

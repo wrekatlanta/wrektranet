@@ -18,6 +18,10 @@
 #  staff_count            :integer
 #  listener_count         :integer
 #  alternate_recipient_id :integer
+#  name                   :string(255)
+#  start_time             :datetime
+#  public                 :boolean          default(TRUE)
+#  google_event_id        :string(255)
 #
 
 require 'spec_helper'
@@ -25,12 +29,6 @@ require 'spec_helper'
 describe Contest do
   let(:venue) { FactoryGirl.create(:venue) }
   let(:alternate_recipient) { FactoryGirl.create(:venue) }
-  let(:event) {
-    FactoryGirl.create(
-      :event,
-      start_time: Time.zone.today.beginning_of_day + 1.day + 17.hours
-    )
-  }
   let(:staff_ticket_limit) { 3 }
   let(:listener_ticket_limit) { 3 }
 
@@ -40,7 +38,8 @@ describe Contest do
 
   before do
     contest_attrs = {
-      event: event,
+      name: "Event Title",
+      start_time: Time.zone.today.beginning_of_day + 1.day + 17.hours,
       age_limit: 18,
       listener_ticket_limit: listener_ticket_limit,
       listener_plus_one: true,
@@ -53,6 +52,20 @@ describe Contest do
   end
 
   subject { @contest }
+
+  describe "#name" do
+    context "not present" do
+      before { @contest.name = nil }
+      it { should_not be_valid }
+    end
+  end
+
+  describe "#start_time" do
+    context "not present" do
+      before { @contest.start_time = nil }
+      it { should_not be_valid }
+    end
+  end
 
   describe "#age_limit" do
     context "not present" do
@@ -111,7 +124,7 @@ describe Contest do
 
       context "when send time is before today" do
         before do
-          @contest.event.start_time = Time.zone.today.beginning_of_day - 1.day
+          @contest.start_time = Time.zone.today.beginning_of_day - 1.day
           @contest.update_send_time
         end
 

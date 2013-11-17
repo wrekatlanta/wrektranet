@@ -25,12 +25,9 @@ feature "Contest air giveaway" do
 
   let!(:announceable_contests) {
     [
-      FactoryGirl.create(:contest, venue: venue,
-        event: FactoryGirl.create(:event, start_time: today + 1.day)),
-      FactoryGirl.create(:contest, venue: venue,
-        event: FactoryGirl.create(:event, start_time: today)),
-      FactoryGirl.create(:contest, venue: early_venue,
-        event: FactoryGirl.create(:event, start_time: today + 1.days))
+      FactoryGirl.create(:contest, venue: venue, start_time: today + 1.day),
+      FactoryGirl.create(:contest, venue: venue, start_time: today),
+      FactoryGirl.create(:contest, venue: early_venue, start_time: today + 1.days)
     ]
   }
 
@@ -39,15 +36,11 @@ feature "Contest air giveaway" do
       # sent contest
       FactoryGirl.create(:contest, :sent, venue: venue),
       # past contests
-      FactoryGirl.create(:contest, venue: venue,
-        event: FactoryGirl.create(:event, start_time: today - 1.day)),
-      FactoryGirl.create(:contest, venue: early_venue,
-        event: FactoryGirl.create(:event, start_time: today)),
+      FactoryGirl.create(:contest, venue: venue, start_time: today - 1.day),
+      FactoryGirl.create(:contest, venue: early_venue, start_time: today),
       # over 2 weeks away
-      FactoryGirl.create(:contest, venue: venue,
-        event: FactoryGirl.create(:event, start_time: today + 2.weeks)),
-      FactoryGirl.create(:contest, venue: early_venue,
-        event: FactoryGirl.create(:event, start_time: today + 2.weeks + 1.day))
+      FactoryGirl.create(:contest, venue: venue, start_time: today + 2.weeks),
+      FactoryGirl.create(:contest, venue: early_venue, start_time: today + 2.weeks + 1.day)
     ]
   }
 
@@ -60,23 +53,23 @@ feature "Contest air giveaway" do
     expect(page).to have_selector('.panel', 2)
 
     announceable_contests.each do |contest|
-      expect(page).to have_content(contest.event.name)
+      expect(page).to have_content(contest.name)
     end
 
     unannounceable_contests.each do |contest|
-      expect(page).to_not have_content(contest.event.name)
+      expect(page).to_not have_content(contest.name)
     end
   end
 
-  scenario "User views a contest"
+  scenario "User views a contest" do
     
   end
 
-  scenario "User adds listener tickets"
+  scenario "User adds listener tickets" do
 
   end
 
-  scenario "User deletes a listener ticket"
+  scenario "User deletes a listener ticket" do
 
   end
 end

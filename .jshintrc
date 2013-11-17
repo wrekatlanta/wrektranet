@@ -86,6 +86,7 @@
     "globals"       : {
         "$": true,
         "document": true,
-        "angular": true
+        "angular": true,
+        "_": true
     }
 }
