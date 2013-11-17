@@ -1,6 +1,6 @@
 module LdapHelper
 
-  def self.get_handle
+  def self.ldap_connect
     # Load piece of LDAP config we need
     ldap_conf = YAML::load(open("#{Rails.root}/config/ldap.yml"))["production"].symbolize_keys
 
