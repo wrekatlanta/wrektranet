@@ -165,7 +165,7 @@ class User < ActiveRecord::Base
         employeenumber: "-1",
         givenname: self.first_name,
         sn: self.last_name,
-        userpassword: "{SHA1}#{Digest::SHA1.base64digest self.password}"
+        userpassword: "{SHA}#{Digest::SHA1.base64digest self.password}"
       }
 
       puts dn
