@@ -3,7 +3,7 @@ Wrek::Application.routes.draw do
 
   devise_for :users, controllers: { registrations: "registrations" }
 
-  get 'auth/:user', to: 'application#authorizations', defaults: {format: :json}
+  get 'auth/:user', to: 'authorization#authorizations', defaults: {format: :json}
 
   namespace :air do
     root to: "dashboard#index"

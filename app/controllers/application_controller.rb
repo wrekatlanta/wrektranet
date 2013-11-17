@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  respond_to :json, :only => [:authorizations]
 
   rescue_from DeviseLdapAuthenticatable::LdapException do |exception|
     render :text => exception, :status => 500
@@ -17,22 +16,6 @@ class ApplicationController < ActionController::Base
 
   def authorize_exec
     current_user.authorize_exec!
-  end
-
-  def authorizations
-    auths = {}
-    user = User.find_by(username: params[:user])
-
-    unless user.nil?
-      auths = {
-        admin: user.admin?,
-        exec: user.exec?,
-        music_director: user.has_role?(:music_director),
-        automation: user.has_role?(:automation)
-      }
-    end
-    
-    respond_with auths
   end
 
   protected
