@@ -32,14 +32,18 @@ class User < ActiveRecord::Base
   before_save :strip_phone
   before_create :add_to_ldap
   before_validation :get_ldap_data, on: :create
+  before_validation :set_to_potential, on: :create
   before_create :remember_value
+  before_destroy :delete_from_ldap
 
   rolify
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable
   devise :registerable, :recoverable, :rememberable, :trackable,
-    :validatable
+    :validatable, :invitable
+
+  STATUSES = ["potential", "active", "inactive", "expired"]
 
   if Rails.env.production?
     devise :ldap_authenticatable
@@ -60,6 +64,7 @@ class User < ActiveRecord::Base
   validates :last_name,  presence: true
   validates :username,   presence: true, format: /[a-zA-Z]{2,8}/,
                          uniqueness: { case_sensitive: false }
+  validates :status, inclusion: { in: STATUSES }
 
   def name
     display_name.presence || [first_name, last_name].join(" ")
@@ -106,6 +111,10 @@ class User < ActiveRecord::Base
     self.phone.gsub!(/\D/, '') if self.phone
   end
 
+  def set_to_potential
+    self.status = "potential"
+  end
+
   def self.find_by_username(username)
     User.where("lower(username) = ?", username.downcase).first
   end
@@ -144,15 +153,7 @@ class User < ActiveRecord::Base
 
   def add_to_ldap
     if Rails.env.production?
-      # Load piece of LDAP config we need
-      ldap_conf = YAML::load(open("#{Rails.root}/config/ldap.yml"))["production"].symbolize_keys
-
-      # Translate admin fields and encryption to Net-LDAP fields
-      ldap_conf[:auth] = {method: :simple, username: ldap_conf[:admin_user], password: ldap_conf[:admin_password]}
-      ldap_conf[:encryption] = ldap_conf[:ssl] ? {method: :simple_tls} : nil
-
-      # Connect with LDAP
-      ldap_handle = Net::LDAP.new(ldap_conf)
+      ldap_handle = LdapHelper::ldap_connect
 
       # Build user attributes in line with the LDAP 'schema'
       dn = "cn=#{self.username},ou=People,dc=staff,dc=wrek,dc=org"
@@ -164,7 +165,7 @@ class User < ActiveRecord::Base
         employeenumber: "-1",
         givenname: self.first_name,
         sn: self.last_name,
-        userpassword: "{SHA1}#{Digest::SHA1.base64digest self.password}"
+        userpassword: "{SHA}#{Digest::SHA1.base64digest self.password}"
       }
 
       puts dn
@@ -177,4 +178,19 @@ class User < ActiveRecord::Base
 
     end
   end
+
+  def delete_from_ldap
+    if Rails.env.production?
+      ldap_handle = LdapHelper::ldap_connect
+
+      dn = "cn=#{self.username},ou=People,dc=staff,dc=wrek,dc=org"
+
+      unless ldap_handle.delete(dn: dn)
+        puts ldap_handle.get_operation_result
+        return false
+      end
+
+    end
+  end
+
 end

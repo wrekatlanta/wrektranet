@@ -1,14 +1,19 @@
-class UserMailer < ActionMailer::Base
-  default from: "it.director@wrek.org"
+class UserMailer < Devise::Mailer
 
-  def import_email(user, password, email)
-    @user = user
-    @password = password
-    delivery_options = { user_name: ENV['GMAIL_IT_USERNAME'],
-                         password: ENV['GMAIL_IT_PASSWORD'] }
+  layout 'email'
 
-    mail(to: email,
-         subject: "[WREK] Your New Google Apps Account",
-         delivery_method_options: delivery_options)
+  def invitation_instructions(record, opts={})
+    @user = record
+    options = { delivery_method_options: {
+                  user_name: ENV['GMAIL_BOT_USERNAME'],
+                  password: ENV['GMAIL_BOT_PASSWORD']
+                },
+                subject: "[WREK] Wrektranet Account Created - Set Your Password"
+              }
+
+
+    devise_mail(record, :invitation_instructions, options)
+
   end
+
 end
