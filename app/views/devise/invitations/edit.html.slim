@@ -1,0 +1,12 @@
+- defaults = {input_wrapper_html: {class: 'col-lg-3'}, label_html: {class: 'col-lg-2'}}
+
+h2 = t 'devise.invitations.edit.header'
+
+= simple_form_for resource, :as => resource_name, :url => invitation_path(resource_name), :html => { :method => :put, class: 'form-horizontal'}, defaults: defaults do |f|
+  = devise_error_messages!
+  = f.hidden_field :invitation_token
+
+  = f.input :password, input_html: { class: 'form-control' }
+  = f.input :password_confirmation, input_html: { class: 'form-control' }
+
+  = f.submit t("devise.invitations.edit.submit_button"), class: 'btn btn-primary'

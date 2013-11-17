@@ -16,12 +16,15 @@ class Admin::UsersController < Admin::BaseController
     @user = User.new(user_params)
     authorize! :create, @user
 
-    password = Devise.friendly_token[0,20]
-    @user.password = password
+    @user.password = Devise.friendly_token[0,20]
 
     if @user.save
+      # Invite user
+      puts "user saved"
+      @user.invite!
       redirect_to admin_users_path, success: "#{@user.username} created successfully. They have received an email with further instructions."
     else
+      puts @user.errors.full_messages
       render :new
     end
   end

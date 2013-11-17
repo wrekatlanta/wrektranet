@@ -8,7 +8,8 @@ class UserMailer < ActionMailer::Base
                          password: ENV['GMAIL_IT_PASSWORD'] }
 
     mail(to: email,
-         subject: "[WREK] Your New Google Apps Account",
+         subject: "[WREK] Your New Wrektranet Account",
          delivery_method_options: delivery_options)
   end
+
 end

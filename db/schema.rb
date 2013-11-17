@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131115015918) do
+ActiveRecord::Schema.define(version: 20131117092131) do
 
   create_table "contacts", force: true do |t|
     t.string   "email"
@@ -150,32 +150,40 @@ ActiveRecord::Schema.define(version: 20131115015918) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                              default: "",    null: false
-    t.string   "encrypted_password",     limit: 128, default: "",    null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      default: 0
+    t.integer  "sign_in_count",          default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "username",                                           null: false
+    t.string   "username",                               null: false
     t.string   "phone"
     t.string   "first_name"
     t.string   "last_name"
     t.string   "display_name"
     t.string   "status"
-    t.boolean  "admin",                              default: false
+    t.boolean  "admin",                  default: false
     t.integer  "buzzcard_id"
     t.integer  "buzzcard_facility_code"
     t.integer  "legacy_id"
     t.string   "remember_token"
+    t.string   "invitation_token"
+    t.datetime "invitation_created_at"
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
+    t.integer  "invitation_limit"
+    t.integer  "invited_by_id"
+    t.string   "invited_by_type"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
   add_index "users", ["legacy_id"], name: "index_users_on_legacy_id", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree

@@ -1,0 +1,8 @@
+p
+ | Hello New Op!
+
+p
+ | An account on Wrektranet has been created for you. Use the link below to set your password.
+
+p
+ = link_to 'Set Password', accept_invitation_url(@resource, :invitation_token => @token)

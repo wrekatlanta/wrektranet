@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
   before_save :strip_phone
   before_create :add_to_ldap
   before_validation :get_ldap_data, on: :create
+  before_validation :set_to_potential, on: :create
   before_create :remember_value
   before_destroy :delete_from_ldap
 
@@ -40,7 +41,9 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable
   devise :registerable, :recoverable, :rememberable, :trackable,
-    :validatable
+    :validatable, :invitable
+
+  STATUSES = ["potential", "active", "inactive", "expired"]
 
   if Rails.env.production?
     devise :ldap_authenticatable
@@ -61,6 +64,7 @@ class User < ActiveRecord::Base
   validates :last_name,  presence: true
   validates :username,   presence: true, format: /[a-zA-Z]{2,8}/,
                          uniqueness: { case_sensitive: false }
+  validates :status, inclusion: { in: STATUSES }
 
   def name
     display_name.presence || [first_name, last_name].join(" ")
@@ -105,6 +109,10 @@ class User < ActiveRecord::Base
   # FIXME: make this generic
   def strip_phone
     self.phone.gsub!(/\D/, '') if self.phone
+  end
+
+  def set_to_potential
+    self.status = "potential"
   end
 
   def self.find_by_username(username)

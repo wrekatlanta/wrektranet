@@ -2,16 +2,17 @@
   ul.nav.navbar-nav
     = active_link_to 'On Air', air_root_path, wrap_tag: :li
     = active_link_to 'Staff', staff_root_path, wrap_tag: :li
-    - if current_user.exec?
+    - if current_user and current_user.exec?
       = active_link_to 'Admin', admin_root_path, wrap_tag: :li
   ul.nav.navbar-nav.pull-right
-    li.dropdown
-      a.dropdown-toggle data-toggle="dropdown" href="#"
-        = current_user.name
-        b.caret
-      ul.dropdown-menu
-        - if Settings.profiles_enabled?
+    - if current_user
+      li.dropdown
+        a.dropdown-toggle data-toggle="dropdown" href="#"
+          = current_user.name
+          b.caret
+        ul.dropdown-menu
+          - if Settings.profiles_enabled?
+            li
+              = link_to 'Edit Profile', edit_user_registration_path
           li
-            = link_to 'Edit Profile', edit_user_registration_path
-        li
-          = link_to 'Logout', destroy_user_session_path, method: 'delete'
+            = link_to 'Logout', destroy_user_session_path, method: 'delete'
