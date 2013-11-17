@@ -153,15 +153,7 @@ class User < ActiveRecord::Base
 
   def add_to_ldap
     if Rails.env.production?
-      # Load piece of LDAP config we need
-      ldap_conf = YAML::load(open("#{Rails.root}/config/ldap.yml"))["production"].symbolize_keys
-
-      # Translate admin fields and encryption to Net-LDAP fields
-      ldap_conf[:auth] = {method: :simple, username: ldap_conf[:admin_user], password: ldap_conf[:admin_password]}
-      ldap_conf[:encryption] = ldap_conf[:ssl] ? {method: :simple_tls} : nil
-
-      # Connect with LDAP
-      ldap_handle = Net::LDAP.new(ldap_conf)
+      ldap_handle = LdapHelper::ldap_connect
 
       # Build user attributes in line with the LDAP 'schema'
       dn = "cn=#{self.username},ou=People,dc=staff,dc=wrek,dc=org"
@@ -189,15 +181,8 @@ class User < ActiveRecord::Base
 
   def delete_from_ldap
     if Rails.env.production?
-      # Load piece of LDAP config we need
-      ldap_conf = YAML::load(open("#{Rails.root}/config/ldap.yml"))["production"].symbolize_keys
+      ldap_handle = LdapHelper::ldap_connect
 
-      # Translate admin fields and encryption to Net-LDAP fields
-      ldap_conf[:auth] = {method: :simple, username: ldap_conf[:admin_user], password: ldap_conf[:admin_password]}
-      ldap_conf[:encryption] = ldap_conf[:ssl] ? {method: :simple_tls} : nil
-
-      # Connect with LDAP
-      ldap_handle = Net::LDAP.new(ldap_conf)
       dn = "cn=#{self.username},ou=People,dc=staff,dc=wrek,dc=org"
 
       unless ldap_handle.delete(dn: dn)
