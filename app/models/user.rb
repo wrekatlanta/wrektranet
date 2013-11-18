@@ -128,12 +128,12 @@ class User < ActiveRecord::Base
 
   def get_ldap_data
     if Rails.env.production? and not Devise::LDAP::Adapter.get_ldap_param(self.username, "cn").nil?
-      self.legacy_id    = Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeNumber")[0]
-      self.first_name   = Devise::LDAP::Adapter.get_ldap_param(self.username, "givenName")[0]
-      self.last_name    = Devise::LDAP::Adapter.get_ldap_param(self.username, "sn")[0]
-      self.display_name = Devise::LDAP::Adapter.get_ldap_param(self.username, "displayName")[0]
-      self.status       = Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeType")[0]
-      self.email        = Devise::LDAP::Adapter.get_ldap_param(self.username, "mail")[0]
+      self.legacy_id    = Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeNumber").try(:first)
+      self.first_name   = Devise::LDAP::Adapter.get_ldap_param(self.username, "givenName").try(:first)
+      self.last_name    = Devise::LDAP::Adapter.get_ldap_param(self.username, "sn").try(:first)
+      self.display_name = Devise::LDAP::Adapter.get_ldap_param(self.username, "displayName").try(:first)
+      self.status       = Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeType").try(:first)
+      self.email        = Devise::LDAP::Adapter.get_ldap_param(self.username, "mail").try(:first)
     end
   end
 
@@ -142,12 +142,12 @@ class User < ActiveRecord::Base
   end
 
   def get_ldap_data!
-    self.legacy_id    ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeNumber")[0]
-    self.first_name   ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "givenName")[0]
-    self.last_name    ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "sn")[0]
-    self.display_name ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "displayName")[0]
-    self.status       ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeType")[0]
-    self.email        ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "mail")[0]
+    self.legacy_id    ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeNumber").try(:first)
+    self.first_name   ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "givenName").try(:first)
+    self.last_name    ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "sn").try(:first)
+    self.display_name ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "displayName").try(:first)
+    self.status       ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeType").try(:first)
+    self.email        ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "mail").try(:first)
     self.save!
   end
 
