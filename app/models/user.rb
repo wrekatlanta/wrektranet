@@ -170,6 +170,7 @@ class User < ActiveRecord::Base
 
       puts dn
       puts user_attr
+      puts self.errors
 
       unless ldap_handle.add(dn: dn, attributes: user_attr)
         puts ldap_handle.get_operation_result
