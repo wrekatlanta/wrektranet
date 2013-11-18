@@ -30,10 +30,9 @@
 
 class User < ActiveRecord::Base
   before_validation :get_ldap_data, on: :create
-  before_validation :set_to_potential, on: :create
+  before_validation :set_defaults, on: :create
   before_save :strip_phone
   before_create :add_to_ldap
-  before_create :remember_value
   before_destroy :delete_from_ldap
 
   rolify
@@ -106,53 +105,36 @@ class User < ActiveRecord::Base
     self.exec?([:contest_director])
   end
 
-  # FIXME: make this generic
-  def strip_phone
-    self.phone.gsub!(/\D/, '') if self.phone
-  end
-
-  def set_to_potential
-    self.status = "potential"
-  end
-
-  def self.find_by_username(username)
-    User.where("lower(username) = ?", username.downcase).first
-  end
-
-  def serializable_hash(options={})
-    options = { 
-      methods: [:name]
-    }.update(options)
-    super(options)
-  end
-
-  def get_ldap_data
-    if Rails.env.production? and not Devise::LDAP::Adapter.get_ldap_param(self.username, "cn").nil?
-      self.legacy_id    = Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeNumber").try(:first)
-      self.first_name   = Devise::LDAP::Adapter.get_ldap_param(self.username, "givenName").try(:first)
-      self.last_name    = Devise::LDAP::Adapter.get_ldap_param(self.username, "sn").try(:first)
-      self.display_name = Devise::LDAP::Adapter.get_ldap_param(self.username, "displayName").try(:first)
-      self.status       = Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeType").try(:first)
-      self.email        = Devise::LDAP::Adapter.get_ldap_param(self.username, "mail").try(:first)
-    end
-  end
-
   def remember_value
     self.remember_token ||= Devise.friendly_token
   end
 
-  def get_ldap_data!
-    self.legacy_id    ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeNumber").try(:first)
-    self.first_name   ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "givenName").try(:first)
-    self.last_name    ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "sn").try(:first)
-    self.display_name ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "displayName").try(:first)
-    self.status       ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeType").try(:first)
-    self.email        ||= Devise::LDAP::Adapter.get_ldap_param(self.username, "mail").try(:first)
-    self.save!
+  def strip_phone
+    self.phone.gsub!(/\D/, '') if self.phone
+  end
+
+  def set_defaults
+    self.status ||= "potential"
+    self.remember_value
+  end
+
+  def get_ldap_data
+    if Rails.env.production?
+      result = LdapHelper::find_user(self.username)
+
+      if result
+        self.legacy_id    ||= result["employeeNumber"]
+        self.first_name   ||= result["givenName"]
+        self.last_name    ||= result["sn"]
+        self.display_name ||= result["displayName"]
+        self.status       ||= result["employeeType"] || "potential"
+        self.email        ||= result["mail"]
+      end
+    end
   end
 
   def add_to_ldap
-    if Rails.env.production? and Devise::LDAP::Adapter.get_ldap_param(self.username, "cn").nil?
+    if Rails.env.production? and not LdapHelper::find_user(self.username)
       ldap_handle = LdapHelper::ldap_connect
 
       # Build user attributes in line with the LDAP 'schema'
@@ -168,9 +150,10 @@ class User < ActiveRecord::Base
         userpassword: "{SHA}#{Digest::SHA1.base64digest self.password}"
       }
 
-      puts dn
-      puts user_attr
-      puts ldap_handle.get_operation_result
+      unless ldap_handle.add(dn: dn, attributes: user_attr)
+        puts ldap_handle.get_operation_result
+        return false
+      end
     end
   end
 
@@ -188,4 +171,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def serializable_hash(options={})
+    options = { 
+      methods: [:name]
+    }.update(options)
+    super(options)
+  end
 end
