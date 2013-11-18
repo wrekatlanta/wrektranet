@@ -29,10 +29,10 @@
 #
 
 class User < ActiveRecord::Base
-  before_save :strip_phone
-  before_create :add_to_ldap
   before_validation :get_ldap_data, on: :create
   before_validation :set_to_potential, on: :create
+  before_save :strip_phone
+  before_create :add_to_ldap
   before_create :remember_value
   before_destroy :delete_from_ldap
 
@@ -134,13 +134,11 @@ class User < ActiveRecord::Base
       self.display_name = Devise::LDAP::Adapter.get_ldap_param(self.username, "displayName").try(:first)
       self.status       = Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeType").try(:first)
       self.email        = Devise::LDAP::Adapter.get_ldap_param(self.username, "mail").try(:first)
-      puts self.errors.inspect
     end
   end
 
   def remember_value
     self.remember_token ||= Devise.friendly_token
-    puts self.errors.inspect
   end
 
   def get_ldap_data!
@@ -154,7 +152,7 @@ class User < ActiveRecord::Base
   end
 
   def add_to_ldap
-    if Rails.env.production?
+    if Rails.env.production? and Devise::LDAP::Adapter.get_ldap_param(self.username, "cn").nil?
       ldap_handle = LdapHelper::ldap_connect
 
       # Build user attributes in line with the LDAP 'schema'
@@ -172,13 +170,7 @@ class User < ActiveRecord::Base
 
       puts dn
       puts user_attr
-      puts self.errors.inspect
-
-      unless ldap_handle.add(dn: dn, attributes: user_attr)
-        puts ldap_handle.get_operation_result
-        return false
-      end
-
+      puts ldap_handle.get_operation_result
     end
   end
 
