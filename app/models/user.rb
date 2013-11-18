@@ -134,11 +134,13 @@ class User < ActiveRecord::Base
       self.display_name = Devise::LDAP::Adapter.get_ldap_param(self.username, "displayName").try(:first)
       self.status       = Devise::LDAP::Adapter.get_ldap_param(self.username, "employeeType").try(:first)
       self.email        = Devise::LDAP::Adapter.get_ldap_param(self.username, "mail").try(:first)
+      puts self.errors
     end
   end
 
   def remember_value
     self.remember_token ||= Devise.friendly_token
+    puts self.errors
   end
 
   def get_ldap_data!
