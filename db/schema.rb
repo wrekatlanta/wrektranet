@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131113195824) do
+ActiveRecord::Schema.define(version: 20131119014701) do
 
   create_table "calls", force: true do |t|
     t.datetime "time"
@@ -151,6 +151,15 @@ ActiveRecord::Schema.define(version: 20131113195824) do
   end
 
   add_index "staff_tickets", ["user_id"], name: "index_staff_tickets_on_user_id", using: :btree
+
+  create_table "time_slots", force: true do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+    t.string   "reason"
+  end
 
   create_table "transmitter_log_entries", force: true do |t|
     t.datetime "sign_in"
