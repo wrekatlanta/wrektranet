@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131117092131) do
+ActiveRecord::Schema.define(version: 20131119044649) do
 
   create_table "contacts", force: true do |t|
     t.string   "email"
@@ -57,21 +57,6 @@ ActiveRecord::Schema.define(version: 20131117092131) do
   add_index "contests", ["alternate_recipient_id"], name: "index_contests_on_alternate_recipient_id", using: :btree
   add_index "contests", ["venue_id"], name: "index_contests_on_venue_id", using: :btree
 
-  create_table "events", force: true do |t|
-    t.integer  "eventable_id"
-    t.string   "eventable_type"
-    t.string   "name"
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.boolean  "all_day",        default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "public",         default: true
-    t.string   "google_id"
-  end
-
-  add_index "events", ["eventable_id", "eventable_type"], name: "index_events_on_eventable_id_and_eventable_type", using: :btree
-
   create_table "listener_logs", force: true do |t|
     t.integer  "hd2_128"
     t.integer  "main_128"
@@ -91,6 +76,14 @@ ActiveRecord::Schema.define(version: 20131117092131) do
 
   add_index "listener_tickets", ["contest_id"], name: "index_listener_tickets_on_contest_id", using: :btree
   add_index "listener_tickets", ["user_id"], name: "index_listener_tickets_on_user_id", using: :btree
+
+  create_table "permissions", force: true do |t|
+    t.string   "action"
+    t.string   "subject_class"
+    t.integer  "subject_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "power_readings", force: true do |t|
     t.float    "plate_current"
@@ -115,6 +108,16 @@ ActiveRecord::Schema.define(version: 20131117092131) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "role_permissions", force: true do |t|
+    t.integer  "role_id"
+    t.integer  "permission_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "role_permissions", ["permission_id"], name: "index_role_permissions_on_permission_id", using: :btree
+  add_index "role_permissions", ["role_id"], name: "index_role_permissions_on_role_id", using: :btree
 
   create_table "roles", force: true do |t|
     t.string   "name"
@@ -149,8 +152,18 @@ ActiveRecord::Schema.define(version: 20131117092131) do
     t.boolean  "automation_out", default: false
   end
 
+  create_table "user_roles", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "role_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "user_roles", ["role_id"], name: "index_user_roles_on_role_id", using: :btree
+  add_index "user_roles", ["user_id"], name: "index_user_roles_on_user_id", using: :btree
+
   create_table "users", force: true do |t|
-    t.string   "email",                  default: "",    null: false
+    t.string   "email",                                  null: false
     t.string   "encrypted_password",     default: ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"

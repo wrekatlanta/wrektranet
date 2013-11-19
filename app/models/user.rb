@@ -3,7 +3,7 @@
 # Table name: users
 #
 #  id                     :integer          not null, primary key
-#  email                  :string(255)      default(""), not null
+#  email                  :string(255)
 #  encrypted_password     :string(255)      default(""), not null
 #  reset_password_token   :string(255)
 #  reset_password_sent_at :datetime
@@ -123,12 +123,12 @@ class User < ActiveRecord::Base
       result = LdapHelper::find_user(self.username)
 
       if result
-        self.legacy_id    ||= result["employeeNumber"]
-        self.first_name   ||= result["givenName"]
-        self.last_name    ||= result["sn"]
-        self.display_name ||= result["displayName"]
-        self.status       ||= result["employeeType"] || "potential"
-        self.email        ||= result["mail"]
+        self.legacy_id    ||= result.try(:employeeNumber)
+        self.first_name   ||= result.try(:givenName)
+        self.last_name    ||= result.try(:sn)
+        self.display_name ||= result.try(:displayName)
+        self.status       ||= result.try(:employeeType).try(:first) || "potential"
+        self.email        ||= result.try(:mail) || "#{username}@wrek.org"
       end
     end
   end
