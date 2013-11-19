@@ -13,7 +13,7 @@
 
 class TimeSlot < ActiveRecord::Base
   validates :user_id, :start_time, :end_time, presence: true
-  validates_uniqueness_of :user_id, scope: [:contest_id]
+  validates_uniqueness_of :user_id 
   validate :start_time_cannot_be_in_the_past, :end_time_cannot_be_before_start
 
   def start_time_cannot_be_in_the_past
