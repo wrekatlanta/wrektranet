@@ -123,12 +123,12 @@ class User < ActiveRecord::Base
       result = LdapHelper::find_user(self.username)
 
       if result
-        self.legacy_id    ||= result.try(:employeeNumber)
-        self.first_name   ||= result.try(:givenName)
-        self.last_name    ||= result.try(:sn)
-        self.display_name ||= result.try(:displayName)
+        self.legacy_id    ||= result.try(:employeeNumber).try(:first)
+        self.first_name   ||= result.try(:givenName).try(:first)
+        self.last_name    ||= result.try(:sn).try(:first)
+        self.display_name ||= result.try(:displayName).try(:first)
         self.status       ||= result.try(:employeeType).try(:first) || "potential"
-        self.email        ||= result.try(:mail) || "#{username}@wrek.org"
+        self.email        ||= result.try(:mail).try(:first) || "#{username}@wrek.org"
       end
     end
   end
