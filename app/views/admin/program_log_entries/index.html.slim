@@ -5,7 +5,20 @@
 
 = render 'navigation'
 
-/ insert a table of plog entries here with links to edit them
-/ be sure to add a "no results found" condition
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th Name
+        th Description
+    tbody
+      - unless @program_log_entries.empty?
+        - for program_log_entry in @program_log_entries do
+          tr
+            td = link_to program_log_entry.name, edit_admin_program_log_entry_path(program_log_entry)
+            td = link_to program_log_entry.description, edit_admin_program_log_entry_path(program_log_entry)
+      - else
+        tr
+          td colspan="2" No results were found.
 
 = will_paginate @program_log_entries, renderer: BootstrapPagination::Rails, bootstrap: 3
