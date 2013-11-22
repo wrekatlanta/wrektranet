@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
   validates :email,      presence: true
   validates :first_name, presence: true
   validates :last_name,  presence: true
-  validates :username,   presence: true, format: /[a-zA-Z]{2,8}/,
+  validates :username,   presence: true,
                          uniqueness: { case_sensitive: false }
   validates :status, inclusion: { in: STATUSES }
 
