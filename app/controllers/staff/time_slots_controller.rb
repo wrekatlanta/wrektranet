@@ -4,8 +4,7 @@ class Staff::TimeSlotsController < Staff::BaseController
 
   def index
     @time_slots = @time_slots
-    .paginate(page: params[:page], per_page:30).
-    :decorate
+    .paginate(page: params[:page], per_page:30)
   end
 
   def me
