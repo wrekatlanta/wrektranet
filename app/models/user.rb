@@ -48,6 +48,7 @@ class User < ActiveRecord::Base
   end
 
   has_many :staff_tickets, dependent: :destroy
+  has_many :time_slots, dependent: :destroy
   has_many :contests, through: :staff_tickets
   has_many :listener_tickets
   has_many :contest_suggestions, dependent: :destroy

@@ -16,6 +16,7 @@ class TimeSlot < ActiveRecord::Base
   validates_uniqueness_of :user_id 
   validate :start_time_cannot_be_in_the_past, :end_time_cannot_be_before_start
 
+  belongs_to :user
   def start_time_cannot_be_in_the_past
       if start_time.present? && start_time < Date.today
           errors.add(:start_time, " can't be in the past")

@@ -33,6 +33,13 @@ Wrek::Application.routes.draw do
       end
     end
 
+    resources :time_slots, as: 'slots' do
+      collection do
+        get 'me'
+      end
+    end
+
+
     resources :listener_logs do
       collection do
         get 'current'
