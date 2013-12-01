@@ -4,23 +4,18 @@ class Staff::TimeSlotsController < Staff::BaseController
 
   def index
     @time_slots = @time_slots
-    .paginate(page: params[:page], per_page:30)
+    .today
   end
 
   def me
-    @time_slots = current_user.
-      time_slots.
-      paginate(page: params[:page], per_page: 30).
-      decorate
-
+    @time_slots = current_user.time_slots
     render :index
   end
 
   def new
     @contests = Contest.
       announceable.
-      without_user(current_user).
-      decorate
+      without_user(current_user)
   end
 
   def create

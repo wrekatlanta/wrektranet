@@ -23,11 +23,10 @@
         - for slot in @time_slots do
           tr
             td = slot.user.username
+            td = l slot.date, format: :us_time
             td = l slot.start_time, format: :us_time
             td = l slot.end_time, format: :us_time
             td = l slot.reason, format: :us_time
       - else
         tr
           td colspan="7" No results were found.
-
-= will_paginate @TimeSlots, renderer: BootstrapPagination::Rails, bootstrap: 3
