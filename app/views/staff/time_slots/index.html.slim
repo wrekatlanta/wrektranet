@@ -12,6 +12,7 @@
         th style="width: 10%;" 
           span.sr-only Status
         th User
+        th style="width: 28%;" Date
         th style="width: 28%;" Start Time
         th style="width: 17%;" End Time
         th style="width: 20%;" Reason
@@ -24,8 +25,7 @@
             td = slot.user.username
             td = l slot.start_time, format: :us_time
             td = l slot.end_time, format: :us_time
-            td = ticket.contest.venue.name
-            td = l ticket.created_at, format: :us_time
+            td = l slot.reason, format: :us_time
       - else
         tr
           td colspan="7" No results were found.
