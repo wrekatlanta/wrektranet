@@ -12,11 +12,6 @@ class Staff::TimeSlotsController < Staff::BaseController
     render :index
   end
 
-  def new
-    @contests = Contest.
-      announceable.
-      without_user(current_user)
-  end
 
   def create
     @time_slot = current_user.time_slots.new(time_slot_params)
