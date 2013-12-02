@@ -56,12 +56,12 @@ class Contest < ActiveRecord::Base
     today = Time.zone.now.beginning_of_day
 
     where("start_time >= :cutoff_date", cutoff_date: today)
-      .order('start_time ASC')
+      .reorder('start_time ASC')
   }
 
   scope :past, -> {
     where("send_time < :start_time", start_time: Time.zone.now)
-      .order('send_time DESC')
+      .reorder('send_time DESC')
   }
 
   scope :sendable, -> (time) {

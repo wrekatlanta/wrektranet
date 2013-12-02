@@ -4,9 +4,9 @@ class Admin::ContestsController < Admin::BaseController
   def index
     authorize! :manage, Contest
 
-    @contests = @contests.
-      includes(:venue, :listener_tickets, :staff_tickets).
-      paginate(page: params[:page], per_page: 30)
+    @contests = @contests
+      .includes(:venue, :listener_tickets, :staff_tickets)
+      .paginate(page: params[:page], per_page: 30)
 
     if params[:filter] == 'past'
       @contests = @contests.past
