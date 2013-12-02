@@ -4,9 +4,33 @@
   h1 Program Log Schedules
 
 = render 'navigation'
++
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+	th Program_log_entry
+        th Days
+        th Start_Date
+	th Expiration_Date
+        th Start_Time
+	th End_Time
+	th repeat_interval
+    tbody
+      - unless @program_log_entry_schedules.empty?
+	- for program_log_entry_schedule in @program_log_entry_schedules do
+          tr
+	    td = link_to program_log_entry_schedule.program_log_entry.name, edit_admin_program_log_entry_schedule_path(program_log_entry_schedule)
+	    td = link_to program_log_entry_schedule.day
+	    td = link_to program_log_entry_schedule.start_date
+	    td = link_to program_log_entry_schedule.expiration_date
+	    td = l program_log_entry_schedule.start_time, format: :us_time 
+	    td = l program_log_entry_schedule.end_time, format: :us_time 
+	    td = link_to program_log_entry_schedule.repeat_interval
+      - else
+        tr
+          td colspan="2" No results were found.
 
-/ insert a table of plog entry schedules here with links to edit them
-/ also make sure there's a column for the program log entry's name to clarify
-/ be sure to add a "no results found" condition
+
 
 = will_paginate @program_log_entry_schedules, renderer: BootstrapPagination::Rails, bootstrap: 3

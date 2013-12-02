@@ -16,7 +16,7 @@
         - for program_log_entry in @program_log_entries do
           tr
             td = link_to program_log_entry.name, edit_admin_program_log_entry_path(program_log_entry)
-            td = link_to program_log_entry.description, edit_admin_program_log_entry_path(program_log_entry)
+            td = program_log_entry.description
       - else
         tr
           td colspan="2" No results were found.

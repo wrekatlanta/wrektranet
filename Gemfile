@@ -15,6 +15,8 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+gem 'mysql2'
+
 gem 'bootstrap-sass', git: 'git://github.com/thomas-mcdonald/bootstrap-sass.git', branch: '3'
 gem 'active_link_to'
 gem 'cancan'

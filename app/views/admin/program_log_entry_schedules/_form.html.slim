@@ -1,18 +1,15 @@
 - defaults = {input_wrapper_html: {class: 'col-lg-6'}, label_html: {class: 'col-lg-2'}}
 
 = simple_form_for [:admin, @program_log_entry_schedule], html: {class: 'form-horizontal'}, defaults: defaults do |f|
-  / fill out this form, here's an example field:
+
   = f.association :program_log_entry, include_blank: false, input_html: { class: 'form-control' }
-  / start_time and end_time are time fields and will render as hour/minute dropdowns
-  / but, this won't work since we're using a gem that makes Time fields function properly (they're not fixed to a certain day like they are represented in the database)
-  / read more: https://github.com/JackC/tod
+  = f.collection_check_boxes :day, [[true, 'Selected Day'] ,[false, 'Not Selected Day']], :sunday, :monday, :tuesday, :wedensday, :thursday, :friday, :saturday
+  = f.input :start_time, as: :string, input_html: { value: @program_log_entry_schedule.start_time || '00:00:00' }
+  = f.input :end_time, as: :string, input_html: { value: @program_log_entry_schedule.end_time || '00:00:00' }
+  = f.input :start_date, as: :string, input_html: { value: @program_log_entry_schedule.start_time || '01/01/2014' }
+  = f.input :expiration_date, as: :string, input_html: { value: @program_log_entry_schedule.expiration_date || '01/01/2014' }
+  = f.input :repeat_interval, input_html: { class: 'form-control' }
 
-  / for now, you can use:
-    / as: :string to make it a text field
-    / input_html: { value: @program_log_entry_schedule.start_time || '00:00:00' } to put in a default time
-      / placeholder: 'hh:mm:ss' is also an option
-
-  / checkboxes should not have the form-control class
   .form-group
     .col-lg-offset-2.col-lg-10
       = f.button :submit, class: 'btn-primary'
