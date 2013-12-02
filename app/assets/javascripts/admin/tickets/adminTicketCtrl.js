@@ -9,13 +9,15 @@ angular.module("wrektranet.adminTicketCtrl", [])
   function($scope, Restangular) {
     Restangular.setBaseUrl('/admin');
 
-    // notifies all tickets down if they need to update their contest object
+    // update contests for any appropriate tickets
     $scope.$on('updateContests', function(e, contest) {
       $scope.$broadcast('updateContest', contest);
 
-      if ($scope.contest.id === contest.id) {
-        $scope.contest = contest;
-      }
+      angular.forEach($scope.tickets, function(ticket) {
+        if (ticket.contest.id === contest.id) {
+          ticket.contest = contest;
+        }
+      });
     });
 
     $scope.addTicket = function() {
@@ -39,14 +41,6 @@ angular.module("wrektranet.adminTicketCtrl", [])
           }
         });
     };
-
-    $scope.isContestFull = function() {
-      var limit, total;
-
-      limit = $scope.contest.staff_ticket_limit;
-      total = $scope.contest.staff_count;
-      return (limit - total === 0);
-    };
   }
 ])
 
@@ -56,13 +50,6 @@ angular.module("wrektranet.adminTicketCtrl", [])
   'Restangular',
   function($scope, Restangular) {
     Restangular.setBaseUrl('/admin');
-
-    // updates the ticket's contest if the ID is the same
-    $scope.$on('updateContest', function(e, contest) {
-      if ($scope.ticket.contest_id === contest.id) {
-        $scope.ticket.contest = contest;
-      }
-    });
 
     $scope.isContestFull = function() {
       var limit, total;
