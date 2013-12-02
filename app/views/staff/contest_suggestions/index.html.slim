@@ -9,11 +9,11 @@
   table.table.table-striped
     thead
       tr
-        th User
-        th Event
-        th Date
-        th Venue
-        th Created
+        th style="width: 10%;" User
+        th style="width: 30%;" Event
+        th style="width: 12%;" Date
+        th style="width: 30%;" Venue
+        th style="width: 18%;" Created
     tbody
       - unless @contest_suggestions.empty?
         - for suggestion in @contest_suggestions do
