@@ -1,6 +1,6 @@
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form-signin' }) do |f|
   h2.form-signin-heading.text-center WREKtranet 2.0
-  - if Rails.env.production? or true
+  - if Rails.env.production?
     .lead You can now use your old WREKtranet account!
     .lead
       | If it doesn't work, try 
