@@ -11,7 +11,7 @@
             tr
                 th User
                 th style="width: 28%;" Date
-                th style="width: 28%;" Start Time
+                th style="width: 17%;" Start Time
                 th style="width: 17%;" End Time
                 th style="width: 20%;" Reason
             th
@@ -19,11 +19,12 @@
         tbody
             tr
                 = form_tag do
-                    td = current_user.name
+                    td = current_user.username
                     td = select_date Date.today
                     td = select_time Date.today
                     td = select_time Date.today
-                    td  = text_field_tag :text
+                    td = text_field_tag :text
+                    td = submit_tag("Submit")
                 end
             - unless @time_slots.empty?
                 - for slot in @time_slots do
