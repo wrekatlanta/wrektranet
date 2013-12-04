@@ -9,7 +9,6 @@ class Staff::TimeSlotsController < Staff::BaseController
 
   def me
     @time_slots = current_user.time_slots
-    render :index
   end
 
 
