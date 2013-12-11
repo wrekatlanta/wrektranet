@@ -18,20 +18,25 @@ angular.module("wrektranet.airTransmitterLogCtrl", [])
 
     $scope.updateLogs = function() {
       var tlog_entries = Restangular.all('transmitter_log_entries');
+
       tlog_entries.getList().then(function(tlogs) {
         $scope.tlogs = tlogs;
-        console.log($scope.tlogs);
       });
     };
 
-    $scope.signOut = function(tlog, time_out) {
+    $scope.signOut = function(tlog, update) {
+      tlog.sign_out = tlog.time_out;
+      console.log(tlog);
+
       var tlog_entry = Restangular.
         restangularizeElement(null, tlog, 'transmitter_log_entries');
-
-      tlog.sign_out = time_out;
       
       tlog_entry.put().then(function() {
-        $scope.updateLogs();
+        if (update) {
+          $scope.updateLogs(update);
+        } else {
+          $scope.tlogs = _.without($scope.tlogs, tlog);
+        }
       });
     };
 
@@ -80,7 +85,7 @@ angular.module("wrektranet.airTransmitterLogCtrl", [])
       };
 
       for (var j = 0; j < 6; j++) {
-        var option = angular.element('<option>').val(j * 10).text(j * 10)
+        var option = angular.element('<option>').val(j * 10).text(j == 0 ? '00' : j * 10)
         minute.append(option);
       }
 

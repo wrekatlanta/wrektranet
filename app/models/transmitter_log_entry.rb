@@ -34,6 +34,17 @@ class TransmitterLogEntry < ActiveRecord::Base
     return buckets
   end
 
+  # Sets a preset time out that goes up an hour from the sign_in time.
+  def time_out
+    @time_out = ((self.sign_in.hour + 1) % 24).to_s + ':00'
+  end
+
+  def serializable_hash(options={})
+    options = { 
+      methods: [:time_out]
+    }.update(options)
+    super(options)
+  end
 
   private
     def set_expiration_time

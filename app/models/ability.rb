@@ -33,17 +33,18 @@ class Ability
     unless user.blank?
         can [:read, :create], ContestSuggestion
         can [:read, :create], StaffTicket
-        can [:read, :update, :create], TransmitterLogEntry
-        can [:read], Psa
+        can [:read, :create], TransmitterLogEntry
         can [:read, :create], PsaReading
-        can [:read], ListenerLog
-
+        can :read, Psa
+        can :read, ListenerLog
         can :create, ListenerTicket
+
+        # permissions that only occur for user-owned objects
         can :destroy, ListenerTicket, user_id: user.id
+        can :destroy, StaffTicket, user_id: user.id
+        can :update, TransmitterLogEntry, user_id: user.id
 
         can :read, :all
-
-        can :destroy, StaffTicket, user_id: user.id
 
         # contest director
         if user.has_role? :contest_director
