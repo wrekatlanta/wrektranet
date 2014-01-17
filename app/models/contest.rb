@@ -97,6 +97,15 @@ class Contest < ActiveRecord::Base
     return self.alternate_recipient || self.venue
   end
 
+  def venue_and_alternate
+    name = self.venue.name
+    if self.alternate_recipient
+      name += " (via #{self.alternate_recipient.name})"
+    end
+
+    return name
+  end
+
   def update_send_time
     self.send_time = self.start_time.beginning_of_day -
                      self.recipient.send_day_offset.days +

@@ -25,7 +25,7 @@
               tr
                 td = link_to contest.name, air_contest_path(contest)
                 td = l contest.start_time, format: :us_time
-                td = contest.venue.name
+                td = contest.venue_and_alternate
                 td = contest.listener_ticket_label
                 td = contest.staff_ticket_label
                 td = l contest.send_time, format: :us_time
