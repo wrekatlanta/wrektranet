@@ -4,7 +4,7 @@ require "rvm/capistrano"
 set :whenever_command, "bundle exec whenever"
 require "whenever/capistrano"
 
-server "wrektranet.oit.wrek.org", :web, :app, :db, primary: true
+server "localhost", :web, :app, :db, primary: true
 
 set :application, "wrektranet"
 set :user, "deploy"
