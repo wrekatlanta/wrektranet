@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131119044649) do
+ActiveRecord::Schema.define(version: 20140207071647) do
 
   create_table "contacts", force: true do |t|
     t.string   "email"
@@ -56,6 +56,11 @@ ActiveRecord::Schema.define(version: 20131119044649) do
 
   add_index "contests", ["alternate_recipient_id"], name: "index_contests_on_alternate_recipient_id", using: :btree
   add_index "contests", ["venue_id"], name: "index_contests_on_venue_id", using: :btree
+
+  create_table "legacy_bases", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "listener_logs", force: true do |t|
     t.integer  "hd2_128"
@@ -129,6 +134,23 @@ ActiveRecord::Schema.define(version: 20131119044649) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
+
+  create_table "shows", force: true do |t|
+    t.integer  "legacy_id"
+    t.string   "name"
+    t.string   "long_name"
+    t.string   "short_name"
+    t.string   "url"
+    t.string   "description"
+    t.string   "category"
+    t.string   "email"
+    t.string   "facebook"
+    t.string   "twitter"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "shows", ["legacy_id"], name: "index_shows_on_legacy_id", unique: true, using: :btree
 
   create_table "staff_tickets", force: true do |t|
     t.integer  "user_id"
