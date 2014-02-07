@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140207071647) do
+ActiveRecord::Schema.define(version: 20140207071958) do
 
   create_table "contacts", force: true do |t|
     t.string   "email"
@@ -142,12 +142,12 @@ ActiveRecord::Schema.define(version: 20140207071647) do
     t.string   "short_name"
     t.string   "url"
     t.string   "description"
-    t.string   "category"
     t.string   "email"
     t.string   "facebook"
     t.string   "twitter"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "priority"
   end
 
   add_index "shows", ["legacy_id"], name: "index_shows_on_legacy_id", unique: true, using: :btree
