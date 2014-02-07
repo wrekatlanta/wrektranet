@@ -1,35 +1,45 @@
+# Defaults
+
+defaults: &defaults
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  host: localhost
+
+production_defaults: &production_defaults
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  host: localhost
+  username: root
+  password: root
+
+# Development
+
 development:
-  adapter: mysql2
   database: wrektranet_development
-  pool: 5
-  host: localhost
+  <<: *defaults
 
-  # Connect on a TCP socket. Omitted by default since the client uses a
-  # domain socket that doesn't need configuration. Windows does not have
-  # domain sockets, so uncomment these lines.
-  #host: localhost
-  #port: 5432
+staff_legacy_development:
+  database: staff_legacy_development
+  <<: *defaults
 
-  # Schema search path. The server defaults to $user,public
-  #schema_search_path: myapp,sharedapp,public
+# Test
 
-  # Minimum log levels, in increasing order:
-  #   debug5, debug4, debug3, debug2, debug1,
-  #   log, notice, warning, error, fatal, and panic
-  # The server defaults to notice.
-  #min_messages: warning
-
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
 test: &test
-  adapter: mysql2
-  database: wrektranet_test
-  pool: 5
-  host: localhost
+  database: wrek_test
+  <<: *defaults
+
+staff_legacy_test:
+  database: staff_legacy_test
+  <<: *defaults
+
+# Production
 
 production:
-  adapter: mysql2
   database: wrektranet_production
-  pool: 5
-  host: localhost
+  <<: *production_defaults
+
+staff_legacy_production:
+  database: staff
+  <<: *production_defaults
