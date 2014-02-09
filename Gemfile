@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.0.0'
 
-gem 'rails', github: 'rails/rails', branch: '4-0-stable'
+gem 'rails', '~> 4.0.0'
 
 gem 'unicorn'
 gem 'capistrano'
@@ -21,13 +21,17 @@ end
 
 gem 'mysql2'
 
-gem 'bootstrap-sass', git: 'git://github.com/thomas-mcdonald/bootstrap-sass.git', branch: '3'
+# branch is temporary fix for: https://github.com/rsim/oracle-enhanced/issues/414
+gem 'activerecord-oracle_enhanced-adapter', github: 'yahonda/oracle-enhanced', branch: 'rails_13886', require: false
+gem 'ruby-oci8', '~> 2.1.0', require: false
+
+gem 'bootstrap-sass', '~> 3.1.0'
 gem 'active_link_to'
 gem 'cancan'
 gem 'devise', '~> 3.0.x'
 gem 'devise_invitable'
-gem 'figaro'
-gem 'rolify', '~> 3.3.0.rc4'
+gem 'figaro', github: 'laserlemon/figaro'
+gem "rolify", github: "EppO/rolify"
 gem 'draper', '~> 1.0'
 gem 'simple_form', git: 'git://github.com/plataformatec/simple_form.git'
 gem 'will_paginate', '~> 3.0'
@@ -77,6 +81,5 @@ group :test do
 end
 
 group :production do
-  gem 'unicorn'
   gem 'rails_12factor' # For asset compilation
 end

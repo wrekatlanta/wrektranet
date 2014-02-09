@@ -43,3 +43,11 @@ production:
 staff_legacy_production:
   database: staff
   <<: *production_defaults
+
+# Optional, Oracle database for music and automation
+oracle_legacy_production:
+  adapter: oracle_enhanced
+  host: localhost
+  database: db
+  username: username
+  password: password
