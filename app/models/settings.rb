@@ -8,7 +8,7 @@ module Settings
   end
 
   def self.psa_book_enabled?
-    Rails.env.development?
+    true
   end
 
   def self.listener_log_enabled?
