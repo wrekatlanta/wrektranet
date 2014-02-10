@@ -2,7 +2,7 @@
 
 = simple_form_for [:admin, @psa], html: {name: 'psaForm', class: 'form-horizontal'}, defaults: defaults do |f|
   = f.input :title, input_html: { class: 'form-control' }
-  = f.input :body, as: :text, input_html: { class: 'form-control', rows: 5 }
+  = f.input :body, as: :text, input_html: { class: 'form-control', rows: 5 }, hint: "Feel free to use Markdown."
   = f.input :expiration_date_string, input_html: { class: 'form-control' }, required: true
   = f.input :status, collection: Psa::STATUSES, input_html: { class: 'form-control' }
   .form-group

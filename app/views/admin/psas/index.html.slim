@@ -1,19 +1,33 @@
 .page-header
-	h1 PSAs
+  h1 PSAs
 
 = render 'navigation'
 
 table.table.table-striped
-	thead
-		tr
-			th Title
-			th Status
-	tbody
-		- unless @psas.empty?
-			- for psa in @psas do
-				tr
-					td = link_to psa.title, edit_admin_psa_path(psa)
-					td = psa.status
-		- else
-			tr
-				td colspan="2" No PSAs found.
+  thead
+    tr
+      th Title
+      th Status
+      th Total Reads
+      th Last Read
+  tbody
+    - unless @psas.empty?
+      - for psa in @psas do
+        tr
+          td = link_to psa.title, edit_admin_psa_path(psa)
+          td
+            - if psa.status == 'approved'
+              .label.label-success = psa.status
+            - if psa.status == 'rejected'
+              .label.label-danger = psa.status
+            - if psa.status == 'new'
+              .label.label-primary = psa.status
+
+          td = psa.psa_readings.count
+          - unless psa.psa_readings.last.blank?
+            td = l psa.psa_readings.last.created_at, format: :us_time
+          - else
+            td Unread
+    - else
+      tr
+        td colspan="2" No PSAs found.

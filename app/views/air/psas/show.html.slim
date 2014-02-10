@@ -1,16 +1,25 @@
 .page-header
-  h1 = @psa.title
+  h1 PSA: #{@psa.title}
 
 .row
-  .col-md-12
+  .col-lg-9
+    p The following is a Public Service Announcement brought to you by the staff of WREK Atlanta.
+    div = markdown @psa.body
+
+    div
+      form method="POST" action=air_psa_psa_readings_path(@psa)
+        button.btn.btn-primary type="submit"
+          | I read this!
+        = token_tag
+
+  .col-lg-3
     dl
-      dt Title
-      dd = @psa.title
-      dt Body
-      dd = @psa.body
-
-    form method="POST" action=air_psa_psa_readings_path(@psa)
-      button.btn.btn-success type="submit"
-        | I Read This!
-      = token_tag
-
+      dt Created
+      dd = l @psa.created_at, format: :us_time
+      dt Last Read
+      - unless @psa.psa_readings.first.blank?
+        dd = l @psa.psa_readings.first.created_at, format: :us_time
+      - else
+        dd Unread
+      dt Total Reads
+      dd  = @psa.psa_readings.count
