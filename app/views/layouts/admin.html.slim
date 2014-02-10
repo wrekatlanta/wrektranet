@@ -10,7 +10,7 @@
                 = active_link_to 'Contests', admin_contests_path, wrap_tag: :li
                 = active_link_to 'Venues', admin_venues_path, wrap_tag: :li
                 = active_link_to 'Signups', admin_tickets_path, wrap_tag: :li
-          - if Settings.psa_book_enabled?
+          - if Settings.psa_book_enabled? and current_user.psa_director?
             = active_link_to 'PSAs', admin_psas_path, wrap_tag: :li
           - if Settings.transmitter_log_enabled?
             = active_link_to 'Transmitter Log', admin_transmitter_log_entries_path, wrap_tag: :li
