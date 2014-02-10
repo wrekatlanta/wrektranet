@@ -4,6 +4,10 @@
     = active_link_to 'Staff', staff_root_path, wrap_tag: :li
     - if current_user and current_user.exec?
       = active_link_to 'Admin', admin_root_path, wrap_tag: :li
+    li
+      = link_to 'Wiki', 'http://wrektranet.wrek.org/wiki/Main_Page'
+    li
+      = link_to 'Slack', 'http://wrek.slack.com'
   ul.nav.navbar-nav.pull-right
     - if current_user
       li.dropdown
