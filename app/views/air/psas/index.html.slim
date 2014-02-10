@@ -1,20 +1,47 @@
 .page-header
   h1 PSAs
 
-table.table.table-striped
-  thead
-    tr
-      th Title
-      th Last Read
-  tbody
-    - unless @psas.empty?
-      - for psa in @psas do
+.row
+  .col-lg-6
+    table.table.table-striped
+      thead
         tr
-          td = link_to psa.title, air_psa_path(psa)
-          - if psa.psa_readings.first
-            td = l psa.psa_readings.first.created_at, format: :us_time
-          - else
-            td Unread!
-    - else
-      tr
-        td colspan="2" No results were found.
+          th Title
+          th Last Read
+      tbody
+        - unless @psas.empty?
+          - for psa in @psas do
+            tr
+              td = link_to psa.title, air_psa_path(psa)
+              - if psa.psa_readings.first
+                td = l psa.psa_readings.first.created_at, format: :us_time
+              - else
+                td Unread!
+        - else
+          tr
+            td colspan="2" No PSAs were found.
+
+  .col-lg-5.col-lg-offset-1
+    h3.subheader AudioVault
+    table.table.table-striped.text-hint
+      thead
+        tr
+          th Name
+          th Last Played
+          th This Week
+      tbody
+        - unless @av_psas.empty?
+          - for psa in @av_psas do
+            tr
+              td = psa.av_name
+              td = l psa.last_play.playtime, format: :us_time
+              td 
+                - if psa.play_count < 5
+                  span.label.label-primary = psa.play_count
+                - elsif psa.play_count < 9
+                  span.label.label-warning = psa.play_count
+                - else
+                  span.label.label-danger = psa.play_count
+        - else
+          tr
+            td colspan="2" No AV PSAs found.
