@@ -9,6 +9,7 @@ Wrek::Application.routes.draw do
     root to: "dashboard#index"
 
     resources :events, only: [:index]
+    resources :playlist, only: [:index]
 
     resources :contests do
       resources :listener_tickets, shallow: true

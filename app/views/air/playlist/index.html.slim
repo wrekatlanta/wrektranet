@@ -1,0 +1,25 @@
+- content_for :title, "Live Playlist"
+
+.page-header
+  h1 Playlist
+
+table.table.table-striped.table-hover
+  thead
+    tr
+      th Artist
+      th Album
+      th Track
+      th Time
+      th Format
+      th Record Label
+      th Played By
+  tbody
+    - for log in @play_logs
+      tr
+        td = log.track.performance_by
+        td = log.track.album.album_title
+        td = log.track.track_title
+        td = l log.playtime, format: :us_time
+        td = log.track.format.format_name
+        td = log.track.album.organization.org_name
+        td = User.find_by(legacy_id: log.played_by).try(:name) || 'auto'
