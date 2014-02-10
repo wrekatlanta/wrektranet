@@ -105,6 +105,10 @@ class User < ActiveRecord::Base
     self.exec?([:contest_director])
   end
 
+  def psa_director?
+    self.exec?([:psa_director])
+  end
+
   def remember_value
     self.remember_token ||= Devise.friendly_token
   end
