@@ -39,7 +39,7 @@
               td = l psa.last_play.playtime, format: :us_time
               td 
                 - if psa.play_count < 5
-                  span.label.label-primary = psa.play_count
+                  span.label.label-success = psa.play_count
                 - elsif psa.play_count < 9
                   span.label.label-warning = psa.play_count
                 - else
