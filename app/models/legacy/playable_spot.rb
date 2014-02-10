@@ -22,4 +22,16 @@ class Legacy::PlayableSpot < Legacy::OracleBase
     self.psa_logs.map { |log| ((now - log.playtime).to_i / 1.day) < 7 }
                  .keep_if { |x| x }.count
   end
+
+  def status
+    plays = self.play_count
+
+    if plays < 5
+      'success'
+    elsif plays < 9
+      'warning'
+    else
+      'danger'
+    end
+  end
 end

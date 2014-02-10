@@ -32,10 +32,10 @@ en:
       default: "%-m/%-d/%Y"
       short: "%b %-d"
       long: "%B %-d, %Y"
-      us_date: "%-m/%-d/%Y"
+      us_date: "%-m/%-d/%y"
   time:
     formats:
-      us_date: "%-m/%-d/%Y"
+      us_date: "%-m/%-d/%y"
       us_time: "%-m/%-d/%y %-l:%M %p"
       long_date: "%B %d, %Y"
       contest_date: "%A, %B %-d"

@@ -4,9 +4,10 @@
   h1 PSA: #{@psa.title}
 
 .row
-  .col-lg-9
-    p The following is a Public Service Announcement brought to you by the staff of WREK Atlanta.
-    div = markdown @psa.body
+  .col-lg-8
+    .lead
+      p.text-muted The following is a Public Service Announcement brought to you by the staff of WREK Atlanta.
+      div = markdown @psa.body
 
     div
       form method="POST" action=air_psa_psa_readings_path(@psa)
@@ -14,10 +15,12 @@
           | I read this!
         = token_tag
 
-  .col-lg-3
+  .col-lg-3.col-lg-offset-1
     dl
       dt Created
-      dd = l @psa.created_at, format: :us_time
+      dd = l @psa.created_at, format: :us_date
+      dt Expires
+      dd = l @psa.expiration_date, format: :us_date
       dt Last Read
       - unless @psa.psa_readings.first.blank?
         dd = l @psa.psa_readings.first.created_at, format: :us_time
