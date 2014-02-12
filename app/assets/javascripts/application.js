@@ -15,9 +15,11 @@
 //= require bootstrap
 //= require lodash
 //= require angular
+//= require angular-promise-tracker
 //= require ng-rails-csrf
 //= require restangular
 //= require ui-utils
+//= require ui-router
 //= require highcharts
 //= require_directory ./admin
 //= require_tree .

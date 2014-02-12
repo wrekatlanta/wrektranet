@@ -35,6 +35,7 @@ class Ability
         can [:read, :create], StaffTicket
         can [:read, :create], TransmitterLogEntry
         can [:read, :create], PsaReading
+        can [:read, :create], Legacy::PlayLog
         can :read, Psa
         can :read, ListenerLog
         can :create, ListenerTicket
@@ -42,6 +43,7 @@ class Ability
         # permissions that only occur for user-owned objects
         can :destroy, ListenerTicket, user_id: user.id
         can :destroy, StaffTicket, user_id: user.id
+        can :destroy, Legacy::PlayLog, played_by: user.legacy_id
         can :update, TransmitterLogEntry, user_id: user.id
 
         can :read, :all
