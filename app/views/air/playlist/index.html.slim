@@ -1,25 +1,103 @@
 - content_for :title, "Live Playlist"
 
 .page-header
-  h1 Playlist
+  h1 Live Playlist
 
-table.table.table-striped.table-hover
-  thead
-    tr
-      th Artist
-      th Album
-      th Track
-      th Time
-      th Format
-      th Record Label
-      th Played By
-  tbody
-    - for log in @play_logs
+div ng-controller="airPlaylistCtrl"
+  .row
+    .col-lg-4
+      form.form-horizontal ng-submit="findAlbum()"
+        .form-group
+          label.control-label.col-lg-4 Album ID
+          .col-lg-8
+            input.form-control type="text" ng-model="albumID"
+        .form-group
+          .col-lg-offset-4.col-lg-8
+            button.btn.btn-primary.btn-sm Find
+            |  
+            button.btn.btn-default.btn-sm type="button" ng-click="reset()" Reset
+      br
+      form.form-horizontal ng-submit="searchAlbum()"
+        .form-group
+          label.control-label.col-lg-4 Artist
+          .col-lg-8
+            input.form-control ng-model="search.performance_by" type="text"
+
+        .form-group
+          label.control-label.col-lg-4 Album
+          .col-lg-8
+            input.form-control ng-model="search.album_title" type="text"
+
+        .form-group
+          label.control-label.col-lg-4 Label
+          .col-lg-8
+            input.form-control ng-model="search.org_name" type="text"
+
+        .form-group
+          .col-lg-offset-4.col-lg-8
+            button.btn.btn-primary.btn-sm Search
+            |  
+            button.btn.btn-default.btn-sm type="button" ng-click="reset()" Reset
+    .col-lg-8
+      div ng-if="!hasResults()"
+        p Find an album by the number on its sticker, or search for one.
+      .ng-cloak ng-if="album"
+        h4
+          | {{album.album_title}} 
+          small = "{{album.performance_by}}"
+        table.table.table-bordered.table-condensed.table-hover
+          thead
+            tr
+              th Artist
+              th Song
+              th Side
+              th Track
+              th Format
+              th Last
+              th DJ
+              th
+          tbody
+            tr ng-repeat="track in album.tracks"
+              td = "{{track.performance_by}}"
+              td = "{{track.track_title}}"
+              td = "{{track.side}}"
+              td = "{{track.track}}"
+              td 
+                span.label.label-default = "{{track.format.format_name}}"
+              td = "{{track.play_logs[0].playtime | date:'shortDate'}}"
+              td = "{{track.play_logs[0].user.initials}}"
+              td
+                div ng-switch="playableButtonStatus(track)"
+                  div ng-switch-when="success"
+                    button class="btn btn-xs btn-success"
+                      i.glyphicon.glyphicon-play
+                  div ng-switch-when="warning"
+                    button class="btn btn-xs btn-warning"
+                      i.glyphicon.glyphicon-play
+                  div ng-switch-when="danger"
+                    button class="btn btn-xs btn-danger"
+                      i.glyphicon.glyphicon-exclamation-sign
+
+  h3
+    | Recent Tracks 
+    button.btn.btn-default ng-click="loadLogs()"
+      i.glyphicon.glyphicon-refresh
+  table.table.table-bordered.table-condensed.table-hover
+    thead
       tr
-        td = log.track.performance_by
-        td = log.track.album.album_title
-        td = log.track.track_title
-        td = l log.playtime, format: :us_time
-        td = log.track.format.format_name
-        td = log.track.album.organization.org_name
-        td = User.find_by(legacy_id: log.played_by).try(:name) || 'auto'
+        th.text-center style="width: 9%;" Time
+        th.text-center Artist
+        th.text-center Album
+        th.text-center Track
+        th.text-center style="width: 8%;" Format
+        th.text-center style="width: 8%;" DJ
+    tbody.ng-cloak
+      tr style="cursor: pointer;" ng-repeat="log in play_logs track by log.track.id" ng-class="{info: !log.read}" ng-click="log.read = !log.read"
+        td.text-muted = "{{log.playtime | date:'shortTime'}}"
+        td = "{{log.track.performance_by}}"
+        td = "{{log.track.album.album_title}}"
+        td = "{{log.track.track_title}}"
+        td
+          span.label.label-default = "{{log.track.format.format_name}}"
+        td = "{{log.user.initials}}"
+  p.lead.text-muted New tracks will be highlighted in blue so you can keep track of songs you haven't announced. Click on a track to mark it as read. Refreshing will mark all tracks as read.

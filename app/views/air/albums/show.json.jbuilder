@@ -14,6 +14,7 @@ json.tracks @album.tracks do |track|
   json.format track.format
   json.play_logs track.play_logs.recent do |log|
     json.playtime log.playtime
+    json.days_ago log.days_ago
     json.user log.user, :initials
   end
 end

@@ -6,6 +6,7 @@ angular.module("wrektranet.controllers", [
   "wrektranet.staffSignupCtrl",
   "wrektranet.adminTicketCtrl",
   "wrektranet.airTransmitterLogCtrl",
+  "wrektranet.airPlaylistCtrl",
   "wrektranet.listenerLogsCtrl"
 ]);
 
