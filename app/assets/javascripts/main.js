@@ -14,5 +14,6 @@ angular.module("wrektranet", [
   "restangular",
   "ui.keypress",
   "ng-rails-csrf",
+  "ajoslin.promise-tracker",
   "wrektranet.controllers"
 ]);

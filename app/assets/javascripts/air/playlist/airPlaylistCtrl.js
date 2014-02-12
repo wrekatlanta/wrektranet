@@ -1,11 +1,32 @@
 "use strict";
 
-angular.module("wrektranet.airPlaylistCtrl", [])
+angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
+
+.config([
+  '$stateProvider',
+  function($stateProvider) {
+    $stateProvider
+      .state('index', {
+        templateUrl: 'index.html'
+      })
+      .state('search', {
+        templateUrl: 'search.html'
+      })
+      .state('album', {
+        templateUrl: 'album.html'
+      })
+      .state('album_error', {
+        templateUrl: 'album_error.html'
+      })
+  }
+])
 
 .controller('airPlaylistCtrl', [
   '$scope',
   'Restangular',
-  function($scope, Restangular) {
+  'promiseTracker',
+  '$state',
+  function($scope, Restangular, promiseTracker, $state) {
     /* This controller is a reimplementation
      * of the original live playlist's frequency logic.
      *
@@ -13,6 +34,7 @@ angular.module("wrektranet.airPlaylistCtrl", [])
      * - pstoic
      */
 
+    Restangular.setBaseUrl('/air');
 
     // map airplay frequency enum to replay intervals (by days)
     $scope.replay_intervals = {
@@ -29,22 +51,27 @@ angular.module("wrektranet.airPlaylistCtrl", [])
     $scope.album = null; // contains current selected album
     $scope.search = null; // contains search parameters
 
-    Restangular.setBaseUrl('/air');
+    $scope.playLogTracker = promiseTracker.register('playLogTracker');
+    $scope.loadingTracker = promiseTracker.register('loadingTracker');
 
     // loads recently played tracks
     $scope.loadLogs = function() {
-      Restangular
+      var promise = Restangular
         .all('play_logs')
         .getList()
         .then(function(play_logs) {
           $scope.play_logs = play_logs;
         });
+
+      $scope.play_logs = [];
+
+      $scope.playLogTracker.addPromise(promise);
     };
 
-    // finds an album using $scope.albumID
-    $scope.findAlbum = function() {
-      Restangular
-        .one('albums', $scope.albumID)
+    // finds an album using given ID
+    $scope.findAlbum = function(id) {
+      var promise = Restangular
+        .one('albums', id)
         .get()
         .then(function(album) {
           var airplay_frequency;
@@ -52,19 +79,36 @@ angular.module("wrektranet.airPlaylistCtrl", [])
           
           airplay_frequency = $scope.replay_intervals[$scope.album.airplay_frequency];
           $scope.replay_interval = airplay_frequency || $scope.default_replay_interval;
+
+          $state.go('album');
+        }, function() {
+          $state.go('album_error')
         });
+
+      $scope.loadingTracker.addPromise(promise);
     };
 
     // searches for an album using the various form fields
     $scope.searchAlbum = function() {
-
+      var promise = Restangular
+        .all('albums')
+        .getList($scope.search)
+        .then(function(albums) {
+          $scope.albums = albums;
+          $state.go('search');
+        })
     };
+
+    $scope.returnToSearch = function() {
+      $state.go('search');
+    }
 
     // resets forms and removes selected album and results
     $scope.reset = function() {
+      $state.go('index');
       $scope.album = null;
       $scope.albums = null;
-      $scope.albumID = null;
+      $scope.album_id = null;
 
       $scope.search = {
         album_title: '',
@@ -105,4 +149,8 @@ angular.module("wrektranet.airPlaylistCtrl", [])
     $scope.reset();
     $scope.loadLogs();
   }
-]);
+])
+
+.controller(function() {
+
+});

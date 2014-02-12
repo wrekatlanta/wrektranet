@@ -11,7 +11,11 @@ class Legacy::PlayLog < Legacy::OracleBase
   }
 
   def user
-    self.staff ||= Legacy::Staff.new(initials: 'auto')
+    if self.played_by == -1
+      Legacy::Staff.new(initials: 'auto')
+    else
+      self.staff
+    end
   end
 
   def days_ago
