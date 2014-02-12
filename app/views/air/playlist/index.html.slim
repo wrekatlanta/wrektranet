@@ -59,6 +59,18 @@ div ng-controller="airPlaylistCtrl"
         th.text-center style="width: 8%;" Format
         th.text-center style="width: 8%;" DJ
     tbody
+      tr.ng-cloak ng-repeat="track in queued_tracks"
+        td
+          button.btn.btn-xs.btn-primary.btn-block ng-disabled="playLogTracker.active()" ng-click="playTrack(track)"
+            i.glyphicon.glyphicon-play
+        td = "{{track.performance_by}}"
+        td = "{{track.album.album_title}}"
+        td = "{{track.track_title}}"
+        td
+          span.label.label-default = "{{track.format.format_name}}"        
+        td
+          button.btn.btn-xs.btn-danger.btn-block ng-click="unqueueTrack(track)"
+            i.glyphicon.glyphicon-remove
       tr.ng-cloak ng-if="!playLogTracker.active() && play_logs.length === 0"
         td colspan="6" No tracks were played in the last hour.
       tr ng-if="playLogTracker.active()"
@@ -70,12 +82,23 @@ div ng-controller="airPlaylistCtrl"
         td = "{{log.track.track_title}}"
         td
           span.label.label-default = "{{log.track.format.format_name}}"
-        td = "{{log.user.initials}}"
-  p.lead.text-muted New tracks will be highlighted in blue so you can keep track of songs you haven't announced. Click on a track to mark it as read. Refreshing will mark all tracks as read.
+        td
+          div ng-switch="log.user.id && log.user.id == #{current_user.legacy_id || -1}"
+            div ng-switch-when="true"
+              button.btn.btn-xs.btn-danger.btn-block  ng-disabled="playLogTracker.active()" ng-click="removeLog(log)"
+                i.glyphicon.glyphicon-remove
+            div ng-switch-default=true
+              = "{{log.user.initials}}"
+  p.lead.text-muted Played tracks will be highlighted in blue so you can keep track of songs you haven't announced. Click on a track to mark it as read. Refreshing will mark all tracks as read.
 
 script type="text/ng-template" id="index.html"
   .alert.alert-info
     | Find an album by the number on its sticker, or search for one.
+
+script type="text/ng-template" id="track_queued.html"
+  .alert.alert-success
+    strong Track queued!
+    |  Hit the play button when the track is ready to go. You can still queue up other songs.
 
 script type="text/ng-template" id="search.html"
   table.table.table-bordered.table-condensed.table-hover
@@ -87,6 +110,8 @@ script type="text/ng-template" id="search.html"
         th Date Auditioned
         th Record Label
     tbody
+      tr ng-if="albums.length == 0"
+        td colspan="5" No results.
       tr style="cursor: pointer;" ng-repeat="album in albums" ng-click="findAlbum(album.id)"
         td = "{{album.id}}"
         td = "{{album.performance_by}}"
@@ -109,8 +134,10 @@ script type="text/ng-template" id="album.html"
         th Format
         th Last
         th DJ
-        th
+        th style="width: 10%;"
     tbody
+      tr ng-if="album.tracks.length ==0"
+        td colspan="8" No tracks are listed for this album.
       tr ng-repeat="track in album.tracks | orderBy:side:track"
         td = "{{track.performance_by}}"
         td = "{{track.track_title}}"
@@ -120,16 +147,16 @@ script type="text/ng-template" id="album.html"
           span.label.label-default = "{{track.format.format_name}}"
         td = "{{track.play_logs[0].playtime | date:'shortDate'}}"
         td = "{{track.play_logs[0].user.initials}}"
-        td
+        td.text-center
           div ng-switch="playableButtonStatus(track)"
             div ng-switch-when="success"
-              button class="btn btn-xs btn-success"
-                i.glyphicon.glyphicon-play
+              button.btn.btn-xs.btn-block.btn-success ng-click="queueTrack(track)"
+                i.glyphicon.glyphicon-plus
             div ng-switch-when="warning"
-              button class="btn btn-xs btn-warning"
-                i.glyphicon.glyphicon-play
+              button.btn.btn-xs.btn-block.btn-warning ng-click="queueTrack(track)"
+                i.glyphicon.glyphicon-plus
             div ng-switch-when="danger"
-              button class="btn btn-xs btn-danger"
+              button.btn.btn-xs.btn-block.btn-danger ng-click="queueTrack(track)"
                 i.glyphicon.glyphicon-exclamation-sign
 
 script type="text/ng-template" id="album_error.html"

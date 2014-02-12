@@ -9,6 +9,9 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
       .state('index', {
         templateUrl: 'index.html'
       })
+      .state('track_queued', {
+        templateUrl: 'track_queued.html'
+      })
       .state('search', {
         templateUrl: 'search.html'
       })
@@ -17,7 +20,7 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
       })
       .state('album_error', {
         templateUrl: 'album_error.html'
-      })
+      });
   }
 ])
 
@@ -48,6 +51,7 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
     $scope.default_replay_interval = 14;
 
     $scope.play_logs = []; // contains recent logs
+    $scope.queued_tracks = []; // contains tracks queued for logging
     $scope.album = null; // contains current selected album
     $scope.search = null; // contains search parameters
 
@@ -82,7 +86,7 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
 
           $state.go('album');
         }, function() {
-          $state.go('album_error')
+          $state.go('album_error');
         });
 
       $scope.loadingTracker.addPromise(promise);
@@ -96,12 +100,56 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
         .then(function(albums) {
           $scope.albums = albums;
           $state.go('search');
-        })
+        });
+
+      $scope.loadingTracker.addPromise(promise);
     };
 
-    $scope.returnToSearch = function() {
-      $state.go('search');
-    }
+    $scope.queueTrack = function(track) {
+      track.album = $scope.album;
+      $scope.queued_tracks.unshift(track);
+
+      $state.go('track_queued');
+    };
+
+    $scope.unqueueTrack = function(track) {
+      $scope.queued_tracks = _.without($scope.queued_tracks, track);
+    };
+
+    $scope.playTrack = function(track) {
+      var promise, restangularLog, play_log = {
+        track_id: track.id
+      };
+
+      restangularLog = Restangular
+        .restangularizeElement(null, play_log, 'play_logs');
+
+      promise = restangularLog
+        .post()
+        .then(function(newLog) {
+          $scope.unqueueTrack(track);
+
+          newLog.read = false;
+          $scope.play_logs.unshift(newLog);
+        });
+
+      $scope.playLogTracker.addPromise(promise);
+    };
+
+    $scope.removeLog = function(log) {
+      var promise;
+
+      console.log(log);
+
+      promise = Restangular
+        .one('play_logs', log.id)
+        .remove()
+        .then(function() {
+          $scope.play_logs = _.without($scope.play_logs, log);
+        });
+
+      $scope.playLogTracker.addPromise(promise);
+    };
 
     // resets forms and removes selected album and results
     $scope.reset = function() {
