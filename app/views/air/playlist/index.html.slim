@@ -53,9 +53,9 @@ div ng-controller="airPlaylistCtrl"
     thead
       tr
         th.text-center style="width: 9%;" Time
+        th.text-center Track
         th.text-center Artist
         th.text-center Album
-        th.text-center Track
         th.text-center style="width: 8%;" Format
         th.text-center style="width: 8%;" DJ
     tbody
@@ -63,9 +63,9 @@ div ng-controller="airPlaylistCtrl"
         td
           button.btn.btn-xs.btn-primary.btn-block ng-disabled="playLogTracker.active()" ng-click="playTrack(track)"
             i.glyphicon.glyphicon-play
+        td = "{{track.track_title}}"
         td = "{{track.performance_by}}"
         td = "{{track.album.album_title}}"
-        td = "{{track.track_title}}"
         td
           span.label.label-default = "{{track.format.format_name}}"        
         td
@@ -77,15 +77,15 @@ div ng-controller="airPlaylistCtrl"
         td colspan="6" Loading...
       tr.ng-cloak style="cursor: pointer;" ng-repeat="log in play_logs track by log.track.id" ng-class="{info: !log.read}" ng-click="log.read = !log.read"
         td.text-muted = "{{log.playtime | date:'shortTime'}}"
+        td = "{{log.track.track_title}}"
         td = "{{log.track.performance_by}}"
         td = "{{log.track.album.album_title}}"
-        td = "{{log.track.track_title}}"
         td
           span.label.label-default = "{{log.track.format.format_name}}"
         td
           div ng-switch="log.user.id && log.user.id == #{current_user.legacy_id || -1}"
             div ng-switch-when="true"
-              button.btn.btn-xs.btn-danger.btn-block  ng-disabled="playLogTracker.active()" ng-click="removeLog(log)"
+              button.btn.btn-xs.btn-danger.btn-block ng-disabled="playLogTracker.active()" ng-click="removeLog(log)"
                 i.glyphicon.glyphicon-remove
             div ng-switch-default=true
               = "{{log.user.initials}}"
