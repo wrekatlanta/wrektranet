@@ -6,14 +6,14 @@
 div ng-controller="airPlaylistCtrl"
   .row
     .col-lg-4
-      form.form-horizontal ng-submit="findAlbum(album_id)"
+      form.form-horizontal name="albumForm" ng-submit="findAlbum(album_id)"
         .form-group
           label.control-label.col-lg-4 Album ID
           .col-lg-8
-            input.form-control type="text" ng-model="album_id"
+            input.form-control type="text" required=true ng-model="album_id"
         .form-group
           .col-lg-offset-4.col-lg-8
-            button.btn.btn-primary.btn-sm Find
+            button.btn.btn-primary.btn-sm ng-disabled='albumForm.$invalid' Find
             |  
             button.btn.btn-default.btn-sm type="button" ng-click="reset()" Reset
       br
@@ -95,11 +95,6 @@ script type="text/ng-template" id="index.html"
   .alert.alert-info
     | Find an album by the number on its sticker, or search for one.
 
-script type="text/ng-template" id="track_queued.html"
-  .alert.alert-success
-    strong Track queued!
-    |  Hit the play button when the track is ready to go. You can still queue up other songs.
-
 script type="text/ng-template" id="search.html"
   table.table.table-bordered.table-condensed.table-hover
     thead
@@ -110,7 +105,7 @@ script type="text/ng-template" id="search.html"
         th Date Auditioned
         th Record Label
     tbody
-      tr ng-if="albums.length == 0"
+      tr ng-if="!albums || albums.length == 0"
         td colspan="5" No results.
       tr style="cursor: pointer;" ng-repeat="album in albums" ng-click="findAlbum(album.id)"
         td = "{{album.id}}"
@@ -121,6 +116,12 @@ script type="text/ng-template" id="search.html"
         td = "{{album.organization.org_name}}"
 
 script type="text/ng-template" id="album.html"
+  .alert.alert-info
+    p
+      strong Queue tracks
+      |  by adding them to the playlist. Avoid overplayed tracks. Hit a queued track's play button when it's ready. You can queue up as many tracks as you want.
+    p
+      a.alert-link href="#" ng-click="goToIndex()" Done with this album?
   h4
     | {{album.album_title}} 
     small = "{{album.performance_by}}"
@@ -136,7 +137,7 @@ script type="text/ng-template" id="album.html"
         th DJ
         th style="width: 10%;"
     tbody
-      tr ng-if="album.tracks.length ==0"
+      tr ng-if="!album.tracks || album.tracks.length == 0"
         td colspan="8" No tracks are listed for this album.
       tr ng-repeat="track in album.tracks | orderBy:side:track"
         td = "{{track.performance_by}}"

@@ -21,5 +21,4 @@
 //= require ui-utils
 //= require ui-router
 //= require highcharts
-//= require_directory ./admin
 //= require_tree .

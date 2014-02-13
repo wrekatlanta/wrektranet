@@ -9,9 +9,6 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
       .state('index', {
         templateUrl: 'index.html'
       })
-      .state('track_queued', {
-        templateUrl: 'track_queued.html'
-      })
       .state('search', {
         templateUrl: 'search.html'
       })
@@ -108,8 +105,6 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
     $scope.queueTrack = function(track) {
       track.album = $scope.album;
       $scope.queued_tracks.unshift(track);
-
-      $state.go('track_queued');
     };
 
     $scope.unqueueTrack = function(track) {
@@ -163,6 +158,10 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
         performance_by: '',
         org_name: ''
       };
+    };
+
+    $scope.goToIndex = function() {
+      $state.go('index');
     };
 
     // used for default text if the user hasn't searched for anything
