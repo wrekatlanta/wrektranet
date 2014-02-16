@@ -6,11 +6,14 @@ class Staff::ListenerLogsController < Staff::BaseController
 
 
   def index
-    listener_logs = ListenerLog.today
+    start_date = params[:start].blank? ? 24.hours.ago : Chronic.parse(params[:start])
+    end_date = params[:end].blank? ? Time.zone.now : Chronic.parse(params[:end])
 
-    @hd2_128 = listener_logs.map { |log| [log.created_at.to_i * 1000, log.hd2_128] }
-    @main_128 = listener_logs.map { |log| [log.created_at.to_i * 1000, log.main_128] }
-    @main_24 = listener_logs.map { |log| [log.created_at.to_i * 1000, log.main_24] }
+    @listener_logs = ListenerLog.range(start_date, end_date)
+
+    @hd2_128 = @listener_logs.map { |log| [log.created_at.to_i * 1000, log.hd2_128] }
+    @main_128 = @listener_logs.map { |log| [log.created_at.to_i * 1000, log.main_128] }
+    @main_24 = @listener_logs.map { |log| [log.created_at.to_i * 1000, log.main_24] }
     
   end
 
