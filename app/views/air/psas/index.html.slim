@@ -10,6 +10,7 @@
         tr
           th Title
           th Last Read
+          th This Week
       tbody
         - unless @psas.empty?
           - for psa in @psas do
@@ -19,9 +20,10 @@
                 td = l psa.psa_readings.first.created_at, format: :us_time
               - else
                 td Unread!
+              td = psa.psa_readings.count { |reading| reading.created_at > 1.week.ago }
         - else
           tr
-            td colspan="2" No PSAs were found.
+            td colspan="3" No PSAs were found.
 
   .col-lg-5.col-lg-offset-1
     h3.subheader AudioVault
@@ -40,4 +42,4 @@
               td = psa.play_count
         - else
           tr
-            td colspan="2" No AV PSAs found.
+            td colspan="3" No AV PSAs found, or Oracle isn't configured.

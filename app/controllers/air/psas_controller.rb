@@ -4,16 +4,15 @@ class Air::PsasController < Air::BaseController
   def index
     cache = ActiveSupport::Cache::MemoryStore.new(expires_in: 1.minute)
     @psas = @psas.unexpired.approved.order_by_read.reverse
+    @av_psas = []
 
     # cache the oracle result, rescue if oracle isn't configured
-    begin
+    if Rails.env.production?
       @av_psas = Rails.cache.fetch('playable_spots', expires_in: 30.minutes) do
         Legacy::PlayableSpot
           .active
           .sort {|a,b| a.last_play.try(:playtime) <=> b.last_play.try(:playtime)}
       end
-    rescue
-      @av_psas = []
     end
   end
 
