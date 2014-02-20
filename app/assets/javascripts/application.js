@@ -19,6 +19,7 @@
 //= require ng-rails-csrf
 //= require restangular
 //= require ui-utils
+//= require ui-bootstrap
 //= require ui-router
 //= require highcharts
 //= require_tree .

@@ -43,7 +43,7 @@ div ng-controller="airPlaylistCtrl"
         .alert.alert-info
           strong Loading...
       div ng-hide="loadingTracker.active()"
-        div ui-view=true autoscroll="false"
+        .playlist-results ui-view=true autoscroll="false"
 
   h3
     | Recent Tracks 
@@ -116,14 +116,8 @@ script type="text/ng-template" id="search.html"
         td = "{{album.organization.org_name}}"
 
 script type="text/ng-template" id="album.html"
-  .alert.alert-info
-    p
-      strong Queue tracks
-      |  by adding them to the playlist. Avoid overplayed tracks. Hit a queued track's play button when it's ready. You can queue up as many tracks as you want.
-    p
-      a.alert-link href="#" ng-click="goToIndex()" Done with this album?
   h4
-    | {{album.album_title}} 
+    | \#{{album.id}}: {{album.album_title}} 
     small = "{{album.performance_by}}"
   table.table.table-bordered.table-condensed.table-hover
     thead
@@ -134,6 +128,7 @@ script type="text/ng-template" id="album.html"
         th Track
         th Format
         th Last
+        th Plays
         th DJ
         th style="width: 10%;"
     tbody
@@ -147,18 +142,19 @@ script type="text/ng-template" id="album.html"
         td 
           span.label.label-default = "{{track.format.format_name}}"
         td = "{{track.play_logs[0].playtime | date:'shortDate'}}"
+        td = "{{track.play_logs.length}}"
         td = "{{track.play_logs[0].user.initials}}"
         td.text-center
           div ng-switch="playableButtonStatus(track)"
             div ng-switch-when="success"
-              button.btn.btn-xs.btn-block.btn-success ng-click="queueTrack(track)"
+              button.btn.btn-xs.btn-block.btn-success popover="Queue" popover-trigger="mouseenter" popover-placement="left" ng-click="queueTrack(track)"
                 i.glyphicon.glyphicon-plus
             div ng-switch-when="warning"
-              button.btn.btn-xs.btn-block.btn-warning ng-click="queueTrack(track)"
+              button.btn.btn-xs.btn-block.btn-warning popover="Consider another track" popover-trigger="mouseenter" popover-placement="left" ng-click="queueTrack(track)"
                 i.glyphicon.glyphicon-plus
             div ng-switch-when="danger"
-              button.btn.btn-xs.btn-block.btn-danger ng-click="queueTrack(track)"
-                i.glyphicon.glyphicon-exclamation-sign
+              button.btn.btn-xs.btn-block.btn-danger popover="Avoid!" popover-trigger="mouseenter" popover-placement="left" ng-click="queueTrack(track)"
+                i.glyphicon.glyphicon-ban-circle
 
 script type="text/ng-template" id="album_error.html"
   .alert.alert-danger

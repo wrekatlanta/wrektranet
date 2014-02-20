@@ -13,6 +13,7 @@ angular.module("wrektranet.controllers", [
 angular.module("wrektranet", [
   "restangular",
   "ui.keypress",
+  "ui.bootstrap",
   "ng-rails-csrf",
   "ajoslin.promise-tracker",
   "wrektranet.controllers"

@@ -1,4 +1,4 @@
-json.(@album, :album_id, :org_id, :media_type,
+json.(@album, :id, :org_id, :media_type,
               :album_title, :performance_by,
               :date_auditioned, :auditioned_by,
               :airplay_frequency, :program_status,
