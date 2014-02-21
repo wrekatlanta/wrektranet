@@ -21,18 +21,17 @@ GIT
       activemodel (>= 4.0.0, < 4.1)
 
 GIT
+  remote: git://github.com/rsim/oracle-enhanced.git
+  revision: 36e19490875c8e76ce35c615777d5d69b0737667
+  specs:
+    activerecord-oracle_enhanced-adapter (1.5.2)
+
+GIT
   remote: git://github.com/ruby-ldap/ruby-net-ldap.git
   revision: bbef82f22494864f5c0e53d4dffb21cead3fc274
   branch: master
   specs:
     net-ldap (0.5.0)
-
-GIT
-  remote: git://github.com/yahonda/oracle-enhanced.git
-  revision: f08deb17bfc2006cea3d30418deb24d276af150d
-  branch: rails_13886
-  specs:
-    activerecord-oracle_enhanced-adapter (1.5.2)
 
 GEM
   remote: https://rubygems.org/
