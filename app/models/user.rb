@@ -38,9 +38,9 @@ class User < ActiveRecord::Base
   rolify
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable
+  # :lockable
   devise :registerable, :recoverable, :rememberable, :trackable,
-    :validatable, :invitable
+    :validatable, :invitable, :timeoutable
 
   STATUSES = ["potential", "active", "inactive", "expired"]
 
