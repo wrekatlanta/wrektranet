@@ -15,7 +15,8 @@ class Legacy::PlayLog < Legacy::OracleBase
     if self.played_by == -1
       Legacy::Staff.new(initials: 'auto')
     else
-      self.staff
+      self.staff.initials.downcase!
+      return self.staff
     end
   end
 

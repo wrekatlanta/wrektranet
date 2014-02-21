@@ -36,6 +36,11 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
 
     Restangular.setBaseUrl('/air');
 
+    $scope.tooltip_delay = 500;
+
+    $scope.sources = ['CD1', 'CD2', 'TT1', 'TT2', 'Other']
+    $scope.current_source = $scope.sources[0];
+
     // map airplay frequency enum to replay intervals (by days)
     $scope.replay_intervals = {
       'H': 4,  // high
@@ -104,6 +109,7 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
 
     $scope.queueTrack = function(track) {
       track.album = $scope.album;
+      track.source = $scope.current_source;
       $scope.queued_tracks.unshift(track);
     };
 
@@ -125,6 +131,7 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
           $scope.unqueueTrack(track);
 
           newLog.read = false;
+          newLog.track.source = track.source;
           $scope.play_logs.unshift(newLog);
         });
 
@@ -133,8 +140,6 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
 
     $scope.removeLog = function(log) {
       var promise;
-
-      console.log(log);
 
       promise = Restangular
         .one('play_logs', log.id)
@@ -172,7 +177,7 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
     /* the following can be extracted into a directive later on */
     // returns button class for play button according to replay interval logic
     $scope.playableButtonStatus = function(track) {
-      var replay_interval, days;
+      var replay_interval, days, plays;
 
       if (track.in_rotation === 'O') {
         replay_interval = $scope.replay_intervals["O"];
@@ -181,9 +186,10 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
       }
 
       if (track.play_logs.length > 0) {
+        plays = track.play_logs.length;
         days = track.play_logs[0].days_ago;
 
-        if (days !== 0 && days < replay_interval) {
+        if (plays > 0 && days < replay_interval) {
           return 'danger';
         } else if (days > replay_interval && days < 2 * replay_interval) {
           return 'warning';

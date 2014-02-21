@@ -6,6 +6,16 @@
 div ng-controller="airPlaylistCtrl"
   .row
     .col-lg-4
+      form.form-horizontal
+        .form-group
+          label.control-label.col-lg-4
+            | Source 
+            abbr.initialism title="Use this to keep note of where your tracks are. Hover over the log to get a reminder." (?)
+          .col-lg-8
+            select.form-control ng-init="0" ng-options="o as o for o in sources" ng-model="current_source"
+
+      hr
+
       form.form-horizontal name="albumForm" ng-submit="findAlbum(album_id)"
         .form-group
           label.control-label.col-lg-4 Album ID
@@ -17,7 +27,7 @@ div ng-controller="airPlaylistCtrl"
             |  
             button.btn.btn-default.btn-sm type="button" ng-click="reset()" Reset
       br
-      form.form-horizontal ng-submit="searchAlbum()"
+      form.form-horizontal name="searchForm" ng-submit="searchAlbum()"
         .form-group
           label.control-label.col-lg-4 Artist
           .col-lg-8
@@ -38,6 +48,7 @@ div ng-controller="airPlaylistCtrl"
             button.btn.btn-primary.btn-sm Search
             |  
             button.btn.btn-default.btn-sm type="button" ng-click="reset()" Reset
+
     .col-lg-8
       .ng-cloak ng-if="loadingTracker.active()"
         .alert.alert-info
@@ -47,7 +58,7 @@ div ng-controller="airPlaylistCtrl"
 
   h3
     | Recent Tracks 
-    button.btn.btn-default ng-click="loadLogs()"
+    button.btn.btn-default tooltip="Refresh (marks all tracks as read)" ng-click="loadLogs()"
       i.glyphicon.glyphicon-refresh
   table.table.table-bordered.table-condensed.table-hover
     thead
@@ -59,9 +70,9 @@ div ng-controller="airPlaylistCtrl"
         th.text-center style="width: 8%;" Format
         th.text-center style="width: 8%;" DJ
     tbody
-      tr.ng-cloak ng-repeat="track in queued_tracks"
+      tr.ng-cloak ng-repeat="track in queued_tracks" tooltip="{{track.source}}" tooltip-placement="right"
         td
-          button.btn.btn-xs.btn-primary.btn-block ng-disabled="playLogTracker.active()" ng-click="playTrack(track)"
+          button.btn.btn-xs.btn-primary.btn-block tooltip="Play" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="top" ng-disabled="playLogTracker.active()" ng-click="playTrack(track)"
             i.glyphicon.glyphicon-play
         td = "{{track.track_title}}"
         td = "{{track.performance_by}}"
@@ -69,13 +80,13 @@ div ng-controller="airPlaylistCtrl"
         td
           span.label.label-default = "{{track.format.format_name}}"        
         td
-          button.btn.btn-xs.btn-danger.btn-block ng-click="unqueueTrack(track)"
+          button.btn.btn-xs.btn-danger.btn-block tooltip="Unqueue" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="top" ng-click="unqueueTrack(track)"
             i.glyphicon.glyphicon-remove
       tr.ng-cloak ng-if="!playLogTracker.active() && play_logs.length === 0"
         td colspan="6" No tracks were played in the last hour.
       tr ng-if="playLogTracker.active()"
         td colspan="6" Loading...
-      tr.ng-cloak style="cursor: pointer;" ng-repeat="log in play_logs track by log.track.id" ng-class="{info: !log.read}" ng-click="log.read = !log.read"
+      tr.ng-cloak style="cursor: pointer;" ng-repeat="log in play_logs track by log.track.id" ng-class="{info: !log.read}" tooltip="{{log.track.source}}" tooltip-placement="right" ng-click="log.read = !log.read"
         td.text-muted = "{{log.playtime | date:'shortTime'}}"
         td = "{{log.track.track_title}}"
         td = "{{log.track.performance_by}}"
@@ -85,11 +96,11 @@ div ng-controller="airPlaylistCtrl"
         td
           div ng-switch="log.user.id && log.user.id == #{current_user.legacy_id || -1}"
             div ng-switch-when="true"
-              button.btn.btn-xs.btn-danger.btn-block ng-disabled="playLogTracker.active()" ng-click="removeLog(log)"
+              button.btn.btn-xs.btn-danger.btn-block ng-disabled="playLogTracker.active()" tooltip="Delete Log" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="top" ng-click="removeLog(log)"
                 i.glyphicon.glyphicon-remove
             div ng-switch-default=true
               = "{{log.user.initials}}"
-  p.lead.text-muted Played tracks will be highlighted in blue so you can keep track of songs you haven't announced. Click on a track to mark it as read. Refreshing will mark all tracks as read.
+  p.lead.text-muted Played tracks will be highlighted in blue so you can keep track of songs you haven't announced. Click on a track to mark it as read.
 
 script type="text/ng-template" id="index.html"
   .alert.alert-info
@@ -128,12 +139,13 @@ script type="text/ng-template" id="album.html"
         th Track
         th Format
         th Last
-        th Plays
+        th
+          i.glyphicon.glyphicon-play
         th DJ
         th style="width: 10%;"
     tbody
       tr ng-if="!album.tracks || album.tracks.length == 0"
-        td colspan="8" No tracks are listed for this album.
+        td colspan="9" No tracks are listed for this album.
       tr ng-repeat="track in album.tracks | orderBy:side:track"
         td = "{{track.performance_by}}"
         td = "{{track.track_title}}"
@@ -147,13 +159,13 @@ script type="text/ng-template" id="album.html"
         td.text-center
           div ng-switch="playableButtonStatus(track)"
             div ng-switch-when="success"
-              button.btn.btn-xs.btn-block.btn-success popover="Queue" popover-trigger="mouseenter" popover-placement="left" ng-click="queueTrack(track)"
+              button.btn.btn-xs.btn-block.btn-success tooltip="Queue" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="left" ng-click="queueTrack(track)"
                 i.glyphicon.glyphicon-plus
             div ng-switch-when="warning"
-              button.btn.btn-xs.btn-block.btn-warning popover="Consider another track" popover-trigger="mouseenter" popover-placement="left" ng-click="queueTrack(track)"
+              button.btn.btn-xs.btn-block.btn-warning tooltip="Queue (consider another track)" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="left" ng-click="queueTrack(track)"
                 i.glyphicon.glyphicon-plus
             div ng-switch-when="danger"
-              button.btn.btn-xs.btn-block.btn-danger popover="Avoid!" popover-trigger="mouseenter" popover-placement="left" ng-click="queueTrack(track)"
+              button.btn.btn-xs.btn-block.btn-danger tooltip="Avoid!" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="left" ng-click="queueTrack(track)"
                 i.glyphicon.glyphicon-ban-circle
 
 script type="text/ng-template" id="album_error.html"
