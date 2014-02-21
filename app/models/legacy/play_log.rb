@@ -24,6 +24,11 @@ class Legacy::PlayLog < Legacy::OracleBase
     (Time.zone.now - self.playtime).to_i / 1.day
   end
 
+  def adjust_time! offset
+    self.playtime += offset
+    self.save
+  end
+
   def to_builder
     Jbuilder.new do |json|
       json.(self, :id, :playtime)

@@ -6,16 +6,18 @@
 div ng-controller="airPlaylistCtrl"
   .row
     .col-lg-4
+      / A source dropdown so users can keep track of where the albums are (e.g. CD1)
       form.form-horizontal
         .form-group
-          label.control-label.col-lg-4
+          label.text-muted.control-label.col-lg-4
             | Source 
-            abbr.initialism title="Use this to keep note of where your tracks are. Hover over the log to get a reminder." (?)
+            abbr.initialism title="Use this to keep note of where your tracks are. Hover over the log to get a reminder. Totally optional!" (?)
           .col-lg-8
             select.form-control ng-init="0" ng-options="o as o for o in sources" ng-model="current_source"
 
       hr
 
+      / Album ID search form.
       form.form-horizontal name="albumForm" ng-submit="findAlbum(album_id)"
         .form-group
           label.control-label.col-lg-4 Album ID
@@ -27,6 +29,7 @@ div ng-controller="airPlaylistCtrl"
             |  
             button.btn.btn-default.btn-sm type="button" ng-click="reset()" Reset
       br
+      / Library search.
       form.form-horizontal name="searchForm" ng-submit="searchAlbum()"
         .form-group
           label.control-label.col-lg-4 Artist
@@ -60,6 +63,27 @@ div ng-controller="airPlaylistCtrl"
     | Recent Tracks 
     button.btn.btn-default tooltip="Refresh (marks all tracks as read)" ng-click="loadLogs()"
       i.glyphicon.glyphicon-refresh
+
+  .ng-cloak ng-if="current_log"
+    form.form-inline.panel.panel-default name="logTimeForm" ng-submit="adjustLogTime(time_adjustment)"
+      .panel-heading
+        h4 = "{{current_log.track.track_title}}"
+      .panel-body
+        p
+        .form-group
+          | Adjust the playtime by 
+          select.form-control type="number" ng-model="time_adjustment" ng-options="n for n in [] | range:-10:10"
+
+          |  minutes: 
+          span.text-muted
+            | {{previewTime(current_log, time_adjustment) | date:'shortTime'}}
+      .panel-footer
+        button.btn.btn-sm.btn-primary Update
+        |  
+        button.btn.btn-sm.btn-default type="button" ng-click="cancelTimeAdjustment()"
+          i.glyphicon.glyphicon-remove
+          |  Cancel
+
   table.table.table-bordered.table-condensed.table-hover
     thead
       tr
@@ -70,7 +94,7 @@ div ng-controller="airPlaylistCtrl"
         th.text-center style="width: 8%;" Format
         th.text-center style="width: 8%;" DJ
     tbody
-      tr.ng-cloak ng-repeat="track in queued_tracks" tooltip="{{track.source}}" tooltip-placement="right"
+      tr.ng-cloak ng-repeat="track in queued_tracks" tooltip="{{track.source}}" tooltip-placement="right" tooltip-append-to-body="true"
         td
           button.btn.btn-xs.btn-primary.btn-block tooltip="Play" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="top" ng-disabled="playLogTracker.active()" ng-click="playTrack(track)"
             i.glyphicon.glyphicon-play
@@ -83,29 +107,44 @@ div ng-controller="airPlaylistCtrl"
           button.btn.btn-xs.btn-danger.btn-block tooltip="Unqueue" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="top" ng-click="unqueueTrack(track)"
             i.glyphicon.glyphicon-remove
       tr.ng-cloak ng-if="!playLogTracker.active() && play_logs.length === 0"
-        td colspan="6" No tracks were played in the last hour.
+        td.text-muted colspan="6" No tracks were played in the last hour.
       tr ng-if="playLogTracker.active()"
-        td colspan="6" Loading...
-      tr.ng-cloak style="cursor: pointer;" ng-repeat="log in play_logs track by log.track.id" ng-class="{info: !log.read}" tooltip="{{log.track.source}}" tooltip-placement="right" ng-click="log.read = !log.read"
-        td.text-muted = "{{log.playtime | date:'shortTime'}}"
+        td.text-muted colspan="6" Loading...
+      tr.ng-cloak style="cursor: pointer;" ng-repeat="log in play_logs track by log.track.id" ng-class="{warning: !log.read}" tooltip="{{log.track.source}}" tooltip-placement="right" tooltip-append-to-body="true" ng-click="log.read = !log.read"
+        td
+          div ng-switch="belongsToUser(log, #{current_user.legacy_id || -1})"
+            div ng-switch-when="true"
+              a ng-click="editLog(log); $event.stopPropagation();" href="javascript:0"
+                | {{log.playtime | date:'shortTime'}}
+            div ng-switch-default=true
+              span.text-muted
+                | {{log.playtime | date:'shortTime'}}
         td = "{{log.track.track_title}}"
         td = "{{log.track.performance_by}}"
         td = "{{log.track.album.album_title}}"
         td
           span.label.label-default = "{{log.track.format.format_name}}"
         td
-          div ng-switch="log.user.id && log.user.id == #{current_user.legacy_id || -1}"
+          / A user can remove a log if they created it.
+          div ng-switch="belongsToUser(log, #{current_user.legacy_id || -1})"
             div ng-switch-when="true"
               button.btn.btn-xs.btn-danger.btn-block ng-disabled="playLogTracker.active()" tooltip="Delete Log" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="top" ng-click="removeLog(log)"
                 i.glyphicon.glyphicon-remove
             div ng-switch-default=true
               = "{{log.user.initials}}"
-  p.lead.text-muted Played tracks will be highlighted in blue so you can keep track of songs you haven't announced. Click on a track to mark it as read.
+  p.lead.text-muted Played tracks will be highlighted in yellow so you can keep track of songs you haven't announced. Click on a track to mark it as read.
 
+/ Welcome page with brief instructions.
 script type="text/ng-template" id="index.html"
   .alert.alert-info
-    | Find an album by the number on its sticker, or search for one.
+    markdown:
+      Find an album by the number on its sticker, or search for one.
 
+      **Queue up** as many tracks as you want. When a track is ready, hit its **play button** in the playlist. You can adjust the time or delete the log.
+
+      Happy DJing!
+
+/ Search results template.
 script type="text/ng-template" id="search.html"
   table.table.table-bordered.table-condensed.table-hover
     thead
@@ -122,10 +161,11 @@ script type="text/ng-template" id="search.html"
         td = "{{album.id}}"
         td = "{{album.performance_by}}"
         td
-          a href="#" = "{{album.album_title}}"
+          a href="javascript:0" = "{{album.album_title}}"
         td = "{{album.date_auditioned | date:'shortDate'}}"
         td = "{{album.organization.org_name}}"
 
+/ Album result template.
 script type="text/ng-template" id="album.html"
   h4
     | \#{{album.id}}: {{album.album_title}} 
@@ -168,6 +208,7 @@ script type="text/ng-template" id="album.html"
               button.btn.btn-xs.btn-block.btn-danger tooltip="Avoid!" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="left" ng-click="queueTrack(track)"
                 i.glyphicon.glyphicon-ban-circle
 
+/ Album error page (mainly, invalid ID).
 script type="text/ng-template" id="album_error.html"
   .alert.alert-danger
     strong Whoops!

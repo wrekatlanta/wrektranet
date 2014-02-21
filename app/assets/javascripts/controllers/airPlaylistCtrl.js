@@ -26,7 +26,8 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
   'Restangular',
   'promiseTracker',
   '$state',
-  function($scope, Restangular, promiseTracker, $state) {
+  '$window',
+  function($scope, Restangular, promiseTracker, $state, $window) {
     /* This controller is a reimplementation
      * of the original live playlist's frequency logic.
      *
@@ -38,7 +39,7 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
 
     $scope.tooltip_delay = 500;
 
-    $scope.sources = ['CD1', 'CD2', 'TT1', 'TT2', 'Other']
+    $scope.sources = ['CD1', 'CD2', 'TT1', 'TT2', 'Other'];
     $scope.current_source = $scope.sources[0];
 
     // map airplay frequency enum to replay intervals (by days)
@@ -49,13 +50,15 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
       'O': 35  // oldie
     };
 
-    // a default interval
+    // a default interval, in days
     $scope.default_replay_interval = 14;
 
     $scope.play_logs = []; // contains recent logs
     $scope.queued_tracks = []; // contains tracks queued for logging
     $scope.album = null; // contains current selected album
     $scope.search = null; // contains search parameters
+    $scope.current_log = null; // used for editing a log's time
+    $scope.time_adjustment = 0;
 
     $scope.playLogTracker = promiseTracker.register('playLogTracker');
     $scope.loadingTracker = promiseTracker.register('loadingTracker');
@@ -110,7 +113,9 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
     $scope.queueTrack = function(track) {
       track.album = $scope.album;
       track.source = $scope.current_source;
-      $scope.queued_tracks.unshift(track);
+      if (!_.contains($scope.queued_tracks, track)) {
+        $scope.queued_tracks.unshift(track);
+      }
     };
 
     $scope.unqueueTrack = function(track) {
@@ -136,6 +141,39 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
         });
 
       $scope.playLogTracker.addPromise(promise);
+    };
+
+    $scope.editLog = function(log) {
+      console.log('hi');
+      $scope.current_log = log;
+    };
+
+    $scope.previewTime = function(log, minutes) {
+      var old_date = new Date(log.playtime),
+          new_date = new Date(old_date);
+
+      new_date.setMinutes(old_date.getMinutes() + minutes);
+
+      return new_date;
+    };
+
+    $scope.adjustLogTime = function(minutes) {
+      var promise = Restangular
+        .one('play_logs', $scope.current_log.id)
+        .customPOST({
+          minutes: minutes,
+        }, "adjust_time")
+        .then(function() {
+          $scope.loadLogs();
+        });
+
+      $scope.playLogTracker.addPromise(promise);
+
+      $scope.current_log = null;
+    };
+
+    $scope.cancelTimeAdjustment = function() {
+      $scope.current_log = null;
     };
 
     $scope.removeLog = function(log) {
@@ -174,6 +212,10 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
       return $scope.album || $scope.albums;
     };
 
+    $scope.belongsToUser = function(log, id) {
+      return log.user.id && log.user.id === id;
+    };
+
     /* the following can be extracted into a directive later on */
     // returns button class for play button according to replay interval logic
     $scope.playableButtonStatus = function(track) {
@@ -199,11 +241,26 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
       return 'success';
     };
 
+    /* asks the user to confirm before leaving the page if there are unplayed tracks */
+    $window.onbeforeunload = function() {
+      if ($scope.queued_tracks.length > 0) {
+        return 'You have tracks in your queue.';
+      }
+    };
+
     $scope.reset();
     $scope.loadLogs();
   }
 ])
 
-.controller(function() {
+.filter('range', function() {
+  return function(input, min, max) {
+    min = parseInt(min, 10);
+    max = parseInt(max, 10);
+    for (var i = min; i < max; i++) {
+      input.push(i);
+    }
 
+    return input;
+  };
 });

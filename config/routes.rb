@@ -11,7 +11,11 @@ Wrek::Application.routes.draw do
     resources :events, only: [:index]
     resources :playlist, only: [:index]
     resources :albums, defaults: {format: :json}
-    resources :play_logs, defaults: {format: :json}
+    resources :play_logs, defaults: {format: :json} do
+      member do
+        post 'adjust_time'
+      end
+    end
 
     resources :contests do
       resources :listener_tickets, shallow: true

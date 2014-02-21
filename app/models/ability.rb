@@ -43,7 +43,7 @@ class Ability
         # permissions that only occur for user-owned objects
         can :destroy, ListenerTicket, user_id: user.id
         can :destroy, StaffTicket, user_id: user.id
-        can :destroy, Legacy::PlayLog, played_by: user.legacy_id
+        can [:destroy, :update], Legacy::PlayLog, played_by: user.legacy_id
         can :update, TransmitterLogEntry, user_id: user.id
 
         can :read, :all

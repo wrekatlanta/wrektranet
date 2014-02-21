@@ -28,6 +28,19 @@ class Air::PlayLogsController < Air::BaseController
     end
   end
 
+  def adjust_time
+    @play_log = Legacy::PlayLog.find(params[:id])
+    authorize! :update, @play_log
+
+    offset = params["minutes"].to_i
+
+    if offset >= -10 and offset <= 10
+      @play_log.adjust_time!(offset.minutes)
+    end
+
+    render json: @play_log.to_builder.target!
+  end
+
   private
     def play_log_params
       params.require(:play_log).permit(:track_id)
