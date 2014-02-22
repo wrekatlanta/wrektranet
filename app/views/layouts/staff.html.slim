@@ -1,6 +1,6 @@
 - content_for :content do
   .row
-    .col-lg-3
+    .col-lg-2
       .sidebar-nav
         ul.nav
           - if Settings.contest_book_enabled?
@@ -8,7 +8,7 @@
             = active_link_to 'Contest Suggestions', staff_contest_suggestions_path, wrap_tag: :li
           - if Settings.listener_log_enabled?
             = active_link_to 'Listener Log', staff_listener_logs_path, wrap_tag: :li
-    .col-lg-9
+    .col-lg-10
       = render 'layouts/messages'
       = yield
 
