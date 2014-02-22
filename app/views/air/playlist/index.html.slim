@@ -62,26 +62,6 @@ div ng-controller="airPlaylistCtrl"
     button.btn.btn-default tooltip="Refresh (marks all tracks as read)" ng-click="loadLogs()"
       i.glyphicon.glyphicon-refresh
 
-  .ng-cloak ng-if="current_log"
-    form.form-inline.panel.panel-default name="logTimeForm" ng-submit="adjustLogTime(time_adjustment)"
-      .panel-heading
-        h4 = "{{current_log.track.track_title}}"
-      .panel-body
-        p
-        .form-group
-          | Adjust the playtime by 
-          select.form-control type="number" ng-model="time_adjustment" ng-options="n for n in [] | range:-10:10"
-
-          |  minutes: 
-          span.text-muted
-            | {{previewTime(current_log, time_adjustment) | date:'shortTime'}}
-      .panel-footer
-        button.btn.btn-sm.btn-primary Update
-        |  
-        button.btn.btn-sm.btn-default type="button" ng-click="cancelTimeAdjustment()"
-          i.glyphicon.glyphicon-remove
-          |  Cancel
-
   table.table.table-bordered.table-condensed.table-hover
     thead
       tr
@@ -112,7 +92,7 @@ div ng-controller="airPlaylistCtrl"
         td
           div ng-switch="belongsToUser(log, #{current_user.legacy_id || -1})"
             div ng-switch-when="true"
-              a ng-click="editLog(log); $event.stopPropagation();"
+              a ng-click="openTimeModal(log); $event.stopPropagation();"
                 | {{log.playtime | date:'shortTime'}}
             div ng-switch-default=true
               span.text-muted
@@ -138,7 +118,7 @@ script type="text/ng-template" id="index.html"
     p
       i.glyphicon.glyphicon-music>
       strong> Albums:
-      | find an album with the number on its sticker, or search by album, artist, and label.
+      | find an album with the number on its sticker, or search by album, artist, or label.
     p
       i.glyphicon.glyphicon-plus>
       strong> Queuing:
@@ -233,3 +213,22 @@ script type="text/ng-template" id="album_error.html"
   .alert.alert-danger
     strong Whoops!
     |  We couldn't find that album.
+
+script type="text/ng-template" id="time_modal.html"
+  form.form-inline name="logTimeForm" ng-submit="updateTime(time_adjustment)"
+    .modal-header
+      h4 = "{{log.track.track_title}}"
+    .modal-body
+      p
+      .form-group
+        | Adjust the playtime by 
+        select.form-control type="number" ng-model="time_adjustment" ng-options="n for n in [] | range:-10:10"
+
+        |  minutes: 
+        span.text-muted
+          | {{previewTime(time_adjustment) | date:'shortTime'}}
+    .modal-footer
+      button.btn.btn-sm.btn-default type="button" ng-click="close()" Cancel
+      button.btn.btn-sm.btn-primary ng-disabled="modalTracker.active()"
+        i.glyphicon.glyphicon-time>
+        | Update playtime

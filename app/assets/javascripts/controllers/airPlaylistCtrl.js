@@ -26,8 +26,9 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
   'Restangular',
   'promiseTracker',
   '$state',
+  '$modal',
   '$window',
-  function($scope, Restangular, promiseTracker, $state, $window) {
+  function($scope, Restangular, promiseTracker, $state, $modal, $window) {
     /* This controller is a reimplementation
      * of the original live playlist's frequency logic.
      *
@@ -57,11 +58,9 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
     $scope.queued_tracks = []; // contains tracks queued for logging
     $scope.album = null; // contains current selected album
     $scope.search = null; // contains search parameters
-    $scope.current_log = null; // used for editing a log's time
-    $scope.time_adjustment = 0;
 
-    $scope.playLogTracker = promiseTracker.register('playLogTracker');
-    $scope.loadingTracker = promiseTracker.register('loadingTracker');
+    $scope.playLogTracker = promiseTracker();
+    $scope.loadingTracker = promiseTracker();
 
     // loads recently played tracks
     $scope.loadLogs = function() {
@@ -141,45 +140,10 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
       $scope.playLogTracker.addPromise(promise);
     };
 
-    $scope.editLog = function(log) {
-      console.log('hi');
-      $scope.current_log = log;
-    };
-
-    $scope.previewTime = function(log, minutes) {
-      var old_date = new Date(log.playtime),
-          new_date = new Date(old_date);
-
-      new_date.setMinutes(old_date.getMinutes() + minutes);
-
-      return new_date;
-    };
-
-    $scope.adjustLogTime = function(minutes) {
-      var promise = Restangular
-        .one('play_logs', $scope.current_log.id)
-        .customPOST({
-          minutes: minutes,
-        }, "adjust_time")
-        .then(function() {
-          $scope.loadLogs();
-        });
-
-      $scope.playLogTracker.addPromise(promise);
-
-      $scope.current_log = null;
-    };
-
-    $scope.cancelTimeAdjustment = function() {
-      $scope.current_log = null;
-    };
-
     $scope.removeLog = function(log) {
       var promise;
 
       if (confirm("Are you sure you want to delete this play?")) {
-        $scope.current_log = null;
-
         promise = Restangular
           .one('play_logs', log.id)
           .remove()
@@ -203,6 +167,25 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
         performance_by: '',
         org_name: ''
       };
+    };
+
+    $scope.openTimeModal = function(log) {
+      var modalInstance = $modal.open({
+        templateUrl: 'time_modal.html',
+        controller: 'timeModalCtrl',
+        resolve: {
+          log: function () {
+            return log;
+          }
+        }
+      });
+
+      modalInstance.result
+        .then(function(reload) {
+          if (reload) {
+            $scope.loadLogs();
+          }
+        });
     };
 
     $scope.goToIndex = function() {
@@ -265,4 +248,46 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
 
     return input;
   };
-});
+})
+
+.controller('timeModalCtrl', [
+  '$scope',
+  '$modalInstance',
+  'promiseTracker',
+  'log',
+  'Restangular',
+  function($scope, $modalInstance, promiseTracker, log, Restangular) {
+    Restangular.setBaseUrl('/air');
+
+    $scope.log = log;
+    $scope.time_adjustment = 0;
+
+    $scope.modalTracker = promiseTracker();
+
+    $scope.previewTime = function(minutes) {
+      var old_date = new Date(log.playtime),
+          new_date = new Date(old_date);
+
+      new_date.setMinutes(old_date.getMinutes() + minutes);
+
+      return new_date;
+    };
+
+    $scope.close = function(reload) {
+      $modalInstance.close(reload);
+    };
+
+    $scope.updateTime = function(minutes) {
+      var promise = Restangular
+        .one('play_logs', log.id)
+        .customPOST({
+          minutes: minutes,
+        }, "adjust_time")
+        .then(function() {
+          $scope.close(true);
+        });
+
+      $scope.modalTracker.addPromise(promise);
+    };
+  }
+]);
