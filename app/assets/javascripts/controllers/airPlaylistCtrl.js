@@ -72,8 +72,6 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
           $scope.play_logs = play_logs;
         });
 
-      $scope.play_logs = [];
-
       $scope.playLogTracker.addPromise(promise);
     };
 
@@ -179,14 +177,18 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
     $scope.removeLog = function(log) {
       var promise;
 
-      promise = Restangular
-        .one('play_logs', log.id)
-        .remove()
-        .then(function() {
-          $scope.play_logs = _.without($scope.play_logs, log);
-        });
+      if (confirm("Are you sure you want to delete this play?")) {
+        $scope.current_log = null;
 
-      $scope.playLogTracker.addPromise(promise);
+        promise = Restangular
+          .one('play_logs', log.id)
+          .remove()
+          .then(function() {
+            $scope.loadLogs();
+          });
+
+        $scope.playLogTracker.addPromise(promise);
+      }
     };
 
     // resets forms and removes selected album and results

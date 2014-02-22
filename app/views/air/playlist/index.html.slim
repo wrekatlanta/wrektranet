@@ -85,7 +85,7 @@ div ng-controller="airPlaylistCtrl"
   table.table.table-bordered.table-condensed.table-hover
     thead
       tr
-        th.text-center style="width: 9%;" Time
+        th.text-center style="width: 8%;" Time
         th.text-center Track
         th.text-center Artist
         th.text-center Album
@@ -112,7 +112,7 @@ div ng-controller="airPlaylistCtrl"
         td
           div ng-switch="belongsToUser(log, #{current_user.legacy_id || -1})"
             div ng-switch-when="true"
-              a ng-click="editLog(log); $event.stopPropagation();" href="javascript:0"
+              a ng-click="editLog(log); $event.stopPropagation();"
                 | {{log.playtime | date:'shortTime'}}
             div ng-switch-default=true
               span.text-muted
@@ -126,8 +126,8 @@ div ng-controller="airPlaylistCtrl"
           / A user can remove a log if they created it.
           div ng-switch="belongsToUser(log, #{current_user.legacy_id || -1})"
             div ng-switch-when="true"
-              button.btn.btn-xs.btn-danger.btn-block ng-disabled="playLogTracker.active()" tooltip="Delete Log" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="top" ng-click="removeLog(log)"
-                i.glyphicon.glyphicon-remove
+              button.btn.btn-xs.btn-danger.btn-block ng-disabled="playLogTracker.active()" tooltip="Delete Play" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="top" ng-click="removeLog(log)"
+                i.glyphicon.glyphicon-trash
             div ng-switch-default=true
               = "{{log.user.initials}}"
   p.lead.text-muted Played tracks will be highlighted in yellow so you can keep track of songs you haven't announced. Click on a track to mark it as read.
@@ -152,7 +152,7 @@ script type="text/ng-template" id="index.html"
       strong> Adjusting time:
       | you can adjust the time for a track you played by clicking on its time.
     p
-      i.glyphicon.glyphicon-remove>
+      i.glyphicon.glyphicon-trash>
       strong> Deleting logs:
       | accidentally played a track? You can hit the remove button for tracks you've played.
 
@@ -179,7 +179,7 @@ script type="text/ng-template" id="search.html"
         td = "{{album.id}}"
         td = "{{album.performance_by}}"
         td
-          a href="javascript:0" = "{{album.album_title}}"
+          a = "{{album.album_title}}"
         td = "{{album.date_auditioned | date:'shortDate'}}"
         td = "{{album.organization.org_name}}"
 
