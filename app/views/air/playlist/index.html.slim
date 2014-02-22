@@ -25,9 +25,8 @@ div ng-controller="airPlaylistCtrl"
             input.form-control type="text" required=true ng-model="album_id"
         .form-group
           .col-lg-offset-4.col-lg-8
-            button.btn.btn-primary.btn-sm ng-disabled='albumForm.$invalid' Find
-            |  
-            button.btn.btn-default.btn-sm type="button" ng-click="reset()" Reset
+            button.btn.btn-primary.btn-sm ng-disabled='albumForm.$invalid' Find  
+            button.btn.btn-default.btn-sm< type="button" ng-click="reset()" Reset
       br
       / Library search.
       form.form-horizontal name="searchForm" ng-submit="searchAlbum()"
@@ -48,9 +47,8 @@ div ng-controller="airPlaylistCtrl"
 
         .form-group
           .col-lg-offset-4.col-lg-8
-            button.btn.btn-primary.btn-sm Search
-            |  
-            button.btn.btn-default.btn-sm type="button" ng-click="reset()" Reset
+            button.btn.btn-primary.btn-sm Search  
+            button.btn.btn-default.btn-sm< type="button" ng-click="reset()" Reset
 
     .col-lg-8
       .ng-cloak ng-if="loadingTracker.active()"
@@ -94,7 +92,7 @@ div ng-controller="airPlaylistCtrl"
         th.text-center style="width: 8%;" Format
         th.text-center style="width: 8%;" DJ
     tbody
-      tr.ng-cloak ng-repeat="track in queued_tracks" tooltip="{{track.source}}" tooltip-placement="right" tooltip-append-to-body="true"
+      tr.ng-cloak ng-repeat="track in queued_tracks" tooltip="{{track.source}}" tooltip-placement="left" tooltip-append-to-body="true"
         td
           button.btn.btn-xs.btn-primary.btn-block tooltip="Play" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="top" ng-disabled="playLogTracker.active()" ng-click="playTrack(track)"
             i.glyphicon.glyphicon-play
@@ -110,7 +108,7 @@ div ng-controller="airPlaylistCtrl"
         td.text-muted colspan="6" No tracks were played in the last hour.
       tr ng-if="playLogTracker.active()"
         td.text-muted colspan="6" Loading...
-      tr.ng-cloak style="cursor: pointer;" ng-repeat="log in play_logs track by log.track.id" ng-class="{warning: !log.read}" tooltip="{{log.track.source}}" tooltip-placement="right" tooltip-append-to-body="true" ng-click="log.read = !log.read"
+      tr.ng-cloak style="cursor: pointer;" ng-repeat="log in play_logs track by log.track.id" ng-class="{warning: !log.read}" tooltip="{{log.track.source}}" tooltip-placement="left" tooltip-append-to-body="true" ng-click="log.read = !log.read"
         td
           div ng-switch="belongsToUser(log, #{current_user.legacy_id || -1})"
             div ng-switch-when="true"
@@ -137,15 +135,35 @@ div ng-controller="airPlaylistCtrl"
 / Welcome page with brief instructions.
 script type="text/ng-template" id="index.html"
   .alert.alert-info
-    markdown:
-      Find an album by the number on its sticker, or search for one.
+    p
+      i.glyphicon.glyphicon-music>
+      strong> Albums:
+      | find an album with the number on its sticker, or search by album, artist, and label.
+    p
+      i.glyphicon.glyphicon-plus>
+      strong> Queuing:
+      | queue up as many tracks as you want. They'll appear on the top of the playlist with a play button, and you can remove songs from your queue.
+    p
+      i.glyphicon.glyphicon-play>
+      strong> Playing:
+      | when a track is ready, hit its play button. You can adjust the time afterwards.
+    p
+      i.glyphicon.glyphicon-time>
+      strong> Adjusting time:
+      | you can adjust the time for a track you played by clicking on its time.
+    p
+      i.glyphicon.glyphicon-remove>
+      strong> Deleting logs:
+      | accidentally played a track? You can hit the remove button for tracks you've played.
 
-      **Queue up** as many tracks as you want. When a track is ready, hit its **play button** in the playlist. You can adjust the time or delete the log.
-
-      Happy DJing!
+    br
+    p Happy DJing!
 
 / Search results template.
 script type="text/ng-template" id="search.html"
+  .pull-right
+    button.close type="button" class="close" aria-hidden="true" ng-click="goToIndex()" &times;
+  h4 Search Results
   table.table.table-bordered.table-condensed.table-hover
     thead
       tr
@@ -167,6 +185,8 @@ script type="text/ng-template" id="search.html"
 
 / Album result template.
 script type="text/ng-template" id="album.html"
+  .pull-right
+    button.close type="button" class="close" aria-hidden="true" ng-click="goToIndex()" &times;
   h4
     | \#{{album.id}}: {{album.album_title}} 
     small = "{{album.performance_by}}"
