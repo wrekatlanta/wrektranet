@@ -22,7 +22,7 @@ div ng-controller="airPlaylistCtrl"
         .form-group
           label.control-label.col-lg-4 Album ID
           .col-lg-8
-            input.form-control type="text" required=true ng-model="album_id"
+            input.form-control type="text" required=true autofocus=true ng-model="album_id"
         .form-group
           .col-lg-offset-4.col-lg-8
             button.btn.btn-primary.btn-sm ng-disabled='albumForm.$invalid' Find  
