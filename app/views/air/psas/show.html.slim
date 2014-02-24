@@ -4,7 +4,7 @@
   h1 PSA: #{@psa.title}
 
 .row
-  .col-lg-8
+  .col-md-8
     .lead
       p.text-muted The following is a Public Service Announcement brought to you by the staff of WREK Atlanta.
       div = markdown @psa.body
@@ -15,7 +15,7 @@
           | I read this!
         = token_tag
 
-  .col-lg-3.col-lg-offset-1
+  .col-md-3.col-md-offset-1
     dl
       dt Created
       dd = l @psa.created_at, format: :us_date

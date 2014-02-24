@@ -1,6 +1,6 @@
 - content_for :content do
   .row
-    .col-lg-2
+    .col-md-2
       .sidebar-nav
         ul.nav
           - if Settings.contest_book_enabled? and current_user.contest_director?
@@ -16,7 +16,7 @@
             = active_link_to 'Transmitter Log', admin_transmitter_log_entries_path, wrap_tag: :li
           - if current_user.admin?
             = active_link_to 'Users', admin_users_path, wrap_tag: :li
-    .col-lg-10
+    .col-md-10
       = render 'layouts/messages'
       = yield
 

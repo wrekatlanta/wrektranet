@@ -4,7 +4,7 @@
   h1 = @contest.name
 
 .row
-  .col-lg-6
+  .col-md-6
     dl.dl-horizontal.lead
       dt What
       dd = @contest.name
@@ -26,7 +26,7 @@
       dt Age Limit
       dd = t 'contests.age_limit', count: @contest.age_limit
 
-  .col-lg-6 ng-controller="airContestCtrl" ng-init="contest = #{@contest.to_json(include: {listener_tickets: {include: :user}})}; current_user = #{current_user.to_json}; user_can_destroy_all = #{current_user.has_role_or_admin?(:contest_director).to_json};"
+  .col-md-6 ng-controller="airContestCtrl" ng-init="contest = #{@contest.to_json(include: {listener_tickets: {include: :user}})}; current_user = #{current_user.to_json}; user_can_destroy_all = #{current_user.has_role_or_admin?(:contest_director).to_json};"
     h3 Listener Tickets
     table.table.ng-cloak
       thead
@@ -57,7 +57,7 @@
           i.glyphicon.glyphicon-plus
 
 .row
-  .col-lg-6
+  .col-md-6
     dl.dl-horizontal.lead
       dt Staff
       dd = pluralize(@contest.staff_ticket_limit, @contest.staff_ticket_type)
@@ -65,7 +65,7 @@
         dt Address
         dd = simple_format(@contest.venue.address)
   - unless @contest.staff_ticket_limit == 0
-    .col-lg-6
+    .col-md-6
       h3 Staff Tickets
       table.table
         thead
