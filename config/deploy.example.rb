@@ -14,7 +14,7 @@ set :deploy_via, :remote_cache
 set :use_sudo, false
 
 set :scm, "git"
-set :repository, "git@github.com:wrekatlanta/wrektranet-new.git"
+set :repository, "git@github.com:wrekatlanta/wrektranet.git"
 set :branch, "master"
 
 
