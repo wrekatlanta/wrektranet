@@ -4,11 +4,7 @@ This is [WREK](http://wrek.org)'s long-overdue new intranet. It provides tools t
 
 It's based on Rails 4, AngularJS, MySQL, and Bootstrap. Feel free to use parts of it or make contributions; other radio stations are welcome!
 
-## Guides
-
-* [Setting up your development environment.](https://github.com/wrekatlanta/wrektranet-new/wiki/Setting-up-your-development-environment)
-* [Need a Rails tutorial?](http://ruby.railstutorial.org/ruby-on-rails-tutorial-book)
-* [Application architecture overview.](https://github.com/wrekatlanta/wrektranet-new/wiki/Application-architecture-overview)
+Check out the [wiki](https://github.com/wrekatlanta/wrektranet-new/wiki) to get started.
 
 ## Tools
 
@@ -36,4 +32,4 @@ Mostly standard tools hee.
 
 ## Project Management and Communication
 
-We use [Trello](https://trello.com/b/ccvdTsd5/wrektranet) for project management. We also have a Slack room and a special email address. Ask about 'em.
+We use GitHub issues for project management. We also have a Slack room and a special email address. Ask about 'em.
