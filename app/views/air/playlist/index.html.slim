@@ -72,7 +72,7 @@ div ng-controller="airPlaylistCtrl"
         th.text-center style="width: 8%;" Format
         th.text-center style="width: 8%;" DJ
     tbody
-      tr.ng-cloak ng-repeat="track in queued_tracks" tooltip="{{track.source}}" tooltip-placement="left" tooltip-append-to-body="true"
+      tr.text-muted.ng-cloak ng-repeat="track in queued_tracks" tooltip="{{track.source}}" tooltip-placement="left" tooltip-append-to-body="true"
         td
           button.btn.btn-xs.btn-primary.btn-block tooltip="Play" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="top" ng-disabled="playLogTracker.active()" ng-click="playTrack(track)"
             i.glyphicon.glyphicon-play
