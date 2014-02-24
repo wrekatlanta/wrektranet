@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: listener_logs
+#
+#  id         :integer          not null, primary key
+#  hd2_128    :integer
+#  main_128   :integer
+#  main_24    :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do

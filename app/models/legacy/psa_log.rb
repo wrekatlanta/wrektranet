@@ -1,3 +1,11 @@
+# == Schema Information
+#
+# Table name: PSA_LOG
+#
+#  av_name  :string(13)
+#  playtime :datetime
+#
+
 class Legacy::PsaLog < Legacy::OracleBase
   self.table_name = 'PSA_LOG'
 

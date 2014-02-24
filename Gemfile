@@ -79,8 +79,8 @@ end
 
 group :production do
   gem 'rails_12factor' # For asset compilation
-  
-  # branch is temporary fix for: https://github.com/rsim/oracle-enhanced/issues/414
-  gem 'activerecord-oracle_enhanced-adapter', git: 'git://github.com/rsim/oracle-enhanced.git'
-  gem 'ruby-oci8', '~> 2.1.0'
 end
+
+# branch is temporary fix for: https://github.com/rsim/oracle-enhanced/issues/414
+gem 'activerecord-oracle_enhanced-adapter', git: 'git://github.com/rsim/oracle-enhanced.git'
+gem 'ruby-oci8', '~> 2.1.0'

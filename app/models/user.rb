@@ -3,8 +3,8 @@
 # Table name: users
 #
 #  id                     :integer          not null, primary key
-#  email                  :string(255)
-#  encrypted_password     :string(255)      default(""), not null
+#  email                  :string(255)      not null
+#  encrypted_password     :string(255)      default("")
 #  reset_password_token   :string(255)
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
@@ -26,6 +26,13 @@
 #  buzzcard_facility_code :integer
 #  legacy_id              :integer
 #  remember_token         :string(255)
+#  invitation_token       :string(255)
+#  invitation_created_at  :datetime
+#  invitation_sent_at     :datetime
+#  invitation_accepted_at :datetime
+#  invitation_limit       :integer
+#  invited_by_id          :integer
+#  invited_by_type        :string(255)
 #
 
 class User < ActiveRecord::Base

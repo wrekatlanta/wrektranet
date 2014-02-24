@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: PLAYABLE_SPOTS
+#
+#  av_name     :string(40)
+#  description :string(40)
+#  category    :string(3)
+#  start_date  :datetime
+#  kill_date   :datetime
+#
+
 class Legacy::PlayableSpot < Legacy::OracleBase
   self.table_name = 'PLAYABLE_SPOTS'
 

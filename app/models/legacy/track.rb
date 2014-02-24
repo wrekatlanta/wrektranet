@@ -1,3 +1,22 @@
+# == Schema Information
+#
+# Table name: NEW_TRACKS
+#
+#  track_id        :integer          not null, primary key
+#  album_id        :integer          not null
+#  side            :string(1)
+#  track           :string(2)
+#  performance_by  :string(70)
+#  track_title     :string(70)
+#  minutes         :integer
+#  seconds         :integer
+#  format          :integer
+#  in_rotation     :string(1)
+#  notes           :string(40)
+#  recording_year  :datetime
+#  date_programmed :datetime
+#
+
 class Legacy::Track < Legacy::OracleBase
   self.table_name = 'NEW_TRACKS'
 

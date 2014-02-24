@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: PLAY_LOG
+#
+#  play_log_id :integer          not null, primary key
+#  track_id    :integer
+#  playtime    :datetime
+#  played_by   :integer
+#
+
 class Legacy::PlayLog < Legacy::OracleBase
   self.table_name = 'PLAY_LOG'
   self.primary_key = 'play_log_id'
