@@ -88,7 +88,7 @@ div ng-controller="airPlaylistCtrl"
         td.text-muted colspan="6" No tracks were played in the last hour.
       tr ng-if="playLogTracker.active()"
         td.text-muted colspan="6" Loading...
-      tr.ng-cloak style="cursor: pointer;" ng-repeat="log in play_logs track by log.track.id" ng-class="{warning: !log.read}" tooltip="{{log.track.source}}" tooltip-placement="left" tooltip-append-to-body="true" ng-click="log.read = !log.read"
+      tr.ng-cloak style="cursor: pointer;" ng-repeat="log in play_logs track by log.id" ng-class="{warning: !log.read}" tooltip="{{log.track.source}}" tooltip-placement="left" tooltip-append-to-body="true" ng-click="log.read = !log.read"
         td
           div ng-switch="belongsToUser(log, #{current_user.legacy_id || -1})"
             div ng-switch-when="true"
