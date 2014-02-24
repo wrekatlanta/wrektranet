@@ -57,7 +57,7 @@ class Ability
         end
 
         # psa director
-        if user.has_role? :psa_director
+        if user.has_role? :psa_director or user.has_role? :exec
             can :manage, Psa
             can :manage, PsaReading
         end
