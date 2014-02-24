@@ -179,10 +179,10 @@ script type="text/ng-template" id="album.html"
         th Track
         th Format
         th
-          i.glyphicon.glyphicon-play
+          i.glyphicon.glyphicon-play title="Total Plays"
         th Last
         th DJ
-        th style="width: 10%;"
+        th style="width: 10%;" Queue
     tbody
       tr ng-if="!album.tracks || album.tracks.length == 0"
         td colspan="9" No tracks are listed for this album.
