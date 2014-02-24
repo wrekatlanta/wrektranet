@@ -178,9 +178,9 @@ script type="text/ng-template" id="album.html"
         th Side
         th Track
         th Format
-        th Last
         th
           i.glyphicon.glyphicon-play
+        th Last
         th DJ
         th style="width: 10%;"
     tbody
@@ -193,8 +193,8 @@ script type="text/ng-template" id="album.html"
         td = "{{track.track}}"
         td 
           span.label.label-default = "{{track.format.format_name}}"
-        td = "{{track.play_logs[0].playtime | date:'shortDate'}}"
         td = "{{track.play_logs.length}}"
+        td = "{{track.play_logs[0].playtime | date:'shortDate'}}"
         td = "{{track.play_logs[0].user.initials}}"
         td.text-center
           div ng-switch="playableButtonStatus(track)"
