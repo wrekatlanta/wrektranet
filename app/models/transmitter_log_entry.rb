@@ -20,19 +20,13 @@ class TransmitterLogEntry < ActiveRecord::Base
   validates :user, presence: true
   validates :sign_in, presence: true
 
+  default_scope -> { order('sign_in ASC') }
   scope :today, ->{ where("sign_in > ?", Time.zone.now.beginning_of_day) }
   scope :signed, ->{ where("sign_out IS NOT NULL") }
   scope :unsigned, ->{ where("sign_in IS NOT NULL and sign_out IS NULL") }
-
-  def self.bucket_format(logs)
-    buckets = {}
-    # We will be grouping by date for better reporting
-    logs.each do |log|
-      ( buckets[log.sign_in.to_date] ||= [] ) << log
-    end
-
-    return buckets
-  end
+  scope :between, -> (start_date, end_date) {
+    where("sign_in >= ? AND sign_in <= ?", start_date, end_date)
+  }
 
   # Sets a preset time out that goes up an hour from the sign_in time.
   def time_out
