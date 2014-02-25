@@ -16,9 +16,15 @@ table.table.table-striped
       - for tlog in @tlogs do
         tr
           td = tlog.user.username
-          td = tlog.automation_in
+          td
+            - if tlog.automation_in
+              span.label.label-success Yes
+            - else
+              span.label.label-default No
           td = l tlog.sign_in, format: :us_time
-          td = mail_to tlog.user.email, "Contact User"
+          td = mail_to tlog.user.email, class: 'btn btn-primary btn-xs' do
+            i.glyphicon.glyphicon-envelope>
+            | Contact User
     - else
       tr
         td colspan="4" No unsigned transmitter logs! :)
