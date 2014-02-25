@@ -13,10 +13,10 @@ class Air::TransmitterLogEntriesController < Air::BaseController
     start_date = params[:start].blank? ? Time.zone.today : Chronic.parse(params[:start])
     end_date = params[:end].blank? ? Time.zone.today : Chronic.parse(params[:end])
 
-    @tlogs = TransmitterLogEntry
-                .between(start_date.beginning_of_day, end_date.end_of_day)
-                .group_by { |log| log.sign_in.to_date }
-                .sort
+    @tlogs_by_day = TransmitterLogEntry
+              .between(start_date.beginning_of_day, end_date.end_of_day)
+              .group_by { |log| log.sign_in.to_date }
+              .sort
   end
 
   def create

@@ -1,0 +1,48 @@
+.page-header
+	h1 Transmitter Log Explorer
+
+= render 'navigation'
+
+form.form-inline action="#{admin_transmitter_log_entries_path}" method="GET"
+  .form-group>
+    label.sr-only for="start" 
+      | Start Date
+    input.form-control name="start" type="text" placeholder="Start (e.g. last week)"
+  
+  .form-group>
+    label.sr-only for="end" 
+      | End Date
+    input.form-control name="end" type="text" placeholder="End (e.g. today)"
+
+  button.btn.btn-success type="submit" Filter
+
+hr
+
+- unless @tlogs_by_day.empty?
+	- @tlogs_by_day.each do |day, tlogs|
+		.panel.panel-default
+			.panel-heading = l day, format: :us_date
+
+			table.table.table-striped
+				thead
+					tr
+						th Op Initials
+						th Automation In?
+						th Sign In
+						th Automation Out?
+						th Sign Out
+
+				tbody
+						- for tlog in tlogs
+							tr
+								td = tlog.user.username
+								td = tlog.automation_in
+								td = l tlog.sign_in, format: :us_time
+								td = tlog.automation_out
+								- if tlog.sign_out
+									td = l tlog.sign_out, format: :us_time
+								- else
+									td Not Signed Out
+
+- else
+	p No transmitter logs found for this date range.
