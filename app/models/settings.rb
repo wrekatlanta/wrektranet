@@ -8,7 +8,7 @@ module Settings
   end
 
   def self.live_playlist_enabled?
-    Rails.env.development?
+    true
   end
 
   def self.psa_book_enabled?

@@ -7,8 +7,16 @@
 
   - if Settings.transmitter_log_enabled?
       = link_to air_transmitter_log_entries_path, class: 'list-group-item' do
-        h4.list-group-item-heading T-Log
+        h4.list-group-item-heading Transmitter Log
         p.list-group-item-text Sign the dang T-Log!
+
+  - if Settings.live_playlist_enabled?
+      = link_to air_playlist_index_path, class: 'list-group-item' do
+        h4.list-group-item-heading
+          | Live Playlist
+        p.list-group-item-text
+          span.label.label-info> BETA
+          | Keep track of the music you play during your shift.
 
   - if Settings.psa_book_enabled?
       = link_to air_psas_path, class: 'list-group-item' do
