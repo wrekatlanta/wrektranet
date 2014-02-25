@@ -8,11 +8,20 @@ angular.module("wrektranet.airTransmitterLogCtrl", [])
   function($scope, Restangular) {
     Restangular.setBaseUrl('/air');
 
+    // add leading zero
+    var padNumber = function(number) {
+      return number < 10 ? '0' + number : number;
+    };
+
     var resetLog = function() {
-      var time = new Date();
+      var time = new Date(),
+          hours = padNumber(time.getHours()),
+          minutes = padNumber(time.getMinutes());
+
+      console.log(minutes);
 
       $scope.new_log = {
-        'sign_in': time.getHours() + ':' + Math.floor(time.getMinutes()/10)*10,
+        sign_in: hours + ':' + minutes,
       };
     };
 
@@ -41,8 +50,6 @@ angular.module("wrektranet.airTransmitterLogCtrl", [])
     };
 
     $scope.newLog = function(new_log) {
-      var combined_date = new_log.hour + new_log.minute;
-
       var tlog_entries = Restangular.all('transmitter_log_entries');
 
       tlog_entries.post(new_log).then(function() {
@@ -67,25 +74,29 @@ angular.module("wrektranet.airTransmitterLogCtrl", [])
       time: '='
     },
     link: function (scope, element, attrs, controller) {
-      var hour = angular.element(element.children()[0]);
-      var minute = angular.element(element.children()[1]);
-      var current_time = new Date();
+      var hour = angular.element(element.children()[0]),
+          minute = angular.element(element.children()[1]),
+          option;
+
+      // add leading zero
+      var padNumber = function(number) {
+        return number < 10 ? '0' + number : number;
+      };
 
       var updateTime = function() {
         scope.$apply(function(scope) {
           scope.time = hour.val() + ':' + minute.val();
         });
-      }
+      };
 
       // Construct our hour and minute options, defaulting to current time.
       for (var i = 0; i < 24; i++) {
-        var option = angular.element('<option>').val(i).text(i);
+        option = angular.element('<option>').val(i).text(padNumber(i));
         hour.append(option);
+      }
 
-      };
-
-      for (var j = 0; j < 6; j++) {
-        var option = angular.element('<option>').val(j * 10).text(j == 0 ? '00' : j * 10)
+      for (var j = 0; j < 60; j++) {
+        option = angular.element('<option>').val(j).text(padNumber(j));
         minute.append(option);
       }
 
@@ -98,7 +109,7 @@ angular.module("wrektranet.airTransmitterLogCtrl", [])
         if (newVal) {
           var hours_and_mins = newVal.split(':');
           hour.prop('selectedIndex', Number(hours_and_mins[0]));
-          minute.prop('selectedIndex', Number(hours_and_mins[1])/10);  
+          minute.prop('selectedIndex', Number(hours_and_mins[1]));  
         }
       });
     }    

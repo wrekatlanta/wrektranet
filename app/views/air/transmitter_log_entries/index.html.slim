@@ -5,7 +5,7 @@
 
 = render 'navigation'
 
-table.table.table-striped ng-controller="airTransmitterLogCtrl" ng-init="tlogs = #{@tlogs.to_json({include: :user})}" ng-cloak="ng-cloak"
+table.table.table-striped.ng-cloak ng-controller="airTransmitterLogCtrl" ng-init="tlogs = #{@tlogs.to_json({include: :user})}"
   thead
     tr
       th Op Initials
@@ -35,4 +35,3 @@ table.table.table-striped ng-controller="airTransmitterLogCtrl" ng-init="tlogs =
         button.btn.btn-success.btn-xs.tlog-action ng-click="newLog(new_log)" Sign In
       td
       td
-
