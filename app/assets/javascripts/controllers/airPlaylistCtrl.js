@@ -40,7 +40,7 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
 
     $scope.tooltip_delay = 500;
 
-    $scope.sources = ['CD1', 'CD2', 'TT1', 'TT2', 'Other'];
+    $scope.sources = ['CD1', 'CD2', 'CD3', 'TT1', 'TT2', 'Other'];
     $scope.current_source = $scope.sources[0];
 
     // map airplay frequency enum to replay intervals (by days)
