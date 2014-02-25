@@ -18,8 +18,6 @@ angular.module("wrektranet.airTransmitterLogCtrl", [])
           hours = padNumber(time.getHours()),
           minutes = padNumber(time.getMinutes());
 
-      console.log(minutes);
-
       $scope.new_log = {
         sign_in: hours + ':' + minutes,
       };
@@ -35,7 +33,6 @@ angular.module("wrektranet.airTransmitterLogCtrl", [])
 
     $scope.signOut = function(tlog, update) {
       tlog.sign_out = tlog.time_out;
-      console.log(tlog);
 
       var tlog_entry = Restangular.
         restangularizeElement(null, tlog, 'transmitter_log_entries');
@@ -43,17 +40,17 @@ angular.module("wrektranet.airTransmitterLogCtrl", [])
       tlog_entry.put().then(function() {
         if (update) {
           $scope.updateLogs(update);
+          resetLog();
         } else {
           $scope.tlogs = _.without($scope.tlogs, tlog);
         }
       });
     };
 
-    $scope.newLog = function(new_log) {
+    $scope.signIn = function(new_log) {
       var tlog_entries = Restangular.all('transmitter_log_entries');
 
       tlog_entries.post(new_log).then(function() {
-        console.log("entry created ok");
         $scope.updateLogs();
       }, function() {
         console.log("error saving");
