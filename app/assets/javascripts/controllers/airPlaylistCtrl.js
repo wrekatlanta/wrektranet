@@ -7,7 +7,7 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
   function($stateProvider) {
     $stateProvider
       .state('index', {
-        templateUrl: 'index.html'
+        templateUrl: 'welcome.html'
       })
       .state('search', {
         templateUrl: 'search.html'
