@@ -1,7 +1,7 @@
 - defaults = {input_wrapper_html: {class: 'col-md-6'}, label_html: {class: 'col-md-2'}}
 
 = simple_form_for [:admin, @contest], html: {name: 'contestForm', class: 'form-horizontal'}, defaults: defaults do |f|
-  = f.input :name, input_html: { class: 'form-control' }
+  = f.input :name, input_html: { class: 'form-control', 'ng-model' => 'name' }
   = f.input :start_time_string, input_html: { class: 'form-control' }, required: true
   = f.input :public, as: :boolean
   = f.association :venue, include_blank: false, input_html: { class: 'form-control' }
@@ -31,7 +31,9 @@
   = f.input :notes, input_html: { class: 'form-control' }
   .form-group
     .col-md-offset-2.col-md-10
-      = f.button :submit, class: 'btn-primary'
+      .btn-group
+          = f.button :submit, class: 'btn-primary', 'ng-disabled' => 'contestForm.$invalid'
+      small class='inline text-warning' ng-show='contestForm.$invalid' Note: Ensure all required fields are filled.
       - if @contest.persisted?
         |  
         = link_to 'Delete', [:admin, @contest], data: { confirm: 'Are you sure you want to destroy this contest?' }, method: :delete, class: 'btn btn-danger'
