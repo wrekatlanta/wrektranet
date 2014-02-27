@@ -21,7 +21,7 @@ class TransmitterLogEntry < ActiveRecord::Base
   validates :sign_in, presence: true
 
   default_scope -> { order('sign_in ASC') }
-  scope :today, ->{ where("sign_in > ?", Time.zone.now.beginning_of_day) }
+  scope :today, ->{ where("sign_in >= ?", Time.zone.now.beginning_of_day) }
   scope :signed, ->{ where("sign_out IS NOT NULL") }
   scope :unsigned, ->{ where("sign_in IS NOT NULL and sign_out IS NULL") }
   scope :between, -> (start_date, end_date) {
