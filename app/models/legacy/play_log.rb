@@ -22,11 +22,13 @@ class Legacy::PlayLog < Legacy::OracleBase
   }
 
   def user
-    if self.played_by == -1
+    staff = self.staff
+
+    if self.played_by == -1 or staff.nil?
       Legacy::Staff.new(initials: 'auto')
     else
-      self.staff.initials.downcase!
-      return self.staff
+      staff.initials.downcase!
+      staff
     end
   end
 
