@@ -22,6 +22,14 @@ body {
   display: none !important;
 }
 
+.inline {
+  display: inline;
+}
+
+div + .inline {
+  margin-left: 0.5em;
+}
+
 .panel > .table-responsive {
   margin-bottom: 0;
 
