@@ -10,6 +10,8 @@ table.table.table-bordered.table-condensed.table-hover
       th.text-center Track
       th.text-center Artist
       th.text-center Album
+      th.text-center style="width: 5%;" Side
+      th.text-center style="width: 5%;" Track
       th.text-center style="width: 8%;" Format
       th.text-center style="width: 8%;" DJ
   tbody
@@ -20,16 +22,18 @@ table.table.table-bordered.table-condensed.table-hover
       td = "{{track.track_title}}"
       td = "{{track.performance_by}}"
       td = "{{track.album.album_title}}"
+      td = "{{track.side}}"
+      td = "{{track.track}}"
       td
         span.label.label-default = "{{track.format.format_name}}"        
       td
         button.btn.btn-xs.btn-danger.btn-block tooltip="Unqueue" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="top" ng-click="unqueueTrack(track)"
           i.glyphicon.glyphicon-remove
     tr.ng-cloak ng-if="!playLogTracker.active() && play_logs.length === 0"
-      td.text-muted colspan="6" No tracks were played in the last hour.
+      td.text-muted colspan="8" No tracks were played in the last hour.
     tr ng-if="playLogTracker.active()"
-      td.text-muted colspan="6" Loading...
-    tr.ng-cloak style="cursor: pointer;" ng-repeat="log in play_logs track by log.id" ng-class="{warning: !log.read}" tooltip="{{log.track.source}}" tooltip-placement="left" tooltip-append-to-body="true" ng-click="log.read = !log.read"
+      td.text-muted colspan="8" Loading...
+    tr.ng-cloak style="cursor: pointer;" ng-repeat="log in play_logs track by log.id" ng-class="{info: !log.read}" tooltip="{{log.track.source}}" tooltip-placement="left" tooltip-append-to-body="true" ng-click="log.read = !log.read"
       td
         div ng-switch="belongsToUser(log, #{current_user.legacy_id || -1})"
           div ng-switch-when="true"
@@ -41,6 +45,8 @@ table.table.table-bordered.table-condensed.table-hover
       td = "{{log.track.track_title}}"
       td = "{{log.track.performance_by}}"
       td = "{{log.track.album.album_title}}"
+      td = "{{log.track.side}}"
+      td = "{{log.track.track}}"
       td
         span.label.label-default = "{{log.track.format.format_name}}"
       td
@@ -51,4 +57,4 @@ table.table.table-bordered.table-condensed.table-hover
               i.glyphicon.glyphicon-trash
           div ng-switch-default=true
             = "{{log.user.initials}}"
-p.lead.text-muted Played tracks will be highlighted in yellow so you can keep track of songs you haven't announced. Click on a track to mark it as read.
+p.lead.text-muted Played tracks will be highlighted in blue so you can keep track of songs you haven't announced. Click on a track to mark it as read.

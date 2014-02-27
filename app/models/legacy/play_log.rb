@@ -44,7 +44,7 @@ class Legacy::PlayLog < Legacy::OracleBase
   def to_builder
     Jbuilder.new do |json|
       json.(self, :id, :playtime)
-      json.track self.track, :track_id, :track, :track_title, :performance_by, :format, :album
+      json.track self.track, :track_id, :side, :track, :track_title, :performance_by, :format, :album
       json.organization self.track.album.organization, :id, :org_name
       json.user self.user, :initials, :id
     end
