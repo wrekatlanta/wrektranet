@@ -10,14 +10,14 @@
         tr
           th Title
           th Last Read
-          th Week
+          th.no-wrap Last Week
       tbody
         - unless @psas.empty?
           - for psa in @psas do
             tr
               td = link_to psa.title, air_psa_path(psa)
               - if psa.psa_readings.first
-                td = l psa.psa_readings.first.created_at, format: :us_time
+                td.no-wrap = l psa.psa_readings.first.created_at, format: :us_time
               - else
                 td Unread!
               td = psa.psa_readings.count { |reading| reading.created_at > 1.week.ago }
@@ -26,20 +26,21 @@
             td colspan="3" No PSAs were found.
 
   .col-md-5.col-md-offset-1
-    h3.subheader AudioVault
-    table.table.table-striped.text-hint
-      thead
-        tr
-          th Name
-          th Last Played
-          th Week
-      tbody
-        - unless @av_psas.empty?
-          - for psa in @av_psas do
-            tr class="#{psa.status}"
-              td = psa.av_name
-              td = l psa.last_play.playtime, format: :us_time
-              td = psa.play_count
-        - else
+    .panel.panel-default
+      .panel-heading AudioVault
+      table.table
+        thead
           tr
-            td colspan="3" No AV PSAs found, or Oracle isn't configured.
+            th Name
+            th.no-wrap Last Played
+            th.no-wrap Last Week
+        tbody
+          - unless @av_psas.empty?
+            - for psa in @av_psas do
+              tr class="#{psa.status}"
+                td = psa.av_name
+                td.no-wrap = l psa.last_play.playtime, format: :us_time
+                td = psa.play_count
+          - else
+            tr
+              td colspan="3" No AV PSAs found.
