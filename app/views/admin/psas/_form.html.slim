@@ -1,12 +1,12 @@
-- defaults = {input_wrapper_html: {class: 'col-lg-6'}, label_html: {class: 'col-lg-2'}}
+- defaults = {input_wrapper_html: {class: 'col-md-6'}, label_html: {class: 'col-md-2'}}
 
 = simple_form_for [:admin, @psa], html: {name: 'psaForm', class: 'form-horizontal'}, defaults: defaults do |f|
   = f.input :title, input_html: { class: 'form-control' }
-  = f.input :body, as: :text, input_html: { class: 'form-control' }
+  = f.input :body, as: :text, input_html: { class: 'form-control', rows: 5 }, hint: "Feel free to use Markdown."
   = f.input :expiration_date_string, input_html: { class: 'form-control' }, required: true
-  = f.input :status, collection: Psa::STATUSES, input_html: { class: 'form-control' }
+  = f.input :status, collection: Psa::STATUSES, selected: 'approved', input_html: { class: 'form-control' }
   .form-group
-    .col-lg-offset-2.col-lg-10
+    .col-md-offset-2.col-md-10
       = f.button :submit, class: 'btn-primary'
       - if @psa.persisted?
         |  

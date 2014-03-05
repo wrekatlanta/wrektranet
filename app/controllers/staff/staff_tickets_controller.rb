@@ -1,6 +1,6 @@
 class Staff::StaffTicketsController < Staff::BaseController
   respond_to :html, :json
-  load_and_authorize_resource :staff_ticket, except: [:create, :destroy, :me]
+  load_and_authorize_resource :staff_ticket, except: [:create, :me]
 
   def index
     @staff_tickets = @staff_tickets.
@@ -36,6 +36,9 @@ class Staff::StaffTicketsController < Staff::BaseController
   end
 
   def destroy
+    if @staff_ticket.destroy
+      respond_with @staff_ticket, success: true, location: me_staff_tickets_path
+    end
   end
 
   private

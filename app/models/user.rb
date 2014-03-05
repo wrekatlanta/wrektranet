@@ -3,8 +3,8 @@
 # Table name: users
 #
 #  id                     :integer          not null, primary key
-#  email                  :string(255)      default(""), not null
-#  encrypted_password     :string(128)      default(""), not null
+#  email                  :string(255)      not null
+#  encrypted_password     :string(255)      default("")
 #  reset_password_token   :string(255)
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
@@ -24,20 +24,38 @@
 #  admin                  :boolean          default(FALSE)
 #  buzzcard_id            :integer
 #  buzzcard_facility_code :integer
+#  legacy_id              :integer
+#  remember_token         :string(255)
+#  invitation_token       :string(255)
+#  invitation_created_at  :datetime
+#  invitation_sent_at     :datetime
+#  invitation_accepted_at :datetime
+#  invitation_limit       :integer
+#  invited_by_id          :integer
+#  invited_by_type        :string(255)
 #
 
 class User < ActiveRecord::Base
+  before_validation :get_ldap_data, on: :create
+  before_validation :set_defaults, on: :create
   before_save :strip_phone
-  after_update :sync_to_google_apps
+  before_create :add_to_ldap
+  before_destroy :delete_from_ldap
 
   rolify
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
-  # :lockable, :timeoutable and :omniauthable
+  # :lockable
   devise :registerable, :recoverable, :rememberable, :trackable,
-    :validatable, :database_authenticatable
+    :validatable, :invitable, :timeoutable
 
-  devise :omniauthable, omniauth_providers: [:google_apps]
+  STATUSES = ["potential", "active", "inactive", "expired"]
+
+  if Rails.env.production?
+    devise :ldap_authenticatable
+  else
+    devise :database_authenticatable
+  end
 
   has_many :staff_tickets, dependent: :destroy
   has_many :contests, through: :staff_tickets
@@ -47,11 +65,12 @@ class User < ActiveRecord::Base
   default_scope -> { order('username ASC') }
 
   validates :phone,      format: /[\(\)0-9\- \+\.]{10,20}/, allow_blank: true
-  validates :email,      presence: true, uniqueness: true
+  validates :email,      presence: true
   validates :first_name, presence: true
   validates :last_name,  presence: true
-  validates :username,   presence: true, format: /[a-zA-Z]{2,8}/,
+  validates :username,   presence: true,
                          uniqueness: { case_sensitive: false }
+  validates :status, inclusion: { in: STATUSES }
 
   def name
     display_name.presence || [first_name, last_name].join(" ")
@@ -66,6 +85,8 @@ class User < ActiveRecord::Base
   end
 
   def exec?(roles = [:contest_director])
+    roles = [roles] unless roles.kind_of? Array
+
     result = self.admin?
 
     if result
@@ -79,6 +100,8 @@ class User < ActiveRecord::Base
     return result
   end
 
+  alias_method :has_role_or_admin?, :exec?
+
   def authorize_exec!(roles = [:contest_director])
     unless self.exec?(roles)
       raise CanCan::AccessDenied
@@ -89,64 +112,73 @@ class User < ActiveRecord::Base
     self.exec?([:contest_director])
   end
 
-  # FIXME: make this generic
+  def psa_director?
+    self.exec?([:psa_director])
+  end
+
+  def remember_value
+    self.remember_token ||= Devise.friendly_token
+  end
+
   def strip_phone
     self.phone.gsub!(/\D/, '') if self.phone
   end
 
-  def sync_to_google_apps
+  def set_defaults
+    self.status ||= "potential"
+    self.remember_value
+  end
+
+  def get_ldap_data
     if Rails.env.production?
-      client = GoogleAppsHelper.create_client
-      directory = client.discovered_api('admin', 'directory_v1')
-      client.execute(
-        api_method: directory.users.patch,
-        parameters: {
-          userKey: self.username + '@wrek.org'
-        },
-        body_object: {
-          name: {
-            familyName: self.last_name,
-            givenName: self.first_name
-          },
-          phones: [
-            {
-              primary: true,
-              type: "mobile",
-              value: self.phone.presence || ''
-            }
-          ]
-        }
-      )
-    end
-  end
+      result = LdapHelper::find_user(self.username)
 
-  def self.find_by_username(username)
-    User.where("lower(username) = ?", username.downcase).first
-  end
-
-  def self.find_for_googleapps_oauth(access_token, signed_in_resource = nil)
-    data = access_token['info']
-    username = data['email'][/[^@]+/]
-
-    if user = User.find_by_username(username)
-      return user
-    else
-      # create a user with stub password
-      User.create!({
-        email: data['email'],
-        username: username,
-        first_name: data['first_name'],
-        last_name: data['last_name'],
-        password: Devise.friendly_token[0,20]
-      })
-    end
-  end
-
-  def self.new_with_session(params, session)
-    super.tap do |user|
-      if data = session['devise.googleapps_data'] && session['devise.googleapps_data']['user_info']
-        user.email = data['email']
+      if result
+        self.legacy_id    ||= result.try(:employeeNumber).try(:first)
+        self.first_name   ||= result.try(:givenName).try(:first)
+        self.last_name    ||= result.try(:sn).try(:first)
+        self.display_name ||= result.try(:displayName).try(:first)
+        self.status       ||= result.try(:employeeType).try(:first) || "potential"
+        self.email        ||= result.try(:mail).try(:first) || "#{username}@wrek.org"
       end
+    end
+  end
+
+  def add_to_ldap
+    if Rails.env.production? and not LdapHelper::find_user(self.username)
+      ldap_handle = LdapHelper::ldap_connect
+
+      # Build user attributes in line with the LDAP 'schema'
+      dn = "cn=#{self.username},ou=People,dc=staff,dc=wrek,dc=org"
+      user_attr = {
+        cn: self.username,
+        objectclass: "inetOrgPerson",
+        displayname: self.name,
+        mail: self.email,
+        employeenumber: "-1",
+        givenname: self.first_name,
+        sn: self.last_name,
+        userpassword: "{SHA}#{Digest::SHA1.base64digest self.password}"
+      }
+
+      unless ldap_handle.add(dn: dn, attributes: user_attr)
+        puts ldap_handle.get_operation_result
+        return false
+      end
+    end
+  end
+
+  def delete_from_ldap
+    if Rails.env.production?
+      ldap_handle = LdapHelper::ldap_connect
+
+      dn = "cn=#{self.username},ou=People,dc=staff,dc=wrek,dc=org"
+
+      unless ldap_handle.delete(dn: dn)
+        puts ldap_handle.get_operation_result
+        return false
+      end
+
     end
   end
 

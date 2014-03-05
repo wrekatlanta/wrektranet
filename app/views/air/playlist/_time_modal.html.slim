@@ -1,0 +1,18 @@
+script type="text/ng-template" id="time_modal.html"
+  form.form-inline name="logTimeForm" ng-submit="updateTime(time_adjustment)"
+    .modal-header
+      h4 = "{{log.track.track_title}}"
+    .modal-body
+      p
+      .form-group
+        | Adjust the playtime by 
+        select.form-control type="number" ng-model="time_adjustment" ng-options="n for n in [] | range:-10:10"
+
+        |  minutes: 
+        span.text-muted
+          | {{previewTime(time_adjustment) | date:'shortTime'}}
+    .modal-footer
+      button.btn.btn-sm.btn-default type="button" ng-click="close()" Cancel
+      button.btn.btn-sm.btn-primary ng-disabled="modalTracker.active()"
+        i.glyphicon.glyphicon-time>
+        | Update playtime

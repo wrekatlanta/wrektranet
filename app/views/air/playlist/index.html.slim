@@ -1,0 +1,15 @@
+- content_for :title, "Live Playlist"
+
+.page-header
+  h1 Live Playlist
+
+div ng-controller="airPlaylistCtrl"
+  = render 'form'
+  = render 'playlist'
+
+/ These are individual AngularJS templates, used in the controller.
+= render 'welcome'
+= render 'search'
+= render 'album'
+= render 'album_error'
+= render 'time_modal'

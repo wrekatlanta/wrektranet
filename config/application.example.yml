@@ -12,5 +12,5 @@ ADMIN_LAST_NAME: Burdell
 ADMIN_USERNAME: gpb
 ADMIN_EMAIL: gpb@wrek.org
 ADMIN_PASSWORD: password
-ROLES: [exec, contest_director]
+ROLES: exec,contest_director,psa_director
 USE_LDAP: false

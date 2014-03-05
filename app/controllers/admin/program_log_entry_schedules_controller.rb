@@ -1,13 +1,6 @@
 class Admin::ProgramLogEntrySchedulesController < Admin::BaseController
   load_and_authorize_resource except: [:create]
 
-  def index
-    authorize! :manage, ProgramLogEntrySchedule
-
-    @program_log_entry_schedules = @program_log_entry_schedules.
-      paginate(page: params[:page], per_page: 30)
-  end
-
   def new
   end
 

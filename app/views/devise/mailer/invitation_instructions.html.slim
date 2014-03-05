@@ -1,0 +1,11 @@
+- content_for :teaser do
+  span Welcome to WREK!
+
+- content_for :content do
+  h1 Hello #{@user.username.upcase}!
+  p An account on Wrektranet, our station's intranet, has been created for you. Now you just need to set your password!
+
+  p
+    = link_to 'Set Your Password', accept_invitation_url(@resource, :invitation_token => @user.invitation_token)
+
+  p Thank you, and let us know if you have any questions!

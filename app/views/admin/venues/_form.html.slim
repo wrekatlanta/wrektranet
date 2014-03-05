@@ -1,4 +1,4 @@
-- defaults = {input_wrapper_html: {class: 'col-lg-6'}, label_html: {class: 'col-lg-2'}}
+- defaults = {input_wrapper_html: {class: 'col-md-6'}, label_html: {class: 'col-md-2'}}
 
 div ng-controller="adminVenueCtrl" ng-init="venue = #{@venue.to_json(include: :contacts)}"
   = simple_form_for [:admin, @venue], html: {name: 'venueForm', class: 'form-horizontal'}, defaults: defaults do |f|
@@ -10,32 +10,32 @@ div ng-controller="adminVenueCtrl" ng-init="venue = #{@venue.to_json(include: :c
       span.help-block How many days early should contests be sent?
 
     .form-group.ng-cloak
-      label.col-lg-2.control-label Contacts
+      label.col-md-2.control-label Contacts
 
-      .col-lg-10
+      .col-md-10
         .form-group ng-repeat="contact in venue.contacts" ng-hide="contact.destroy"
           input type="hidden" name="venue[contacts_attributes][][id]" value="{{contact.id}}"
           input type="hidden" name="venue[contacts_attributes][][email]" value="{{contact.email}}"
           input type="hidden" name="venue[contacts_attributes][][_destroy]" value="{{contact.destroy}}"
 
-          .col-lg-4
+          .col-md-4
             input.form-control type="email" ng-model="contact.email" ng-if="!contact.destroy" required="required"
 
-          .col-lg-6
+          .col-md-6
             button.btn.btn-danger.delete-contact type="button" ng-click="deleteContact(contact)"
               i.glyphicon.glyphicon-trash>
               | Remove Contact
         .form-group
-          .col-lg-4
+          .col-md-4
             input.form-control type="email" name="newContactEmail" ng-model="newContact.email" ui-keydown="{'enter': 'addContact($event)'}"
 
-          .col-lg-6
+          .col-md-6
             button.btn.btn-primary#addContact type="button" ng-click="addContact($event)" ng-disabled="venueForm.newContactEmail.$invalid || newContact.email.length === 0"
               i.glyphicon.glyphicon-plus>
               | Add Contact
 
     .form-group
-      .col-lg-offset-2.col-lg-10
+      .col-md-offset-2.col-md-10
         = f.button :submit, class: 'btn-primary', :'ng-disabled' => 'venueForm.$invalid'
         - if @venue.persisted?
           |  

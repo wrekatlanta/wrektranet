@@ -1,0 +1,12 @@
+form.form-inline action="#{admin_transmitter_log_entries_path}" method="GET"
+  .form-group>
+    label.sr-only for="start" 
+      | Start Date
+    input.form-control name="start" type="text" placeholder="Start (e.g. last week)"
+  
+  .form-group>
+    label.sr-only for="end" 
+      | End Date
+    input.form-control name="end" type="text" placeholder="End (e.g. today)"
+
+  button.btn.btn-success type="submit" Filter

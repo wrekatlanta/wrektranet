@@ -1,23 +1,46 @@
 .page-header
-	h1 Unsigned Transmitter Logs
+  h1 Transmitter Log Explorer
 
+= render 'navigation'
 
-table.table.table-striped
-	thead
-		tr
-			th Op Initials
-			th Automation?
-			th Sign In
-			th Contact
+= render 'filter_form'
 
-	tbody
-		- unless @tlogs.empty?
-			- for tlog in @tlogs do
-				tr
-					td = tlog.user.username
-					td = tlog.automation_in
-					td = tlog.sign_in
-					td = mail_to tlog.user.email, "Contact User"
-		- else
-			tr
-				td colspan="3" No unsigned transmitter log found.
+hr
+
+- unless @tlogs_by_day.empty?
+  - @tlogs_by_day.each do |day, tlogs|
+    .panel.panel-default
+      .panel-heading = l day, format: :us_date
+
+      table.table.table-striped
+        thead
+          tr
+            th Op Initials
+            th Automation In?
+            th Sign In
+            th Automation Out?
+            th Sign Out
+
+        tbody
+          - for tlog in tlogs
+            tr
+              td = tlog.user.username
+              td
+                - if tlog.automation_in
+                  span.label.label-success Yes
+                - else
+                  span.label.label-default No
+              td = l tlog.sign_in, format: :us_time
+              td
+                - if tlog.automation_out
+                  span.label.label-success Yes
+                - else
+                  span.label.label-default No
+              - if tlog.sign_out
+                td = l tlog.sign_out, format: :us_time
+              - else
+                td
+                  span.label.label-danger Not Signed Out
+
+- else
+  p No transmitter logs found for this date range.

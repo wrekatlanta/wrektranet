@@ -1,11 +1,44 @@
 - defaults = {input_wrapper_html: {class: 'col-lg-6'}, label_html: {class: 'col-lg-2'}}
 
 = simple_form_for [:admin, @program_log_entry], html: {class: 'form-horizontal'}, defaults: defaults do |f|
-  / fill out this form, here's an example field:
   = f.input :name, input_html: { class: 'form-control' }
+  = f.input :description, as: :text, input_html: { class: 'form-control', rows: 5 }, hint: "Supports Markdown."
+
   .form-group
     .col-lg-offset-2.col-lg-10
       = f.button :submit, class: 'btn-primary'
       - if @program_log_entry.persisted?
         |  
         = link_to 'Delete', [:admin, @program_log_entry], data: { confirm: 'Are you sure you want to destroy this schedule?' }, method: :delete, class: 'btn btn-danger'
+
+h3 Schedules
+table.table.table-responsive.table-striped
+  thead
+    tr
+      th S
+      th M
+      th T
+      th W
+      th Tr
+      th F
+      th S
+      th Start
+      th End
+      th Period
+  tbody
+    - unless @program_log_entry.program_log_entry_schedules.empty?
+      - for schedule in @program_log_entry.program_log_entry_schedules do
+        tr
+          - for day in [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday] do
+            td
+              - if schedule.send(day)
+                span.sr-only Yes
+                i.glyphicon.glyphicon-check
+              - else
+                span.sr-only No
+                i.glyphicon.glyphicon-unchecked
+    - else
+      tr
+        td colspan="10"
+          | There are no schedules. 
+          a href="#" Add one?

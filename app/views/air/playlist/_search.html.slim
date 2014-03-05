@@ -1,0 +1,23 @@
+/ Search results template.
+script type="text/ng-template" id="search.html"
+  .pull-right
+    button.close type="button" class="close" aria-hidden="true" ng-click="goToIndex()" &times;
+  h4 Search Results
+  table.table.table-bordered.table-condensed.table-hover
+    thead
+      tr
+        th ID
+        th Artist
+        th Album
+        th Date Auditioned
+        th Record Label
+    tbody
+      tr ng-if="!albums || albums.length == 0"
+        td colspan="5" No results.
+      tr style="cursor: pointer;" ng-repeat="album in albums" ng-click="findAlbum(album.id)"
+        td = "{{album.id}}"
+        td = "{{album.performance_by}}"
+        td
+          a = "{{album.album_title}}"
+        td = "{{album.date_auditioned | date:'shortDate'}}"
+        td = "{{album.organization.org_name}}"

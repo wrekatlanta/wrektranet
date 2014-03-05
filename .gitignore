@@ -29,6 +29,9 @@ db/*.sqlite3
 .sass-cache
 /config/config.yml
 /config/database.yml
+/config/application.yml
+/config/ldap.yml
+/config/deploy.rb
 /coverage.data
 /coverage/
 /db/*.javadb/
@@ -73,8 +76,7 @@ pickle-email-*.html
 # vim artifacts
 **.swp
 
-# Ignore application configuration
-/config/application.yml
-
-/config/client_secrets.json
-/config/client.p12
+*.crt
+*.pem
+*.csr
+*.key

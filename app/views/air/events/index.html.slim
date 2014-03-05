@@ -4,7 +4,7 @@
   h1 Event Calendar
 
 - if Settings.calendar_enabled?
-  iframe src="http://www.google.com/calendar/embed?src=#{CGI.escape ENV['EVENT_CALENDAR_ID']}&ctz=America/New_York" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"
+  iframe src="https://www.google.com/calendar/embed?mode=AGENDA&src=#{CGI.escape ENV['EVENT_CALENDAR_ID']}&ctz=America/New_York" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"
 
 - else
   p Sorry, Google Calendar hasn't been configured yet!

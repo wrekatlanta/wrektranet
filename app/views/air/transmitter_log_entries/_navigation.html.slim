@@ -1,4 +1,5 @@
 ul.nav.nav-tabs
-	= active_link_to 'Todays Log', air_transmitter_log_entries_path, wrap_tag: :li, active: :exclusive
-	= active_link_to 'Your Unsigned Logs', unsigned_air_transmitter_log_entries_path, wrap_tag: :li, active: :exclusive
+  = active_link_to "Today's Log", air_transmitter_log_entries_path, wrap_tag: :li, active: :exclusive
+  = active_link_to "Archives", archive_air_transmitter_log_entries_path, wrap_tag: :li, active: :exclusive
+  = active_link_to 'Your Unsigned Logs', unsigned_air_transmitter_log_entries_path, wrap_tag: :li, active: :exclusive
 br

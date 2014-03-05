@@ -8,6 +8,6 @@ class Air::PsaReadingsController < Air::BaseController
   	psa_reading.psa = psa
   	psa_reading.save
   	
-  	redirect_to air_psas_url
+  	redirect_to air_psas_url, success: "Thanks for reading a PSA!"
   end
 end

@@ -1,16 +1,20 @@
 - content_for :content do
   .row
-    .col-lg-3
+    .col-md-2
       .sidebar-nav
         ul.nav
           - if Settings.transmitter_log_enabled?
-            = active_link_to 'T-Log', air_transmitter_log_entries_path, wrap_tag: :li
+            = active_link_to 'Transmitter Log', air_transmitter_log_entries_path, wrap_tag: :li
+          - if Settings.live_playlist_enabled?
+            = active_link_to air_playlist_index_path, wrap_tag: :li do
+              | Playlist
+              span.label.label-info< BETA
           - if Settings.psa_book_enabled?
             = active_link_to 'PSAs', air_psas_path, wrap_tag: :li
           - if Settings.contest_book_enabled?
             = active_link_to 'Contests', air_contests_path, wrap_tag: :li
           = active_link_to 'Calendar', air_events_path, wrap_tag: :li
-    .col-lg-9
+    .col-md-10
       = render 'layouts/messages'
       = yield
 

@@ -20,5 +20,15 @@ html ng-app="wrektranet"
     .container
       = content_for?(:content) ? yield(:content) : yield
 
+      .footer.text-muted
+        p
+          | Have any feedback or questions? Wanna help out? Contact the wrektranet team at 
+          = link_to 'wrektranet@wrek.org', 'mailto:wrektranet@wrek.org'
+          | .
+        p
+          | WREKtranet 2.0 is powered by Ruby on Rails, AngularJS, MySQL, and Bootstrap. 
+          = link_to 'Check it out on Github', 'https://github.com/wrekatlanta/wrektranet-new'
+          | !
+
     = javascript_include_tag "application"
     = yield(:scripts)

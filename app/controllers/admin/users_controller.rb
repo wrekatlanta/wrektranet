@@ -16,38 +16,15 @@ class Admin::UsersController < Admin::BaseController
     @user = User.new(user_params)
     authorize! :create, @user
 
-    password = Devise.friendly_token[0,20]
-    @user.password = password
+    @user.password = Devise.friendly_token[0,20]
 
     if @user.save
-      if Rails.env.production?
-        client = GoogleAppsHelper.create_client
-        directory = client.discovered_api('admin', 'directory_v1')
-        client.execute(
-          api_method: directory.users.insert,
-          body_object: {
-            name: {
-              familyName: @user.last_name,
-              givenName: @user.first_name
-            },
-            password: password,
-            primaryEmail: @user.username + '@wrek.org',
-            changePasswordAtNextLogin: true,
-            phones: [
-              {
-                primary: true,
-                type: "mobile",
-                value: @user.phone.presence || ''
-              }
-            ]
-          }
-        )
-
-        UserMailer.import_email(@user, password, @user.email).deliver
-      end
-
+      # Invite user
+      puts "user saved"
+      @user.invite!
       redirect_to admin_users_path, success: "#{@user.username} created successfully. They have received an email with further instructions."
     else
+      puts @user.errors.full_messages
       render :new
     end
   end

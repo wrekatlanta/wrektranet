@@ -1,7 +1,12 @@
 source 'https://rubygems.org'
 ruby '2.0.0'
 
-gem 'rails', github: 'rails/rails', branch: '4-0-stable'
+gem 'rails', '~> 4.0.0'
+
+gem 'unicorn'
+gem 'capistrano'
+gem 'rvm-capistrano'
+
 gem 'sass-rails', '~> 4.0.0'
 gem 'slim'
 gem 'uglifier', '>= 1.3.0'
@@ -9,33 +14,36 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
-gem 'unicorn'
 
 group :doc do
   gem 'sdoc', require: false
 end
 
-gem 'bootstrap-sass', git: 'git://github.com/thomas-mcdonald/bootstrap-sass.git', branch: '3'
+gem 'mysql2'
+gem 'net-ldap', git: 'git://github.com/ruby-ldap/ruby-net-ldap.git', branch: 'master'
+
+gem 'bootstrap-sass', '~> 3.1.0'
 gem 'active_link_to'
 gem 'cancan'
 gem 'devise', '~> 3.0.x'
-gem 'omniauth'
-gem 'figaro'
-gem 'pg'
-gem 'rolify', '~> 3.3.0.rc4'
+gem 'devise_invitable'
+gem 'figaro', github: 'laserlemon/figaro'
+gem "rolify", github: "EppO/rolify"
 gem 'draper', '~> 1.0'
 gem 'simple_form', git: 'git://github.com/plataformatec/simple_form.git'
 gem 'will_paginate', '~> 3.0'
 gem 'will_paginate-bootstrap'
 gem 'whenever'
 gem 'nokogiri'
+gem 'redcarpet'
+
+gem 'devise_ldap_authenticatable'
 
 # time helpers
 gem 'chronic'
 gem 'tod'
 
 # APIs
-gem 'omniauth-google-apps'
 gem 'google-api-client'
 
 group :development do
@@ -45,7 +53,6 @@ group :development do
   gem 'annotate', '>= 2.5.0'
   gem 'binding_of_caller'
   gem 'guard-bundler'
-  gem 'guard-cucumber'
   gem 'guard-rails'
   gem 'guard-rspec'
   gem 'haml-rails'
@@ -74,6 +81,9 @@ group :test do
 end
 
 group :production do
-  gem 'unicorn'
   gem 'rails_12factor' # For asset compilation
+
+  # branch is temporary fix for: https://github.com/rsim/oracle-enhanced/issues/414
+  gem 'activerecord-oracle_enhanced-adapter', git: 'git://github.com/rsim/oracle-enhanced.git'
+  gem 'ruby-oci8', '~> 2.1.0'
 end

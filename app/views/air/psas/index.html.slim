@@ -1,20 +1,46 @@
+- content_for :title, "PSAs"
+
 .page-header
   h1 PSAs
 
-table.table.table-striped
-  thead
-    tr
-      th Title
-      th Last Read
-  tbody
-    - unless @psas.empty?
-      - for psa in @psas do
+.row
+  .col-md-6
+    table.table.table-hover
+      thead
         tr
-          td = link_to psa.title, air_psa_path(psa)
-          - if psa.psa_readings.first
-            td = psa.psa_readings.first.created_at
+          th Title
+          th Last Read
+          th.no-wrap Last Week
+      tbody
+        - unless @psas.empty?
+          - for psa in @psas do
+            tr
+              td = link_to psa.title, air_psa_path(psa)
+              - if psa.psa_readings.first
+                td.no-wrap = l psa.psa_readings.first.created_at, format: :us_time
+              - else
+                td Unread!
+              td = psa.psa_readings.count { |reading| reading.created_at > 1.week.ago }
+        - else
+          tr
+            td colspan="3" No PSAs were found.
+
+  .col-md-5.col-md-offset-1
+    .panel.panel-default
+      .panel-heading AudioVault
+      table.table
+        thead
+          tr
+            th Name
+            th.no-wrap Last Played
+            th.no-wrap Last Week
+        tbody
+          - unless @av_psas.empty?
+            - for psa in @av_psas do
+              tr class="#{psa.status}"
+                td = psa.av_name
+                td.no-wrap = l psa.last_play.playtime, format: :us_time
+                td = psa.play_count
           - else
-            td Unread!
-    - else
-      tr
-        td colspan="2" No results were found.
+            tr
+              td colspan="3" No AV PSAs found.

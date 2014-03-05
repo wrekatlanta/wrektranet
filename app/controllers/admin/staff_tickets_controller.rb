@@ -29,7 +29,7 @@ class Admin::StaffTicketsController < Admin::BaseController
     @staff_ticket.save
 
     render json: @staff_ticket.to_json({
-      include: [:user, {contest: {include: [:venue, :event]}}]
+      include: [:user, {contest: {include: [:venue]}}]
     })
   end
 
@@ -43,12 +43,18 @@ class Admin::StaffTicketsController < Admin::BaseController
     @staff_ticket.update_attributes!(staff_ticket_params)
 
     render json: @staff_ticket.to_json({
-      include: [:user, {contest: {include: [:venue, :event]}}]
+      include: [:user, {contest: {include: [:venue]}}]
     })
+  end
+
+  def destroy
+    if @staff_ticket.destroy
+      respond_with success: true
+    end
   end
 
   private
     def staff_ticket_params
-      params.require(:staff_ticket).permit(:id, :display_name, :awarded, :user_id)
+      params.require(:staff_ticket).permit(:id, :display_name, :awarded, :user_id, :contest_director_id)
     end
 end

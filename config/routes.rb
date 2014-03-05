@@ -1,13 +1,21 @@
 Wrek::Application.routes.draw do
   root to: "welcome#index"
 
-  devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks",
-                                    registrations: "registrations" }
+  devise_for :users, controllers: { registrations: "registrations" }
+
+  get 'auth/:user', to: 'authorization#authorizations', defaults: {format: :json}
 
   namespace :air do
     root to: "dashboard#index"
 
     resources :events, only: [:index]
+    resources :playlist, only: [:index]
+    resources :albums, defaults: {format: :json}
+    resources :play_logs, defaults: {format: :json} do
+      member do
+        post 'adjust_time'
+      end
+    end
 
     resources :contests do
       resources :listener_tickets, shallow: true
@@ -16,6 +24,7 @@ Wrek::Application.routes.draw do
     resources :transmitter_log_entries do
       collection do
         get 'unsigned'
+        get 'archive'
       end
     end
     
@@ -45,9 +54,9 @@ Wrek::Application.routes.draw do
   namespace :admin do
     root to: "dashboard#index"
 
-    resources :program_log_entries
-
-    resources :program_log_entry_schedules
+    resources :program_log_entries do
+      resources :program_log_entry_schedules, shallow: true
+    end
 
     resources :contests do
       resources :staff_tickets, shallow: true
@@ -60,6 +69,9 @@ Wrek::Application.routes.draw do
     end
 
     resources :transmitter_log_entries do
+      collection do
+        get 'unsigned'
+      end
     end
 
     resources :users

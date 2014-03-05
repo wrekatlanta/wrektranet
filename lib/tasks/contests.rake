@@ -5,9 +5,7 @@ task :send_contests, [:hour] => [:environment] do |t, args|
 
   contests = Contest.sendable(time)
 
-  if contests.empty?
-    puts "No sendable contests found."
-  else
+  unless contests.empty?
     contests.each do |contest|
       ContestMailer.ticket_email(contest).deliver
       contest.sent = true

@@ -20,9 +20,25 @@ class TransmitterLogEntry < ActiveRecord::Base
   validates :user, presence: true
   validates :sign_in, presence: true
 
-  scope :today, ->{ where("sign_in > ? and (sign_out < ? OR sign_out is NULL)", Time.zone.now.beginning_of_day, Time.zone.now.end_of_day) }
+  default_scope -> { order('sign_in ASC') }
+  scope :today, ->{ where("sign_in >= ?", Time.zone.now.beginning_of_day) }
+  scope :signed, ->{ where("sign_out IS NOT NULL") }
   scope :unsigned, ->{ where("sign_in IS NOT NULL and sign_out IS NULL") }
+  scope :between, -> (start_date, end_date) {
+    where("sign_in >= ? AND sign_in <= ?", start_date, end_date)
+  }
 
+  # Sets a preset time out that goes up an hour from the sign_in time.
+  def time_out
+    @time_out = ((self.sign_in.hour + 1) % 24).to_s + ':00'
+  end
+
+  def serializable_hash(options={})
+    options = { 
+      methods: [:time_out]
+    }.update(options)
+    super(options)
+  end
 
   private
     def set_expiration_time

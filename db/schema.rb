@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131107204053) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20140207071958) do
 
   create_table "contacts", force: true do |t|
     t.string   "email"
@@ -51,25 +48,19 @@ ActiveRecord::Schema.define(version: 20131107204053) do
     t.integer  "staff_count"
     t.integer  "listener_count"
     t.integer  "alternate_recipient_id"
+    t.string   "name"
+    t.datetime "start_time"
+    t.boolean  "public",                 default: true
+    t.string   "google_event_id"
   end
 
   add_index "contests", ["alternate_recipient_id"], name: "index_contests_on_alternate_recipient_id", using: :btree
   add_index "contests", ["venue_id"], name: "index_contests_on_venue_id", using: :btree
 
-  create_table "events", force: true do |t|
-    t.integer  "eventable_id"
-    t.string   "eventable_type"
-    t.string   "name"
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.boolean  "all_day",        default: false
+  create_table "legacy_bases", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "public",         default: true
-    t.string   "google_id"
   end
-
-  add_index "events", ["eventable_id", "eventable_type"], name: "index_events_on_eventable_id_and_eventable_type", using: :btree
 
   create_table "listener_logs", force: true do |t|
     t.integer  "hd2_128"
@@ -90,6 +81,14 @@ ActiveRecord::Schema.define(version: 20131107204053) do
 
   add_index "listener_tickets", ["contest_id"], name: "index_listener_tickets_on_contest_id", using: :btree
   add_index "listener_tickets", ["user_id"], name: "index_listener_tickets_on_user_id", using: :btree
+
+  create_table "permissions", force: true do |t|
+    t.string   "action"
+    t.string   "subject_class"
+    t.integer  "subject_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
 
   create_table "power_readings", force: true do |t|
     t.float    "plate_current"
@@ -142,6 +141,16 @@ ActiveRecord::Schema.define(version: 20131107204053) do
     t.datetime "updated_at"
   end
 
+  create_table "role_permissions", force: true do |t|
+    t.integer  "role_id"
+    t.integer  "permission_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "role_permissions", ["permission_id"], name: "index_role_permissions_on_permission_id", using: :btree
+  add_index "role_permissions", ["role_id"], name: "index_role_permissions_on_role_id", using: :btree
+
   create_table "roles", force: true do |t|
     t.string   "name"
     t.integer  "resource_id"
@@ -152,6 +161,23 @@ ActiveRecord::Schema.define(version: 20131107204053) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
+
+  create_table "shows", force: true do |t|
+    t.integer  "legacy_id"
+    t.string   "name"
+    t.string   "long_name"
+    t.string   "short_name"
+    t.string   "url"
+    t.string   "description"
+    t.string   "email"
+    t.string   "facebook"
+    t.string   "twitter"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "priority"
+  end
+
+  add_index "shows", ["legacy_id"], name: "index_shows_on_legacy_id", unique: true, using: :btree
 
   create_table "staff_tickets", force: true do |t|
     t.integer  "user_id"
@@ -175,31 +201,52 @@ ActiveRecord::Schema.define(version: 20131107204053) do
     t.boolean  "automation_out", default: false
   end
 
+  create_table "user_roles", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "role_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "user_roles", ["role_id"], name: "index_user_roles_on_role_id", using: :btree
+  add_index "user_roles", ["user_id"], name: "index_user_roles_on_user_id", using: :btree
+
   create_table "users", force: true do |t|
-    t.string   "email",                              default: "",    null: false
-    t.string   "encrypted_password",     limit: 128, default: "",    null: false
+    t.string   "email",                                  null: false
+    t.string   "encrypted_password",     default: ""
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                      default: 0
+    t.integer  "sign_in_count",          default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "username",                                           null: false
+    t.string   "username",                               null: false
     t.string   "phone"
     t.string   "first_name"
     t.string   "last_name"
     t.string   "display_name"
     t.string   "status"
-    t.boolean  "admin",                              default: false
+    t.boolean  "admin",                  default: false
     t.integer  "buzzcard_id"
     t.integer  "buzzcard_facility_code"
+    t.integer  "legacy_id"
+    t.string   "remember_token"
+    t.string   "invitation_token"
+    t.datetime "invitation_created_at"
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
+    t.integer  "invitation_limit"
+    t.integer  "invited_by_id"
+    t.string   "invited_by_type"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
+  add_index "users", ["legacy_id"], name: "index_users_on_legacy_id", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 

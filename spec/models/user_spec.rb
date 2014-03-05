@@ -3,8 +3,8 @@
 # Table name: users
 #
 #  id                     :integer          not null, primary key
-#  email                  :string(255)      default(""), not null
-#  encrypted_password     :string(128)      default(""), not null
+#  email                  :string(255)      not null
+#  encrypted_password     :string(255)      default("")
 #  reset_password_token   :string(255)
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
@@ -24,6 +24,15 @@
 #  admin                  :boolean          default(FALSE)
 #  buzzcard_id            :integer
 #  buzzcard_facility_code :integer
+#  legacy_id              :integer
+#  remember_token         :string(255)
+#  invitation_token       :string(255)
+#  invitation_created_at  :datetime
+#  invitation_sent_at     :datetime
+#  invitation_accepted_at :datetime
+#  invitation_limit       :integer
+#  invited_by_id          :integer
+#  invited_by_type        :string(255)
 #
 
 require 'spec_helper'
@@ -54,11 +63,6 @@ describe User do
     addresses.each do |address|
       FactoryGirl.build(:user, email: address).should be_valid
     end
-  end
-
-  it "is invalid with a duplicate email address" do
-    FactoryGirl.create(:user, email: "test@example.com")
-    FactoryGirl.build(:user, email: "TEST@example.com").should_not be_valid
   end
 
   describe "admin attribute" do

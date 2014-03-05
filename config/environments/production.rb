@@ -61,6 +61,7 @@ Wrek::Application.configure do
   # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
   # config.assets.precompile += %w( search.js )
   config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+  config.assets.precompile += ['signin.css', 'transmitter_logs.css', 'listener_logs.css']
 
 
   # Ignore bad email addresses and do not raise email delivery errors.
@@ -74,7 +75,7 @@ Wrek::Application.configure do
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 
-  config.action_mailer.default_url_options = { :host => 'wrek.herokuapp.com' }
+  config.action_mailer.default_url_options = { :host => 'wrektranet2.wrek.org', :protocol => "https" }
   # ActionMailer Config
   # Setup for production - deliveries, no errors raised
   config.action_mailer.delivery_method = :smtp

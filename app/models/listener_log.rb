@@ -17,6 +17,9 @@ class ListenerLog < ActiveRecord::Base
   end
 
   scope :today, -> { where('created_at >= ?', 24.hours.ago) }
+  scope :range, -> (start_time = 24.hours.ago, end_time = Time.zone.now) {
+    where('created_at >= ? and created_at <= ?', start_time, end_time)
+  }
 
   def to_highcharts
     

@@ -1,4 +1,4 @@
-- defaults = {input_wrapper_html: {class: 'col-lg-6'}, label_html: {class: 'col-lg-2'}}
+- defaults = {input_wrapper_html: {class: 'col-md-6'}, label_html: {class: 'col-md-2'}}
 
 .page-header
   h2 Edit Profile
@@ -12,5 +12,5 @@
   = f.input :email, input_html: { class: 'form-control' }
   = f.input :phone, input_html: { class: 'form-control' }
   .form-group
-    .col-lg-offset-2.col-lg-10
+    .col-md-offset-2.col-md-10
       = f.button :submit, 'Update', class: 'btn-primary'

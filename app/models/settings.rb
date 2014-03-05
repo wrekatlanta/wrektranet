@@ -7,12 +7,16 @@ module Settings
     Rails.env.development?
   end
 
+  def self.live_playlist_enabled?
+    true
+  end
+
   def self.psa_book_enabled?
-    Rails.env.development?
+    true
   end
 
   def self.listener_log_enabled?
-    Rails.env.development?
+    true
   end
 
   def self.program_log_enabled?
@@ -21,5 +25,9 @@ module Settings
 
   def self.calendar_enabled?
     ENV.has_key? 'EVENT_CALENDAR_ID'
+  end
+
+  def self.profiles_enabled?
+    Rails.env.development?
   end
 end

@@ -1,9 +1,9 @@
-<% content_for :teaser do %>WREK ticket winners for <%= @contest.event.name %><% end %>
+<% content_for :teaser do %>WREK ticket winners for <%= @contest.name %><% end %>
 
 <% content_for :content do %>
 Ticket Winners
 ------------------------------------------------------------
-Hello! Here are our contest winners for #{@contest.event.name}!
+Hello! Here are our contest winners for #{@contest.name}!
 
 <% unless @contest.listener_tickets.empty? %>
 Callers:
