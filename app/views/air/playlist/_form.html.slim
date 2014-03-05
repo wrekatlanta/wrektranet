@@ -1,13 +1,19 @@
 .row
   .col-md-4
-    / A source dropdown so users can keep track of where the albums are (e.g. CD1)
     form.form-horizontal
+      / A source dropdown so users can keep track of where the albums are (e.g. CD1)
       .form-group
         label.text-muted.control-label.col-md-4
           | Source 
           abbr.initialism title="Use this to keep note of where your tracks are. Hover over the log to get a reminder. Totally optional!" (?)
         .col-md-8
           select.form-control ng-init="0" ng-options="o as o for o in sources" ng-model="current_source"
+      / An option to automatically hide albums after queueing a track
+      .form-group
+        .col-md-offset-4.col-md-10
+          .checkbox
+            label.text-muted
+              input type="checkbox" ng-model="hideAfterQueueing" Hide albums after queueing
 
     hr
 
