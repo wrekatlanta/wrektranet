@@ -36,6 +36,8 @@ Wrek::Application.routes.draw do
   namespace :staff do
     root to: "dashboard#index"
 
+    resources :pop_up_shows, only: [:index]
+
     resources :staff_tickets, as: 'tickets' do
       collection do
         get 'me'
