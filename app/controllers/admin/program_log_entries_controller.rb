@@ -5,7 +5,7 @@ class Admin::ProgramLogEntriesController < Admin::BaseController
     authorize! :manage, ProgramLogEntry
 
     @program_log_entries = @program_log_entries
-      .includes(:program_log_entry_schedules)
+      .includes(:program_log_schedules)
       .paginate(page: params[:page], per_page: 30)
   end
 

@@ -57,7 +57,7 @@ Wrek::Application.routes.draw do
     root to: "dashboard#index"
 
     resources :program_log_entries do
-      resources :program_log_entry_schedules, shallow: true
+      resources :program_log_schedules, shallow: true
     end
 
     resources :contests do

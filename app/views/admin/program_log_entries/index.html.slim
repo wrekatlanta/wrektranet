@@ -16,7 +16,7 @@
         - for entry in @program_log_entries do
           tr
             td = link_to entry.name, edit_admin_program_log_entry_path(entry)
-            td = entry.program_log_entry_schedules.size
+            td = entry.program_log_schedules.size
       - else
         tr
           td colspan="6" No results were found.

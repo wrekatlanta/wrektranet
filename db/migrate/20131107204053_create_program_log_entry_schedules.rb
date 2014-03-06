@@ -1,6 +1,6 @@
-class CreateProgramLogEntrySchedules < ActiveRecord::Migration
+class CreateProgramLogSchedules < ActiveRecord::Migration
   def change
-    create_table :program_log_entry_schedules do |t|
+    create_table :program_log_schedules do |t|
       t.references :program_log_entry, index: true
       t.date :start_date
       t.date :expiration_date

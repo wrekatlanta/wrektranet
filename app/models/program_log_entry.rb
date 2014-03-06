@@ -10,9 +10,9 @@
 #
 
 class ProgramLogEntry < ActiveRecord::Base
-  has_many :program_log_entry_schedules, dependent: :destroy
+  has_many :program_log_schedules, dependent: :destroy
 
-  accepts_nested_attributes_for :program_log_entry_schedules, allow_destroy: true
+  accepts_nested_attributes_for :program_log_schedules, allow_destroy: true
 
   validates :name, presence: true
 end

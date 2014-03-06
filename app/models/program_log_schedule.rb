@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: program_log_entry_schedules
+# Table name: program_log_schedules
 #
 #  id                   :integer          not null, primary key
 #  program_log_entry_id :integer
@@ -20,7 +20,7 @@
 #  updated_at           :datetime
 #
 
-class ProgramLogEntrySchedule < ActiveRecord::Base
+class ProgramLogSchedule < ActiveRecord::Base
   require 'tod'
 
   serialize :start_time, Tod::TimeOfDay

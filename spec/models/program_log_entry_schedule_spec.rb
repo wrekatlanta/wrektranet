@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: program_log_entry_schedules
+# Table name: program_log_schedules
 #
 #  id                   :integer          not null, primary key
 #  program_log_entry_id :integer
@@ -22,6 +22,6 @@
 
 require 'spec_helper'
 
-describe ProgramLogEntrySchedule do
+describe ProgramLogSchedule do
   pending "add some examples to (or delete) #{__FILE__}"
 end

@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 20140207071958) do
     t.datetime "updated_at"
   end
 
-  create_table "program_log_entry_schedules", force: true do |t|
+  create_table "program_log_schedules", force: true do |t|
     t.integer  "program_log_entry_id"
     t.date     "start_date"
     t.date     "expiration_date"
@@ -123,7 +123,7 @@ ActiveRecord::Schema.define(version: 20140207071958) do
     t.datetime "updated_at"
   end
 
-  add_index "program_log_entry_schedules", ["program_log_entry_id"], name: "index_program_log_entry_schedules_on_program_log_entry_id", using: :btree
+  add_index "program_log_schedules", ["program_log_entry_id"], name: "index_program_log_schedules_on_program_log_entry_id", using: :btree
 
   create_table "psa_readings", force: true do |t|
     t.integer  "user_id"

@@ -26,8 +26,8 @@ table.table.table-responsive.table-striped
       th End
       th Period
   tbody
-    - unless @program_log_entry.program_log_entry_schedules.empty?
-      - for schedule in @program_log_entry.program_log_entry_schedules do
+    - unless @program_log_entry.program_log_schedules.empty?
+      - for schedule in @program_log_entry.program_log_schedules do
         tr
           - for day in [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday] do
             td

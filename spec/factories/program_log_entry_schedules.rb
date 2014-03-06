@@ -1,7 +1,7 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
-  factory :program_log_entry_schedule do
+  factory :program_log_schedule do
     program_log_entry nil
     start_date "2013-11-07"
     expiration_date "2013-11-07"
