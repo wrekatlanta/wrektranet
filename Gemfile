@@ -79,7 +79,9 @@ end
 
 group :production do
   gem 'rails_12factor' # For asset compilation
+end
 
+group :oracle do
   gem 'activerecord-oracle_enhanced-adapter', git: 'git://github.com/rsim/oracle-enhanced.git'
   gem 'ruby-oci8', '~> 2.1.0'
 end
