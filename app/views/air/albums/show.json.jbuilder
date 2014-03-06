@@ -15,6 +15,7 @@ json.tracks @album.tracks do |track|
   json.play_logs track.play_logs.recent do |log|
     json.playtime log.playtime
     json.days_ago log.days_ago
+    # FIXME n+1 query, but it is across different databases
     json.user log.user, :initials
   end
 end

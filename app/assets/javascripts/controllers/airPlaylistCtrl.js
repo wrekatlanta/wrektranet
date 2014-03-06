@@ -58,6 +58,7 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
     $scope.queued_tracks = []; // contains tracks queued for logging
     $scope.album = null; // contains current selected album
     $scope.search = null; // contains search parameters
+    $scope.hideAfterQueueing = true;
 
     $scope.playLogTracker = promiseTracker();
     $scope.loadingTracker = promiseTracker();
@@ -112,6 +113,10 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
       track.source = $scope.current_source;
       if (!_.contains($scope.queued_tracks, track)) {
         $scope.queued_tracks.unshift(track);
+      }
+
+      if ($scope.hideAfterQueueing) {
+        $scope.goToIndex();
       }
     };
 
@@ -216,6 +221,10 @@ angular.module("wrektranet.airPlaylistCtrl", ['ui.router'])
         plays = track.play_logs.length;
         days = track.play_logs[0].days_ago;
 
+        /*
+          this was copied over; high rotation example:
+                    
+        */
         if (plays > 0 && days < replay_interval) {
           return 'danger';
         } else if (days > replay_interval && days < 2 * replay_interval) {

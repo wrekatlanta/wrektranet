@@ -11,8 +11,12 @@
       p.list-group-item-text Sign up for tickets and see what other people have signed up for. Be sure to do your digitizations!
 
     = link_to staff_contest_suggestions_path, class: 'list-group-item' do
-      h4.list-group-item-heading Contest Suggestions
+      h4.list-group-item-heading Contest Ideas
       p.list-group-item-text Is there a concert you'd like to see in the contest book? Submit a suggestion.
+
+    = link_to staff_pop_up_shows_path, class: 'list-group-item' do
+      h4.list-group-item-heading Pop Up Shows
+      p.list-group-item-text Find out more about Sunday Specials and WREK's new Pop Up Shows!
 
   - if Settings.listener_log_enabled?
     = link_to staff_listener_logs_path, class: 'list-group-item' do
