@@ -1,44 +1,89 @@
-- defaults = {input_wrapper_html: {class: 'col-lg-6'}, label_html: {class: 'col-lg-2'}}
+- unless @program_log_entry.errors[:'program_log_schedules.base'].blank?
+  .alert.alert-danger
+    ul
+      - @program_log_entry.errors[:'program_log_schedules.base'].each do |message|
+        li = message
 
-= simple_form_for [:admin, @program_log_entry], html: {class: 'form-horizontal'}, defaults: defaults do |f|
-  = f.input :name, input_html: { class: 'form-control' }
-  = f.input :description, as: :text, input_html: { class: 'form-control', rows: 5 }, hint: "Supports Markdown."
+div ng-controller="adminProgramLogCtrl" ng-init="program_log_entry = #{@program_log_entry.to_json(include: :program_log_schedules)}"
+  = simple_form_for [:admin, @program_log_entry],  html: {name: 'plogForm'} do |f|
+    = f.input :title, input_html: { class: 'form-control' }
+    = f.input :description, as: :text, input_html: { class: 'form-control', rows: 5 }, hint: "Supports #{link_to 'Markdown', 'http://daringfireball.net/projects/markdown/basics'}.".html_safe
 
-  .form-group
-    .col-lg-offset-2.col-lg-10
-      = f.button :submit, class: 'btn-primary'
-      - if @program_log_entry.persisted?
-        |  
-        = link_to 'Delete', [:admin, @program_log_entry], data: { confirm: 'Are you sure you want to destroy this schedule?' }, method: :delete, class: 'btn btn-danger'
+    .panel.panel-default
+      .panel-heading
+        h4.panel-title Schedule
+      .table-responsive
+        table.table
+          thead
+            tr
+              th style="width: 225px;" Days
+              th style="width: 12%;"
+                i.glyphicon.glyphicon-calendar>
+                | Start Date
+              th style="width: 12%;"
+                i.glyphicon.glyphicon-calendar>
+                | End Date
+              th style="width: 12%;"
+                i.glyphicon.glyphicon-time>
+                | Start Time
+              th Repeat
+              th style="width: 12%;"
+                i.glyphicon.glyphicon-time>
+                | End Time
+              th
+          tbody
+            / mixing accepts_nested_attributes_for with Angular interpolation
+            tr.ng-cloak ng-repeat="schedule in program_log_entry.program_log_schedules" ng-hide="schedule.destroy"
+              td
+                .btn-group
+                  - for day in [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday] do
+                    button.btn.btn-default.btn-sm.btn-warning btn-checkbox=true type="button" ng-model="schedule.#{day}" = day.to_s.first.capitalize
 
-h3 Schedules
-table.table.table-responsive.table-striped
-  thead
-    tr
-      th S
-      th M
-      th T
-      th W
-      th Tr
-      th F
-      th S
-      th Start
-      th End
-      th Period
-  tbody
-    - unless @program_log_entry.program_log_schedules.empty?
-      - for schedule in @program_log_entry.program_log_schedules do
-        tr
-          - for day in [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday] do
-            td
-              - if schedule.send(day)
-                span.sr-only Yes
-                i.glyphicon.glyphicon-check
-              - else
-                span.sr-only No
-                i.glyphicon.glyphicon-unchecked
-    - else
-      tr
-        td colspan="10"
-          | There are no schedules. 
-          a href="#" Add one?
+                  / do this separately because hidden inputs are affecting the layout?
+                  - for day in [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday] do
+                    input type="hidden" name="program_log_entry[program_log_schedules_attributes][][#{day}]" value="{{ schedule.#{day} }}"
+              td
+                input.form-control.input-sm type="text" placeholder="(optional)" name="program_log_entry[program_log_schedules_attributes][][start_date]" value="{{ schedule.start_date }}"
+              td
+                input.form-control.input-sm type="text" placeholder="(optional)" name="program_log_entry[program_log_schedules_attributes][][expiration_date]" value="{{ schedule.expiration_date }}"
+              td
+                input.form-control.input-sm type="text" placeholder="e.g. 13:30" name="program_log_entry[program_log_schedules_attributes][][start_time]" value="{{ timeOfDay(schedule.start_time) }}" required=true
+              td
+                select.form-control.input-sm ng-options="i.minutes as i.label for i in repeatIntervals" ng-model="schedule.repeat_interval"
+                input type="hidden" name="program_log_entry[program_log_schedules_attributes][][repeat_interval]" value="{{ schedule.repeat_interval }}"
+              td
+                input.form-control.input-sm type="text" placeholder="e.g. 23:30" name="program_log_entry[program_log_schedules_attributes][][end_time]" ng-disabled="schedule.repeat_interval === 0" value="{{ timeOfDay(schedule.end_time) }}"
+
+              td.text-right
+                button.btn.btn-danger.btn-sm type="button" ng-click="deleteSchedule(schedule)"
+                    i.glyphicon.glyphicon-remove>
+                    | Remove
+                / Rails uses these to update or delete a nested record
+                input type="hidden" name="program_log_entry[program_log_schedules_attributes][][id]" value="{{ schedule.id }}"
+
+                input type="hidden" name="program_log_entry[program_log_schedules_attributes][][_destroy]" value="{{ schedule.destroy }}"
+            tr
+              td
+                .btn-group
+                  - for day in [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday] do
+                      button.btn.btn-default.btn-sm.btn-warning btn-checkbox=true type="button" ng-model="newSchedule.#{day}" = day.to_s.first.capitalize
+              td
+                input.form-control.input-sm type="text" placeholder="(optional)" ng-model="newSchedule.start_date"
+              td
+                input.form-control.input-sm type="text" placeholder="(optional)" ng-model="newSchedule.expiration_date"
+              td
+                input.form-control.input-sm type="text" placeholder="e.g. 13:30" name="startTime" ng-model="newSchedule.start_time" ui-keydown="{'enter': 'addSchedule($event)'}"
+              td
+                select.form-control.input-sm ng-options="i.minutes as i.label for i in repeatIntervals" ng-model="newSchedule.repeat_interval" 
+              td
+                input.form-control.input-sm type="text" placeholder="e.g. 23:30" ng-model="newSchedule.end_time" ng-disabled="newSchedule.repeat_interval == 0" ui-keydown="{'enter': 'addSchedule($event)'}"
+              td.text-right
+                button.btn.btn-primary.btn-sm type="button" ng-disabled="plogForm.startTime.$invalid" ng-click="addSchedule($event)"
+                  i.glyphicon.glyphicon-plus>
+                  | Add
+
+    .form-group
+        = f.button :submit, class: 'btn-primary'
+        - if @program_log_entry.persisted?
+          |  
+          = link_to 'Delete', [:admin, @program_log_entry], data: { confirm: 'Are you sure you want to destroy this schedule?' }, method: :delete, class: 'btn btn-danger'

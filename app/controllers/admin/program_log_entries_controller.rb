@@ -17,7 +17,7 @@ class Admin::ProgramLogEntriesController < Admin::BaseController
     authorize! :create, @program_log_entry
 
     if @program_log_entry.save
-      redirect_to admin_program_log_entries_path, success: "#{@program_log_entry.name} created successfully."
+      redirect_to admin_program_log_entries_path, success: "#{@program_log_entry.title} created successfully."
     else
       render :new
     end
@@ -28,7 +28,7 @@ class Admin::ProgramLogEntriesController < Admin::BaseController
 
   def update
     if @program_log_entry.update_attributes(program_log_entry_params)
-      redirect_to admin_program_log_entries_path, success: "#{@program_log_entry.name} updated successfully."
+      redirect_to admin_program_log_entries_path, success: "#{@program_log_entry.title} updated successfully."
     else
       render :edit
     end
@@ -36,7 +36,7 @@ class Admin::ProgramLogEntriesController < Admin::BaseController
 
   def destroy
     if @program_log_entry.destroy
-      redirect_to admin_program_log_entries_path, success: "#{@program_log_entry.name} deleted successfully."
+      redirect_to admin_program_log_entries_path, success: "#{@program_log_entry.title} deleted successfully."
     else
       render :edit
     end
@@ -45,7 +45,14 @@ class Admin::ProgramLogEntriesController < Admin::BaseController
   private
     def program_log_entry_params
       params.require(:program_log_entry).permit(
-        :name, :description
+        :title, :description,
+        program_log_schedules_attributes: [
+          :sunday, :monday, :tuesday, :wednesday,
+          :thursday, :friday, :saturday,
+          :start_time, :end_time,
+          :start_date, :expiration_date,
+          :repeat_interval, :id, '_destroy'
+        ]
       )
     end
 end

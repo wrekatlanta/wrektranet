@@ -5,30 +5,69 @@ angular.module("wrektranet.adminProgramLogCtrl", [])
 .controller('adminProgramLogCtrl', [
   '$scope',
   function($scope) {
-    $scope.newContact = {
-      email: ""
+    var padNumber = function(number) {
+      return number < 10 ? '0' + number : number;
     };
 
-    $scope.addContact = function(event) {
-      var contact = angular.copy($scope.newContact);
+    $scope.repeatIntervals = [
+      { minutes: 0,   label: "Don't repeat" },
+      { minutes: 15,  label: "15 minutes" },
+      { minutes: 30,  label: "30 minutes" },
+      { minutes: 45,  label: "45 minutes" },
+      { minutes: 60,  label: "1 hour" },
+      { minutes: 90,  label: "1.5 hours" },
+      { minutes: 120, label: "2 hours" },
+      { minutes: 180, label: "3 hours" }
+    ];
+
+    $scope.resetNewSchedule = function() {
+      $scope.newSchedule = {
+        sunday:          false,
+        monday:          false,
+        tuesday:         false,
+        wednesday:       false,
+        thursday:        false,
+        friday:          false,
+        saturday:        false,
+        start_date:      null,
+        expiration_date: null,
+        start_time:      null,
+        end_time:        null,
+        repeat_interval: $scope.repeatIntervals[0].minutes
+      };
+    }
+
+    $scope.addSchedule = function(event) {
+      var schedule = angular.copy($scope.newSchedule);
       event.preventDefault();
 
-      if (contact.email.length === 0 || $scope.venueForm.newContactEmail.$invalid) {
+      if ($scope.plogForm.startTime.$invalid) {
         return false;
       }
 
-      $scope.venue.contacts.push(contact);
-      $scope.newContact.email = "";
+      $scope.program_log_entry.program_log_schedules.push(schedule);
+      $scope.resetNewSchedule();
     };
 
-    $scope.deleteContact = function(contact) {
-      if (contact.id) {
+    $scope.deleteSchedule = function(schedule) {
+      if (schedule.id) {
         // set destroy flag to true
-        contact.destroy = 1;
+        schedule.destroy = 1;
       } else {
-        // unsaved contact, remove it entirely
-        $scope.venue.contacts.splice($.inArray(contact, $scope.venue.contacts), 1);
+        // unsaved Schedule, remove it entirely
+        $scope.program_log_entry.program_log_schedules.splice($.inArray(schedule, $scope.program_log_entry.program_log_schedules), 1);
+      }
+    };
+
+    $scope.timeOfDay = function(time) {
+      if (_.has(time, 'hour')) {
+        return padNumber(time.hour) + ":" + padNumber(time.minute);
+      } else {
+        return time;
       }
     }
+
+    // set $scope.newSchedule with initial values
+    $scope.resetNewSchedule();
   }
 ]);

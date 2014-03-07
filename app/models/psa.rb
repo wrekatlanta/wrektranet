@@ -18,7 +18,7 @@ class Psa < ActiveRecord::Base
 
   has_many :psa_readings, -> { order('created_at DESC') }
 
-  natural_language_date_attr :expiration_date
+  natural_language_date_attr :expiration_date, :date
 
   validate :expiration_date_string_is_date
   validate :bad_expiration_date, on: :create

@@ -19,7 +19,7 @@ div ng-controller="adminVenueCtrl" ng-init="venue = #{@venue.to_json(include: :c
           input type="hidden" name="venue[contacts_attributes][][_destroy]" value="{{contact.destroy}}"
 
           .col-md-4
-            input.form-control type="email" ng-model="contact.email" ng-if="!contact.destroy" required="required"
+            input.form-control type="email" ng-model="contact.email" required="required"
 
           .col-md-6
             button.btn.btn-danger.delete-contact type="button" ng-click="deleteContact(contact)"

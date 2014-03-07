@@ -21,7 +21,11 @@
 #
 
 class ProgramLogSchedule < ActiveRecord::Base
+  include NaturalLanguageDate
   require 'tod'
+
+  natural_language_date_attr :start_date, :date
+  natural_language_date_attr :expiration_date, :date
 
   serialize :start_time, Tod::TimeOfDay
   serialize :end_time, Tod::TimeOfDay
@@ -32,23 +36,18 @@ class ProgramLogSchedule < ActiveRecord::Base
   validate :start_date_string_is_date, unless: -> { self.start_date.blank? }
   validate :expiration_date_string_is_date, unless: -> { self.expiration_date.blank? }
   validate :expiration_date_in_future, on: :save, unless: -> { self.expiration_date.blank? }
+  validate :check_times
 
-  def start_date_string
-    @start_date_string || self.try(:start_date).try(:strftime, "%-m/%-d/%y")
-  end
+  # we can't seem to make end_time be null
+  # since 00:00:00 is always before the start, treat that as nil
+  def end_time
+    original = read_attribute(:end_time)
 
-  def start_date_string=(value)
-    @start_date_string = value
-    self.start_date = parse_date(value)
-  end
-
-  def expiration_date_string
-    @expiration_date_string || self.try(:expiration_date).try(:strftime, "%-m/%-d/%y")
-  end
-
-  def expiration_date_string=(value)
-    @expiration_date_string = value
-    self.expiration_date = parse_date(value)
+    if original.to_s == '00:00:00'
+      nil
+    else
+      original
+    end
   end
 
   # Finds schedules for a given day of the week (using Time#wday)
@@ -64,15 +63,20 @@ class ProgramLogSchedule < ActiveRecord::Base
 
   private
     def expiration_date_in_future
-      errors.add(:expiration_date, "Cannot be in the past.") if
+      errors.add(:expiration_date, "cannot be in the past.") if
         !expiration_date.blank? and expiration_date < Time.zone.today
     end
 
-    def expiration_date_string_is_date
-      errors.add(:expiration_date_string, "is invalid") unless parse_date(expiration_date_string)
-    end
+    def check_times
+      begin
+        start_time = TimeOfDay.parse(self.start_time)
+        end_time = TimeOfDay.parse(self.end_time) unless self.end_time.blank?
+      rescue
+        errors.add(:base, "You used an invalid time. Please use 24-hour or 12-hour formats.")
+      end
 
-    def parse_date(chronic_string)
-      Chronic.parse(chronic_string)
+      if end_time and end_time <= start_time
+        errors.add(:base, "End times must be after start times.")
+      end
     end
 end

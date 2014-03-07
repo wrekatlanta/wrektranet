@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(version: 20140207071958) do
   end
 
   create_table "program_log_entries", force: true do |t|
-    t.string   "name"
+    t.string   "title"
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -109,9 +109,9 @@ ActiveRecord::Schema.define(version: 20140207071958) do
     t.integer  "program_log_entry_id"
     t.date     "start_date"
     t.date     "expiration_date"
-    t.time     "start_time"
-    t.time     "end_time"
-    t.integer  "repeat_interval"
+    t.time     "start_time",           null: true, default: nil
+    t.time     "end_time",             null: true, default: nil
+    t.integer  "repeat_interval",      default: 0
     t.boolean  "sunday",               default: false
     t.boolean  "monday",               default: false
     t.boolean  "tuesday",              default: false

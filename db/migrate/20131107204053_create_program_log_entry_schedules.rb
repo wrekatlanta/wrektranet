@@ -4,9 +4,9 @@ class CreateProgramLogSchedules < ActiveRecord::Migration
       t.references :program_log_entry, index: true
       t.date :start_date
       t.date :expiration_date
-      t.time :start_time
-      t.time :end_time
-      t.integer :repeat_interval
+      t.time :start_time, null: true
+      t.time :end_time, null: true
+      t.integer :repeat_interval, default: 0
       t.boolean :sunday, default: false
       t.boolean :monday, default: false
       t.boolean :tuesday, default: false
