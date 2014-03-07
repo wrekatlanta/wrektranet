@@ -43,9 +43,9 @@ div ng-controller="adminProgramLogCtrl" ng-init="program_log_entry = #{@program_
                   - for day in [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday] do
                     input type="hidden" name="program_log_entry[program_log_schedules_attributes][][#{day}]" value="{{ schedule.#{day} }}"
               td
-                input.form-control.input-sm type="text" placeholder="(optional)" name="program_log_entry[program_log_schedules_attributes][][start_date]" value="{{ schedule.start_date }}"
+                input.form-control.input-sm type="text" placeholder="(optional)" name="program_log_entry[program_log_schedules_attributes][][start_date_string]" value="{{ schedule.start_date }}"
               td
-                input.form-control.input-sm type="text" placeholder="(optional)" name="program_log_entry[program_log_schedules_attributes][][expiration_date]" value="{{ schedule.expiration_date }}"
+                input.form-control.input-sm type="text" placeholder="(optional)" name="program_log_entry[program_log_schedules_attributes][][expiration_date_string]" value="{{ schedule.expiration_date }}"
               td
                 input.form-control.input-sm type="text" placeholder="e.g. 13:30" name="program_log_entry[program_log_schedules_attributes][][start_time]" value="{{ timeOfDay(schedule.start_time) }}" required=true
               td
@@ -78,7 +78,7 @@ div ng-controller="adminProgramLogCtrl" ng-init="program_log_entry = #{@program_
               td
                 input.form-control.input-sm type="text" placeholder="e.g. 23:30" ng-model="newSchedule.end_time" ng-disabled="newSchedule.repeat_interval == 0" ui-keydown="{'enter': 'addSchedule($event)'}"
               td.text-right
-                button.btn.btn-primary.btn-sm type="button" ng-disabled="plogForm.startTime.$invalid" ng-click="addSchedule($event)"
+                button.btn.btn-primary.btn-sm type="button" ng-disabled="newSchedule.start_time == null" ng-click="addSchedule($event)"
                   i.glyphicon.glyphicon-plus>
                   | Add
 

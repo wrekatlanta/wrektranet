@@ -35,7 +35,7 @@ class ProgramLogSchedule < ActiveRecord::Base
   validate :program_log_entry, presence: true
   validate :start_date_string_is_date, unless: -> { self.start_date.blank? }
   validate :expiration_date_string_is_date, unless: -> { self.expiration_date.blank? }
-  validate :expiration_date_in_future, on: :save, unless: -> { self.expiration_date.blank? }
+  validate :expiration_date_in_future, unless: -> { self.expiration_date.blank? }
   validate :check_times
 
   # we can't seem to make end_time be null
@@ -63,8 +63,11 @@ class ProgramLogSchedule < ActiveRecord::Base
 
   private
     def expiration_date_in_future
-      errors.add(:expiration_date, "cannot be in the past.") if
+      errors.add(:base, "Expiration dates cannot be in the past.") if
         !expiration_date.blank? and expiration_date < Time.zone.today
+
+      errors.add(:base, "Expiration dates cannot be before start dates.") if
+        !start_date.blank? and expiration_date < start_date
     end
 
     def check_times

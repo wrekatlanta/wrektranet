@@ -50,7 +50,7 @@ class Admin::ProgramLogEntriesController < Admin::BaseController
           :sunday, :monday, :tuesday, :wednesday,
           :thursday, :friday, :saturday,
           :start_time, :end_time,
-          :start_date, :expiration_date,
+          :start_date_string, :expiration_date_string,
           :repeat_interval, :id, '_destroy'
         ]
       )
