@@ -35,4 +35,5 @@
 
 class Legacy::Staff < Legacy::Base
   self.table_name = 'staff'
+  self.primary_key = 'id'
 end
