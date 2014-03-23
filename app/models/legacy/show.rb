@@ -21,4 +21,6 @@
 
 class Legacy::Show < Legacy::Base
   self.table_name = 'shows'
+
+  has_many :show_schedules, primary_key: :id, foreign_key: :show_id
 end

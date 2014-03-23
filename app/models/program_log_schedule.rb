@@ -8,14 +8,14 @@
 #  expiration_date      :date
 #  start_time           :time
 #  end_time             :time
-#  repeat_interval      :integer
-#  sunday               :boolean
-#  monday               :boolean
-#  tuesday              :boolean
-#  wednesday            :boolean
-#  thursday             :boolean
-#  friday               :boolean
-#  saturday             :boolean
+#  repeat_interval      :integer          default(0)
+#  sunday               :boolean          default(FALSE)
+#  monday               :boolean          default(FALSE)
+#  tuesday              :boolean          default(FALSE)
+#  wednesday            :boolean          default(FALSE)
+#  thursday             :boolean          default(FALSE)
+#  friday               :boolean          default(FALSE)
+#  saturday             :boolean          default(FALSE)
 #  created_at           :datetime
 #  updated_at           :datetime
 #

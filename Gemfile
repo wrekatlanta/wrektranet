@@ -42,6 +42,7 @@ gem 'devise_ldap_authenticatable'
 # time helpers
 gem 'chronic'
 gem 'tod'
+gem 'ice_cube'
 
 # APIs
 gem 'google-api-client'
