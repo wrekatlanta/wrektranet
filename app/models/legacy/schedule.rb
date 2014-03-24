@@ -3,11 +3,10 @@
 class Legacy::Schedule
   require 'tod'
 
-  INTERVAL = 30.minutes
+  SLOT_LENGTH = 30.minutes
 
-  def self.for_day(day = nil, options = nil)
-    day ||= Time.zone.now
-    channel = options.try(:channel) || 'main'
+  def self.for_day(day = Time.zone.now, options = {})
+    channel = options[:channel] || 'main'
 
     # query 'days' column by the first two letters, lowercase
     wday = Date::DAYNAMES[day.wday][0..1].downcase
@@ -42,7 +41,7 @@ class Legacy::Schedule
       while current_time != end_time
         schedule_bins[show.show_type.to_sym][current_time.to_s] = show
 
-        current_time += INTERVAL
+        current_time += SLOT_LENGTH
       end
     end
 
@@ -51,10 +50,13 @@ class Legacy::Schedule
     result.merge! schedule_bins[:block]
     result.merge! schedule_bins[:specialty]
     result.merge! schedule_bins[:oto]
-    result.sort
-  end
 
-  def self.for_week()
-
+    result.sort.map do |x|
+      return {
+        start_time: x[0],
+        end_time: x[0] + SLOT_LENGTH - 1.second,
+        show: x[1]
+      }
+    end
   end
 end

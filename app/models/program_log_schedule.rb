@@ -38,7 +38,7 @@ class ProgramLogSchedule < ActiveRecord::Base
   validate :expiration_date_in_future, unless: -> { self.expiration_date.blank? }
   validate :check_times
 
-  # we can't seem to make end_time be null
+  # we can't seem to make end_time be nil
   # since 00:00:00 is always before the start, treat that as nil
   def end_time
     original = read_attribute(:end_time)
@@ -51,14 +51,18 @@ class ProgramLogSchedule < ActiveRecord::Base
   end
 
   # Finds schedules for a given day of the week (using Time#wday)
-  def self.find_by_wday(wday = nil)
-    wday_mapping = ['sunday', 'monday', 'tuesday', 'wednesday',
-                    'thursday', 'friday', 'saturday']
+  def self.find_by_day(day = Time.zone.now)
+    wday = Date::DAYNAMES[day.wday].downcase
 
-    wday ||= Time.zone.now.wday
-    day = wday_mapping[wday] || wday_mapping[0]
-
-    where(day => true)
+    # where('? = 1 AND
+    #   (start_date IS NULL OR start_date <= ?) AND
+    #   (expiration_date IS NULL OR expiration_date >= ?)',
+    #   wday, day, day)
+    where(wday => true).where(
+      '(start_date IS NULL OR start_date <= ?) AND
+      (expiration_date IS NULL OR expiration_date >= ?)',
+      day, day
+    )
   end
 
   private
