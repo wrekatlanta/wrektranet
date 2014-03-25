@@ -226,6 +226,9 @@ GEM
     net-ssh (2.8.0)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
+    nilify_blanks (1.0.3)
+      activerecord (>= 3.0.0)
+      activesupport (>= 3.0.0)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     orm_adapter (0.5.0)
@@ -402,6 +405,7 @@ DEPENDENCIES
   letter_opener
   mysql2
   net-ldap!
+  nilify_blanks
   nokogiri
   poltergeist
   quiet_assets

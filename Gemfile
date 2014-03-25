@@ -44,6 +44,9 @@ gem 'chronic'
 gem 'tod'
 gem 'ice_cube'
 
+# help with mysql empty time fields
+gem 'nilify_blanks'
+
 # APIs
 gem 'google-api-client'
 

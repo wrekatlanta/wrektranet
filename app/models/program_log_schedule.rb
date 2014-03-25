@@ -23,6 +23,9 @@
 class ProgramLogSchedule < ActiveRecord::Base
   include NaturalLanguageDate
 
+  # mysql fix
+  nilify_blanks only: [:end_time]
+
   natural_language_date_attr :start_date, :date
   natural_language_date_attr :expiration_date, :date
 
