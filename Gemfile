@@ -22,6 +22,8 @@ end
 gem 'mysql2'
 gem 'net-ldap', git: 'git://github.com/ruby-ldap/ruby-net-ldap.git', branch: 'master'
 
+gem 'attribute_normalizer'
+
 gem 'bootstrap-sass', '~> 3.1.0'
 gem 'active_link_to'
 gem 'cancan'
@@ -43,9 +45,6 @@ gem 'devise_ldap_authenticatable'
 gem 'chronic'
 gem 'tod'
 gem 'ice_cube'
-
-# help with mysql empty time fields
-gem 'nilify_blanks'
 
 # APIs
 gem 'google-api-client'

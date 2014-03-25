@@ -23,8 +23,8 @@
 class ProgramLogSchedule < ActiveRecord::Base
   include NaturalLanguageDate
 
-  # mysql fix
-  nilify_blanks only: [:end_time]
+  # mysql 'empty string in time field' fix
+  normalize_attributes :end_time
 
   natural_language_date_attr :start_date, :date
   natural_language_date_attr :expiration_date, :date
