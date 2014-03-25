@@ -1,7 +1,7 @@
 # NOT AN ACTIVERECORD MODEL
 # A module that produces a hash for a week's show schedule.
 module Legacy::Schedule
-  SLOT_LENGTH = 10.minutes
+  SLOT_LENGTH = 30.minutes
 
   def self.generate_for_day(time = Time.zone.now, opts = {})
     day = time.beginning_of_day
@@ -35,12 +35,20 @@ module Legacy::Schedule
       start_time = schedule.start_time.to_time_of_day
       end_time = schedule.end_time.to_time_of_day
 
+      if end_time == TimeOfDay.new(0, 0)
+        end_time = TimeOfDay.new(23, 59, 59)
+      end
+
       current_time = start_time
 
       while current_time < end_time
         schedule_bins[show.show_type.to_sym][current_time.to_s] = show
 
-        current_time += SLOT_LENGTH
+        if (current_time + SLOT_LENGTH) < current_time
+          break
+        else
+          current_time += SLOT_LENGTH
+        end
       end
     end
 
