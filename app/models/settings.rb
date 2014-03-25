@@ -20,7 +20,7 @@ module Settings
   end
 
   def self.program_log_enabled?
-    Rails.env.development?
+    true
   end
 
   def self.calendar_enabled?

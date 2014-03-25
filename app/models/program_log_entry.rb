@@ -15,5 +15,5 @@ class ProgramLogEntry < ActiveRecord::Base
   accepts_nested_attributes_for :program_log_schedules, allow_destroy: true
 
   validates :title, presence: true
-  validates :description, presence: true
+  validates :description, allow_blank: true
 end
