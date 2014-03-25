@@ -69,7 +69,7 @@ module Legacy::Schedule
 
         j = i - 1
 
-        while (j > 0)
+        while (j >= 0)
           if result[j][:show] == slot[:show]
             result[j][:now_playing] = true
           else
