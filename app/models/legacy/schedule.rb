@@ -1,7 +1,7 @@
 # NOT AN ACTIVERECORD MODEL
 # A module that produces a hash for a week's show schedule.
 module Legacy::Schedule
-  SLOT_LENGTH = 30.minutes
+  SLOT_LENGTH = 10.minutes
 
   def self.generate_for_day(time = Time.zone.now, opts = {})
     day = time.beginning_of_day
