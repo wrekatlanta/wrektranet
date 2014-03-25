@@ -67,9 +67,10 @@ class ProgramLogSchedule < ActiveRecord::Base
   end
 
   def normalize_attributes
-    # end_time should not be an empty string for mysql
-    start_time = start_time.presence
-    end_time = end_time.presence
+    # end_time should not be an empty string for mysql; default to 00:00
+    if self.end_time.blank?
+      self.end_time = TimeOfDay.new(0, 0)
+    end
   end
 
   # Finds schedules for a given day of the week (using Time#wday)
@@ -95,13 +96,13 @@ class ProgramLogSchedule < ActiveRecord::Base
 
     def check_times
       begin
-        start_time = TimeOfDay.parse(self.start_time)
-        end_time = TimeOfDay.parse(self.end_time) unless self.end_time.blank?
+        start_time_tod = TimeOfDay.parse(self.start_time)
+        end_time_tod = TimeOfDay.parse(self.end_time) unless self.end_time.blank?
       rescue
         errors.add(:base, "You used an invalid time. Please use 24-hour or 12-hour formats.")
       end
 
-      if end_time and end_time <= start_time
+      if end_time_tod and end_time_tod <= start_time_tod
         errors.add(:base, "End times must be after start times.")
       end
     end
