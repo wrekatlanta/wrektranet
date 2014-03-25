@@ -37,7 +37,7 @@ module Legacy::Schedule
 
       current_time = start_time
 
-      while current_time != end_time
+      while current_time < end_time
         schedule_bins[show.show_type.to_sym][current_time.to_s] = show
 
         current_time += SLOT_LENGTH
