@@ -38,6 +38,21 @@ class ProgramLogSchedule < ActiveRecord::Base
   validate :expiration_date_in_future, unless: -> { self.expiration_date.blank? }
   validate :check_times
 
+  # returns an array of the days of the week that a schedule occurs on
+  def days
+    result = []
+
+    Date::DAYNAMES.each do |dayname|
+      day = dayname.downcase.to_sym
+
+      if self.send(day)
+        result << day
+      end
+    end
+
+    result
+  end
+
   # we can't seem to make end_time be nil
   # since 00:00:00 is always before the start, treat that as nil
   def end_time
@@ -51,17 +66,14 @@ class ProgramLogSchedule < ActiveRecord::Base
   end
 
   # Finds schedules for a given day of the week (using Time#wday)
-  def self.find_by_day(day = Time.zone.now)
-    wday = Date::DAYNAMES[day.wday].downcase
+  def self.find_by_range(start_cutoff = Time.zone.now, end_cutoff = Time.zone.now)
+    start_wday = Date::DAYNAMES[start_cutoff.wday].downcase
+    end_wday = Date::DAYNAMES[end_cutoff.wday].downcase
 
-    # where('? = 1 AND
-    #   (start_date IS NULL OR start_date <= ?) AND
-    #   (expiration_date IS NULL OR expiration_date >= ?)',
-    #   wday, day, day)
-    where(wday => true).where(
+    where(start_wday => true, end_wday => true).where(
       '(start_date IS NULL OR start_date <= ?) AND
       (expiration_date IS NULL OR expiration_date >= ?)',
-      day, day
+      start_cutoff, start_cutoff
     )
   end
 

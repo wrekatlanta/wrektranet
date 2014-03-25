@@ -1,11 +1,16 @@
 # NOT AN ACTIVERECORD MODEL
-# A container class that produces a hash of program log items.
-class ProgramLog
-  include IceCube
+# A module that produces a hash of program log items.
+module ProgramLog
+  def self.generate(time = Time.zone.now, opts = {})
+    opts[:limit] ||= 2.hours
 
-  def self.for_day(day = Time.zone.now, options = {})
+    day = time.beginning_of_day
+    start_cutoff = time.beginning_of_hour
+    end_cutoff = (start_cutoff + opts[:limit]) - 1.second
+    # bring the end_cutoff 1 second to hide the next hour
+
     plog_schedules = ProgramLogSchedule
-      .find_by_day(day)
+      .find_by_range(start_cutoff, end_cutoff)
       .includes(:program_log_entry)
 
     plog = {
@@ -17,32 +22,38 @@ class ProgramLog
     plog_schedules.find_each do |plog_schedule|
       start_time = plog_schedule.start_time.on(day)
 
-      if plog_schedule.end_time
+      unless plog_schedule.end_time.blank?
         end_time = plog_schedule.end_time.on(day)
       else
-        end_time = start_time.end_of_day
+        end_time = end_cutoff
       end
 
-      schedule = Schedule.new(start_time)
+      schedule = IceCube::Schedule.new start_time
+
+      # add rules for days of the week, in case we go into the next day
+      schedule.add_recurrence_rule(
+        IceCube::Rule.weekly(1).day(*plog_schedule.days)
+      )
 
       # use the repeat_interval to create a minutely rule
+      # also add the end_time, defaulting to the end cutoff
       if plog_schedule.repeat_interval > 0
         schedule.add_recurrence_rule(
-          Rule.minutely(plog_schedule.repeat_interval)
+          IceCube::Rule.minutely(plog_schedule.repeat_interval).until(end_time)
         )
-      else
-        schedule.add_recurrence_rule(Rule.daily)
       end
 
       # convert markdown, etc. once per set of occurrences
       plog[:entries][plog_schedule.program_log_entry.id] ||= {
         title: plog_schedule.program_log_entry.title,
-        description: ApplicationHelper.markdown(plog_schedule.program_log_entry.description)
+        description: ApplicationHelper.markdown(
+          plog_schedule.program_log_entry.description
+        )
       }
 
       # add occurrences to the program log
       # an occurrence is a hash with time, title, and markdown-converted description
-      occurrences = schedule.occurrences(end_time)
+      occurrences = schedule.occurrences_between(start_cutoff, end_cutoff)
       occurrences.map! do |occurrence|
         {
           time: occurrence,
@@ -52,6 +63,8 @@ class ProgramLog
 
       plog[:occurrences].concat occurrences
     end
+
+    plog[:occurrences].sort_by! { |o| o[:time] }
 
     plog
   end

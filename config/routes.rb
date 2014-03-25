@@ -9,6 +9,7 @@ Wrek::Application.routes.draw do
     root to: "dashboard#index"
 
     resources :events, only: [:index]
+    resources :program_log, only: [:index]
     resources :playlist, only: [:index]
     resources :albums, defaults: {format: :json}
     resources :play_logs, defaults: {format: :json} do
