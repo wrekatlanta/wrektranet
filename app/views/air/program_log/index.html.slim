@@ -9,12 +9,12 @@
       table.table.table-hover
         thead
           tr
-            th
+            th style="width: 5%;"
               span.sr-only Done
             th.text-right style="width: 5%;" Time
             th What to do
-        tbody.ng-cloak
-          tr style="cursor: pointer;" ng-repeat="occurrence in program_log.occurrences" ng-click="done = !done" ng-class="{ warning: occurrence.isSoon && !done }"
+        tbody
+          tr.ng-cloak style="cursor: pointer;" ng-repeat="occurrence in program_log.occurrences" ng-click="done = !done" ng-class="{ warning: occurrence.isSoon && !done }"
             td
               i.glyphicon ng-class="{ 'glyphicon-check': done, 'glyphicon-unchecked': !done }"
             td.no-wrap.text-muted.text-right
@@ -23,9 +23,10 @@
               strong
                 | {{ $parent.program_log.entries[occurrence.entry_id].title }}
               div ng-bind-html="trustedHtml($parent.program_log.entries[occurrence.entry_id].description)"
-          tr ng-if="program_log.occurrences.length === 0"
-            td colspan="2" No program log entries were found for the next two hours.
-
+          tr.ng-cloak ng-if="program_log.occurrences.length === 0"
+            td colspan="3" No program log entries were found for the next two hours.
+          tr ng-show="false"
+            td colspan="3" Bleepity bloop...
     form.form-inline action="#{air_program_log_index_path}" method="GET"
       .form-group>
         label> for="time"
