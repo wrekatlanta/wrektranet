@@ -22,7 +22,6 @@
 
 class ProgramLogSchedule < ActiveRecord::Base
   include NaturalLanguageDate
-  require 'tod'
 
   natural_language_date_attr :start_date, :date
   natural_language_date_attr :expiration_date, :date
