@@ -33,12 +33,16 @@ gem 'draper', '~> 1.0'
 gem 'simple_form', git: 'git://github.com/plataformatec/simple_form.git'
 gem 'will_paginate', '~> 3.0'
 gem 'will_paginate-bootstrap'
-gem 'chronic'
 gem 'whenever'
 gem 'nokogiri'
 gem 'redcarpet'
 
 gem 'devise_ldap_authenticatable'
+
+# time helpers
+gem 'chronic'
+gem 'tod'
+gem 'ice_cube'
 
 # APIs
 gem 'google-api-client'

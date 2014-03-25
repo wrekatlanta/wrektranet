@@ -1,0 +1,59 @@
+- content_for :title, "Program Log"
+
+.page-header
+  h1 Program Log
+
+.row
+  .col-sm-8
+    div ng-controller="airProgramLogCtrl" ng-init="program_log = #{@program_log.to_json()}; calculateIsSoon();"
+      table.table.table-hover
+        thead
+          tr
+            th style="width: 5%;"
+              span.sr-only Done
+            th.text-right style="width: 5%;" Time
+            th What to do
+        tbody
+          tr.ng-cloak style="cursor: pointer;" ng-repeat="occurrence in program_log.occurrences" ng-click="done = !done" ng-class="{ warning: occurrence.isSoon && !done }"
+            td
+              i.glyphicon ng-class="{ 'glyphicon-check': done, 'glyphicon-unchecked': !done }"
+            td.no-wrap.text-muted.text-right
+              | {{ occurrence.time | date:'HH:mm' }}
+            td
+              strong
+                | {{ $parent.program_log.entries[occurrence.entry_id].title }}
+              div ng-bind-html="trustedHtml($parent.program_log.entries[occurrence.entry_id].description)"
+          tr.ng-cloak ng-if="program_log.occurrences.length === 0"
+            td colspan="3" No program log entries were found for the next two hours.
+          tr ng-show="false"
+            td colspan="3" Bleepity bloop...
+    form.form-inline action="#{air_program_log_index_path}" method="GET"
+      .form-group>
+        label> for="time"
+          | Preview the log for a different time:
+        input.input-sm.form-control> name="time" type="text" placeholder="e.g. tomorrow 1:30 PM"
+        button.btn.btn-primary.btn-sm> Preview
+        a.btn.btn-default.btn-sm href="#{air_program_log_index_path}" Reset
+
+  .col-sm-4
+    .panel.panel-default
+      .panel-heading Today's Schedule
+      table.table
+        thead
+          tr
+            th.text-right Time
+            th Show
+        tbody
+          - unless @schedule.empty?
+            - last_show = nil
+
+            - for slot in @schedule do
+              - if last_show.nil? || last_show != slot[:show] 
+                tr class="#{slot[:now_playing] ? 'info' : nil}"
+                  td.text-muted.text-right = l slot[:start_time], format: :military
+                  td = slot[:show].name
+
+              - last_show = slot[:show]
+          - else
+            tr
+              td colspan="3" No AV PSAs found.

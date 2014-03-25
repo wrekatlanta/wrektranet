@@ -12,7 +12,7 @@ feature "Contest air giveaway" do
 
   let!(:today) {
     if Time.zone.now.hour == 23
-      return Time.zone.tomorrow.beginning_of_day
+      return Time.zone.now.tomorrow.beginning_of_day
     else
       return Time.zone.today
     end

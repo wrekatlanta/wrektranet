@@ -12,7 +12,7 @@ module ApplicationHelper
     html.html_safe
   end
 
-  def markdown(text)
+  def self.markdown(text)
     renderer = Redcarpet::Render::HTML.new(hard_wrap: true, filter_html: true)
     options = {
       autolink: true,
@@ -23,5 +23,9 @@ module ApplicationHelper
       superscript: true
     }
     Redcarpet::Markdown.new(renderer, options).render(text).html_safe
+  end
+
+  def markdown(text)
+    return ApplicationHelper.markdown(text)
   end
 end

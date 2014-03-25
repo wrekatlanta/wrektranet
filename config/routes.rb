@@ -9,6 +9,7 @@ Wrek::Application.routes.draw do
     root to: "dashboard#index"
 
     resources :events, only: [:index]
+    resources :program_log, only: [:index]
     resources :playlist, only: [:index]
     resources :albums, defaults: {format: :json}
     resources :play_logs, defaults: {format: :json} do
@@ -55,6 +56,10 @@ Wrek::Application.routes.draw do
 
   namespace :admin do
     root to: "dashboard#index"
+
+    resources :program_log_entries do
+      resources :program_log_schedules, shallow: true
+    end
 
     resources :contests do
       resources :staff_tickets, shallow: true

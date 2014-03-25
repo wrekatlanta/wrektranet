@@ -12,7 +12,7 @@ form.form-horizontal
       input.form-control#ticketFilter type="text" ng-model="filter"
 
 .table-responsive
-  table.table.table-striped.ng-cloak ng-controller="staffSignupCtrl" ng-init="contests = #{@contests.to_json(include: [:venue])}"
+  table.table.table-striped ng-controller="staffSignupCtrl" ng-init="contests = #{@contests.to_json(include: [:venue])}"
     thead
       tr
         th style="width: 10%;"
@@ -21,7 +21,7 @@ form.form-horizontal
         th style="width: 17%;" Time
         th style="width: 20%;" Venue
         th Remaining
-    tbody
+    tbody.ng-cloak
       - unless @contests.empty?
         tr ng-repeat="contest in contests | filter:filter"
           td.text-right

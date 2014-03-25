@@ -26,5 +26,5 @@ class ContestSuggestion < ActiveRecord::Base
   scope :archived, -> { where(archived: true) }
   scope :upcoming, -> { where("date >= :start_date", start_date: Time.zone.now.beginning_of_day) }
 
-  natural_language_date_attr :date
+  natural_language_date_attr :date, :date
 end

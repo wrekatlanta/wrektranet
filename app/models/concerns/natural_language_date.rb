@@ -5,7 +5,7 @@ module NaturalLanguageDate
   extend ActiveSupport::Concern
 
   module ClassMethods
-    def natural_language_date_attr(attribute)
+    def natural_language_date_attr(attribute, type = :datetime)
       getter = "#{attribute}_string".to_sym
       setter = "#{attribute}_string=".to_sym
       validator = "#{attribute}_string_is_date".to_sym
@@ -16,7 +16,14 @@ module NaturalLanguageDate
       end
 
       define_method getter do
-        instance_variable_get("@#{getter}") || self.try(attribute).try(:strftime, "%-m/%-d/%y %-l:%M %p") || ''
+        case type
+        when :date
+          format = "%-m/%-d/%y"
+        else
+          format = "%-m/%-d/%y %-l:%M %p"
+        end
+
+        instance_variable_get("@#{getter}") || self.try(attribute).try(:strftime, format) || ''
       end
 
       define_method validator do

@@ -19,6 +19,10 @@ module Settings
     true
   end
 
+  def self.program_log_enabled?
+    Rails.env.development?
+  end
+
   def self.calendar_enabled?
     ENV.has_key? 'EVENT_CALENDAR_ID'
   end

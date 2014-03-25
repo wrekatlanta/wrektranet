@@ -1,0 +1,24 @@
+- content_for :title, "Program Log Entries"
+
+.page-header
+  h1 Program Log Entries
+
+= render 'navigation'
+
+.table-responsive
+  table.table.table-striped
+    thead
+      tr
+        th Title
+        th Schedules
+    tbody
+      - unless @program_log_entries.empty?
+        - for entry in @program_log_entries do
+          tr
+            td = link_to entry.title, edit_admin_program_log_entry_path(entry)
+            td = entry.program_log_schedules.size
+      - else
+        tr
+          td colspan="6" No results were found.
+
+= will_paginate @program_log_entries, renderer: BootstrapPagination::Rails, bootstrap: 3

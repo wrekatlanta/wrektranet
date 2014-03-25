@@ -11,9 +11,6 @@
         = link_to staff_listener_logs_path(format: :json), class: 'btn btn-primary' do
           i.glyphicon.glyphicon-download>
           | Download as JSON
-      .text-muted
-        markdown:
-          Use query paramters **start** and **end** for ranges.
   .col-md-4.text-center
     h4 Main 128
     #main_128.listener-count.ng-cloak = "{{ main_128 }}"
