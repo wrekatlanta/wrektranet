@@ -23,8 +23,7 @@
 class ProgramLogSchedule < ActiveRecord::Base
   include NaturalLanguageDate
 
-  # mysql 'empty string in time field' fix
-  normalize_attributes :end_time
+  before_save :normalize_attributes
 
   natural_language_date_attr :start_date, :date
   natural_language_date_attr :expiration_date, :date
@@ -65,6 +64,12 @@ class ProgramLogSchedule < ActiveRecord::Base
     else
       original
     end
+  end
+
+  def normalize_attributes
+    # end_time should not be an empty string for mysql
+    start_time = start_time.presence
+    end_time = end_time.presence
   end
 
   # Finds schedules for a given day of the week (using Time#wday)

@@ -68,7 +68,6 @@ GEM
       rake (>= 0.8.7)
     arel (4.0.2)
     atomic (1.1.14)
-    attribute_normalizer (1.1.0)
     autoparse (0.3.3)
       addressable (>= 2.3.1)
       extlib (>= 0.9.15)
@@ -371,7 +370,6 @@ DEPENDENCIES
   active_link_to
   activerecord-oracle_enhanced-adapter!
   annotate (>= 2.5.0)
-  attribute_normalizer
   better_errors
   binding_of_caller
   bootstrap-sass (~> 3.1.0)
