@@ -1,8 +1,10 @@
 # NOT AN ACTIVERECORD MODEL
 # A module that produces a hash of program log items.
 module ProgramLog
+  DEFAULT_LIMIT = 2.hours
+
   def self.generate(time = Time.zone.now, opts = {})
-    opts[:limit] ||= 2.hours
+    opts[:limit] ||= DEFAULT_LIMIT
 
     day = time.beginning_of_day
     start_cutoff = time.beginning_of_hour

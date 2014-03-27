@@ -5,6 +5,11 @@
 
 .row
   .col-sm-8
+    - if @custom_time_set
+      .alert.alert-warning
+        p = "You're currently previewing the program log for #{l @time, format: :us_time}."
+        p = link_to 'Switch back to the current time.', air_program_log_index_path, class: 'alert-link'
+
     div ng-controller="airProgramLogCtrl" ng-init="program_log = #{@program_log.to_json()}; calculateIsSoon();"
       table.table.table-hover
         thead
@@ -23,8 +28,17 @@
               strong
                 | {{ $parent.program_log.entries[occurrence.entry_id].title }}
               div ng-bind-html="trustedHtml($parent.program_log.entries[occurrence.entry_id].description)"
+
+          / no results message
           tr.ng-cloak ng-if="program_log.occurrences.length === 0"
             td colspan="3" No program log entries were found for the next two hours.
+
+          / load another hour
+          tr.ng-cloak
+            td colspan="3"
+              = link_to 'Show me another hour!', params.merge(limit_hours: @limit_in_hours + 1)
+
+          / loading message
           tr ng-show="false"
             td colspan="3" Bleepity bloop...
     form.form-inline action="#{air_program_log_index_path}" method="GET"
@@ -33,7 +47,6 @@
           | Preview the log for a different time:
         input.input-sm.form-control> name="time" type="text" placeholder="e.g. tomorrow 1:30 PM"
         button.btn.btn-primary.btn-sm> Preview
-        a.btn.btn-default.btn-sm href="#{air_program_log_index_path}" Reset
 
   .col-sm-4
     .panel.panel-default
