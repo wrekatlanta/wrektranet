@@ -2,6 +2,7 @@
 # A module that produces a hash for a week's show schedule.
 module Legacy::Schedule
   SLOT_LENGTH = 10.minutes
+  SLOT_PRIORITY = [:block, :specialty, :oto]
 
   def self.generate_for_day(time = Time.zone.now, opts = {})
     day = time.beginning_of_day
@@ -54,9 +55,9 @@ module Legacy::Schedule
 
     result = {}
 
-    result.merge! schedule_bins[:block]
-    result.merge! schedule_bins[:specialty]
-    result.merge! schedule_bins[:oto]
+    SLOT_PRIORITY.each do |block_type|
+      result.merge! schedule_bins[block_type]      
+    end
 
     result = result.sort.map do |slot|
       {
@@ -69,7 +70,7 @@ module Legacy::Schedule
     # add a current_show indicator by finding the current slot
     # and applying it to adjacent, previous instances of the show
     result.each_with_index do |slot, i|
-      current_min = time.min - (time.min % Legacy::Schedule::SLOT_LENGTH)
+      current_min = time.min - (time.min % SLOT_LENGTH)
       time_to_match = time.change(min: current_min)
 
       if slot[:start_time] == time_to_match
