@@ -11,7 +11,6 @@ table.table.table-striped
       th Title
       th Status
       th Total Reads
-      th Last Read
   tbody
     - unless @psas.empty?
       - for psa in @psas do
@@ -26,10 +25,6 @@ table.table.table-striped
               .label.label-primary = psa.status
 
           td = psa.psa_readings.count
-          - unless psa.psa_readings.last.blank?
-            td = l psa.psa_readings.last.created_at, format: :us_time
-          - else
-            td Unread
     - else
       tr
-        td colspan="4" No PSAs found.
+        td colspan="3" No PSAs found.

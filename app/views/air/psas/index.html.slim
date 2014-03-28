@@ -20,7 +20,7 @@
                 td.no-wrap = l psa.psa_readings.first.created_at, format: :us_time
               - else
                 td Unread!
-              td = psa.psa_readings.count { |reading| reading.created_at > 1.week.ago }
+              td = psa.psa_readings.keep_if { |reading| reading.created_at > 1.week.ago }.size
         - else
           tr
             td colspan="3" No PSAs were found.
