@@ -24,7 +24,7 @@ class Calendar < ActiveRecord::Base
     calendar = nil
 
     open(url) do |cal|
-      calendar = ::Icalendar.parse(cal).first
+      calendar = Icalendar::parse(cal).first
     end
 
     if options[:min_date] and options[:max_date]
