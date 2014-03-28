@@ -12,7 +12,6 @@
 #
 
 class Calendar < ActiveRecord::Base
-  require 'icalendar'
   require 'open-uri'
 
   validates :url, url: true
