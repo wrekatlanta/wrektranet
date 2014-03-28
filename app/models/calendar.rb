@@ -13,6 +13,7 @@
 
 class Calendar < ActiveRecord::Base
   require 'open-uri'
+  include Icalendar
 
   # validates :url, url: true
   validates :name, presence: true
