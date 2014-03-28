@@ -14,8 +14,10 @@
 class Calendar < ActiveRecord::Base
   require 'open-uri'
 
-  validates :url, url: true
+  # validates :url, url: true
   validates :name, presence: true
+  validates :url, presence: true
+  validates :weeks_to_show, presence: true
 
   def parse(options = {})
     events = nil
