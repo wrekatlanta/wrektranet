@@ -3,8 +3,27 @@
 .page-header
   h1 Event Calendar
 
-- if Settings.calendar_enabled?
-  iframe src="https://www.google.com/calendar/embed?mode=AGENDA&src=#{CGI.escape ENV['EVENT_CALENDAR_ID']}&ctz=America/New_York" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"
+- @event_days.sort.each do |day, events|
+  .panel.panel-default
+    .panel-heading
+      h3.panel-title = l day, format: :contest_date
 
-- else
-  p Sorry, Google Calendar hasn't been configured yet!
+    .table-responsive
+      table.table.table-hover
+        thead
+          th.text-right style="width: 15%;" Calendar
+          th style="width: 20%;" Date
+          th style="width: 30%;" Event
+          th style="width: 35%;" Location
+        tbody
+          - for event in events
+            tr
+              td.text-right
+                span.label class="label-#{event[:class]}" = event[:calendar]
+              td.no-wrap
+                - if event[:date].is_a? Date
+                  = l(event[:date], format: :us_date)
+                - else
+                  = l(event[:date], format: :us_time)
+              td = event[:name]
+              td = event[:location]

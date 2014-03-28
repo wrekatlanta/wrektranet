@@ -1,14 +1,29 @@
-# Parses Google Calendar iCalendar feeds into a hash
-module CalendarParser
+# == Schema Information
+#
+# Table name: calendars
+#
+#  id               :integer          not null, primary key
+#  url              :string(255)
+#  name             :string(255)
+#  default_location :string(255)
+#  weeks_to_show    :integer          default(1)
+#  created_at       :datetime
+#  updated_at       :datetime
+#
+
+class Calendar < ActiveRecord::Base
   require 'icalendar'
   require 'open-uri'
 
-  def self.parse(calendar_url, options = {})
-    calendar = nil
-    events = nil
+  validates :url, url: true
+  validates :name, presence: true
 
-    open(calendar_url) do |cal|
-      calendar = Icalendar.parse(cal)[0]
+  def parse(options = {})
+    events = nil
+    calendar = nil
+
+    open(url) do |cal|
+      calendar = Icalendar.parse(cal).first
     end
 
     if options[:min_date] and options[:max_date]

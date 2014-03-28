@@ -2,7 +2,7 @@
 #
 # Table name: staff
 #
-#  id              :integer          not null
+#  id              :integer          not null, primary key
 #  pfname          :string(32)
 #  fname           :string(32)
 #  mname           :string(32)

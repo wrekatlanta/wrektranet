@@ -21,7 +21,6 @@
 #  name                   :string(255)
 #  start_time             :datetime
 #  public                 :boolean          default(TRUE)
-#  google_event_id        :string(255)
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl

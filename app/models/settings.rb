@@ -24,7 +24,7 @@ module Settings
   end
 
   def self.calendar_enabled?
-    ENV.has_key? 'EVENT_CALENDAR_ID'
+    true
   end
 
   def self.profiles_enabled?

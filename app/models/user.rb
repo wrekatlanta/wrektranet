@@ -84,7 +84,7 @@ class User < ActiveRecord::Base
     self.admin
   end
 
-  def exec?(roles = [:contest_director])
+  def exec?(roles = [:contest_director, :psa_director])
     roles = [roles] unless roles.kind_of? Array
 
     result = self.admin?

@@ -21,7 +21,6 @@
 #  name                   :string(255)
 #  start_time             :datetime
 #  public                 :boolean          default(TRUE)
-#  google_event_id        :string(255)
 #
 
 class Contest < ActiveRecord::Base
@@ -29,7 +28,6 @@ class Contest < ActiveRecord::Base
 
   after_initialize :set_default_values
   before_save :update_send_time
-  after_create :add_to_calendar!
 
   belongs_to :venue
   belongs_to :alternate_recipient, class_name: "Venue"
@@ -51,6 +49,8 @@ class Contest < ActiveRecord::Base
   validates :staff_ticket_limit, numericality: { greater_than_or_equal_to: 0 }
 
   default_scope -> { order('send_time ASC') }
+
+  scope :public, -> { where(public: true) }
 
   scope :upcoming, -> {
     today = Time.zone.now.beginning_of_day
@@ -114,30 +114,6 @@ class Contest < ActiveRecord::Base
 
   def end_time
     self.start_time.tomorrow.beginning_of_day
-  end
-
-  def add_to_calendar!
-    if Rails.env.production? and ENV.has_key?('EVENT_CALENDAR_ID') and self.public
-      client = GoogleAppsHelper.create_client
-      calendar = client.discovered_api('calendar', 'v3')
-      result = client.execute(
-        api_method: calendar.events.insert,
-        parameters: { 'calendarId' => ENV['EVENT_CALENDAR_ID'] },
-        body_object: {
-          start: {
-            dateTime: self.start_time.xmlschema
-          },
-          end: {
-            dateTime: self.end_time.xmlschema
-          },
-          summary: self.name,
-          location: self.venue.name
-        }
-      )
-
-      self.google_event_id = result.data.id
-      self.save!
-    end
   end
 
   private

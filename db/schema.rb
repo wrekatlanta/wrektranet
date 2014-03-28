@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140207071958) do
+ActiveRecord::Schema.define(version: 20140328202310) do
+
+  create_table "calendars", force: true do |t|
+    t.string   "url"
+    t.string   "name"
+    t.string   "default_location"
+    t.integer  "weeks_to_show",    default: 1
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "contacts", force: true do |t|
     t.string   "email"
@@ -51,7 +60,6 @@ ActiveRecord::Schema.define(version: 20140207071958) do
     t.string   "name"
     t.datetime "start_time"
     t.boolean  "public",                 default: true
-    t.string   "google_event_id"
   end
 
   add_index "contests", ["alternate_recipient_id"], name: "index_contests_on_alternate_recipient_id", using: :btree
@@ -105,12 +113,32 @@ ActiveRecord::Schema.define(version: 20140207071958) do
     t.datetime "updated_at"
   end
 
+  create_table "program_log_entry_schedules", force: true do |t|
+    t.integer  "program_log_entry_id"
+    t.date     "start_date"
+    t.date     "expiration_date"
+    t.time     "start_time"
+    t.time     "end_time"
+    t.integer  "repeat_interval"
+    t.boolean  "sunday",               default: false
+    t.boolean  "monday",               default: false
+    t.boolean  "tuesday",              default: false
+    t.boolean  "wednesday",            default: false
+    t.boolean  "thursday",             default: false
+    t.boolean  "friday",               default: false
+    t.boolean  "saturday",             default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "program_log_entry_schedules", ["program_log_entry_id"], name: "index_program_log_entry_schedules_on_program_log_entry_id", using: :btree
+
   create_table "program_log_schedules", force: true do |t|
     t.integer  "program_log_entry_id"
     t.date     "start_date"
     t.date     "expiration_date"
-    t.time     "start_time",           null: true, default: nil
-    t.time     "end_time",             null: true, default: nil
+    t.time     "start_time"
+    t.time     "end_time"
     t.integer  "repeat_interval",      default: 0
     t.boolean  "sunday",               default: false
     t.boolean  "monday",               default: false

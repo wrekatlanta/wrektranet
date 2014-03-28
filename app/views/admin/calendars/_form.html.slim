@@ -1,0 +1,13 @@
+- defaults = {input_wrapper_html: {class: 'col-md-6'}, label_html: {class: 'col-md-2'}}
+
+= simple_form_for [:admin, @calendar], html: {class: 'form-horizontal'}, defaults: defaults do |f|
+  = f.input :name, input_html: { class: 'form-control' }, required: true
+  = f.input :url, input_html: { class: 'form-control' }, hint: "This should have '.ics' as the extension.", required: true, label: 'URL'
+  = f.input :weeks_to_show, input_html: { class: 'form-control' }, hint: "How many weeks should be pulled up for the events calendar?", required: true, default: 1
+  = f.input :default_location, input_html: { class: 'form-control' }, hint: "If there is no location set for an event, you can specify a default."
+  .form-group
+    .col-md-offset-2.col-md-10
+      = f.button :submit, class: 'btn-primary'
+      - if @calendar.persisted?
+        |  
+        = link_to 'Delete', [:admin, @calendar], confirm: 'Are you sure you want to delete this calendar feed?', method: :delete, class: 'btn btn-danger'

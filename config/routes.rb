@@ -61,6 +61,8 @@ Wrek::Application.routes.draw do
       resources :program_log_schedules, shallow: true
     end
 
+    resources :calendars
+
     resources :contests do
       resources :staff_tickets, shallow: true
     end

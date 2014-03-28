@@ -10,9 +10,7 @@ gem 'rvm-capistrano'
 gem 'sass-rails', '~> 4.0.0'
 gem 'slim'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
-gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
 
 group :doc do
@@ -36,6 +34,7 @@ gem 'will_paginate-bootstrap'
 gem 'whenever'
 gem 'nokogiri'
 gem 'redcarpet'
+gem 'validate_url'
 
 gem 'devise_ldap_authenticatable'
 

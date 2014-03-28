@@ -60,6 +60,8 @@ class Ability
         if user.has_role? :psa_director or user.has_role? :exec
             can :manage, Psa
             can :manage, PsaReading
+            can :manage, ProgramLogEntry
+            can :manage, ProgramLogSchedule
         end
 
         # admin

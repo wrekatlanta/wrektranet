@@ -1,0 +1,33 @@
+- content_for :title, "Calendars"
+
+.page-header
+  h1 Calendars
+
+= render 'navigation'
+
+.row
+  .col-sm-6
+    .table-responsive
+      table.table.table-striped
+        thead
+          tr
+            th Name
+            th Weeks to Show
+        tbody
+          - unless @calendars.empty?
+            - for calendar in @calendars do
+              tr
+                td = link_to calendar.name, edit_admin_calendar_path(calendar)
+                td = calendar.weeks_to_show
+          - else
+            tr
+              td colspan="6" No results were found.
+
+    = will_paginate @calendars, renderer: BootstrapPagination::Rails, bootstrap: 3
+
+  .col-sm-6
+    .alert.alert-info
+      p The events calendar uses public contests and external iCal feeds. Each Calendar represents an external feed.
+
+      p
+        = link_to 'Find out how to get the feed for a Google Calendar.', 'https://support.google.com/calendar/answer/37648?hl=en)', class: 'alert-link'
