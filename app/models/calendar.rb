@@ -11,9 +11,10 @@
 #  updated_at       :datetime
 #
 
+include Icalendar
+
 class Calendar < ActiveRecord::Base
   require 'open-uri'
-  include Icalendar
 
   # validates :url, url: true
   validates :name, presence: true
