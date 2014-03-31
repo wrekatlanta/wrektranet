@@ -15,6 +15,8 @@ class Air::EventsController < Air::BaseController
         class: get_class('Contests')
       } }
 
+      puts events
+
       Calendar.find_each do |calendar|
         min_date = Time.zone.now
         max_date = min_date + calendar.weeks_to_show.weeks

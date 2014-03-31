@@ -64,6 +64,10 @@ class Ability
             can :manage, ProgramLogSchedule
         end
 
+        if user.has_role? :exec
+            can :manage, Calendar
+        end
+
         # admin
         if user.admin?
           can :manage, :all

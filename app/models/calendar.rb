@@ -13,6 +13,7 @@
 
 class Calendar < ActiveRecord::Base
   require 'open-uri'
+  include Icalendar
 
   # validates :url, url: true
   validates :name, presence: true
@@ -21,26 +22,22 @@ class Calendar < ActiveRecord::Base
 
   def parse(options = {})
     events = nil
-    calendar = nil
-
-    open(url) do |cal|
-      calendar = Icalendar::parse(cal).first
-    end
+    calendar = Icalendar::parse(open(url)).first
 
     if options[:min_date] and options[:max_date]
-      events = calendr.
-        events.select! { |event|
+      events = calendar.
+        events.select { |event|
           event.dtstart >= options[:min_date] and
             event.dtstart <= options[:max_date]
         }
     elsif options[:min_date]
       events = calendar.
-        events.select! { |event|
+        events.select { |event|
           event.dtstart >= options[:min_date]
         }
     elsif options[:max_date]
       events = calendar.
-        events.select! { |event|
+        events.select { |event|
           event.dtstart <= options[:max_date]
         }
     else
