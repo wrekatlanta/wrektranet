@@ -39,7 +39,7 @@ en:
       us_time: "%-m/%-d/%y %-l:%M %p"
       long_date: "%B %d, %Y"
       contest_date: "%A, %B %-d"
-      short: "%l:%M %p"
+      short: "%-l:%M %p"
       military: "%H:%M"
   simple_form:
     labels:
