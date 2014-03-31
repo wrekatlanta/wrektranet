@@ -182,7 +182,6 @@ GEM
       hpricot (~> 0.8.6)
       ruby_parser (~> 3.1.1)
     i18n (0.6.9)
-    icalendar (1.5.2)
     ice_cube (0.11.3)
     jbuilder (1.5.3)
       activesupport (>= 3.0.0)
@@ -268,6 +267,7 @@ GEM
     redcarpet (3.0.0)
     request_store (1.0.5)
     retriable (1.4.1)
+    ri_cal (0.8.8)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
@@ -388,7 +388,6 @@ DEPENDENCIES
   haml-rails
   haml2slim
   html2haml
-  icalendar
   ice_cube
   jbuilder (~> 1.2)
   jquery-rails
@@ -405,6 +404,7 @@ DEPENDENCIES
   rb-fsevent
   rb-inotify
   redcarpet
+  ri_cal
   rolify!
   rspec-rails
   ruby-oci8 (~> 2.1.0)

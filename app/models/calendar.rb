@@ -21,7 +21,7 @@ class Calendar < ActiveRecord::Base
 
   def parse(options = {})
     events = nil
-    calendar = Icalendar::parse(open(url)).first
+    calendar = RiCal.parse(open(url)).first
 
     if options[:min_date] and options[:max_date]
       events = calendar.

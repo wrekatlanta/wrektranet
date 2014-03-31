@@ -42,7 +42,7 @@ gem 'devise_ldap_authenticatable'
 gem 'chronic'
 gem 'tod'
 gem 'ice_cube'
-gem 'icalendar'
+gem 'ri_cal'
 
 # APIs
 gem 'google-api-client'
