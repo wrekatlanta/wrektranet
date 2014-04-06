@@ -5,7 +5,8 @@ angular.module("wrektranet.airContestCtrl", [])
 .controller('airContestCtrl', [
   '$scope',
   'Restangular',
-  function($scope, Restangular) {
+  '$window',
+  function($scope, Restangular, $window) {
     var resetTicket;
     Restangular.setBaseUrl('/air');
 
@@ -47,6 +48,12 @@ angular.module("wrektranet.airContestCtrl", [])
           then(function() {
             $scope.updateTickets();
           });
+      }
+    };
+
+    $window.onbeforeunload = function() {
+      if ($scope.newTicket.name.length > 0) {
+        return 'You forgot to save a listener ticket!';
       }
     };
 
