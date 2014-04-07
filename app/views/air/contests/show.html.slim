@@ -15,17 +15,17 @@
         = l @contest.start_time, format: :contest_date
         br
         = l @contest.start_time, format: :short
+      dt Age Limit
+      dd = t 'contests.age_limit', count: @contest.age_limit
       dt Listeners
       dd
-        = pluralize(@contest.listener_ticket_limit, @contest.listener_ticket_type)
-        br
         - if @contest.pick_up
           | Pick up at WREK
         - else
           | Guest List/Will Call
-      dt Age Limit
-      dd = t 'contests.age_limit', count: @contest.age_limit
-
+        br
+        = pluralize(@contest.listener_ticket_limit, @contest.listener_ticket_type)
+        
   .col-md-6 ng-controller="airContestCtrl" ng-init="contest = #{@contest.to_json(include: {listener_tickets: {include: :user}})}; current_user = #{current_user.to_json}; user_can_destroy_all = #{current_user.has_role_or_admin?(:contest_director).to_json};"
     h3 Listener Tickets
     table.table.ng-cloak
