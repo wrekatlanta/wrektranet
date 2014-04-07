@@ -1,14 +1,22 @@
 = render 'layouts/messages'
 
 .page-header
-  h1 Welcome to WREKtranet 2.0!
+  h1 Welcome to WREKtranet!
 
 h3
+  i.glyphicon.glyphicon-bullhorn>
   = link_to 'On Air', air_root_path
 
-p Announce contests and events.
+p Everything you need during your shift.
 
 h3
+  i.glyphicon.glyphicon-star>
   = link_to 'Staff', staff_root_path
 
-p Sign up for contest tickets or suggest contests.
+p Everything you need for contest tickets, Sunday Special signups, and general staff involvement.
+
+h3
+  i.glyphicon.glyphicon-book>
+  = link_to 'Wiki', 'http://wrektranet.wrek.org/wiki/Main_Page'
+
+p Find more detailed information about the station and our policies.
