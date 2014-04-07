@@ -14,7 +14,11 @@ class Air::ContestsController < Air::BaseController
       .paginate(page: params[:page], per_page: 50)
       .decorate
       
-    @contest_days = @contests.group_by { |c| c.send_time.beginning_of_day }
+    @contest_days = @contests.group_by { |c| c.send_time.beginning_of_day }.sort
+
+    if params[:filter] == 'past'
+      @contest_days.reverse!
+    end
   end
 
   def show
