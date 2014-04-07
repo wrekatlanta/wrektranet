@@ -3,11 +3,15 @@ class Air::ContestsController < Air::BaseController
   load_and_authorize_resource except: [:create]
 
   def index
+    if params[:filter] == 'past'
+      @contests = @contests.past
+    else
+      @contests = @contests.announceable.up_to(2.weeks)
+    end
+
     @contests = @contests
       .includes(:venue)
-      .paginate(page: params[:page], per_page: 30)
-      .announceable
-      .up_to(2.weeks)
+      .paginate(page: params[:page], per_page: 50)
       .decorate
       
     @contest_days = @contests.group_by { |c| c.send_time.beginning_of_day }

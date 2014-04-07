@@ -1,0 +1,4 @@
+ul.nav.nav-tabs
+  = active_link_to 'Upcoming', air_contests_path(filter: nil), wrap_tag: :li, active: (params[:action] == 'index' and params[:filter].nil?)
+  = active_link_to 'Archive', air_contests_path(filter: :past), wrap_tag: :li, active: (params[:action] == 'index' and params[:filter] == 'past')
+br
