@@ -24,6 +24,13 @@ staff_legacy_development:
   database: staff_legacy_development
   <<: *defaults
 
+# This is a dummy since oracle can't easily be reproduced on your end.
+# If you need to test things out, you have to connect to the production database.
+# Please be careful!
+oracle_legacy_development:
+  database: oracle_legacy_development
+  <<: *defaults
+
 # Test
 
 test: &test

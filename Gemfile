@@ -44,9 +44,6 @@ gem 'tod'
 gem 'ice_cube'
 gem 'ri_cal'
 
-# APIs
-gem 'google-api-client'
-
 group :development do
   gem 'guard', '>=2.1.0'
   gem 'unicorn-rails'
@@ -85,6 +82,8 @@ group :production do
   gem 'rails_12factor' # For asset compilation
 end
 
+# optional, only useful for playlists/AudioVault: `bundle install --without=oracle`
+# https://github.com/wrekatlanta/wrektranet/wiki/Installing-Oracle-adapters
 group :oracle do
   gem 'activerecord-oracle_enhanced-adapter', git: 'git://github.com/rsim/oracle-enhanced.git'
   gem 'ruby-oci8', '~> 2.1.0'
