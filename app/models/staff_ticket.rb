@@ -27,11 +27,13 @@ class StaffTicket < ActiveRecord::Base
   scope :upcoming, -> {
     includes(:contest)
       .where("contests.start_time >= :start_date", start_date: Time.zone.now.beginning_of_day)
+      .references(:contests)
   }
   scope :announceable, -> {
     includes(:contest)
       .where(contests: {sent: false})
       .where("contests.send_time > :start_date", start_date: Time.zone.now)
+      .references(:contests)
   }
 
   validates :contest_id, presence: :true
