@@ -36,6 +36,7 @@ class Staff::ListenerLogsController < Staff::BaseController
       aggregate.main_128 = main_128
       aggregate.main_24 = main_24
       aggregate.hd2_128 = hd2_128
+      aggregate.created_at = aggregate.created_at.beginning_of_hour
       @listener_logs << aggregate
     end
 
