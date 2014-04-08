@@ -47,6 +47,7 @@ Wrek::Application.routes.draw do
 
     resources :listener_logs do
       collection do
+        get 'hourly_averages'
         get 'current'
       end
     end
