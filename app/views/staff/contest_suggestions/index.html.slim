@@ -9,19 +9,21 @@
   table.table.table-striped
     thead
       tr
-        th style="width: 10%;" User
-        th style="width: 30%;" Event
         th style="width: 12%;" Date
-        th style="width: 30%;" Venue
+        th style="width: 30%;" Event
+        th style="width: 20%;" Venue
+        th style="width: 10%;" User
+        th style="width: 10%;" Show
         th style="width: 18%;" Created
     tbody
       - unless @contest_suggestions.empty?
         - for suggestion in @contest_suggestions do
           tr
-            td = suggestion.user.username
-            td = suggestion.name
             td = l suggestion.date, format: :us_date
+            td = suggestion.name
             td = suggestion.venue
+            td = suggestion.user.username
+            td = suggestion.show
             td = l suggestion.created_at, format: :us_time
       - else
         tr

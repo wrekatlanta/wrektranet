@@ -24,6 +24,6 @@ class Staff::ContestSuggestionsController < Staff::BaseController
 
   private
     def contest_suggestion_params
-      params.require(:contest_suggestion).permit(:name, :date_string, :venue)
+      params.require(:contest_suggestion).permit(:name, :date_string, :venue, :show)
     end
 end

@@ -10,6 +10,7 @@
 #  updated_at :datetime
 #  user_id    :integer
 #  archived   :boolean          default(FALSE)
+#  show       :string(255)
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl
