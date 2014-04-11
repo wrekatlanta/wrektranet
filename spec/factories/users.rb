@@ -33,6 +33,8 @@
 #  invitation_limit       :integer
 #  invited_by_id          :integer
 #  invited_by_type        :string(255)
+#  middle_name            :string(255)
+#  birthday               :date
 #
 
 FactoryGirl.define do

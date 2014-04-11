@@ -33,12 +33,14 @@
 #  invitation_limit       :integer
 #  invited_by_id          :integer
 #  invited_by_type        :string(255)
+#  middle_name            :string(255)
+#  birthday               :date
 #
 
 class User < ActiveRecord::Base
   before_validation :get_ldap_data, on: :create
   before_validation :set_defaults, on: :create
-  before_save :strip_phone
+  # before_save :strip_phone
   before_create :add_to_ldap
   before_destroy :delete_from_ldap
 
@@ -64,7 +66,7 @@ class User < ActiveRecord::Base
 
   default_scope -> { order('username ASC') }
 
-  validates :phone,      format: /[\(\)0-9\- \+\.]{10,20}/, allow_blank: true
+  # validates :phone,      format: /[\(\)0-9\- \+\.]{10,20}/, allow_blank: true
   validates :email,      presence: true
   validates :first_name, presence: true
   validates :last_name,  presence: true
@@ -73,7 +75,7 @@ class User < ActiveRecord::Base
   validates :status, inclusion: { in: STATUSES }
 
   def name
-    display_name.presence || [first_name, last_name].join(" ")
+    display_name.presence || first_name + " " + last_name
   end
 
   def username_with_name

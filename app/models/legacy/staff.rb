@@ -38,4 +38,5 @@ class Legacy::Staff < Legacy::Base
   self.primary_key = 'id'
 
   has_many :emails, foreign_key: :pid, class_name: "EmailInfo"
+  has_many :phone_numbers, foreign_key: :pid, class_name: "PhoneInfo"
 end
