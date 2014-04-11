@@ -21,7 +21,7 @@ class Staff::ListenerLogsController < Staff::BaseController
     end_date = params[:end].blank? ? Time.zone.now : Chronic.parse(params[:end])
 
     raw_logs = ListenerLog.range(start_date, end_date)
-    .group_by { |log| log.created_at.beginning_of_hour }
+      .group_by { |log| log.created_at.beginning_of_hour }
 
     @listener_logs = []
 

@@ -6,6 +6,9 @@ h3
 table.table.table-bordered.table-condensed.table-hover
   thead
     tr
+      th style="width: 3%;"
+        span.sr-only Announced
+        i.glyphicon.glyphicon-bullhorn
       th.text-center style="width: 8%;" Time
       th.text-center Track
       th.text-center Artist
@@ -15,8 +18,9 @@ table.table.table-bordered.table-condensed.table-hover
       th.text-center style="width: 8%;" Format
       th.text-center style="width: 8%;" DJ
   tbody
+    / queue
     tr.text-muted.ng-cloak ng-repeat="track in queued_tracks" tooltip="{{track.source}}" tooltip-placement="left" tooltip-append-to-body="true"
-      td
+      td colspan="2"
         button.btn.btn-xs.btn-primary.btn-block tooltip="Play" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="top" ng-disabled="playLogTracker.active()" ng-click="playTrack(track)"
           i.glyphicon.glyphicon-play
       td = "{{track.track_title}}"
@@ -29,11 +33,20 @@ table.table.table-bordered.table-condensed.table-hover
       td
         button.btn.btn-xs.btn-danger.btn-block tooltip="Unqueue" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="top" ng-click="unqueueTrack(track)"
           i.glyphicon.glyphicon-remove
+
+    / no results message
     tr.ng-cloak ng-if="!playLogTracker.active() && play_logs.length === 0"
-      td.text-muted colspan="8" No tracks were played in the last hour.
+      td.text-muted colspan="9" No tracks were played in the last hour.
+
+    / loading message
     tr ng-if="playLogTracker.active()"
-      td.text-muted colspan="8" Loading...
+      td.text-muted colspan="9" Loading...
+
+    / played tracks
     tr.ng-cloak style="cursor: pointer;" ng-repeat="log in play_logs track by log.id" ng-class="{info: !log.read}" tooltip="{{log.track.source}}" tooltip-placement="left" tooltip-append-to-body="true" ng-click="log.read = !log.read"
+      td
+        / announced 'checkbox' icon
+        i.glyphicon ng-class="{ 'glyphicon-check': log.read, 'glyphicon-unchecked': !log.read }"
       td
         div ng-switch="belongsToUser(log, #{current_user.legacy_id || -1})"
           div ng-switch-when="true"
@@ -57,4 +70,3 @@ table.table.table-bordered.table-condensed.table-hover
               i.glyphicon.glyphicon-trash
           div ng-switch-default=true
             = "{{log.user.initials}}"
-p.lead.text-muted Played tracks will be highlighted in blue so you can keep track of songs you haven't announced. Click on a track to mark it as read.
