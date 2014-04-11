@@ -36,4 +36,6 @@
 class Legacy::Staff < Legacy::Base
   self.table_name = 'staff'
   self.primary_key = 'id'
+
+  has_many :emails, foreign_key: :pid, class_name: "EmailInfo"
 end
