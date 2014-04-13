@@ -27,9 +27,7 @@ module Legacy::Schedule
     }
 
     show_schedules.each do |schedule|
-      if schedule.show.nil?
-        continue
-      end
+      next if schedule.show.nil?
 
       show = schedule.show
 
