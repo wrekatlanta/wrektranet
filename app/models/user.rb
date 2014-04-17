@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
   devise :registerable, :recoverable, :rememberable, :trackable,
     :validatable, :invitable, :timeoutable
 
-  STATUSES = ["potential", "active", "inactive", "expired"]
+  STATUSES = ["potential", "active", "inactive", "expired", "revoked"]
 
   if Rails.env.production?
     devise :ldap_authenticatable
@@ -66,8 +66,13 @@ class User < ActiveRecord::Base
 
   default_scope -> { order('username ASC') }
 
+  # commented out due to issues with legacy data
+  # not all valid phone numbers
   # validates :phone,      format: /[\(\)0-9\- \+\.]{10,20}/, allow_blank: true
+
+  # some people don't have emails, use: username@fake.me
   validates :email,      presence: true
+
   validates :first_name, presence: true
   validates :last_name,  presence: true
   validates :username,   presence: true,
@@ -182,6 +187,16 @@ class User < ActiveRecord::Base
       end
 
     end
+  end
+
+  # disable devise's uniqueness & presence validation for email
+  # http://stackoverflow.com/questions/17712662/rails-3-2-devise-signup-breaks-when-name-or-email-not-unique-or-email-is-fake
+  def email_required?
+    false
+  end
+
+  def email_changed?
+    false
   end
 
   def serializable_hash(options={})

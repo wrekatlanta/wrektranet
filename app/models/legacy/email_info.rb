@@ -18,5 +18,7 @@ class Legacy::EmailInfo < Legacy::Base
 
   belongs_to :staff, foreign_key: :pid
 
-  default_scope -> { order('pri DESC, updated DESC') }
+  # for some reason N is before Y if sorted by 'pri DESC'
+  # so that's why it's ASC instead
+  default_scope -> { order('pri ASC, updated DESC') }
 end

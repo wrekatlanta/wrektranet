@@ -4,7 +4,12 @@ task :sync_from_staff => :environment do |t, args|
     user = User.find_or_initialize_by(username: staff.initials)
 
     unless staff.emails.empty?
-      user.email = staff.emails.first.addr
+      user.email = staff.emails.first.addr.strip
+    end
+
+    # sigh, some people have blank email fields or "asdf@asdf.com"
+    if user.email.blank? or user.email == 'asdf@asdf.com' or !user.email.include? '@'
+      user.email = "#{user.username}@fake.me"
     end
 
     unless staff.phone_numbers.empty?
@@ -12,7 +17,7 @@ task :sync_from_staff => :environment do |t, args|
     end
 
     user.password ||= Devise.friendly_token[0,20]
-    user.status = staff.status
+    user.status = staff.status || "inactive"
     user.birthday ||= staff.birthday
     user.first_name ||= staff.fname
     user.middle_name ||= staff.mname
@@ -21,7 +26,6 @@ task :sync_from_staff => :environment do |t, args|
     unless staff.pfname.blank?
       user.display_name ||= staff.pfname + " " + staff.lname
     end
-
 
     # normalize created_at
     if staff.joined
