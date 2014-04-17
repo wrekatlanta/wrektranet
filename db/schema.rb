@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140411204831) do
+ActiveRecord::Schema.define(version: 20140417201642) do
 
   create_table "calendars", force: true do |t|
     t.string   "url"
@@ -186,6 +186,7 @@ ActiveRecord::Schema.define(version: 20140411204831) do
     t.string   "resource_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "full_name"
   end
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
