@@ -97,4 +97,6 @@ Wrek::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  Paperclip.options[:command_path] = "/usr/bin/"
 end

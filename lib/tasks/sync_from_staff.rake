@@ -1,6 +1,7 @@
 task :sync_from_staff => :environment do |t, args|
   Legacy::Staff.find_each do |staff|
     puts "Staff #{staff.id}: #{staff.initials}"
+
     user = User.find_or_initialize_by(username: staff.initials)
 
     unless staff.emails.empty?
@@ -16,6 +17,7 @@ task :sync_from_staff => :environment do |t, args|
       user.phone = staff.phone_numbers.first.number
     end
 
+    user.legacy_id ||= staff.id
     user.password ||= Devise.friendly_token[0,20]
     user.status = staff.status || "inactive"
     user.birthday ||= staff.birthday
@@ -24,7 +26,7 @@ task :sync_from_staff => :environment do |t, args|
     user.last_name ||= staff.lname
 
     unless staff.pfname.blank?
-      user.display_name ||= staff.pfname + " " + staff.lname
+      user.display_name ||= "#{staff.pfname} #{staff.lname}"
     end
 
     # normalize created_at

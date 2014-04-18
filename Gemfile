@@ -31,7 +31,7 @@ gem 'cancan'
 gem 'bootstrap-sass', '~> 3.1.0'
 gem 'active_link_to'
 gem 'figaro', github: 'laserlemon/figaro'
-gem "rolify", github: "EppO/rolify"
+gem 'rolify', github: 'EppO/rolify'
 gem 'draper', '~> 1.0'
 gem 'simple_form', git: 'git://github.com/plataformatec/simple_form.git'
 gem 'will_paginate', '~> 3.0'
@@ -40,6 +40,7 @@ gem 'whenever'
 gem 'nokogiri'
 gem 'redcarpet'
 gem 'validate_url'
+gem 'paperclip', '~> 4.1'
 
 # time helpers
 gem 'chronic'
