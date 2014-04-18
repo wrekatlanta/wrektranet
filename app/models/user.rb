@@ -45,9 +45,7 @@ class User < ActiveRecord::Base
   before_destroy :delete_from_ldap
 
   rolify
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :confirmable,
-  # :lockable
+
   devise :registerable, :recoverable, :rememberable, :trackable,
     :validatable, :invitable, :timeoutable
 
@@ -63,8 +61,12 @@ class User < ActiveRecord::Base
   has_many :contests, through: :staff_tickets
   has_many :listener_tickets
   has_many :contest_suggestions, dependent: :destroy
+  belongs_to :parent_op, class_name: "User", foreign_key: :user_id
 
-  default_scope -> { order('username ASC') }
+  # paperclip attachment for user avatars
+  has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>" },
+    default_url: "/images/:style/missing.png"
+  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
   # commented out due to issues with legacy data
   # not all valid phone numbers
@@ -78,6 +80,8 @@ class User < ActiveRecord::Base
   validates :username,   presence: true,
                          uniqueness: { case_sensitive: false }
   validates :status, inclusion: { in: STATUSES }
+
+  default_scope -> { order('username ASC') }
 
   def name
     display_name.presence || first_name + " " + last_name
