@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140418181938) do
+ActiveRecord::Schema.define(version: 20140418182825) do
 
   create_table "calendars", force: true do |t|
     t.string   "url"
@@ -279,6 +279,7 @@ ActiveRecord::Schema.define(version: 20140418181938) do
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
     t.integer  "user_id"
+    t.boolean  "exec_staff"
   end
 
   add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
