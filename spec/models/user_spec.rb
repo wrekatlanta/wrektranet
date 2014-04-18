@@ -35,6 +35,12 @@
 #  invited_by_type        :string(255)
 #  middle_name            :string(255)
 #  birthday               :date
+#  avatar_file_name       :string(255)
+#  avatar_content_type    :string(255)
+#  avatar_file_size       :integer
+#  avatar_updated_at      :datetime
+#  user_id                :integer
+#  exec_staff             :boolean
 #
 
 require 'spec_helper'
