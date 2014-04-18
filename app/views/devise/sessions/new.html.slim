@@ -6,7 +6,7 @@
       | If it doesn't work, try 
       = link_to 'resetting your password', 'http://opdesk.wrek.org/wrektranet/staff/personal/chpasswd.php3'
       | .
-  = f.input_field :username, autofocus: true, placeholder: 'Initials', class: 'form-control', pattern: false
+  = f.input_field :login, autofocus: true, placeholder: 'Username or Email', class: 'form-control', pattern: false
   = f.input_field :password, placeholder: 'Password', class: 'form-control'
   - if devise_mapping.rememberable?
     = f.input_field :remember_me, as: :boolean, inline_label: 'Remember me'

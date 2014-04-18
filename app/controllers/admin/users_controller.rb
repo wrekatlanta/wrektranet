@@ -4,14 +4,13 @@ class Admin::UsersController < Admin::BaseController
   def index
     authorize! :manage, User
 
-    @users = @users.
-      includes(:roles).
-      paginate(page: params[:page], per_page: 100)
+    @users = @users.includes(:roles, :legacy_profile)
   end
 
   def new
   end
 
+  # to be replaced with a new user form that everyone can access
   def create
     @user = User.new(user_params)
     authorize! :create, @user
@@ -50,8 +49,11 @@ class Admin::UsersController < Admin::BaseController
 
   private
     def user_params
-      params.require(:user).permit(:username, :email,
-                                   :first_name, :last_name, :display_name,
-                                   :phone, :admin, role_ids: [])
+      permitted = [
+        :username, :email, :first_name, :middle_name, :last_name, :display_name,
+        :phone, :admin, :exec_staff, role_ids: []
+      ]
+
+      params.require(:user).permit(permitted)
     end
 end

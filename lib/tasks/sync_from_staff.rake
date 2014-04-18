@@ -4,6 +4,9 @@ task :sync_from_staff => :environment do |t, args|
 
     user = User.find_or_initialize_by(username: staff.initials)
 
+    # set original case
+    user.username = staff.initials
+
     unless staff.emails.empty?
       user.email = staff.emails.first.addr.strip
     end

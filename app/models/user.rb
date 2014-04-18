@@ -44,6 +44,8 @@
 #
 
 class User < ActiveRecord::Base
+  STATUSES = ["potential", "active", "inactive", "expired", "revoked"]
+
   before_validation :get_ldap_data, on: :create
   before_validation :set_defaults, on: :create
   # before_save :strip_phone
@@ -55,8 +57,6 @@ class User < ActiveRecord::Base
   devise :registerable, :recoverable, :rememberable, :trackable,
     :validatable, :invitable, :timeoutable
 
-  STATUSES = ["potential", "active", "inactive", "expired", "revoked"]
-
   if Rails.env.production?
     devise :ldap_authenticatable
   else
@@ -67,6 +67,7 @@ class User < ActiveRecord::Base
   has_many :contests, through: :staff_tickets
   has_many :listener_tickets
   has_many :contest_suggestions, dependent: :destroy
+  belongs_to :legacy_profile, foreign_key: :legacy_id, class_name: "Legacy::Staff"
   belongs_to :parent_op, class_name: "User", foreign_key: :user_id
 
   # paperclip attachment for user avatars
@@ -151,6 +152,8 @@ class User < ActiveRecord::Base
     self.remember_value
   end
 
+
+  ## LDAP STUFF
   def get_ldap_data
     if Rails.env.production?
       result = LdapHelper::find_user(self.username)
@@ -212,6 +215,19 @@ class User < ActiveRecord::Base
 
   def email_changed?
     false
+  end
+
+  # http://stackoverflow.com/questions/10532032/devise-allow-users-to-register-as-username-but-login-with-username
+  # let people login with username or email, case insensitive
+  attr_accessor :login
+  
+  def self.find_first_by_auth_conditions(warden_conditions)
+    conditions = warden_conditions.dup
+    if login = conditions.delete(:login)
+      where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
+    else
+      where(conditions).first
+    end
   end
 
   def serializable_hash(options={})
