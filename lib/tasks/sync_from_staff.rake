@@ -55,14 +55,14 @@ task :sync_from_staff => :environment do |t, args|
       user.admin = true
     end
 
-    user.save!
-
-    # add appropriate roles
-
     # exec is a reserved word, can't be a method name
     is_exec = staff.read_attribute(:exec)
     if is_exec.present? and is_exec.downcase == "y" and not user.has_role? :exec
-      user.add_role :exec
+      user.exec_staff = true
     end
+
+    user.save!
+
+    # add appropriate roles here
   end
 end

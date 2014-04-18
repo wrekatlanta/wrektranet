@@ -101,6 +101,11 @@ class User < ActiveRecord::Base
     self.admin
   end
 
+  def exec_staff?
+    self.exec_staff
+  end
+
+  # FIXME: these role methods should probably be refactored
   def exec?(roles = [:contest_director, :psa_director])
     roles = [roles] unless roles.kind_of? Array
 
@@ -156,7 +161,7 @@ class User < ActiveRecord::Base
         self.last_name    ||= result.try(:sn).try(:first)
         self.display_name ||= result.try(:displayName).try(:first)
         self.status       ||= result.try(:employeeType).try(:first) || "potential"
-        self.email        ||= result.try(:mail).try(:first) || "#{username}@wrek.org"
+        self.email        ||= result.try(:mail).try(:first) || "#{username}@fake.me"
       end
     end
   end
