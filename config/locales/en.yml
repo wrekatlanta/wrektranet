@@ -53,6 +53,15 @@ en:
         date_string: 'Date'
       psa:
         expiration_date_string: 'Expiration Date'
+      user:
+        birthday_date_string: 'Birthday'
+        legacy_profile:
+          buzzcard_id: 'BuzzCard ID'
+          buzzcard_fc: 'BuzzCard Facility Code'
+          door1_access: 'Front Door Access'
+          door2_access: 'Back Door Access'
+          door3_access: 'Storage Closet Access'
+          door4_access: 'Engineering Access'
     options:
       contest:
         age_limit:

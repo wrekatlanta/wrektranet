@@ -44,6 +44,8 @@
 #
 
 class User < ActiveRecord::Base
+  include NaturalLanguageDate
+
   STATUSES = ["potential", "active", "inactive", "expired", "revoked"]
 
   before_validation :get_ldap_data, on: :create
@@ -53,6 +55,8 @@ class User < ActiveRecord::Base
   before_destroy :delete_from_ldap
 
   rolify
+
+  natural_language_date_attr :birthday_date, :date
 
   devise :registerable, :recoverable, :rememberable, :trackable,
     :validatable, :invitable, :timeoutable
@@ -69,6 +73,8 @@ class User < ActiveRecord::Base
   has_many :contest_suggestions, dependent: :destroy
   belongs_to :legacy_profile, foreign_key: :legacy_id, primary_key: :id, class_name: "Legacy::Staff"
   belongs_to :parent_op, class_name: "User", foreign_key: :user_id
+
+  accepts_nested_attributes_for :legacy_profile
 
   # paperclip attachment for user avatars
   has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>" },
@@ -205,6 +211,11 @@ class User < ActiveRecord::Base
       end
 
     end
+  end
+
+  # syncs to legacy_profile
+  def sync_to_legacy_profile
+
   end
 
   # disable devise's uniqueness & presence validation for email
