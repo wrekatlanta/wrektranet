@@ -1,10 +1,16 @@
 class Admin::UsersController < Admin::BaseController
-  load_and_authorize_resource except: [:create]
+  load_and_authorize_resource except: [:index, :create]
+  respond_to :json, :html
 
   def index
     authorize! :manage, User
 
-    @users = @users.includes(:roles, :legacy_profile)
+    @roles = Role.all
+
+    respond_to do |format|
+      format.html
+      format.json { render json: User.all.to_json(include: [:roles]) }
+    end
   end
 
   def new

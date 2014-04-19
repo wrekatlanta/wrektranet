@@ -1,6 +1,6 @@
 class AddExecStaffToUser < ActiveRecord::Migration
   def up
-    add_column :users, :exec_staff, :boolean
+    add_column :users, :exec_staff, :boolean, default: false
 
     User.with_role(:exec).each do |user|
       user.remove_role :exec
@@ -8,7 +8,7 @@ class AddExecStaffToUser < ActiveRecord::Migration
       user.save
     end
 
-    Role.find_by(name: "exec").destroy
+    Role.find_by(name: "exec").try(:destroy)
   end
 
   def down

@@ -8,7 +8,7 @@
   = f.input :display_name, input_html: { class: 'form-control' }
   = f.input :phone, input_html: { class: 'form-control' }
   = f.input :admin, as: :boolean
-  = f.association :roles, as: :check_boxes
+  = f.association :roles, as: :check_boxes, label_method: :full_name
   .form-group
     .col-md-offset-2.col-md-10
       = f.button :submit, class: 'btn-primary'

@@ -9,11 +9,13 @@ angular.module("wrektranet.controllers", [
   "wrektranet.airPlaylistCtrl",
   "wrektranet.airProgramLogCtrl",
   "wrektranet.adminProgramLogCtrl",
-  "wrektranet.listenerLogsCtrl"
+  "wrektranet.listenerLogsCtrl",
+  "wrektranet.adminUserCtrl"
 ]);
 
 angular.module("wrektranet.filters", [
-  "wrektranet.rangeFilter"
+  "wrektranet.rangeFilter",
+  "wrektranet.startFromFilter"
 ]);
 
 angular.module("wrektranet", [

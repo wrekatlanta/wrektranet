@@ -5,28 +5,89 @@
 
 = render 'navigation'
 
-.table-responsive
-  table.table.table-striped
-    thead
-      tr
-        th Username
-        th Name
-        th Phone
-        th Status
-        th Admin
-        th Roles
-    tbody
-      - unless @users.empty?
-        - for user in @users do
-          tr
-            td = link_to user.username, edit_admin_user_path(user)
-            td = user.name
-            td = number_to_phone user.phone
-            td = user.status
-            td = user.admin? ? 'Yes' : 'No'
-            td = user.roles.map(&:name).join('<br>').html_safe
-      - else
+div ng-controller="adminUserCtrl"
+  / filter
+  form.form-horizontal
+    .form-group
+      label.control-label.col-sm-2 Category
+      .col-sm-6
+        .btn-group
+          button.btn.btn-default.btn-sm type="button" ng-model="category" btn-radio="null" All
+          button.btn.btn-default.btn-sm type="button" ng-model="category" btn-radio="'exec_staff'" Exec Staff
+          button.btn.btn-default.btn-sm type="button" ng-model="category" btn-radio="'admin'" Admins
+    .form-group
+      label.control-label.col-sm-2 Status
+      .col-sm-6
+        .btn-group
+          button.btn.btn-default.btn-sm type="button" ng-model="status" btn-radio="null" All
+          button.btn.btn-success.btn-sm type="button" ng-model="status" btn-radio="'active'" Active
+          button.btn.btn-info.btn-sm type="button" ng-model="status" btn-radio="'potential'" Potential
+          button.btn.btn-warning.btn-sm type="button" ng-model="status" btn-radio="'inactive'" Inactive
+          button.btn.btn-danger.btn-sm type="button" ng-model="status" btn-radio="'expired'" Expired
+          button.btn.btn-danger.btn-sm type="button" ng-model="status" btn-radio="'revoked'" Revoked
+    .form-group
+      label.control-label.col-sm-2 Username
+      .col-sm-6
+        input.form-control type="text" ng-model="search.username"
+    .form-group
+      label.control-label.col-sm-2 Name
+      .col-sm-6
+        input.form-control type="text" ng-model="search.name"
+    .form-group
+      label.control-label.col-sm-2 Roles
+      .col-sm-6
+        / I don't feel like implementing an inner-array search
+        / this is being implemented as a full model search
+        select.form-control ng-model="search.$"
+          option value="" Any
+          - for role in @roles
+            option value="#{role.name}" = role.full_name
+
+  hr
+
+  / top pagination for good measure
+  pagination ng-show="!loadingTracker.active()" total-items="filtered.length" page="currentPage" max-size="maxSize" boundary-links="true" items-per-page="itemsPerPage" rotate="false"
+
+  / user table
+  .table-responsive
+    table.table.table-striped
+      thead
         tr
-          td colspan="4" No results were found.
+          th Username
+          th Name
+          th Phone
+          th Status
+          th Admin
+          th Exec Staff
+          th Roles
+      tbody
+        tr ng-repeat="user in filtered = (users | filter:status:true | filter:search) | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage"
+          td
+            a ng-href="/admin/users/{{ user.id }}/edit" = "{{ user.username }}"
+          td = "{{ user.name }}"
+          td = "{{ user.phone }}"
+          td
+            span.label ng-class="{ active: 'label-success', inactive: 'label-warning', expired: 'label-danger', revoked: 'label-danger', potential: 'label-info' }[user.status]"
+              | {{user.status}}
+          td ng-switch="user.admin"
+            span ng-switch-when="true"
+              span.label.label-success Yes
+            span ng-switch-default=true
+              span.label.label-default No
+          td ng-switch="user.exec_staff"
+            span ng-switch-when="true"
+              span.label.label-success Yes
+            span ng-switch-default=true
+              span.label.label-default No
+          td
+            span.label.label-default ng-repeat="role in user.roles" = "{{ role.full_name }}"
+        tr.ng-cloak ng-if="!loadingTracker.active() && filtered.length == 0"
+          td colspan="7" No results found.
+        tr ng-if="loadingTracker.active()"
+          td colspan="7" Loading...
+  
+  / bottom pagination
+  pagination ng-show="!loadingTracker.active()" total-items="filtered.length" page="currentPage" max-size="maxSize" boundary-links="true" items-per-page="itemsPerPage"
+
 
 /= will_paginate @contests, renderer: BootstrapPagination::Rails, bootstrap: 3
