@@ -165,6 +165,7 @@ class User < ActiveRecord::Base
 
 
   ## LDAP STUFF
+  ## this one can be deprecated soon since migrations are coming from staff table
   def get_ldap_data
     if Rails.env.production?
       result = LdapHelper::find_user(self.username)
@@ -204,6 +205,33 @@ class User < ActiveRecord::Base
     end
   end
 
+  def sync_to_ldap
+    if Rails.env.production? and not LdapHelper::find_user(self.username)
+      ldap_handle = LdapHelper::ldap_connect
+
+      # Build user attributes in line with the LDAP 'schema'
+      dn = "cn=#{self.username},ou=People,dc=staff,dc=wrek,dc=org"
+      user_attr = {
+        cn: self.username,
+        objectclass: "inetOrgPerson",
+        displayname: self.name,
+        mail: self.email,
+        givenname: self.first_name,
+        sn: self.last_name
+      }
+
+      unless self.password.blank?
+        user_attr[:userpassword] = "{SHA}#{Digest::SHA1.base64digest self.password}"
+      end
+
+      unless ldap_handle.add(dn: dn, attributes: user_attr)
+        puts ldap_handle.get_operation_result
+        return false
+      end
+    end
+  end
+
+  # this will stay
   def delete_from_ldap
     if Rails.env.production?
       ldap_handle = LdapHelper::ldap_connect
@@ -219,6 +247,7 @@ class User < ActiveRecord::Base
   end
 
   # syncs to legacy_profile (Legacy::Staff)
+  # DON'T PUT THIS IN A CALLBACK because of the sync script
   def sync_to_legacy_profile!
     p = self.legacy_profile
 

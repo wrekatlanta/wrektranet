@@ -1,15 +1,7 @@
 class RegistrationsController < Devise::RegistrationsController
   def update
-    account_update_params = devise_parameter_sanitizer.sanitize(:account_update)
-
-    # required for settings form to submit when password is left blank
-    if account_update_params[:password].blank?
-      account_update_params.delete("password")
-      account_update_params.delete("password_confirmation")
-    end
-
     @user = User.find(current_user.id)
-    if @user.update_attributes(account_update_params)
+    if @user.update_attributes(account_update_params) and @user.sync_to_legacy_profile! and @user.sync_to_ldap
       set_flash_message :notice, :updated
       # Sign in the user bypassing validation in case his password changed
       sign_in @user, bypass: true
@@ -18,4 +10,23 @@ class RegistrationsController < Devise::RegistrationsController
       render "edit"
     end
   end
+
+  private
+    def account_update_params
+      permitted = [
+        :email, :subscribed_to_announce, :subscribed_to_staff,
+        :first_name, :middle_name, :last_name, :display_name,
+        :password, :password_confirmation, :phone,
+        :birthday_string, :avatar, :delete_avatar,
+        legacy_profile_attributes: [:buzzcard_id, :buzzcard_fc]
+      ]
+
+      # required for settings form to submit when password is left blank
+      if params[:user][:password].blank?
+        params[:user].delete("password")
+        params[:user].delete("password_confirmation")
+      end
+
+      params.require(:user).permit(permitted)
+    end
 end
