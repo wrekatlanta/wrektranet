@@ -53,12 +53,12 @@ div ng-controller="adminUserCtrl"
     table.table.table-striped
       thead
         tr
-          th Username
-          th Name
-          th Phone
-          th Status
-          th Admin
-          th Exec Staff
+          th style="width: 15%;" Username
+          th style="width: 25%;" Name
+          th style="width: 15%;" Phone
+          th style="width: 8%;" Status
+          th style="width: 5%;" Admin
+          th style="width: 5%;" Exec
           th Roles
       tbody
         tr ng-repeat="user in filtered = (users | filter:status:true | filter:search) | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage"

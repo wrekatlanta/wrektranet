@@ -15,7 +15,7 @@ angular.module("wrektranet.adminUserCtrl", [])
 
     // pagination
     $scope.currentPage = 1;
-    $scope.maxSize = 5;
+    $scope.maxSize = 11;
     $scope.itemsPerPage = 20;
 
     $scope.category = null;
