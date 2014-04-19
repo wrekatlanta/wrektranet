@@ -54,7 +54,7 @@ en:
       psa:
         expiration_date_string: 'Expiration Date'
       user:
-        birthday_date_string: 'Birthday'
+        birthday_string: 'Birthday'
         legacy_profile:
           buzzcard_id: 'BuzzCard ID'
           buzzcard_fc: 'BuzzCard Facility Code'

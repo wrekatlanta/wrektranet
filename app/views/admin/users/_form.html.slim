@@ -1,23 +1,34 @@
 - defaults = {input_wrapper_html: {class: 'col-sm-6'}, label_html: {class: 'col-sm-2'}}
 
-= simple_form_for [:admin, @user], html: {class: 'form-horizontal'}, defaults: defaults do |f|
+= simple_form_for [:admin, @user], html: {class: 'form-horizontal', multipart: true}, defaults: defaults do |f|
   = f.input :username, input_html: { class: 'form-control' }
+  .form-group
+    = f.label 'Joined', class: 'col-sm-2'
+    .col-sm-10
+      .form-control-static = l @user.created_at, format: :us_time
   .form-group
     = f.label 'Email', class: 'col-sm-2'
     .col-sm-10
       .row
-        .col-sm-4
+        .col-sm-3
           = f.input_field :email, class: 'form-control'
         .col-sm-2
-          = f.input_field :subscribed_to_announce, as: :boolean, inline_label: 'Announce'
+          = f.input_field :subscribed_to_announce, as: :boolean, inline_label: 'Annc List'
         .col-sm-2
-          = f.input_field :subscribed_to_staff, as: :boolean, inline_label: 'Staff'
+          = f.input_field :subscribed_to_staff, as: :boolean, inline_label: 'Staff List'
   = f.input :first_name, input_html: { class: 'form-control' }
   = f.input :middle_name, input_html: { class: 'form-control' }
   = f.input :last_name, input_html: { class: 'form-control' }
   = f.input :display_name, input_html: { class: 'form-control' }
-  = f.input :birthday_date_string, input_html: { class: 'form-control' }
   = f.input :phone, input_html: { class: 'form-control' }
+  = f.input :birthday_string, input_html: { class: 'form-control' }
+  .form-group
+    = f.label "Avatar", class: 'col-sm-2'
+    .col-sm-2
+      = image_tag @user.avatar.url(:thumb), class: 'img-rounded'
+    .col-sm-6
+      = f.file_field :avatar
+      = f.input_field :delete_avatar, as: :boolean, inline_label: 'Remove Avatar'
   = f.input :admin, as: :boolean
   = f.input :exec_staff, as: :boolean
   = f.association :roles, label_method: :full_name, input_html: { class: 'form-control', size: '10' }

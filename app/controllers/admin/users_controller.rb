@@ -38,7 +38,7 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def update
-    if @user.update_attributes(user_params)
+    if @user.update_attributes(user_params) and @user.sync_to_legacy_profile!
       redirect_to admin_users_path, success: "#{@user.username} updated successfully."
     else
       render :edit
@@ -58,9 +58,10 @@ class Admin::UsersController < Admin::BaseController
       permitted = [
         :username, :email, :subscribed_to_announce, :subscribed_to_staff,
         :first_name, :middle_name, :last_name, :display_name,
+        :birthday_string, :avatar, :delete_avatar,
         :phone, :admin, :exec_staff, role_ids: [],
         legacy_profile_attributes: [
-          :door1_access, :door2_access, :door3_access,
+          :id, :door1_access, :door2_access, :door3_access,
           :door4_access, :buzzcard_id, :buzzcard_fc
         ]
       ]

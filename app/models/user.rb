@@ -39,8 +39,10 @@
 #  avatar_content_type    :string(255)
 #  avatar_file_size       :integer
 #  avatar_updated_at      :datetime
+#  exec_staff             :boolean          default(FALSE)
 #  user_id                :integer
-#  exec_staff             :boolean
+#  subscribed_to_staff    :boolean
+#  subscribed_to_announce :boolean
 #
 
 class User < ActiveRecord::Base
@@ -56,7 +58,7 @@ class User < ActiveRecord::Base
 
   rolify
 
-  natural_language_date_attr :birthday_date, :date
+  natural_language_date_attr :birthday, :date
 
   devise :registerable, :recoverable, :rememberable, :trackable,
     :validatable, :invitable, :timeoutable
@@ -71,15 +73,17 @@ class User < ActiveRecord::Base
   has_many :contests, through: :staff_tickets
   has_many :listener_tickets
   has_many :contest_suggestions, dependent: :destroy
-  belongs_to :legacy_profile, foreign_key: :legacy_id, primary_key: :id, class_name: "Legacy::Staff"
+  belongs_to :legacy_profile, foreign_key: :legacy_id, class_name: "Legacy::Staff"
   belongs_to :parent_op, class_name: "User", foreign_key: :user_id
 
   accepts_nested_attributes_for :legacy_profile
 
   # paperclip attachment for user avatars
+  attr_accessor :delete_avatar
+  before_validation { avatar.clear if delete_avatar == '1' }
   has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>" },
     default_url: "/images/:style/missing.png"
-  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
+  validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
   # commented out due to issues with legacy data
   # not all valid phone numbers
@@ -213,9 +217,37 @@ class User < ActiveRecord::Base
     end
   end
 
-  # syncs to legacy_profile
-  def sync_to_legacy_profile
+  # syncs to legacy_profile (Legacy::Staff)
+  def sync_to_legacy_profile!
+    p = self.legacy_profile
 
+    if not self.email.blank?
+      if not p.emails.blank?
+        email = p.emails.first
+      else
+        email = Legacy::EmailInfo.new(pid: p.id)
+      end
+
+      email.addr = self.email
+      email.stafflist = self.subscribed_to_staff ? 'y' : 'n'
+      email.annclist = self.subscribed_to_announce ? 'y' : 'n'
+      email.pri = 'Y'
+      email.description = 'Default, synced from WREKtranet2'
+
+      email.save!
+    end
+
+    new_attributes = {}
+
+    new_attributes[:initials] = username
+    new_attributes[:admin] = admin ? "y" : "n"
+    #new_attributes[:exec] = exec_staff ? "y" : "n"
+    new_attributes[:fname] = first_name
+    new_attributes[:mname] = middle_name
+    new_attributes[:lname] = last_name
+
+    p.update_attributes(new_attributes)
+    p.update_column :exec, exec_staff ? "y" : "n"
   end
 
   # disable devise's uniqueness & presence validation for email

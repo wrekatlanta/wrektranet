@@ -40,4 +40,11 @@ class Legacy::Staff < Legacy::Base
   has_many :emails, foreign_key: :pid, class_name: "EmailInfo"
   has_many :phone_numbers, foreign_key: :pid, class_name: "PhoneInfo"
   has_one :user, foreign_key: :legacy_id
+
+  def serializable_hash(options={})
+    options = { 
+      except: [:exec]
+    }.update(options)
+    super(options)
+  end
 end

@@ -39,8 +39,10 @@
 #  avatar_content_type    :string(255)
 #  avatar_file_size       :integer
 #  avatar_updated_at      :datetime
+#  exec_staff             :boolean          default(FALSE)
 #  user_id                :integer
-#  exec_staff             :boolean
+#  subscribed_to_staff    :boolean
+#  subscribed_to_announce :boolean
 #
 
 require 'spec_helper'
