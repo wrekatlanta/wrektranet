@@ -58,7 +58,7 @@ class Admin::UsersController < Admin::BaseController
       permitted = [
         :username, :email, :subscribed_to_announce, :subscribed_to_staff,
         :first_name, :middle_name, :last_name, :display_name,
-        :birthday_string, :avatar, :delete_avatar,
+        :status, :birthday_string, :avatar, :delete_avatar,
         :phone, :admin, :exec_staff, role_ids: [],
         legacy_profile_attributes: [
           :id, :door1_access, :door2_access, :door3_access,

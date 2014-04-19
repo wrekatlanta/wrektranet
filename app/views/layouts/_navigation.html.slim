@@ -23,7 +23,8 @@
       li.dropdown
         a.dropdown-toggle data-toggle="dropdown" href="#"
           i.glyphicon.glyphicon-user>
-          = current_user.name
+          strong> = current_user.username
+          span.text-muted = "- #{current_user.name}"
           b.caret
         ul.dropdown-menu
           - if Settings.profiles_enabled?

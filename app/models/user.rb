@@ -81,7 +81,8 @@ class User < ActiveRecord::Base
   # paperclip attachment for user avatars
   attr_accessor :delete_avatar
   before_validation { avatar.clear if delete_avatar == '1' }
-  has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>" },
+  has_attached_file :avatar,
+    styles: { medium: "300x300>", small: "100x100>", thumb: "32x32>" },
     default_url: "/images/:style/missing.png"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 

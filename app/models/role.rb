@@ -13,6 +13,7 @@
 
 class Role < ActiveRecord::Base
   # these are generated with `rake db:seed`
+  # run 'cap deploy:seed' in production
   DEFAULT_ROLES = [
     { name: "general_manager",
       full_name: "General Manager"},
@@ -34,6 +35,8 @@ class Role < ActiveRecord::Base
       full_name: "Music Director"},
     { name: "public_affairs_director",
       full_name: "Public Affairs Director"},
+    { name: "publicity_director",
+      full_name: "Publicity Director"},
     { name: "business_manager",
       full_name: "Business Manager"},
     { name: "live_sound_director",

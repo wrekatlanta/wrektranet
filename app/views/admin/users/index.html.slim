@@ -78,7 +78,8 @@ div ng-controller="adminUserCtrl"
             span ng-switch-default=true
               span.label.label-default No
           td
-            span.label.label-default ng-repeat="role in user.roles" = "{{ role.full_name }}"
+            div ng-repeat="role in user.roles"
+              span.label.label-primary = "{{ role.full_name }}"
         tr.ng-cloak ng-if="!loadingTracker.active() && filtered.length == 0"
           td colspan="7" No results found.
         tr ng-if="loadingTracker.active()"
