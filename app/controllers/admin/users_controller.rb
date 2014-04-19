@@ -55,9 +55,12 @@ class Admin::UsersController < Admin::BaseController
 
   private
     def user_params
+      # remove password if blank
+      params[:user][:password] = nil if params[:user][:password].blank?
+
       permitted = [
         :username, :email, :subscribed_to_announce, :subscribed_to_staff,
-        :first_name, :middle_name, :last_name, :display_name,
+        :first_name, :middle_name, :last_name, :display_name, :password,
         :status, :birthday_string, :avatar, :delete_avatar,
         :phone, :admin, :exec_staff, role_ids: [],
         legacy_profile_attributes: [

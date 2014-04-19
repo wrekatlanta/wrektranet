@@ -5,7 +5,7 @@
   .form-group
     = f.label 'Joined', class: 'col-sm-2'
     .col-sm-10
-      .form-control-static = l @user.created_at, format: :us_time
+      .form-control-static = l @user.created_at, format: :long_date
   .form-group
     = f.label 'Email', class: 'col-sm-2'
     .col-sm-10
@@ -16,23 +16,28 @@
           = f.input_field :subscribed_to_announce, as: :boolean, inline_label: 'Annc List'
         .col-sm-2
           = f.input_field :subscribed_to_staff, as: :boolean, inline_label: 'Staff List'
+  = f.input :password, input_html: { class: 'form-control' }
   = f.input :status, collection: User::STATUSES, include_blank: false, input_html: { class: 'form-control' }
+  hr
   = f.input :first_name, input_html: { class: 'form-control' }
   = f.input :middle_name, input_html: { class: 'form-control' }
   = f.input :last_name, input_html: { class: 'form-control' }
   = f.input :display_name, input_html: { class: 'form-control' }
   = f.input :phone, input_html: { class: 'form-control' }
   = f.input :birthday_string, input_html: { class: 'form-control' }
+  hr
   .form-group
     = f.label "Avatar", class: 'col-sm-2'
     .col-sm-2
-      = image_tag @user.avatar.url(:thumb), class: 'img-rounded'
+      = image_tag @user.avatar.url(:small), class: 'img-rounded'
     .col-sm-6
       = f.file_field :avatar
       = f.input_field :delete_avatar, as: :boolean, inline_label: 'Remove Avatar'
+  hr
+  = f.association :roles, label_method: :full_name, input_html: { class: 'form-control', size: '10' }
   = f.input :admin, as: :boolean
   = f.input :exec_staff, as: :boolean
-  = f.association :roles, label_method: :full_name, input_html: { class: 'form-control', size: '10' }
+  hr
   = f.simple_fields_for :legacy_profile do |p|
     = p.input :buzzcard_id, input_html: { class: 'form-control' }
     = p.input :buzzcard_fc, input_html: { class: 'form-control' }

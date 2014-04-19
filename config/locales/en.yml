@@ -37,7 +37,7 @@ en:
     formats:
       us_date: "%-m/%-d/%y"
       us_time: "%-m/%-d/%y %-l:%M %p"
-      long_date: "%B %d, %Y"
+      long_date: "%B %-d, %Y"
       contest_date: "%A, %B %-d"
       short: "%-l:%M %p"
       military: "%H:%M"

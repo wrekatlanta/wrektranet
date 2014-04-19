@@ -83,7 +83,7 @@ class User < ActiveRecord::Base
   before_validation { avatar.clear if delete_avatar == '1' }
   has_attached_file :avatar,
     styles: { medium: "300x300>", small: "100x100>", thumb: "32x32>" },
-    default_url: "/images/:style/missing.png"
+    default_url: "/images/default_:style.png"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
   # commented out due to issues with legacy data
