@@ -122,6 +122,10 @@ class User < ActiveRecord::Base
     username + " - " + name
   end
 
+  def name_with_username
+    name + " - " + username
+  end
+
   def admin?
     self.admin
   end

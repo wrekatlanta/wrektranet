@@ -114,6 +114,10 @@ task :sync_from_staff => :environment do |t, args|
         user.add_role :it_director
       end
 
+      if staff.position.include? 'Music Director'
+        user.add_role :music_director
+      end
+
       if staff.position.include? 'Program Director'
         user.add_role :program_director
       end

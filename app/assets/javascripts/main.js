@@ -10,7 +10,7 @@ angular.module("wrektranet.controllers", [
   "wrektranet.airProgramLogCtrl",
   "wrektranet.adminProgramLogCtrl",
   "wrektranet.listenerLogsCtrl",
-  "wrektranet.adminUserCtrl"
+  "wrektranet.userFilterCtrl"
 ]);
 
 angular.module("wrektranet.filters", [

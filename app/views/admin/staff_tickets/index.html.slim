@@ -65,7 +65,7 @@ div ng-controller="adminTicketListCtrl"
     form.form-inline.ng-cloak ng-submit="addTicket()" ng-hide="isContestFull()"
       .form-group>
         select.select.form-control ng-model="user_id" required="required"
-          option value="" Select another user
+          option value="" Award another user...
           = options_from_collection_for_select (User.all - @contest.users), :id, :username_with_name, { prompt: 'Add a user' }
       button.btn.btn-primary type="submit"
         i.glyphicon.glyphicon-plus>

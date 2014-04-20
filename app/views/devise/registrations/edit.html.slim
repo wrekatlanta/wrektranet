@@ -1,4 +1,4 @@
-- defaults = {input_wrapper_html: {class: 'col-sm-7'}, label_html: {class: 'col-sm-3'}}
+- defaults = {input_wrapper_html: {class: 'col-sm-6'}, label_html: {class: 'col-sm-4'}}
 
 .page-header
   h2 Edit Profile
@@ -9,45 +9,61 @@
   .row
     .col-sm-6
       .form-group
-        = f.label "Avatar", class: 'col-sm-3'
+        = f.label "Avatar", class: 'col-sm-4'
         .col-sm-3
           = image_tag @user.avatar.url(:small), class: 'img-rounded'
-        .col-sm-6
+        - if @user.avatar.exists?
+          .col-sm-3
+            = f.input_field :delete_avatar, as: :boolean, inline_label: 'Remove Avatar'
+        - else
+          .col-sm-3
+            .text-center
+              p.text-muted
+                span express urself
+                br
+                span upload an avatar
+              p.text-danger
+                span.glyphicon.glyphicon-heart
+      .form-group
+        .col-sm-4.col-sm-offset-4
           = f.file_field :avatar
-          = f.input_field :delete_avatar, as: :boolean, inline_label: 'Remove Avatar'
-      = f.input :first_name, autofocus: true, input_html: { class: 'form-control' }
+      = f.input :current_password, autofocus: true, input_html: { class: 'form-control' }, required: true
+      = f.input :first_name, input_html: { class: 'form-control' }
       = f.input :middle_name, input_html: { class: 'form-control' }
       = f.input :last_name, input_html: { class: 'form-control' }
       = f.input :display_name, input_html: { class: 'form-control' }, hint: 'Not really being used yet, but set this if you want your name to be displayed differently on wrek.org and other public areas.'
       = f.input :phone, input_html: { class: 'form-control' }
       = f.input :birthday_string, input_html: { class: 'form-control' }
       .form-group.hidden-xs
-        .col-sm-offset-3.col-sm-9
+        .col-sm-offset-4.col-sm-8
           = f.button :submit, 'Update', class: 'btn-primary btn-lg'
     .col-sm-6
       = f.input :email, input_html: { class: 'form-control' }
+      = f.association :parent_op, collection: (User.all - [@user]), value_method: :id, label_method: :name_with_username, input_html: { class: 'form-control' }
       .form-group
-        = f.label 'Subscriptions', class: 'col-sm-3'
+        = f.label 'Subscriptions', class: 'col-sm-4'
         .col-sm-6
           = f.input_field :subscribed_to_announce, inline_label: 'Announce List'
           = f.input_field :subscribed_to_staff, inline_label: 'Staff List (wrek-staff@wrek.org)'
           - if @user.potential?
             p.text-muted As a potential, you're also subscribed to potentials@wrek.org.
-      = f.input :password, input_html: { class: 'form-control' }
-      = f.input :password_confirmation, input_html: { class: 'form-control' }
+      hr
+      = f.input :password, label: 'New password', input_html: { class: 'form-control' }
+      = f.input :password_confirmation, label: 'Verify password', input_html: { class: 'form-control' }
       hr
       = f.simple_fields_for :legacy_profile do |p|
         = p.input :buzzcard_id, input_html: { class: 'form-control' }
         = p.input :buzzcard_fc, input_html: { class: 'form-control' }, hint: "We use BuzzCards for door access. #{link_to 'Help!', 'http://wrektranet.wrek.org/wiki/BuzzCardAccess'}".html_safe
       hr
-      .form-group
-        .col-sm-6.col-sm-offset-3
-          .text-danger
-            = f.input_field :mark_as_inactive, as: :boolean, inline_label: 'Mark me as inactive.'
-          - unless @user.potential?
-            p.text-muted You will still need to unsubscribe from any lists above.
-          - else
-            p.text-muted You will no longer receive emails for potentials@wrek.org.
+      - unless @user.expired? or @user.revoked? or @user.inactive?
+        .form-group
+          .col-sm-6.col-sm-offset-4
+            .text-danger
+              = f.input_field :mark_as_inactive, as: :boolean, inline_label: 'Mark me as inactive.'
+            - unless @user.potential?
+              p.text-muted You will still need to unsubscribe from any lists above.
+            - else
+              p.text-muted You will no longer receive emails for potentials@wrek.org.
       .form-group.visible-xs
         .col-sm-offset-3.col-sm-9
           = f.button :submit, 'Update', class: 'btn-primary btn-lg'

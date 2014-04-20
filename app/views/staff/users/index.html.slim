@@ -1,0 +1,86 @@
+- content_for :title, "People"
+
+.page-header
+  h1 People
+
+div ng-controller="userFilterCtrl" ng-init="init('staff', 30)"
+  / filter
+  form.form-horizontal
+    .row
+      .col-sm-4
+        .form-group
+          label.control-label.col-sm-4 Username
+          .col-sm-8
+            input.form-control type="text" ng-model="search.username"
+        .form-group
+          label.control-label.col-sm-4 Name
+          .col-sm-8
+            input.form-control type="text" ng-model="search.name"
+        .form-group
+          label.control-label.col-sm-4 Role
+          .col-sm-8
+            select.form-control ng-model="roleName"
+              option value=""
+              - for role in @roles
+                option value="#{role.name}" = role.full_name
+      .col-sm-8
+        .form-group
+          label.control-label.col-sm-2 Category
+          .col-sm-10
+            .btn-group
+              button.btn.btn-sm.btn-default type="button" ng-model="category" btn-radio="null" All
+              button.btn.btn-sm.btn-default type="button" ng-model="category" btn-radio="'exec_staff'" Exec Staff
+        .form-group
+          label.control-label.col-sm-2 Status
+          .col-sm-10
+            .btn-group
+              button.btn.btn-sm.btn-default type="button" ng-model="status" btn-radio="null" All
+              button.btn.btn-sm.btn-success type="button" ng-model="status" btn-radio="'active'" Active
+              button.btn.btn-sm.btn-info type="button" ng-model="status" btn-radio="'potential'" Potential
+              button.btn.btn-sm.btn-warning type="button" ng-model="status" btn-radio="'inactive'" Inactive
+              button.btn.btn-sm.btn-danger type="button" ng-model="status" btn-radio="'expired'" Expired
+              button.btn.btn-sm.btn-danger type="button" ng-model="status" btn-radio="'revoked'" Revoked
+
+  hr
+
+  / top pagination for good measure
+  .text-center
+    pager total-items="filtered.length" page="currentPage" items-per-page="itemsPerPage"
+
+  / loading and no results messages
+  .text-center.text-muted
+    span ng-if="loadingTracker.active()" Loading...
+    span ng-if="!loadingTracker.active() && filtered.length == 0" No results were found.
+
+  / user list
+  .row
+    .col-md-6.ng-cloak ng-repeat="user in filtered = (users | filter:status:true | filter:search | filter:filterByRole) | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage"
+      .well
+        .row
+          .col-xs-3
+            img.img-rounded ng-src="{{ user.avatar }}"
+          .col-xs-9 style="height: 100px; overflow-y: scroll;"
+            h4
+              a ng-href="/staff/users/{{ user.id }}"
+                | {{ user.name }}
+              small<
+                | {{ user.username }}
+                span.label< ng-class="{ active: 'label-success', inactive: 'label-warning', expired: 'label-danger', revoked: 'label-danger', potential: 'label-info' }[user.status]" {{ user.status }}
+            ul.list-unstyled
+              li ng-if="user.exec_staff"
+                span.glyphicon.glyphicon-star>
+                span Exec Staff
+              li ng-if="user.roles.length > 0"
+                .glyphicon.glyphicon-user>
+                span
+                  | {{ concatenateRoles(user.roles) }}
+              li
+                span.glyphicon.glyphicon-envelope>
+                a ng-href="mailto:{{ user.username }}@wrek.org" {{ user.username }}@wrek.org
+              li ng-if="user.phone"
+                span.glyphicon.glyphicon-phone-alt>
+                a ng-href="tel:{{ user.phone }}" = "{{ user.phone }}"
+  
+  / bottom pagination
+  .text-center
+    pagination total-items="filtered.length" page="currentPage" max-size="maxSize" boundary-links="true" items-per-page="itemsPerPage" rotate="false"
