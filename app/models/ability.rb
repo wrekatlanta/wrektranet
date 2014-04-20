@@ -31,47 +31,51 @@ class Ability
 
     # basic permissions
     unless user.blank?
-        can [:read, :create], ContestSuggestion
-        can [:read, :create], StaffTicket
-        can [:read, :create], TransmitterLogEntry
-        can [:read, :create], PsaReading
-        can [:read, :create], Legacy::PlayLog
-        can :read, Psa
-        can :read, ListenerLog
-        can :create, ListenerTicket
+      can [:read, :create], ContestSuggestion
+      can [:read, :create], StaffTicket
+      can [:read, :create], TransmitterLogEntry
+      can [:read, :create], PsaReading
+      can [:read, :create], Legacy::PlayLog
+      can :read, Psa
+      can :read, ListenerLog
+      can :create, ListenerTicket
 
-        # permissions that only occur for user-owned objects
-        can :destroy, ListenerTicket, user_id: user.id
-        can :destroy, StaffTicket, user_id: user.id
-        can [:destroy, :update], Legacy::PlayLog, played_by: user.legacy_id
-        can :update, TransmitterLogEntry, user_id: user.id
+      if user.active?
+        can :create, User
+      end
 
-        can :read, :all
+      # permissions that only occur for user-owned objects
+      can :destroy, ListenerTicket, user_id: user.id
+      can :destroy, StaffTicket, user_id: user.id
+      can [:destroy, :update], Legacy::PlayLog, played_by: user.legacy_id
+      can :update, TransmitterLogEntry, user_id: user.id
 
-        # contest director
-        if user.has_role? :contest_director
-          can :manage, Contest
-          can :manage, Venue
-          can :manage, StaffTicket
-          can :manage, ListenerTicket
-        end
+      can :read, :all
 
-        # psa director
-        if user.has_role? :psa_director or user.has_role? :exec
-            can :manage, Psa
-            can :manage, PsaReading
-            can :manage, ProgramLogEntry
-            can :manage, ProgramLogSchedule
-        end
+      # contest director
+      if user.has_role? :contest_director
+        can :manage, Contest
+        can :manage, Venue
+        can :manage, StaffTicket
+        can :manage, ListenerTicket
+      end
 
-        if user.has_role? :exec
-            can :manage, Calendar
-        end
+      # psa director
+      if user.has_role? :psa_director or user.has_role? :exec
+        can :manage, Psa
+        can :manage, PsaReading
+        can :manage, ProgramLogEntry
+        can :manage, ProgramLogSchedule
+      end
 
-        # admin
-        if user.admin?
-          can :manage, :all
-        end
+      if user.has_role? :exec
+        can :manage, Calendar
+      end
+
+      # admin
+      if user.admin?
+        can :manage, :all
+      end
     end
   end
 end

@@ -6,45 +6,49 @@
 div ng-controller="adminUserCtrl"
   / filter
   form.form-horizontal
-    .form-group
-      label.control-label.col-sm-2 Category
-      .col-sm-10
-        .btn-group
-          button.btn.btn-default.btn-sm type="button" ng-model="category" btn-radio="null" All
-          button.btn.btn-default.btn-sm type="button" ng-model="category" btn-radio="'exec_staff'" Exec Staff
-          button.btn.btn-default.btn-sm type="button" ng-model="category" btn-radio="'admin'" Admins
-    .form-group
-      label.control-label.col-sm-2 Status
-      .col-sm-10
-        .btn-group
-          button.btn.btn-default.btn-sm type="button" ng-model="status" btn-radio="null" All
-          button.btn.btn-success.btn-sm type="button" ng-model="status" btn-radio="'active'" Active
-          button.btn.btn-info.btn-sm type="button" ng-model="status" btn-radio="'potential'" Potential
-          button.btn.btn-warning.btn-sm type="button" ng-model="status" btn-radio="'inactive'" Inactive
-          button.btn.btn-danger.btn-sm type="button" ng-model="status" btn-radio="'expired'" Expired
-          button.btn.btn-danger.btn-sm type="button" ng-model="status" btn-radio="'revoked'" Revoked
-    .form-group
-      label.control-label.col-sm-2 Username
-      .col-sm-6
-        input.form-control type="text" ng-model="search.username"
-    .form-group
-      label.control-label.col-sm-2 Name
-      .col-sm-6
-        input.form-control type="text" ng-model="search.name"
-    .form-group
-      label.control-label.col-sm-2 Roles
-      .col-sm-6
-        / I don't feel like implementing an inner-array search
-        / this is being implemented as a full model search
-        select.form-control ng-model="search.$"
-          option value="" Any
-          - for role in @roles
-            option value="#{role.name}" = role.full_name
+    .row
+      .col-sm-4
+        .form-group
+          label.control-label.col-sm-3 Username
+          .col-sm-9
+            input.form-control type="text" ng-model="search.username"
+        .form-group
+          label.control-label.col-sm-3 Name
+          .col-sm-9
+            input.form-control type="text" ng-model="search.name"
+        .form-group
+          label.control-label.col-sm-3 Roles
+          .col-sm-9
+            / I don't feel like implementing an inner-array search
+            / this is being implemented as a full model search
+            select.form-control ng-model="search.$"
+              option value="" Any
+              - for role in @roles
+                option value="#{role.name}" = role.full_name
+      .col-sm-8
+        .form-group
+          label.control-label.col-sm-2 Category
+          .col-sm-10
+            .btn-group
+              button.btn.btn-default.btn-sm type="button" ng-model="category" btn-radio="null" All
+              button.btn.btn-default.btn-sm type="button" ng-model="category" btn-radio="'exec_staff'" Exec Staff
+              button.btn.btn-default.btn-sm type="button" ng-model="category" btn-radio="'admin'" Admins
+        .form-group
+          label.control-label.col-sm-2 Status
+          .col-sm-10
+            .btn-group
+              button.btn.btn-default.btn-sm type="button" ng-model="status" btn-radio="null" All
+              button.btn.btn-success.btn-sm type="button" ng-model="status" btn-radio="'active'" Active
+              button.btn.btn-info.btn-sm type="button" ng-model="status" btn-radio="'potential'" Potential
+              button.btn.btn-warning.btn-sm type="button" ng-model="status" btn-radio="'inactive'" Inactive
+              button.btn.btn-danger.btn-sm type="button" ng-model="status" btn-radio="'expired'" Expired
+              button.btn.btn-danger.btn-sm type="button" ng-model="status" btn-radio="'revoked'" Revoked
 
   hr
 
   / top pagination for good measure
-  pagination ng-show="!loadingTracker.active()" total-items="filtered.length" page="currentPage" max-size="maxSize" boundary-links="true" items-per-page="itemsPerPage" rotate="false"
+  .text-center
+    pager ng-show="!loadingTracker.active()" total-items="filtered.length" page="currentPage" items-per-page="itemsPerPage"
 
   / user table
   .table-responsive
@@ -59,7 +63,7 @@ div ng-controller="adminUserCtrl"
           th style="width: 5%;" Exec
           th Roles
       tbody
-        tr ng-repeat="user in filtered = (users | filter:status:true | filter:search) | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage"
+        tr.ng-cloak ng-repeat="user in filtered = (users | filter:status:true | filter:search) | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage"
           td
             a ng-href="/admin/users/{{ user.id }}/edit" = "{{ user.username }}"
           td = "{{ user.name }}"
@@ -86,7 +90,8 @@ div ng-controller="adminUserCtrl"
           td colspan="7" Loading...
   
   / bottom pagination
-  pagination ng-show="!loadingTracker.active()" total-items="filtered.length" page="currentPage" max-size="maxSize" boundary-links="true" items-per-page="itemsPerPage"
+  .text-center
+    pagination ng-show="!loadingTracker.active()" total-items="filtered.length" page="currentPage" max-size="maxSize" boundary-links="true" items-per-page="itemsPerPage" rotate="false"
 
 
 /= will_paginate @contests, renderer: BootstrapPagination::Rails, bootstrap: 3

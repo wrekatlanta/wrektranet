@@ -4,6 +4,10 @@
   h1 Staff Dashboard
 
 .list-group
+  - if Settings.profiles_enabled?
+    = link_to staff_users_path, class: 'list-group-item' do
+      h4.list-group-item-heading People
+      p.list-group-item-text Browse the WREK staff listing, past and present.
 
   - if Settings.contest_book_enabled?
     = link_to staff_tickets_path, class: 'list-group-item' do

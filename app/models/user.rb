@@ -43,6 +43,9 @@
 #  user_id                :integer
 #  subscribed_to_staff    :boolean
 #  subscribed_to_announce :boolean
+#  facebook               :string(255)
+#  spotify                :string(255)
+#  lastfm                 :string(255)
 #
 
 class User < ActiveRecord::Base
@@ -50,10 +53,10 @@ class User < ActiveRecord::Base
 
   STATUSES = ["potential", "active", "inactive", "expired", "revoked"]
 
-  before_validation :get_ldap_data, on: :create
-  before_validation :set_defaults, on: :create
+  # before_validation :get_ldap_data, on: :create
   # before_save :strip_phone
-  before_create :add_to_ldap
+  # before_create :add_to_ldap
+  before_validation :set_defaults, on: :create
   before_destroy :delete_from_ldap
 
   rolify
@@ -100,6 +103,16 @@ class User < ActiveRecord::Base
   validates :status, inclusion: { in: STATUSES }
 
   default_scope -> { order('username ASC') }
+
+  attr_accessor :mark_as_inactive
+  before_validation { self.status = 'inactive' if mark_as_inactive == '1' }
+
+  # gives method names like #is_active?, is_inactive?, etc.
+  STATUSES.each do |status|
+    define_method "#{status}?" do
+      self.status == status
+    end
+  end
 
   def name
     display_name.presence || first_name + " " + last_name
@@ -228,6 +241,8 @@ class User < ActiveRecord::Base
         puts ldap_handle.get_operation_result
         return false
       end
+    else
+      true
     end
   end
 
@@ -271,7 +286,6 @@ class User < ActiveRecord::Base
 
     new_attributes[:initials] = username
     new_attributes[:admin] = admin ? "y" : "n"
-    #new_attributes[:exec] = exec_staff ? "y" : "n"
     new_attributes[:fname] = first_name
     new_attributes[:mname] = middle_name
     new_attributes[:lname] = last_name

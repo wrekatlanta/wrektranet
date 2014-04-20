@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140419064024) do
+ActiveRecord::Schema.define(version: 20140419205436) do
 
   create_table "calendars", force: true do |t|
     t.string   "url"
@@ -282,6 +282,9 @@ ActiveRecord::Schema.define(version: 20140419064024) do
     t.integer  "user_id"
     t.boolean  "subscribed_to_staff"
     t.boolean  "subscribed_to_announce"
+    t.string   "facebook"
+    t.string   "spotify"
+    t.string   "lastfm"
   end
 
   add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree

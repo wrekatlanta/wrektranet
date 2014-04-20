@@ -6,39 +6,20 @@ class Admin::UsersController < Admin::BaseController
     authorize! :manage, User
 
     @roles = Role.all
+    @users = User.all.includes(:roles)
 
     respond_to do |format|
       format.html
+      # replace this with an index.json.jbuilder file since @users won't be queried in HTML template
       format.json { render json: User.all.includes(:roles).to_json(include: [:roles]) }
     end
   end
-
-  # def new
-  # end
-
-  # # to be replaced with a new user form that everyone can access
-  # def create
-  #   @user = User.new(user_params)
-  #   authorize! :create, @user
-
-  #   @user.password = Devise.friendly_token[0,20]
-
-  #   if @user.save
-  #     # Invite user
-  #     puts "user saved"
-  #     @user.invite!
-  #     redirect_to admin_users_path, success: "#{@user.username} created successfully. They have received an email with further instructions."
-  #   else
-  #     puts @user.errors.full_messages
-  #     render :new
-  #   end
-  # end
 
   def edit
   end
 
   def update
-    if @user.update_attributes(user_params) and @user.sync_to_legacy_profile!
+    if @user.update_attributes(user_params) and @user.sync_to_legacy_profile! and @user.sync_to_ldap
       redirect_to admin_users_path, success: "#{@user.username} updated successfully."
     else
       render :edit

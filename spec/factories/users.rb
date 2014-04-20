@@ -43,6 +43,9 @@
 #  user_id                :integer
 #  subscribed_to_staff    :boolean
 #  subscribed_to_announce :boolean
+#  facebook               :string(255)
+#  spotify                :string(255)
+#  lastfm                 :string(255)
 #
 
 FactoryGirl.define do
