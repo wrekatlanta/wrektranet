@@ -45,7 +45,7 @@ task :sync_from_staff => :environment do |t, args|
       at_index = words.index '@'
 
       if at_index
-        date_string = words[(at_index - 3)..(at_index + 1)]
+        date_string = words[(at_index - 3)..(at_index + 1)].join ' '
       
         if date = Chronic.parse(date_string)
           user.created_at = date

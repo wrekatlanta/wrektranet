@@ -115,7 +115,9 @@ class User < ActiveRecord::Base
   end
 
   def name
-    display_name.presence || first_name + " " + last_name
+    if persisted?
+      display_name.presence || first_name + " " + last_name
+    end
   end
 
   def username_with_name

@@ -1,15 +1,16 @@
 .navbar-collapse.collapse
   ul.nav.navbar-nav
-    = active_link_to air_root_path, wrap_tag: :li do
-      i.glyphicon.glyphicon-bullhorn>
-      span On Air
-    = active_link_to staff_root_path, wrap_tag: :li do
-      i.glyphicon.glyphicon-star>
-      span Staff
-    - if current_user and current_user.exec?
-      = active_link_to admin_root_path, wrap_tag: :li do
-        i.glyphicon.glyphicon-cog>
-        span Admin
+    - if current_user
+      = active_link_to air_root_path, wrap_tag: :li do
+        i.glyphicon.glyphicon-bullhorn>
+        span On Air
+      = active_link_to staff_root_path, wrap_tag: :li do
+        i.glyphicon.glyphicon-star>
+        span Staff
+      - if current_user and current_user.exec?
+        = active_link_to admin_root_path, wrap_tag: :li do
+          i.glyphicon.glyphicon-cog>
+          span Admin
     li
       = link_to 'http://wrektranet.wrek.org/wiki/Main_Page' do
         i.glyphicon.glyphicon-book>

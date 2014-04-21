@@ -3,6 +3,14 @@ Wrek::Application.routes.draw do
 
   devise_for :users, controllers: { registrations: "registrations" }
 
+  resources :users do
+    collection do
+      get 'help'
+      post 'reset_password'
+      post 'fix_ldap'
+    end
+  end
+
   get 'auth/:user', to: 'authorization#authorizations', defaults: {format: :json}
 
   namespace :air do
