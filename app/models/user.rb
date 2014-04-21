@@ -300,6 +300,10 @@ class User < ActiveRecord::Base
     p.mname = middle_name
     p.lname = last_name
 
+    unless self.roles.blank?
+      p.position = self.roles.map(&:full_name).join(', ')
+    end
+
     p.save!
 
     # exec is a reserved word, has to be done separately

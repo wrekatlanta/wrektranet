@@ -8,16 +8,21 @@ h1.page-header Help!
 
 .row
   .col-sm-6
-    .row
-      .col-sm-4
-        .alert.alert-info
-          p Need to reset your password? Just type in your username and we'll send you instructions.
-      .col-sm-8
-        = simple_form_for(@user, url: reset_password_users_path, html: { class: 'form-horizontal' }, defaults: defaults) do |f|
-          = f.input :username, autofocus: true, placeholder: 'Username', input_html: { class: 'form-control' }
-          .form-group
-            .col-sm-8.col-sm-offset-4
-              = f.button :submit, "Reset my password", class: 'btn-primary'
+    - if Settings.profiles_enabled?
+      .row
+        .col-sm-4
+          .alert.alert-info
+            p Need to reset your password? Just type in your username and we'll send you instructions.
+        .col-sm-8
+          = simple_form_for(@user, url: reset_password_users_path, html: { class: 'form-horizontal' }, defaults: defaults) do |f|
+            = f.input :username, autofocus: true, placeholder: 'Username', input_html: { class: 'form-control' }
+            .form-group
+              .col-sm-8.col-sm-offset-4
+                = f.button :submit, "Reset my password", class: 'btn-primary'
+
+    .lead
+      markdown:
+        If you're still having problems, please contact [wrektranet@wrek.org](mailto:wrektranet@wrek.org).
 
   .col-sm-6
     .row
@@ -31,7 +36,3 @@ h1.page-header Help!
           .form-group
             .col-sm-8.col-sm-offset-4
               = f.button :submit, "Fix stuff!", class: 'btn-primary'
-
-.lead
-  markdown:
-    If you're still having problems, please contact [wrektranet@wrek.org](mailto:wrektranet@wrek.org).
