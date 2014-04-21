@@ -36,6 +36,10 @@ namespace :deploy do
     run "cd #{current_path}; bundle exec rake db:seed RAILS_ENV=#{rails_env}"
   end
 
+  task :sync_from_staff do
+    run "cd #{current_path}; bundle exec rake sync_from_staff RAILS_ENV=#{rails_env}"
+  end
+
   task :cold do
     transaction do
       update

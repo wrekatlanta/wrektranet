@@ -31,9 +31,6 @@ class UsersController < ApplicationController
 
     password = user_params[:current_password]
 
-    puts "LEGACY: #{@user.legacy_profile.password}"
-    puts "YOU: #{Legacy::Staff.legacy_password_hash(password)}"
-
     passwords_match = @user.legacy_profile.password == Legacy::Staff.legacy_password_hash(password)
 
     if passwords_match and @user.sync_to_legacy_profile!(password) and @user.sync_to_ldap(password)

@@ -55,7 +55,6 @@ class User < ActiveRecord::Base
 
   # before_validation :get_ldap_data, on: :create
   # before_save :strip_phone
-  # before_create :add_to_ldap
   before_validation :set_defaults, on: :create
   before_destroy :delete_from_ldap
 
@@ -201,61 +200,62 @@ class User < ActiveRecord::Base
     end
   end
 
-  def add_to_ldap
-    if Rails.env.production? and not LdapHelper::find_user(self.username)
-      ldap_handle = LdapHelper::ldap_connect
-
-      # Build user attributes in line with the LDAP 'schema'
-      dn = "cn=#{self.username},ou=People,dc=staff,dc=wrek,dc=org"
-      user_attr = {
-        cn: self.username,
-        objectclass: "inetOrgPerson",
-        displayname: self.name,
-        mail: self.email,
-        employeenumber: "-1",
-        givenname: self.first_name,
-        sn: self.last_name,
-        userpassword: "{SHA}#{Digest::SHA1.base64digest self.password}"
-      }
-
-      unless ldap_handle.add(dn: dn, attributes: user_attr)
-        puts ldap_handle.get_operation_result
-        return false
-      end
-    end
-  end
-
   def sync_to_ldap(new_password = nil)
-    if Rails.env.production? and not LdapHelper::find_user(self.username)
+    if Rails.env.production?
       ldap_handle = LdapHelper::ldap_connect
 
-      # Build user attributes in line with the LDAP 'schema'
       dn = "cn=#{self.username},ou=People,dc=staff,dc=wrek,dc=org"
-      user_attr = {
-        cn: self.username,
-        objectclass: "inetOrgPerson",
-        displayname: self.name,
-        mail: self.email,
-        givenname: self.first_name,
-        sn: self.last_name
-      }
 
       pwd = new_password || self.password
 
-      unless pwd.blank?
-        user_attr[:userpassword] = "{SHA}#{Digest::SHA1.base64digest pwd}"
+      if pwd.blank?
+        return false
+      else
+        userpassword = "{SHA}#{Digest::SHA1.base64digest pwd}"
       end
 
-      unless ldap_handle.add(dn: dn, attributes: user_attr)
-        puts ldap_handle.get_operation_result
-        return false
+      if not LdapHelper::find_user(self.username)
+        # add an ldap entry
+
+        # build user attributes in line with the LDAP 'schema'
+        user_attr = {
+          cn: self.username,
+          objectclass: "inetOrgPerson",
+          displayname: self.name,
+          mail: "#{self.username}@wrek.org",
+          givenname: self.first_name,
+          sn: self.last_name,
+          userpassword: userpassword
+        }
+
+        unless ldap_handle.add(dn: dn, attributes: user_attr)
+          puts ldap_handle.get_operation_result
+          return false
+        end
+      else
+        # modify an existing ldap entry
+        ops = [
+          [:replace, :cn, self.username],
+          [:replace, :mail, "#{self.username}@wrek.org"],
+          [:replace, :display_name, self.name],
+          [:replace, :givenname, self.first_name],
+          [:replace, :sn, self.last_name],
+          [:replace, :userpassword, userpassword]
+        ]
+
+        ldap.modify(dn: dn, operations: ops)
+
+        unless ldap_handle.modify(dn: dn, operations: ops)
+          puts ldap_handle.get_operation_result
+          return false
+        end
       end
-    else
-      true
     end
+
+    # if you made it this far, success!
+    true
   end
 
-  # this will stay
   def delete_from_ldap
     if Rails.env.production?
       ldap_handle = LdapHelper::ldap_connect

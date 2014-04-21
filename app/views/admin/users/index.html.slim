@@ -111,9 +111,9 @@ div ng-controller="userFilterCtrl" ng-init="init('admin')"
             div ng-repeat="role in user.roles"
               span.label.label-primary = "{{ role.full_name }}"
         tr.ng-cloak ng-if="!loadingTracker.active() && filtered.length == 0"
-          td colspan="7" No results found.
+          td colspan="9" No results found.
         tr ng-if="loadingTracker.active()"
-          td colspan="7" Loading...
+          td colspan="9" Loading...
   
   / bottom pagination
   .text-center
