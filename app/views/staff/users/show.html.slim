@@ -16,24 +16,46 @@
     dl.dl-horizontal
       dt Joined
       dd = l @user.created_at, format: :long
+
       - if @user.last_sign_in_at
         dt Last Seen
         dd = l @user.last_sign_in_at, format: :long
+
       dt Status
       dd = @user.status.capitalize
+
+      - unless @user.parent_op.blank?
+        dt Trainer
+        dd = link_to "#{@user.parent_op.name} (#{@user.parent_op.username})", staff_user_path(@user.parent_op)
+
+      - unless @user.trainees.blank?
+        dt Trainees
+        dd
+          ul.list-unstyled
+            - for trainee in @user.trainees
+              li = link_to "#{trainee.name} (#{trainee.username})", staff_user_path(trainee)
+
+      dt Status
+      dd = @user.status.capitalize
+
       dt Email
       dd = link_to "#{@user.username}@wrek.org", "mailto:#{@user.username}@wrek.org"
+
       dt Phone
       dd = link_to @user.phone, "tel:#{@user.phone}"
+
       - unless @user.roles.blank?
         dt Positions
         dd = @user.roles.map(&:full_name).join('<br>').html_safe
+
       - unless @user.legacy_profile.shows.blank?
         dt Shows
         dd = @user.legacy_profile.shows.map(&:name).join('<br>').html_safe
+
       - unless @user.legacy_profile.teams.blank?
         dt Teams
         dd = @user.legacy_profile.teams.map(&:name).join('<br>').html_safe
+
       - unless @user.facebook.blank? and @user.spotify.blank? and @user.lastfm.blank?
         dt Social
         dd

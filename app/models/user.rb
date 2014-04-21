@@ -76,6 +76,7 @@ class User < ActiveRecord::Base
   has_many :contests, through: :staff_tickets
   has_many :listener_tickets
   has_many :contest_suggestions, dependent: :destroy
+  has_many :trainees, class_name: "User", foreign_key: :user_id
   belongs_to :legacy_profile, foreign_key: :legacy_id, class_name: "Legacy::Staff"
   belongs_to :parent_op, class_name: "User", foreign_key: :user_id
 
