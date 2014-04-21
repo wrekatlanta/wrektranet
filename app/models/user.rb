@@ -276,6 +276,11 @@ class User < ActiveRecord::Base
   def sync_to_legacy_profile!(new_password = nil)
     p = self.legacy_profile
 
+    # FIXME: don't bother adding missing legacy_profiles just yet
+    if self.legacy_profile.blank?
+      return true
+    end
+
     if not self.email.blank?
       if not p.emails.blank?
         email = p.emails.first
