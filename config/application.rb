@@ -8,6 +8,9 @@ Bundler.require(:default, Rails.env)
 
 module Wrek
   class Application < Rails::Application
+    # faster json rendering
+    require 'multi_json'
+    MultiJson.use :yajl
 
     # don't generate RSpec tests for views and helpers
     config.generators do |g|
