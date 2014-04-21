@@ -5,10 +5,12 @@ class AddExecStaffToUser < ActiveRecord::Migration
     User.with_role(:exec).each do |user|
       user.remove_role :exec
       user.exec_staff = true
-      user.save
+      user.save!
     end
 
-    Role.find_by(name: "exec").try(:destroy)
+    r = Role.find_by(name: "exec")
+
+    r.destroy! unless r.blank?
   end
 
   def down
