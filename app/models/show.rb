@@ -1,3 +1,6 @@
+# NOT CURRENTLY BEING USED
+# See Legacy::Show
+
 # == Schema Information
 #
 # Table name: shows

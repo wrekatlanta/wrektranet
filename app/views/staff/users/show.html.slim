@@ -5,13 +5,13 @@
     | #{@user.name}
     small<
       | #{@user.username}
+      - if @user.exec_staff
+        span.glyphicon.glyphicon-star< title="Exec Staff"
 
 .row
   .col-sm-4
     = image_tag @user.avatar.url(:medium), class: 'img-rounded'
     h3.text-center
-      - if @user.exec_staff
-        span.label.label-primary< Exec Staff
   .col-sm-8.lead
     dl.dl-horizontal
       dt Joined
@@ -21,13 +21,19 @@
         dd = l @user.last_sign_in_at, format: :long
       dt Status
       dd = @user.status.capitalize
-      - unless @user.roles.blank?
-        dt Positions
-        dd = @user.roles.map(&:full_name).join('<br>').html_safe
       dt Email
       dd = link_to "#{@user.username}@wrek.org", "mailto:#{@user.username}@wrek.org"
       dt Phone
       dd = link_to @user.phone, "tel:#{@user.phone}"
+      - unless @user.roles.blank?
+        dt Positions
+        dd = @user.roles.map(&:full_name).join('<br>').html_safe
+      - unless @user.legacy_profile.shows.blank?
+        dt Shows
+        dd = @user.legacy_profile.shows.map(&:name).join('<br>').html_safe
+      - unless @user.legacy_profile.teams.blank?
+        dt Teams
+        dd = @user.legacy_profile.teams.map(&:name).join('<br>').html_safe
       - unless @user.facebook.blank? and @user.spotify.blank? and @user.lastfm.blank?
         dt Social
         dd

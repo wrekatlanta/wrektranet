@@ -4,7 +4,9 @@ class Staff::UsersController < Staff::BaseController
 
   def index
     @roles = Role.all
-    @users = User.all.includes(:roles)
+    @teams = Legacy::Team.all
+    @shows = Legacy::Show.specialty_shows
+    @users = User.includes(:roles, legacy_profile: [:teams, :shows])
   end
 
   def show

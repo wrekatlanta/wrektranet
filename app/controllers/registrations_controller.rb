@@ -21,7 +21,10 @@ class RegistrationsController < Devise::RegistrationsController
         :current_password, :password, :password_confirmation, :phone,
         :birthday_string, :avatar, :delete_avatar, :user_id,
         :facebook, :spotify, :lastfm,
-        legacy_profile_attributes: [:id, :buzzcard_id, :buzzcard_fc]
+        legacy_profile_attributes: [
+          :id, :buzzcard_id, :buzzcard_fc,
+          team_ids: [], show_ids: []
+        ]
       ]
 
       # required for settings form to submit when password is left blank

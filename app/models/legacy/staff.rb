@@ -39,6 +39,10 @@ class Legacy::Staff < Legacy::Base
 
   has_many :emails, foreign_key: :pid, class_name: "EmailInfo"
   has_many :phone_numbers, foreign_key: :pid, class_name: "PhoneInfo"
+  has_many :team_memberships
+  has_many :show_memberships
+  has_many :teams, through: :team_memberships
+  has_many :shows, through: :show_memberships
   has_one :user, foreign_key: :legacy_id
 
   def password=(value)

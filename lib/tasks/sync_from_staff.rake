@@ -107,7 +107,7 @@ task :sync_from_staff => :environment do |t, args|
       end
 
       if staff.position.include? 'Live Sound'
-        user.add_role :live_sound_director
+        user.add_role :live_sound
       end
 
       if staff.position.include? 'IT Director'

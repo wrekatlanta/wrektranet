@@ -6,13 +6,9 @@ class Admin::UsersController < Admin::BaseController
     authorize! :manage, User
 
     @roles = Role.all
-    @users = User.all.includes(:roles)
-
-    respond_to do |format|
-      format.html
-      # replace this with an index.json.jbuilder file since @users won't be queried in HTML template
-      format.json { render json: User.all.includes(:roles).to_json(include: [:roles]) }
-    end
+    @teams = Legacy::Team.all
+    @shows = Legacy::Show.specialty_shows
+    @users = User.includes(:roles, legacy_profile: [:teams, :shows])
   end
 
   def edit
@@ -44,7 +40,7 @@ class Admin::UsersController < Admin::BaseController
       permitted = [
         :username, :email, :subscribed_to_announce, :subscribed_to_staff,
         :first_name, :middle_name, :last_name, :display_name, :password,
-        :status, :birthday_string, :avatar, :delete_avatar,
+        :user_id, :status, :birthday_string, :avatar, :delete_avatar,
         :phone, :admin, :exec_staff, role_ids: [],
         legacy_profile_attributes: [
           :id, :door1_access, :door2_access, :door3_access,

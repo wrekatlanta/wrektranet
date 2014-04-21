@@ -34,8 +34,32 @@ angular.module("wrektranet.userFilterCtrl", [])
       }
     }
 
+    $scope.filterByShow = function(row) {
+      if ($scope.showName) {
+        return !!_.where(row.shows, { name: $scope.showName }).length;
+      } else {
+        return true;
+      }
+    }
+
+    $scope.filterByTeam = function(row) {
+      if ($scope.teamName) {
+        return !!_.where(row.teams, { name: $scope.teamName }).length;
+      } else {
+        return true;
+      }
+    }
+
     $scope.concatenateRoles = function(roles) {
       return _.pluck(roles, 'full_name').join(', ')
+    }
+
+    $scope.concatenateShows = function(shows) {
+      return _.pluck(shows, 'name').join(', ')
+    }
+
+    $scope.concatenateTeams = function(teams) {
+      return _.pluck(teams, 'name').join(', ')
     }
 
     $scope.init = function(baseUrl, itemsPerPage) {

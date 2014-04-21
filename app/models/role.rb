@@ -39,7 +39,7 @@ class Role < ActiveRecord::Base
       full_name: "Publicity Director"},
     { name: "business_manager",
       full_name: "Business Manager"},
-    { name: "live_sound_director",
+    { name: "live_sound",
       full_name: "Live Sound Director"},
     { name: "automation_czar",
       full_name: "Automation Czar"},

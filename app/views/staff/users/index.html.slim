@@ -30,6 +30,7 @@ div ng-controller="userFilterCtrl" ng-init="init('staff', 30)"
             .btn-group
               button.btn.btn-sm.btn-default type="button" ng-model="category" btn-radio="null" All
               button.btn.btn-sm.btn-default type="button" ng-model="category" btn-radio="'exec_staff'" Exec Staff
+
         .form-group
           label.control-label.col-sm-2 Status
           .col-sm-10
@@ -40,6 +41,22 @@ div ng-controller="userFilterCtrl" ng-init="init('staff', 30)"
               button.btn.btn-sm.btn-warning type="button" ng-model="status" btn-radio="'inactive'" Inactive
               button.btn.btn-sm.btn-danger type="button" ng-model="status" btn-radio="'expired'" Expired
               button.btn.btn-sm.btn-danger type="button" ng-model="status" btn-radio="'revoked'" Revoked
+
+        .form-group
+          label.control-label.col-sm-2 Team
+          .col-sm-6
+            select.form-control ng-model="teamName"
+              option value=""
+              - for team in @teams
+                option value="#{team.name}" = team.name
+
+        .form-group
+          label.control-label.col-sm-2 Show
+          .col-sm-6
+            select.form-control ng-model="showName"
+              option value=""
+              - for show in @shows
+                option value="#{show.name}" = show.name
 
   hr
 
@@ -54,7 +71,7 @@ div ng-controller="userFilterCtrl" ng-init="init('staff', 30)"
 
   / user list
   .row
-    .col-md-6.ng-cloak ng-repeat="user in filtered = (users | filter:status:true | filter:search | filter:filterByRole) | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage"
+    .col-md-6.ng-cloak ng-repeat="user in filtered = (users | filter:status:true | filter:search | filter:filterByRole | filter:filterByShow | filter:filterByTeam) | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage"
       .well
         .row
           .col-xs-3.col-sm-4.text-center
@@ -67,23 +84,29 @@ div ng-controller="userFilterCtrl" ng-init="init('staff', 30)"
               a ng-href="/staff/users/{{ user.id }}" {{ user.name }}
               small<
                 | {{ user.username }}
+                abbr.glyphicon.glyphicon-star< ng-if="user.exec_staff" title="Exec Staff"
             ul.list-unstyled
               span.glyphicon.glyphicon-time>
               span
                 | {{ user.created_at | date:'longDate' }}
-              li ng-if="user.exec_staff"
-                span.glyphicon.glyphicon-star>
-                span Exec Staff
-              li ng-if="user.roles.length > 0"
-                .glyphicon.glyphicon-user>
-                span
-                  | {{ concatenateRoles(user.roles) }}
               li
                 span.glyphicon.glyphicon-envelope>
                 a ng-href="mailto:{{ user.username }}@wrek.org" {{ user.username }}@wrek.org
               li ng-if="user.phone"
                 span.glyphicon.glyphicon-phone-alt>
                 a ng-href="tel:{{ user.phone }}" = "{{ user.phone }}"
+              li ng-if="user.roles.length > 0"
+                .glyphicon.glyphicon-tower>
+                span
+                  | {{ concatenateRoles(user.roles) }}
+              li ng-if="user.shows.length > 0"
+                .glyphicon.glyphicon-music>
+                span
+                  | {{ concatenateShows(user.shows) }}
+              li ng-if="user.teams.length > 0"
+                .glyphicon.glyphicon-user>
+                span
+                  | {{ concatenateShows(user.teams) }}
   
   / bottom pagination
   .text-center

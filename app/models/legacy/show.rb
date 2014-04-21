@@ -23,4 +23,9 @@ class Legacy::Show < Legacy::Base
   self.table_name = 'shows'
 
   has_many :show_schedules, primary_key: :id, foreign_key: :show_id
+
+  default_scope -> { order('name ASC') }
+  scope :specialty_shows, -> { where(show_type: 'specialty') }
+  scope :oto_shows, -> { where(show_type: 'specialty') }
+  scope :block_shows, -> { where(show_type: 'specialty') }
 end

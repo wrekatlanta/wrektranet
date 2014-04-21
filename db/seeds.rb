@@ -18,7 +18,8 @@ end
 
 unless Rails.env.production?
   puts 'DEFAULT USERS'
-  user = User.find_or_initialize_by_email('gpb@wrek.org')
+  user = User.find_or_initialize_by_username('gpb')
+  user.email ||= 'gpb@fake.me'
   user.first_name = 'George'
   user.last_name = 'Burdell'
   user.username = 'gpb'

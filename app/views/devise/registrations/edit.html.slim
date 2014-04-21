@@ -40,6 +40,10 @@
 
       hr
 
+      = f.association :parent_op, collection: (User.all - [@user]), value_method: :id, label_method: :name_with_username, input_html: { class: 'form-control' }
+
+      hr
+
       = f.input :facebook, input_html: { class: 'form-control' }
       = f.input :spotify, input_html: { class: 'form-control' }
       = f.input :lastfm, input_html: { class: 'form-control' }
@@ -49,7 +53,6 @@
           = f.button :submit, 'Update', class: 'btn-primary btn-lg'
     .col-sm-6
       = f.input :email, input_html: { class: 'form-control' }
-      = f.association :parent_op, collection: (User.all - [@user]), value_method: :id, label_method: :name_with_username, input_html: { class: 'form-control' }
       .form-group
         = f.label 'Subscriptions', class: 'col-sm-4'
         .col-sm-6
@@ -66,6 +69,12 @@
       hr
 
       = f.simple_fields_for :legacy_profile do |p|
+        = p.association :teams, label_method: :name, input_html: { class: 'form-control', size: '5' }
+
+        = p.association :shows, collection: Legacy::Show.specialty_shows, label_method: :name, input_html: { class: 'form-control', size: '5' }
+
+        hr
+
         = p.input :buzzcard_id, input_html: { class: 'form-control' }
         = p.input :buzzcard_fc, input_html: { class: 'form-control' }, hint: "We use BuzzCards for door access. #{link_to 'Help!', 'http://wrektranet.wrek.org/wiki/BuzzCardAccess'}".html_safe
 
