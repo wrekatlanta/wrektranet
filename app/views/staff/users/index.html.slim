@@ -57,16 +57,20 @@ div ng-controller="userFilterCtrl" ng-init="init('staff', 30)"
     .col-md-6.ng-cloak ng-repeat="user in filtered = (users | filter:status:true | filter:search | filter:filterByRole) | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage"
       .well
         .row
-          .col-xs-3
-            img.img-rounded ng-src="{{ user.avatar }}"
-          .col-xs-9 style="height: 100px; overflow-y: scroll;"
+          .col-xs-3.col-sm-4.text-center
+            a ng-href="/staff/users/{{ user.id }}"
+              img.img-rounded ng-src="{{ user.avatar }}"
+            br
+            span.label< ng-class="{ active: 'label-success', inactive: 'label-warning', expired: 'label-danger', revoked: 'label-danger', potential: 'label-info' }[user.status]" {{ user.status }}
+          .col-xs-9.col-sm-8 style="height: 100px; overflow-y: scroll;"
             h4
-              a ng-href="/staff/users/{{ user.id }}"
-                | {{ user.name }}
+              a ng-href="/staff/users/{{ user.id }}" {{ user.name }}
               small<
                 | {{ user.username }}
-                span.label< ng-class="{ active: 'label-success', inactive: 'label-warning', expired: 'label-danger', revoked: 'label-danger', potential: 'label-info' }[user.status]" {{ user.status }}
             ul.list-unstyled
+              span.glyphicon.glyphicon-time>
+              span
+                | {{ user.created_at | date:'longDate' }}
               li ng-if="user.exec_staff"
                 span.glyphicon.glyphicon-star>
                 span Exec Staff

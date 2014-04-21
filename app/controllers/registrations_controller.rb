@@ -1,7 +1,9 @@
 class RegistrationsController < Devise::RegistrationsController
   def update
     @user = User.find(current_user.id)
-    if @user.update_with_password(account_update_params) and @user.sync_to_legacy_profile! and @user.sync_to_ldap
+    password = account_update_params[:password]
+
+    if @user.update_with_password(account_update_params) and @user.sync_to_legacy_profile!(password) and @user.sync_to_ldap(password)
       set_flash_message :notice, :updated
       # Sign in the user bypassing validation in case his password changed
       sign_in @user, bypass: true
@@ -14,7 +16,7 @@ class RegistrationsController < Devise::RegistrationsController
   private
     def account_update_params
       permitted = [
-        :email, :subscribed_to_announce, :subscribed_to_staff,
+        :email, :subscribed_to_announce, :subscribed_to_staff, :mark_as_inactive,
         :first_name, :middle_name, :last_name, :display_name,
         :current_password, :password, :password_confirmation, :phone,
         :birthday_string, :avatar, :delete_avatar, :user_id,

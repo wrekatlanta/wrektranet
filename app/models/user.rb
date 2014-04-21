@@ -222,7 +222,7 @@ class User < ActiveRecord::Base
     end
   end
 
-  def sync_to_ldap
+  def sync_to_ldap(new_password = nil)
     if Rails.env.production? and not LdapHelper::find_user(self.username)
       ldap_handle = LdapHelper::ldap_connect
 
@@ -237,8 +237,10 @@ class User < ActiveRecord::Base
         sn: self.last_name
       }
 
-      unless self.password.blank?
-        user_attr[:userpassword] = "{SHA}#{Digest::SHA1.base64digest self.password}"
+      pwd = new_password || self.password
+
+      unless pwd.blank?
+        user_attr[:userpassword] = "{SHA}#{Digest::SHA1.base64digest pwd}"
       end
 
       unless ldap_handle.add(dn: dn, attributes: user_attr)
@@ -267,7 +269,8 @@ class User < ActiveRecord::Base
 
   # syncs to legacy_profile (Legacy::Staff)
   # DON'T PUT THIS IN A CALLBACK because of the sync script
-  def sync_to_legacy_profile!
+  # password needs to be passed in separately because the user will have already been updated
+  def sync_to_legacy_profile!(new_password = nil)
     p = self.legacy_profile
 
     if not self.email.blank?
@@ -286,15 +289,18 @@ class User < ActiveRecord::Base
       email.save!
     end
 
-    new_attributes = {}
+    pwd = new_password || self.password
 
-    new_attributes[:initials] = username
-    new_attributes[:admin] = admin ? "y" : "n"
-    new_attributes[:fname] = first_name
-    new_attributes[:mname] = middle_name
-    new_attributes[:lname] = last_name
+    p.password = pwd unless pwd.blank?
+    p.initials = username
+    p.admin = admin ? "y" : "n"
+    p.fname = first_name
+    p.mname = middle_name
+    p.lname = last_name
 
-    p.update_attributes(new_attributes)
+    p.save!
+
+    # exec is a reserved word, has to be done separately
     p.update_column :exec, exec_staff ? "y" : "n"
   end
 

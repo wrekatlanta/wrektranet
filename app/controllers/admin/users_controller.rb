@@ -19,7 +19,9 @@ class Admin::UsersController < Admin::BaseController
   end
 
   def update
-    if @user.update_attributes(user_params) and @user.sync_to_legacy_profile! and @user.sync_to_ldap
+    password = user_params[:password]
+
+    if @user.update_attributes(user_params) and @user.sync_to_legacy_profile!(password) and @user.sync_to_ldap(password)
       redirect_to admin_users_path, success: "#{@user.username} updated successfully."
     else
       render :edit
