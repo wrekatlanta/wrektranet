@@ -1,6 +1,6 @@
 class AddExecStaffToUser < ActiveRecord::Migration
   def up
-    add_column :users, :exec_staff, :boolean, default: false
+    #add_column :users, :exec_staff, :boolean, default: false
 
     User.with_role(:exec).each do |user|
       user.exec_staff = true
