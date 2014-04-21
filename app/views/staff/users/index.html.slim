@@ -62,7 +62,7 @@ div ng-controller="userFilterCtrl" ng-init="init('staff', 30)"
               img.img-rounded ng-src="{{ user.avatar }}"
             br
             span.label< ng-class="{ active: 'label-success', inactive: 'label-warning', expired: 'label-danger', revoked: 'label-danger', potential: 'label-info' }[user.status]" {{ user.status }}
-          .col-xs-9.col-sm-8 style="height: 100px; overflow-y: scroll;"
+          .col-xs-9.col-sm-8 style="height: 130px; overflow-y: scroll;"
             h4
               a ng-href="/staff/users/{{ user.id }}" {{ user.name }}
               small<

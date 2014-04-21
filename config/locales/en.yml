@@ -38,6 +38,7 @@ en:
       us_date: "%-m/%-d/%y"
       us_time: "%-m/%-d/%y %-l:%M %p"
       long_date: "%B %-d, %Y"
+      long: "%B %-d, %Y %-l:%M %p"
       contest_date: "%A, %B %-d"
       short: "%-l:%M %p"
       military: "%H:%M"
@@ -58,6 +59,7 @@ en:
         subscribed_to_announce: 'Announce List'
         subscribed_to_staff: 'Staff List'
         mark_as_inactive: 'Mark me as inactive'
+        lastfm: "Last.fm"
         legacy_profile:
           buzzcard_id: 'BuzzCard ID'
           buzzcard_fc: 'BuzzCard Facility Code'

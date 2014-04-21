@@ -20,6 +20,7 @@ class RegistrationsController < Devise::RegistrationsController
         :first_name, :middle_name, :last_name, :display_name,
         :current_password, :password, :password_confirmation, :phone,
         :birthday_string, :avatar, :delete_avatar, :user_id,
+        :facebook, :spotify, :lastfm,
         legacy_profile_attributes: [:id, :buzzcard_id, :buzzcard_fc]
       ]
 

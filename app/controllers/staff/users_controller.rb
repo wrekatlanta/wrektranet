@@ -7,6 +7,9 @@ class Staff::UsersController < Staff::BaseController
     @users = User.all.includes(:roles)
   end
 
+  def show
+  end
+
   # def new
   # end
 

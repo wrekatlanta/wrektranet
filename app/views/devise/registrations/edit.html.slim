@@ -28,12 +28,22 @@
         .col-sm-4.col-sm-offset-4
           = f.file_field :avatar
       = f.input :current_password, autofocus: true, input_html: { class: 'form-control' }, required: true
+
+      hr
+
       = f.input :first_name, input_html: { class: 'form-control' }
       = f.input :middle_name, input_html: { class: 'form-control' }
       = f.input :last_name, input_html: { class: 'form-control' }
-      = f.input :display_name, input_html: { class: 'form-control' }, hint: 'Not really being used yet, but set this if you want your name to be displayed differently on wrek.org and other public areas.'
+      = f.input :display_name, input_html: { class: 'form-control' }, hint: 'Not used yet; will be used for public areas (e.g. wrek.org).'
       = f.input :phone, input_html: { class: 'form-control' }
       = f.input :birthday_string, input_html: { class: 'form-control' }
+
+      hr
+
+      = f.input :facebook, input_html: { class: 'form-control' }
+      = f.input :spotify, input_html: { class: 'form-control' }
+      = f.input :lastfm, input_html: { class: 'form-control' }
+
       .form-group.hidden-xs
         .col-sm-offset-4.col-sm-8
           = f.button :submit, 'Update', class: 'btn-primary btn-lg'
@@ -47,14 +57,20 @@
           = f.input_field :subscribed_to_staff, inline_label: 'Staff List (wrek-staff@wrek.org)'
           - if @user.potential?
             p.text-muted As a potential, you're also subscribed to potentials@wrek.org.
+
       hr
+
       = f.input :password, label: 'New password', input_html: { class: 'form-control' }
       = f.input :password_confirmation, label: 'Verify password', input_html: { class: 'form-control' }
+
       hr
+
       = f.simple_fields_for :legacy_profile do |p|
         = p.input :buzzcard_id, input_html: { class: 'form-control' }
         = p.input :buzzcard_fc, input_html: { class: 'form-control' }, hint: "We use BuzzCards for door access. #{link_to 'Help!', 'http://wrektranet.wrek.org/wiki/BuzzCardAccess'}".html_safe
+
       hr
+
       - unless @user.expired? or @user.revoked? or @user.inactive?
         .form-group
           .col-sm-6.col-sm-offset-4

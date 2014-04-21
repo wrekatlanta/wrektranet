@@ -1,0 +1,40 @@
+- content_for :title, "#{@user.name}"
+
+.page-header
+  h1
+    | #{@user.name}
+    small<
+      | #{@user.username}
+
+.row
+  .col-sm-4
+    = image_tag @user.avatar.url(:medium), class: 'img-rounded'
+    h3.text-center
+      - if @user.exec_staff
+        span.label.label-primary< Exec Staff
+  .col-sm-8.lead
+    dl.dl-horizontal
+      dt Joined
+      dd = l @user.created_at, format: :long
+      - if @user.last_sign_in_at
+        dt Last Seen
+        dd = l @user.last_sign_in_at, format: :long
+      dt Status
+      dd = @user.status.capitalize
+      - unless @user.roles.blank?
+        dt Positions
+        dd = @user.roles.map(&:full_name).join('<br>').html_safe
+      dt Email
+      dd = link_to "#{@user.username}@wrek.org", "mailto:#{@user.username}@wrek.org"
+      dt Phone
+      dd = link_to @user.phone, "tel:#{@user.phone}"
+      - unless @user.facebook.blank? and @user.spotify.blank? and @user.lastfm.blank?
+        dt Social
+        dd
+          ul.list-unstyled
+            - unless @user.facebook.blank?
+              li = link_to "Facebook", "http://facebook.com/#{@user.facebook}"
+            - unless @user.spotify.blank?
+              li = link_to "Spotify", "http://open.spotify.com/user/#{@user.spotify}"
+            - unless @user.lastfm.blank?
+              li = link_to "Last.fm", "http://last.fm/user/#{@user.lastfm}"
