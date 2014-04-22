@@ -9,6 +9,8 @@ task :sync_from_staff => :environment do |t, args|
 
     unless staff.emails.empty?
       user.email = staff.emails.first.addr.strip
+      user.subscribed_to_announce = staff.emails.first.stafflist == 'y'
+      user.subscribed_to_staff = staff.emails.first.annclist == 'y'
     end
 
     # sigh, some people have blank email fields or "asdf@asdf.com"

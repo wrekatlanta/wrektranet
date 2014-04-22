@@ -207,12 +207,7 @@ class User < ActiveRecord::Base
       dn = "cn=#{self.username},ou=People,dc=staff,dc=wrek,dc=org"
 
       pwd = new_password || self.password
-
-      if pwd.blank?
-        return false
-      else
-        userpassword = Net::LDAP::Password.generate(:sha, pwd)
-      end
+      userpassword = Net::LDAP::Password.generate(:sha, pwd) unless pwd.blank?
 
       if not LdapHelper::find_user(self.username)
         # add an ldap entry
@@ -225,8 +220,9 @@ class User < ActiveRecord::Base
           mail: "#{self.username}@wrek.org",
           givenname: self.first_name,
           sn: self.last_name,
-          userpassword: userpassword
         }
+
+        user_attr[:userpassword] = userpassword unless userpassword.blank?
 
         unless ldap_handle.add(dn: dn, attributes: user_attr)
           puts ldap_handle.get_operation_result
@@ -239,9 +235,10 @@ class User < ActiveRecord::Base
           [:replace, :mail, "#{self.username}@wrek.org"],
           [:replace, :displayname, self.name],
           [:replace, :givenname, self.first_name],
-          [:replace, :sn, self.last_name],
-          [:replace, :userpassword, userpassword]
+          [:replace, :sn, self.last_name]
         ]
+
+        ops << [:replace, :userpassword, userpassword] unless userpassword.blank?
 
         ldap_handle.modify(dn: dn, operations: ops)
 
