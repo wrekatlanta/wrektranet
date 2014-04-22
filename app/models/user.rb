@@ -243,7 +243,7 @@ class User < ActiveRecord::Base
           [:replace, :userpassword, userpassword]
         ]
 
-        ldap.modify(dn: dn, operations: ops)
+        ldap_handle.modify(dn: dn, operations: ops)
 
         unless ldap_handle.modify(dn: dn, operations: ops)
           puts ldap_handle.get_operation_result

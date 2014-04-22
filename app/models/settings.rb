@@ -28,6 +28,6 @@ module Settings
   end
 
   def self.profiles_enabled?
-    Rails.env.development?
+    true
   end
 end
