@@ -1,10 +1,51 @@
 class RegistrationsController < Devise::RegistrationsController
   def update
     @user = User.find(current_user.id)
-    password = account_update_params[:password]
+    current_password = account_update_params[:current_password]
+
+    new_password = account_update_params[:password]
+    password_confirmation = account_update_params[:password_confirmation]
 
     # in production, don't use update_with_password because of ldap
-    user_updated = Rails.env.production? ? @user.update_attributes(account_update_params) : @user.update_with_password(account_update_params)
+    # this is a messy solution for handling password updates and whatnot
+    if Rails.env.production?
+      # strip these out
+      account_update_params[:current_password] = nil
+      account_update_params[:password] = nil
+      account_update_params[:password_confirmation] = nil
+
+      passwords_match = @user.legacy_profile.password == Legacy::Staff.legacy_password_hash(current_password)
+
+      if passwords_match
+        if not new_password.blank?
+          # do we have a new password?
+          if new_password == password_confirmation
+            # new passwords match, update the user
+            user_updated = @user.update_attributes(account_update_params)
+
+            # update ldap and legacy_profile with the new password
+            password = new_password
+          else
+            flash[:danger] = "Your new passwords didn't match."
+          end
+        else
+          # no new password
+          user_updated = @user.update_attributes(account_update_params)
+
+          # update ldap and legacy_profile with current_password
+          password = current_password
+        end
+      else
+        flash[:danger] = "Your current password didn't match."
+      end
+
+      user_updated ||= false
+    else
+      # in development, just use update_with_password
+      user_updated = @user.update_with_password(account_update_params)
+
+      password = new_password || current_password
+    end
 
     if user_updated and @user.sync_to_legacy_profile!(password) and @user.sync_to_ldap(password)
       set_flash_message :notice, :updated
