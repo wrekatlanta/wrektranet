@@ -326,19 +326,6 @@ class User < ActiveRecord::Base
     false
   end
 
-  # http://stackoverflow.com/questions/10532032/devise-allow-users-to-register-as-username-but-login-with-username
-  # let people login with username or email, case insensitive
-  attr_accessor :login
-
-  def self.find_first_by_auth_conditions(warden_conditions)
-    conditions = warden_conditions.dup
-    if login = conditions.delete(:login)
-      where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.downcase }]).first
-    else
-      where(conditions).first
-    end
-  end
-
   def serializable_hash(options={})
     options = { 
       methods: [:name]
