@@ -4,7 +4,7 @@ class RegistrationsController < Devise::RegistrationsController
     password = account_update_params[:password]
 
     # in production, don't use update_with_password because of ldap
-    user_updated = Rails.env.production? @user.update_attributes(account_update_params) : @user.update_with_password(account_update_params)
+    user_updated = Rails.env.production? ? @user.update_attributes(account_update_params) : @user.update_with_password(account_update_params)
 
     if  and @user.sync_to_legacy_profile!(password) and @user.sync_to_ldap(password)
       set_flash_message :notice, :updated
