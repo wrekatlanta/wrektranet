@@ -211,7 +211,7 @@ class User < ActiveRecord::Base
       if pwd.blank?
         return false
       else
-        userpassword = "{SHA}#{Digest::SHA1.base64digest pwd}"
+        userpassword = Net::LDAP::Password.generate(:sha, pwd)
       end
 
       if not LdapHelper::find_user(self.username)
