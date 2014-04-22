@@ -1,19 +1,14 @@
 class RegistrationsController < Devise::RegistrationsController
   def update
     @user = User.find(current_user.id)
-    current_password = account_update_params[:current_password]
 
-    new_password = account_update_params[:password]
-    password_confirmation = account_update_params[:password_confirmation]
+    current_password = params[:user][:current_password]
+    new_password = params[:user][:password]
+    password_confirmation = params[:user][:password_confirmation]
 
     # in production, don't use update_with_password because of ldap
     # this is a messy solution for handling password updates and whatnot
     if Rails.env.production?
-      # strip these out
-      account_update_params[:current_password] = nil
-      account_update_params[:password] = nil
-      account_update_params[:password_confirmation] = nil
-
       passwords_match = @user.legacy_profile.password == Legacy::Staff.legacy_password_hash(current_password)
 
       if passwords_match
@@ -61,8 +56,7 @@ class RegistrationsController < Devise::RegistrationsController
     def account_update_params
       permitted = [
         :email, :subscribed_to_announce, :subscribed_to_staff, :mark_as_inactive,
-        :first_name, :middle_name, :last_name, :display_name,
-        :current_password, :password, :password_confirmation, :phone,
+        :first_name, :middle_name, :last_name, :display_name, :phone,
         :birthday_string, :avatar, :delete_avatar, :user_id,
         :facebook, :spotify, :lastfm,
         legacy_profile_attributes: [
@@ -70,6 +64,10 @@ class RegistrationsController < Devise::RegistrationsController
           team_ids: [], show_ids: []
         ]
       ]
+
+      if Rails.env.development?
+        permitted << [:current_password, :password, :password_confirmation]
+      end
 
       # required for settings form to submit when password is left blank
       if params[:user][:password].blank?
