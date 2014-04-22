@@ -237,7 +237,7 @@ class User < ActiveRecord::Base
         ops = [
           [:replace, :cn, self.username],
           [:replace, :mail, "#{self.username}@wrek.org"],
-          [:replace, :display_name, self.name],
+          [:replace, :displayname, self.name],
           [:replace, :givenname, self.first_name],
           [:replace, :sn, self.last_name],
           [:replace, :userpassword, userpassword]
