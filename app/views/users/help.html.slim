@@ -8,7 +8,8 @@ h1.page-header Help!
 
 .row
   .col-sm-6
-    - if Settings.profiles_enabled?
+    / disable password resets for now
+    - if Rails.env.development?
       .row
         .col-sm-4
           .alert.alert-info
