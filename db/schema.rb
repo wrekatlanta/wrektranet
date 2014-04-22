@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140419205436) do
+ActiveRecord::Schema.define(version: 20140422002912) do
 
   create_table "calendars", force: true do |t|
     t.string   "url"
@@ -288,7 +288,7 @@ ActiveRecord::Schema.define(version: 20140419205436) do
   end
 
   add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
-  add_index "users", ["legacy_id"], name: "index_users_on_legacy_id", unique: true, using: :btree
+  add_index "users", ["legacy_id"], name: "index_users_on_legacy_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["user_id"], name: "index_users_on_user_id", using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
