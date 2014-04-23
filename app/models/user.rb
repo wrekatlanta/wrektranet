@@ -302,6 +302,7 @@ class User < ActiveRecord::Base
     p.fname = first_name
     p.mname = middle_name
     p.lname = last_name
+    p.status = status
 
     unless self.roles.blank?
       p.position = self.roles.map(&:full_name).join(', ')
