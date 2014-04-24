@@ -44,8 +44,10 @@
   = f.association :roles, label_method: :full_name, input_html: { class: 'form-control', size: '10' }
   = f.input :admin, as: :boolean
   = f.input :exec_staff, as: :boolean
-  hr
   = f.simple_fields_for :legacy_profile do |p|
+    = p.input :md_privileges, as: :boolean
+    = p.input :auto_privileges, as: :boolean, hint: "Music director and automation privileges are used only by the old WREKtranet."
+    hr
     = p.input :buzzcard_id, input_html: { class: 'form-control' }
     = p.input :buzzcard_fc, input_html: { class: 'form-control' }
     - for i in 1..4

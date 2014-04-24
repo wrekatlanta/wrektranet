@@ -59,8 +59,11 @@ en:
         subscribed_to_announce: 'Announce List'
         subscribed_to_staff: 'Staff List'
         mark_as_inactive: 'Mark me as inactive'
-        lastfm: "Last.fm"
+        lastfm: 'Last.fm'
+        exec_staff: 'Exec Staff'
         legacy_profile:
+          md_privileges: 'Music Director Privileges'
+          auto_privileges: 'Automation Privileges'
           buzzcard_id: 'BuzzCard ID'
           buzzcard_fc: 'BuzzCard Facility Code'
           door1_access: 'Front Door Access'

@@ -46,7 +46,8 @@ class Admin::UsersController < Admin::BaseController
         :phone, :admin, :exec_staff, role_ids: [],
         legacy_profile_attributes: [
           :id, :door1_access, :door2_access, :door3_access,
-          :door4_access, :buzzcard_id, :buzzcard_fc
+          :door4_access, :buzzcard_id, :buzzcard_fc,
+          :md_privileges, :auto_privileges
         ]
       ]
 
