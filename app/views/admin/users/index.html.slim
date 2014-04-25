@@ -9,7 +9,12 @@ div ng-controller="userFilterCtrl" ng-init="init('admin')"
     .row
       .col-sm-4
         .form-group
-          label.control-label.col-sm-4 Username
+          label.control-label.col-sm-4 Any Field
+          .col-sm-8
+            input.form-control type="text" ng-model="search.$"
+
+        .form-group
+          label.control-label.col-sm-4 = User.human_attribute_name(:username)
           .col-sm-8
             input.form-control type="text" ng-model="search.username"
 
@@ -73,7 +78,7 @@ div ng-controller="userFilterCtrl" ng-init="init('admin')"
     table.table.table-striped
       thead
         tr
-          th style="width: 15%;" Username
+          th style="width: 15%;" = User.human_attribute_name("username")
           th style="width: 25%;" Name
           th style="width: 15%;" Phone
           th style="width: 8%;" Status

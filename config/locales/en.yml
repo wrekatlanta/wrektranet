@@ -20,6 +20,14 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  activerecord:
+    models:
+      user: 
+        one: Op
+        other: Ops
+    attributes:
+      user:
+        username: Initials
   contests:
     age_limit:
       zero: "None"
