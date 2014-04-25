@@ -25,6 +25,7 @@
           | Guest List/Will Call
         br
         = pluralize(@contest.listener_ticket_limit, @contest.listener_ticket_type)
+
         
   .col-md-6 ng-controller="airContestCtrl" ng-init="contest = #{@contest.to_json(include: {listener_tickets: {include: :user}})}; current_user = #{current_user.to_json}; user_can_destroy_all = #{current_user.has_role_or_admin?(:contest_director).to_json};"
     h3 Listener Tickets
@@ -63,9 +64,12 @@
     dl.dl-horizontal.lead
       dt Staff
       dd = pluralize(@contest.staff_ticket_limit, @contest.staff_ticket_type)
-      - unless @contest.venue.address.blank?
+      - if @contest.venue.address.present?
         dt Address
         dd = simple_format(@contest.venue.address)
+      - if @contest.notes.present?
+        dt Notes
+        dd = markdown @contest.notes
   - unless @contest.staff_ticket_limit == 0
     .col-md-6
       h3 Staff Tickets
