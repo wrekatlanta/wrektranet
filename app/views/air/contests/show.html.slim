@@ -33,12 +33,14 @@
         tr
           th Name
           th Phone
+          th Time
           th Op
           th
       tbody
         tr ng-repeat="ticket in contest.listener_tickets"
           td = "{{ticket.name}}"
           td = "{{ticket.phone}}"
+          td = l ticket.created_at, format: :us_time
           td 
             span title="{{ticket.created_at}}"
               | {{ticket.user.username}}
