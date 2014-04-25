@@ -305,8 +305,10 @@ class User < ActiveRecord::Base
     p.lname = last_name
     p.status = status
 
-    unless self.roles.blank?
+    if self.roles.present?
       p.position = self.roles.map(&:full_name).join(', ')
+    else
+      p.position = ''
     end
 
     p.save!
