@@ -28,6 +28,7 @@ en:
     attributes:
       user:
         username: Initials
+        created_at_string: Joined
   contests:
     age_limit:
       zero: "None"

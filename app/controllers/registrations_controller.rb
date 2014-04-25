@@ -57,7 +57,7 @@ class RegistrationsController < Devise::RegistrationsController
       permitted = [
         :email, :subscribed_to_announce, :subscribed_to_staff, :mark_as_inactive,
         :first_name, :middle_name, :last_name, :display_name, :phone,
-        :birthday_string, :avatar, :delete_avatar, :user_id,
+        :birthday_string, :created_at_string, :avatar, :delete_avatar, :user_id,
         :facebook, :spotify, :lastfm,
         legacy_profile_attributes: [
           :id, :buzzcard_id, :buzzcard_fc,

@@ -61,6 +61,7 @@ class User < ActiveRecord::Base
   rolify
 
   natural_language_date_attr :birthday, :date
+  natural_language_date_attr :created_at
 
   devise :registerable, :recoverable, :rememberable, :trackable,
     :validatable, :invitable, :timeoutable
