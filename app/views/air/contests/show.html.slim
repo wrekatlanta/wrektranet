@@ -41,9 +41,9 @@
         tr ng-repeat="ticket in contest.listener_tickets"
           td = "{{ticket.name}}"
           td = "{{ticket.phone}}"
-          td = l ticket.created_at, format: :us_time
+          td = "{{ticket.created_at | date:'short'}}"
           td 
-            span title="{{ticket.created_at}}"
+            span
               | {{ticket.user.username}}
           td
             button.btn.btn-xs.btn-danger< type="button" ng-click="deleteTicket(ticket)" ng-if="user_can_destroy_all || current_user.id == ticket.user_id"
