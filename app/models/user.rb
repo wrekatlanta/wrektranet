@@ -102,7 +102,7 @@ class User < ActiveRecord::Base
                          uniqueness: { case_sensitive: false }
   validates :status, inclusion: { in: STATUSES }
 
-  default_scope -> { order('username ASC') }
+  default_scope -> { order('first_name ASC') }
 
   attr_accessor :mark_as_inactive
   before_validation { self.status = 'inactive' if mark_as_inactive == '1' }
