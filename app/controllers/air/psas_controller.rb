@@ -12,8 +12,7 @@ class Air::PsasController < Air::BaseController
         Legacy::PlayableSpot
           .active
           .sort {|a,b|
-            (a.last_play.try(:playtime) || Time.zone.now) 
-            <=> (b.last_play.try(:playtime) || Time.zone.now)
+            (a.last_play.try(:playtime) || Time.zone.now) <=> (b.last_play.try(:playtime) || Time.zone.now)
           }
       end
     end
