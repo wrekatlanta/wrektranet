@@ -21,7 +21,7 @@ end
 gem 'mysql2'
 gem 'net-ldap', git: 'git://github.com/ruby-ldap/ruby-net-ldap.git', branch: 'master'
 
-gem 'airbrake'
+gem 'sentry-raven'
 
 # devise
 gem 'devise', '~> 3.0.x'
