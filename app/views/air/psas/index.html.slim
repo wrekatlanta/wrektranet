@@ -39,7 +39,10 @@
             - for psa in @av_psas do
               tr class="#{psa.status}"
                 td = psa.av_name
-                td.no-wrap = l psa.last_play.playtime, format: :us_time
+                - if psa.last_play.present?
+                  td.no-wrap = l psa.last_play.playtime, format: :us_time
+                - else
+                  td.no-wrap Not yet played!
                 td = psa.play_count
           - else
             tr
