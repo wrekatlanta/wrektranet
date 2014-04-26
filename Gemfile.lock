@@ -63,9 +63,6 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     addressable (2.3.5)
-    airbrake (3.1.16)
-      builder
-      multi_json
     annotate (2.6.1)
       activerecord (>= 2.3.0)
       rake (>= 0.8.7)
@@ -135,6 +132,8 @@ GEM
       railties (>= 3.0.0)
     faker (1.2.0)
       i18n (~> 0.5)
+    faraday (0.9.0)
+      multipart-post (>= 1.2, < 3)
     ffi (1.9.3)
     formatador (0.2.4)
     guard (2.4.0)
@@ -162,6 +161,7 @@ GEM
       haml (>= 3.0)
       nokogiri
       ruby_parser
+    hashie (2.1.1)
     highline (1.6.20)
     hike (1.2.3)
     hpricot (0.8.6)
@@ -197,6 +197,7 @@ GEM
     mini_portile (0.5.2)
     minitest (4.7.5)
     multi_json (1.8.4)
+    multipart-post (2.0.0)
     mysql2 (0.3.15)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
@@ -287,6 +288,10 @@ GEM
     sdoc (0.4.0)
       json (~> 1.8)
       rdoc (~> 4.0, < 5.0)
+    sentry-raven (0.8.0)
+      faraday (>= 0.7.6)
+      hashie (>= 1.1.0)
+      uuidtools
     sexp_processor (4.4.1)
     simplecov (0.8.2)
       docile (~> 1.1.0)
@@ -327,6 +332,7 @@ GEM
     unicorn-rails (1.1.0)
       rack
       unicorn
+    uuidtools (2.1.4)
     validate_url (0.2.0)
       activemodel (>= 3.0.0)
     warden (1.2.3)
@@ -348,7 +354,6 @@ PLATFORMS
 DEPENDENCIES
   active_link_to
   activerecord-oracle_enhanced-adapter!
-  airbrake
   annotate (>= 2.5.0)
   better_errors
   binding_of_caller
@@ -397,6 +402,7 @@ DEPENDENCIES
   rvm-capistrano
   sass-rails (~> 4.0.0)
   sdoc
+  sentry-raven
   simple_form!
   simplecov (~> 0.8.0.pre2)
   slim
