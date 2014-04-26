@@ -11,7 +11,10 @@ class Air::PsasController < Air::BaseController
       @av_psas = Rails.cache.fetch('playable_spots', expires_in: 30.minutes) do
         Legacy::PlayableSpot
           .active
-          .sort {|a,b| a.last_play.try(:playtime) <=> b.last_play.try(:playtime)}
+          .sort {|a,b|
+            (a.last_play.try(:playtime) || Time.zone.now) 
+            <=> (b.last_play.try(:playtime) || Time.zone.now)
+          }
       end
     end
   end
