@@ -5,27 +5,27 @@
 
 .list-group
 
-  - if Settings.transmitter_log_enabled?
+  - if Setting.transmitter_log_enabled?
       = link_to air_transmitter_log_entries_path, class: 'list-group-item' do
         h4.list-group-item-heading Transmitter Log
         p.list-group-item-text Sign the dang T-Log!
 
-  - if Settings.program_log_enabled?
+  - if Setting.program_log_enabled?
       = link_to air_program_log_index_path, class: 'list-group-item' do
         h4.list-group-item-heading Program Log
         p.list-group-item-text See and keep track of your on-air duties.
 
-  - if Settings.live_playlist_enabled?
+  - if Setting.live_playlist_enabled?
       = link_to air_playlist_index_path, class: 'list-group-item' do
         h4.list-group-item-heading Live Playlist
         p.list-group-item-text Keep track of the music you play during your shift.
 
-  - if Settings.psa_book_enabled?
+  - if Setting.psa_book_enabled?
       = link_to air_psas_path, class: 'list-group-item' do
         h4.list-group-item-heading PSAs
         p.list-group-item-text Inform the public.
 
-  - if Settings.contest_book_enabled?
+  - if Setting.contest_book_enabled?
     = link_to air_contests_path, class: 'list-group-item' do
       h4.list-group-item-heading Contests
       p.list-group-item-text Give away concert tickets to listeners.

@@ -3,14 +3,14 @@
     .col-md-2
       .sidebar-nav
         ul.nav
-          - if Settings.profiles_enabled?
+          - if Setting.profiles_enabled?
             = active_link_to 'People', staff_users_path, wrap_tag: :li
             = active_link_to 'Add An Op', 'http://wrektranet.wrek.org/staff/wreknewform.php3', wrap_tag: :li
-          - if Settings.contest_book_enabled?
+          - if Setting.contest_book_enabled?
             = active_link_to 'Ticket Signups', staff_tickets_path, wrap_tag: :li
             = active_link_to 'Suggest Contests', staff_contest_suggestions_path, wrap_tag: :li
             = active_link_to 'Pop Up Shows', staff_pop_up_shows_path, wrap_tag: :li
-          - if Settings.listener_log_enabled?
+          - if Setting.listener_log_enabled?
             = active_link_to 'Listener Log', staff_listener_logs_path, wrap_tag: :li
     .col-md-10
       = render 'layouts/messages'

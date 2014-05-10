@@ -42,6 +42,7 @@ gem 'nokogiri'
 gem 'redcarpet'
 gem 'validate_url'
 gem 'paperclip', '~> 4.1'
+gem 'rails-settings-cached', '0.3.1'
 
 # time helpers
 gem 'chronic'

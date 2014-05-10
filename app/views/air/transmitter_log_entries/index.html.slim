@@ -39,3 +39,45 @@ table.table.table-striped.ng-cloak ng-controller="airTransmitterLogCtrl" ng-init
         button.btn.btn-success.btn-xs.tlog-action ng-click="signIn(new_log)" Sign In
       td
       td
+
+hr
+
+.row
+  .col-sm-5
+    .panel.panel-default
+      .panel-heading
+        h4.panel-title Power Reading Ranges
+      .table-responsive
+        table.table
+          thead
+            tr
+              th Name
+              th Value
+              th Expected Range
+          tbody
+            tr
+              td Plate Current
+              td = @plate_current
+              td
+                | #{Setting['transmitter_log.plate_curr_min']}
+                |  - 
+                | #{Setting['transmitter_log.plate_curr_max']}
+            tr
+              td Plate Voltage
+              td = @plate_voltage
+              td
+                | #{Setting['transmitter_log.plate_volt_min']}
+                |  - 
+                | #{Setting['transmitter_log.plate_volt_max']}
+            tr
+              td Power Out
+              td = @power_out
+              td
+                | #{Setting['transmitter_log.power_out_min']}
+                |  - 
+                | #{Setting['transmitter_log.power_out_max']}
+  .col-sm-7.lead
+    markdown:
+      Please check the power readings for reasonable values.
+
+      If something seems out of the ordinary, contact [engineering@wrek.org](mailto:engineering@wrek.org).

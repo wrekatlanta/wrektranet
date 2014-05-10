@@ -6,19 +6,19 @@
           - if current_user.admin?
             = active_link_to 'Users', admin_users_path, wrap_tag: :li
 
-          - if Settings.psa_book_enabled? and current_user.has_role_or_admin? :psa_director
+          - if Setting.psa_book_enabled? and current_user.has_role_or_admin? :psa_director
             = active_link_to 'PSAs', admin_psas_path, wrap_tag: :li
 
-          - if Settings.calendar_enabled? and current_user.has_role_or_admin? :psa_director
+          - if Setting.calendar_enabled? and current_user.has_role_or_admin? :psa_director
             = active_link_to 'Calendars', admin_calendars_path, wrap_tag: :li
 
-          - if Settings.program_log_enabled?
+          - if Setting.program_log_enabled?
             = active_link_to 'Program Log', admin_program_log_entries_path, wrap_tag: :li
 
-          - if Settings.transmitter_log_enabled?
+          - if Setting.transmitter_log_enabled?
             = active_link_to 'Transmitter Log', admin_transmitter_log_entries_path, wrap_tag: :li
 
-          - if Settings.contest_book_enabled? and current_user.has_role_or_admin? :contest_director
+          - if Setting.contest_book_enabled? and current_user.has_role_or_admin? :contest_director
             li
               a Contest Book
               ul.nav
