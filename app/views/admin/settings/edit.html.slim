@@ -1,0 +1,13 @@
+- content_for :title, "Settings"
+
+- defaults = {input_wrapper_html: {class: 'col-sm-6'}, label_html: {class: 'col-sm-2'}}
+
+.page-header
+  h1 Edit Setting
+
+= simple_form_for [:admin, @setting], html: {class: 'form-horizontal'}, defaults: defaults do |f|
+  = f.input :var, input_html: { class: 'form-control' }, disabled: true
+  = f.input :value, input_html: { class: 'form-control', value: Setting[@setting.var] }, required: true
+  .form-group
+    .col-md-offset-2.col-md-10
+      = f.button :submit, class: 'btn-primary'

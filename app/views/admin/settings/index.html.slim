@@ -1,0 +1,19 @@
+- content_for :title, "Settings"
+
+.page-header
+  h1 Settings
+
+table.table.table-striped
+  thead
+    tr
+      th Variable
+      th Value
+  tbody
+    - unless @settings.empty?
+      - for setting in @settings do
+        tr
+          td = link_to setting.var, edit_admin_setting_path(setting)
+          td = setting.value
+    - else
+      tr
+        td colspan="3" No settings found.

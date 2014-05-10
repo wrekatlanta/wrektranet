@@ -68,6 +68,8 @@ Wrek::Application.routes.draw do
   namespace :admin do
     root to: "dashboard#index"
 
+    resources :settings
+
     resources :program_log_entries do
       resources :program_log_schedules, shallow: true
     end
