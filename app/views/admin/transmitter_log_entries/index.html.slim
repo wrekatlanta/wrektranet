@@ -1,11 +1,12 @@
 .page-header
   h1 Transmitter Log Explorer
 
-= render 'navigation'
+.hidden-print
+  = render 'navigation'
 
-= render 'filter_form'
+  = render 'filter_form'
 
-hr
+  hr
 
 - unless @tlogs_by_day.empty?
   - @tlogs_by_day.each do |day, tlogs|

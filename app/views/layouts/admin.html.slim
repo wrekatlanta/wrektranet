@@ -1,7 +1,7 @@
 - content_for :content do
   .row
     .col-md-2
-      .sidebar-nav
+      .sidebar-nav.hidden-print
         ul.nav
           - if current_user.admin?
             = active_link_to 'Users', admin_users_path, wrap_tag: :li

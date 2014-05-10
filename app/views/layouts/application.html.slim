@@ -20,7 +20,7 @@ html ng-app="wrektranet"
     .container
       = content_for?(:content) ? yield(:content) : yield
 
-      .footer.text-muted
+      .footer.text-muted.hidden-print
         p
           | Have any feedback or questions? Wanna help out? Contact the wrektranet team at 
           = link_to 'wrektranet@wrek.org', 'mailto:wrektranet@wrek.org'
