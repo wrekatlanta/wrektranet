@@ -1,6 +1,6 @@
 - content_for :content do
   .row
-    .col-md-2
+    .col-sm-2
       .sidebar-nav
         ul.nav
           - if Setting.profiles_enabled?
@@ -12,7 +12,7 @@
             = active_link_to 'Pop Up Shows', staff_pop_up_shows_path, wrap_tag: :li
           - if Setting.listener_log_enabled?
             = active_link_to 'Listener Log', staff_listener_logs_path, wrap_tag: :li
-    .col-md-10
+    .col-sm-10
       = render 'layouts/messages'
       = yield
 

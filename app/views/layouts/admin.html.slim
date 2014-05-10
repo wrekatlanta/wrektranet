@@ -1,6 +1,6 @@
 - content_for :content do
   .row
-    .col-md-2
+    .col-sm-2
       .sidebar-nav.hidden-print
         ul.nav
           - if current_user.admin?
@@ -25,7 +25,11 @@
                 = active_link_to 'Contests', admin_contests_path, wrap_tag: :li
                 = active_link_to 'Venues', admin_venues_path, wrap_tag: :li
                 = active_link_to 'Signups', admin_tickets_path, wrap_tag: :li
-    .col-md-10
+
+          - if current_user.admin?
+            = active_link_to 'Settings', admin_settings_path, wrap_tag: :li
+
+    .col-sm-10
       = render 'layouts/messages'
       = yield
 
