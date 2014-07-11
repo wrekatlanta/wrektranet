@@ -27,7 +27,7 @@ gem 'sentry-raven'
 gem 'devise', '~> 3.0.x'
 gem 'devise_invitable'
 gem 'devise_ldap_authenticatable'
-gem 'cancan'
+gem 'cancancan', '~> 1.8'
 
 gem 'bootstrap-sass', '~> 3.1.0'
 gem 'active_link_to'
