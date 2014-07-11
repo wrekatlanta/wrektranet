@@ -269,21 +269,20 @@ class User < ActiveRecord::Base
   end
 
   # syncs to legacy_profile (Legacy::Staff)
-  # DON'T PUT THIS IN A CALLBACK because of the sync script
-  # password needs to be passed in separately because the user will have already been updated
+  # this should be called explicitly in controllers and not in an after filter on the user model
+  # password needs to be passed in separately because the user will have already been updated with an obfuscated password
   def sync_to_legacy_profile!(new_password = nil)
     p = self.legacy_profile
 
-    # FIXME: don't bother adding missing legacy_profiles just yet
     if self.legacy_profile.blank?
-      return true
+      p = Legacy::Staff.create(initials: username)
     end
 
     if not self.email.blank?
       if not p.emails.blank?
         email = p.emails.first
       else
-        email = Legacy::EmailInfo.new(pid: p.id)
+        email = p.emails.new
       end
 
       email.addr = self.email
@@ -291,8 +290,6 @@ class User < ActiveRecord::Base
       email.annclist = self.subscribed_to_announce ? 'y' : 'n'
       email.pri = 'Y'
       email.description = 'Default, synced from WREKtranet2'
-
-      email.save!
     end
 
     pwd = new_password || self.password

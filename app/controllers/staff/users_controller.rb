@@ -1,5 +1,5 @@
 class Staff::UsersController < Staff::BaseController
-  load_and_authorize_resource except: [:index]
+  load_and_authorize_resource
   respond_to :json, :html
 
   def index
@@ -12,8 +12,12 @@ class Staff::UsersController < Staff::BaseController
   def show
   end
 
-  # def new
-  # end
+  def new
+  end
+
+  def create
+    # stub
+  end
 
   # # to be replaced with a new user form that everyone can access
   # def create
@@ -37,8 +41,17 @@ class Staff::UsersController < Staff::BaseController
     def user_params
       permitted = [
         :username, :email, :first_name, :middle_name, :last_name, :display_name,
-        :birthday_string, :phone, :password, :password_confirmation
+        :user_id, :status, :birthday_string, :phone,
+        :admin, :exec_staff, role_ids: [],
+        legacy_profile_attributes: [
+          :buzzcard_id, :buzzcard_fc
+        ]
       ]
+
+      # if database authenticatable, we need the password
+      if Rails.env.development?
+        permitted << :password
+      end
 
       params.require(:user).permit(permitted)
     end
