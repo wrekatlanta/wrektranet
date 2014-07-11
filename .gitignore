@@ -31,7 +31,6 @@ db/*.sqlite3
 /config/database.yml
 /config/application.yml
 /config/ldap.yml
-/config/deploy.rb
 /coverage.data
 /coverage/
 /db/*.javadb/

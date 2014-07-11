@@ -13,3 +13,9 @@ ADMIN_USERNAME: gpb
 ADMIN_EMAIL: gpb@wrek.org
 ADMIN_PASSWORD: password
 USE_LDAP: false
+SENTRY_DSN: localhost
+
+# config/deploy.rb variables
+DEPLOY_HOST: localhost
+DEPLOY_USER: deploy
+DEPLOY_PORT: 22

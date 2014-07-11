@@ -1,14 +1,17 @@
 require "bundler/capistrano"
 require "rvm/capistrano"
+require "yaml"
 
 set :whenever_command, "bundle exec whenever"
 require "whenever/capistrano"
 
-server "localhost", :web, :app, :db, primary: true
+config = YAML.load_file(File.dirname(__FILE__)  + '/application.yml')
+
+server config['DEPLOY_HOST'], :web, :app, :db, primary: true
 
 set :application, "wrektranet"
-set :user, "deploy"
-set :port, 22
+set :user, config['DEPLOY_USER']
+set :port, config['DEPLOY_PORT']
 set :deploy_to, "/home/#{user}/apps/#{application}"
 set :deploy_via, :remote_cache
 set :use_sudo, false
