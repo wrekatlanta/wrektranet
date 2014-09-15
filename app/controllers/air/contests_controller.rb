@@ -5,6 +5,8 @@ class Air::ContestsController < Air::BaseController
   def index
     if params[:filter] == 'past'
       @contests = @contests.past
+    elsif current_user.admin?
+      @contests = @contests.announceable.up_to(3.months) 
     else
       @contests = @contests.announceable.up_to(2.weeks)
     end

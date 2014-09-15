@@ -50,7 +50,7 @@
               i.glyphicon.glyphicon-trash
         tr ng-if="contest.listener_tickets.length == 0"
           td colspan="4" No tickets have been awarded.
-    - if @contest.announceable?
+    - if @contest.announceable? or current_user.admin?
       form.form-inline.ng-cloak ng-submit="addTicket()" ng-if="contest.listener_tickets.length < contest.listener_ticket_limit"
         .form-group>
           input.form-control.input-sm type="text" ng-model="newTicket.name" placeholder="Full Name" required="required"
