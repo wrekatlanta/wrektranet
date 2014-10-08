@@ -87,6 +87,7 @@ div ng-controller="userFilterCtrl" ng-init="init('admin')"
           th Shows
           th Teams
           th Roles
+          th Points
       tbody
         tr.ng-cloak ng-repeat="user in filtered = (users | filter:status:true | filter:search | filter:filterByRole | filter:filterByShow | filter:filterByTeam) | startFrom:(currentPage-1)*itemsPerPage | limitTo:itemsPerPage"
           td
@@ -115,6 +116,7 @@ div ng-controller="userFilterCtrl" ng-init="init('admin')"
           td
             div ng-repeat="role in user.roles"
               span.label.label-primary = "{{ role.full_name }}"
+          td = "{{ user.points }}"
         tr.ng-cloak ng-if="!loadingTracker.active() && filtered.length == 0"
           td colspan="9" No results found.
         tr ng-if="loadingTracker.active()"

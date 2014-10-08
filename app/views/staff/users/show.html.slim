@@ -43,6 +43,9 @@
 
       dt Phone
       dd = link_to @user.phone, "tel:#{@user.phone}"
+      
+      dt Points
+      dd = @user.points
 
       - unless @user.roles.blank?
         dt Positions

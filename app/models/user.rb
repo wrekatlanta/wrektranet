@@ -46,6 +46,7 @@
 #  facebook               :string(255)
 #  spotify                :string(255)
 #  lastfm                 :string(255)
+#  points                 :integer          default(0)
 #
 
 class User < ActiveRecord::Base

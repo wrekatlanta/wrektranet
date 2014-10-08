@@ -43,7 +43,7 @@ class Admin::UsersController < Admin::BaseController
         :username, :email, :subscribed_to_announce, :subscribed_to_staff,
         :first_name, :middle_name, :last_name, :display_name,
         :user_id, :status, :birthday_string, :avatar, :delete_avatar,
-        :phone, :admin, :exec_staff, role_ids: [],
+        :phone, :admin, :exec_staff, :points, role_ids: [],
         legacy_profile_attributes: [
           :id, :door1_access, :door2_access, :door3_access,
           :door4_access, :buzzcard_id, :buzzcard_fc,
