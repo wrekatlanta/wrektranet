@@ -1,0 +1,20 @@
+- content_for :title, "Points"
+
+.page-header
+  h1 Points Leaderboard
+
+.row
+  .col-md-6
+    table.table.table-hover
+      thead
+        tr
+          th Initials 
+          th Name
+          th Points
+      tbody
+        - unless @users.empty?
+          - for user in @users do
+            tr
+              td = link_to user.username, edit_admin_user_path(user) 
+              td = link_to user.name, edit_admin_user_path(user)
+              td = user.points 

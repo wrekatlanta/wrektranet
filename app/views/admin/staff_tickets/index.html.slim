@@ -19,6 +19,7 @@ div ng-controller="adminTicketListCtrl"
             span.sr-only Action
           th User
           th style="width: 18%;" Name
+          th style="width: 6%;" Points 
           th style="width: 20%;" Event
           th style="width: 17%;" Time
           th style="width: 12%;" Venue
@@ -51,6 +52,7 @@ div ng-controller="adminTicketListCtrl"
               | {{ticket.display_name || ticket.user.name}}
             a.text-danger> href="javascript:0" ng-click="revertName()" ng-if="ticket.display_name"
               | (undo)
+          td = "{{ ticket.user.points }}" 
           td
             a href="/admin/contests/{{ticket.contest.id}}/staff_tickets"
               | {{ticket.contest.name}}

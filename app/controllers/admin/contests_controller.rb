@@ -49,7 +49,11 @@ class Admin::ContestsController < Admin::BaseController
       render :edit
     end
   end
-
+  
+  def points
+   @users = User.order('points DESC') 
+  end
+  
   private
     def contest_params
       params.require(:contest).permit(

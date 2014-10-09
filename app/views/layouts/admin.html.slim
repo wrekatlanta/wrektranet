@@ -25,7 +25,7 @@
                 = active_link_to 'Contests', admin_contests_path, wrap_tag: :li
                 = active_link_to 'Venues', admin_venues_path, wrap_tag: :li
                 = active_link_to 'Signups', admin_tickets_path, wrap_tag: :li
-
+                = active_link_to 'Points', admin_contests_points_path, wrap_tag: :li
           - if current_user.admin?
             = active_link_to 'Settings', admin_settings_path, wrap_tag: :li
 

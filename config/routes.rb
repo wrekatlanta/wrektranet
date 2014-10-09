@@ -76,6 +76,8 @@ Wrek::Application.routes.draw do
 
     resources :calendars
 
+    get 'contests/points'
+
     resources :contests do
       resources :staff_tickets, shallow: true
     end

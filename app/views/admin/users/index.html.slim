@@ -118,9 +118,9 @@ div ng-controller="userFilterCtrl" ng-init="init('admin')"
               span.label.label-primary = "{{ role.full_name }}"
           td = "{{ user.points }}"
         tr.ng-cloak ng-if="!loadingTracker.active() && filtered.length == 0"
-          td colspan="9" No results found.
+          td colspan="10" No results found.
         tr ng-if="loadingTracker.active()"
-          td colspan="9" Loading...
+          td colspan="10" Loading...
   
   / bottom pagination
   .text-center
