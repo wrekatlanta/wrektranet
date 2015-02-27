@@ -184,13 +184,16 @@ class User < ActiveRecord::Base
     self.remember_value
   end
 
+  def not_signed_out_tlog?
+    TransmitterLogEntry.where(:user_id => self.id, :created_at => 2.hours.ago..Time.now, :sign_out => nil).count > 0
+  end
 
   ## LDAP STUFF
   ## this one can be deprecated soon since migrations are coming from staff table
   def get_ldap_data
     if Rails.env.production?
       result = LdapHelper::find_user(self.username)
-
+er
       if result
         self.legacy_id    ||= result.try(:employeeNumber).try(:first)
         self.first_name   ||= result.try(:givenName).try(:first)

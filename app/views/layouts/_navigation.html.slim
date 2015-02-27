@@ -40,5 +40,9 @@
           - if Setting.profiles_enabled?
             li
               = link_to 'Edit Profile', edit_user_registration_path
+          - if Setting.transmitter_log_enabled?
+            - if current_user.not_signed_out_tlog?
+              li
+                = link_to 'Sign Out T-Log', air_transmitter_log_entries_path
           li
             = link_to 'Logout', destroy_user_session_path, method: 'delete'
