@@ -1,9 +1,14 @@
 .navbar-collapse.collapse
   ul.nav.navbar-nav
     - if current_user
-      = active_link_to air_root_path, wrap_tag: :li do
-        i.glyphicon.glyphicon-bullhorn>
-        span On Air
+      - if Setting.transmitter_log_enabled?
+        = active_link_to air_transmitter_log_entries_path, wrap_tag: :li do
+          i.glyphicon.glyphicon-bullhorn>
+          span On Air 
+      - else
+        = active_link_to air_root_path, wrap_tag: :li do
+          i.glyphicon.glyphicon-bullhorn>
+          span On Air
       = active_link_to staff_root_path, wrap_tag: :li do
         i.glyphicon.glyphicon-star>
         span Staff
