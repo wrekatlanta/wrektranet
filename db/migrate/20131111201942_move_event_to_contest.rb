@@ -7,13 +7,13 @@ class MoveEventToContest < ActiveRecord::Migration
 
     Contest.reset_column_information
 
-    execute "UPDATE contests c
-              SET name = e.name,
-                  start_time = e.start_time,
-                  public = e.public,
-                  google_event_id = e.google_id
-              FROM events e
-              WHERE c.id = e.eventable_id"
+    execute 'UPDATE contests c'\
+            ' LEFT JOIN events e ON c.id = e.eventable_id'\
+            ' SET c.name = e.name,'\
+                ' c.start_time = e.start_time,'\
+                ' c.public = e.public,'\
+                ' c.google_event_id = e.google_id'\
+              ' WHERE c.id = e.eventable_id'
 
     drop_table :events
   end
