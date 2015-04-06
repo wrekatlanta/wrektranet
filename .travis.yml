@@ -1,0 +1,14 @@
+language: ruby
+rvm:
+  - 2.0.0
+script:
+  - bundle exec rake db:create:all
+  - bundle exec rake db:schema:load
+  - bundle exec rake db:test:prepare
+  - bundle exec rake db:seed
+  - bundle exec rspec 
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
+before_script:
+  - cp config/database.example.yml config/database.yml
+  - cp config/application.example.yml config/application.yml
+bundler_args: --without=oracle

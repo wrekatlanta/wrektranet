@@ -5,14 +5,13 @@ defaults: &defaults
   encoding: utf8
   pool: 5
   host: localhost
+  username: travis
 
 production_defaults: &production_defaults
   adapter: mysql2
   encoding: utf8
   pool: 5
   host: localhost
-  username: root
-  password: root
 
 # Development
 
@@ -35,10 +34,12 @@ oracle_legacy_development:
 
 test: &test
   database: wrek_test
+  username: travis
   <<: *defaults
 
 staff_legacy_test:
   database: staff_legacy_test
+  username: travis
   <<: *defaults
 
 # Production
