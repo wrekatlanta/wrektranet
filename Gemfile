@@ -70,7 +70,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'simplecov', '~> 0.8.0.pre2', require: false
+  gem 'simplecov', require: false
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'rspec-rails'
