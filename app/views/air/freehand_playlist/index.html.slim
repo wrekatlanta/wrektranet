@@ -1,0 +1,15 @@
+- content_for :title, "Freehand Playlist"
+
+.page-header
+  h1 Freehand Playlist
+
+div ng-controller="airFreehandPlaylistCtrl"
+  = render 'form'
+  = render 'playlist'
+
+/ These are individual AngularJS templates, used in the controller.
+= render 'welcome'
+= render 'search'
+= render 'album'
+= render 'album_error'
+= render 'time_modal'

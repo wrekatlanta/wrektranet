@@ -13,13 +13,17 @@
 #  id             :integer          primary key
 #  album_id       :integer
 #  format         :integer
+#  show_id        :integer
 #
 
-class Legacy::PlaylistOpEntries < Legacy::OracleBase
+class Legacy::PlaylistOpEntry < Legacy::OracleBase
   self.table_name = 'PLAYLIST_OP_ENTRIES'
   self.primary_key = 'id'
 
   belongs_to :staff, primary_key: :id, foreign_key: :played_by
+  belongs_to :format, foreign_key: :format
+  belongs_to :organization, foreign_key: :label
+  belongs_to :show, foreign_key: :show_id
 
   scope :recent, -> { order('playtime desc') }
   scope :up_to, -> (time = 1.hour) {
@@ -46,13 +50,11 @@ class Legacy::PlaylistOpEntries < Legacy::OracleBase
     self.save
   end
 
-  # def to_builder
-  #   Jbuilder.new do |json|
-  #     json.(self, :id, :playtime)
-  #     json.track.(self, :track_title, :performance_by, :format, :album_title)
-  #     json.organization.(self, :org_name)
-  #     json.user self.user, :initials, :id
-  #   end
-  # end
+  def to_builder
+    Jbuilder.new do |json|
+      json.(self, :id, :side, :playtime, :track, :track_title, :performance_by, :format, :album_title, :label, :show_id)
+      json.user self.user, :initials, :id
+    end
+  end
 
 end
