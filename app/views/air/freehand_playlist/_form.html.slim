@@ -1,7 +1,8 @@
 .row
   .col-md-4
-
     form.form-horizontal name="queueForm" ng-submit="queueTrack(track)"
+      .form-group
+        .col-md-12 font-style="italic" #{@current_show}
       .form-group
         label.control-label.col-md-4 Artist
         .col-md-8
@@ -15,18 +16,8 @@
         .col-md-8
           input.form-control ng-model="track.album_title" type="text"
       .form-group
-        label.control-label.col-md-4 Show
-        .col-md-8
-          input.form-control ng-model="track.show_id" type="text"
-      .form-group
-        label.control-label.col-md-4 Label
-        .col-md-8
-          input.form-control ng-model="track.org_name" placeholder="{{track.performance_by}}" type="text"
-      .form-group
         .col-md-offset-4.col-md-8
-          button.btn.btn-primary.btn-sm Queue
-          button.btn.btn-default.btn-sm< type="button" ng-click="reset()" Reset
-
+          button.btn.btn-primary.btn-md Queue
   .col-md-8
     .ng-cloak ng-if="loadingTracker.active()"
       .alert.alert-info

@@ -14,6 +14,7 @@
 #  album_id       :integer
 #  format         :integer
 #  show_id        :integer
+#  show_name      :string(100)
 #
 
 class Legacy::PlaylistOpEntry < Legacy::OracleBase

@@ -70,10 +70,8 @@ angular.module("wrektranet.airFreehandPlaylistCtrl", ['ui.router'])
                 side: track.side,
                 track: track.track_number,
                 label: track.org_name,
-                show_id: track.show_id
-
+                show_id: track.show_id,
             };
-            $log.debug(track.id);
 
             restangularLog = Restangular
                 .restangularizeElement(null, play_log, 'freehand_play_logs');
@@ -114,9 +112,9 @@ angular.module("wrektranet.airFreehandPlaylistCtrl", ['ui.router'])
                 performance_by: '',
                 track_title: '',
                 album_title: '',
-                show: '',
                 org_name: '',
-                track_number: ''
+                track_number: '',
+                format_id:'12'
             };
         };
 
