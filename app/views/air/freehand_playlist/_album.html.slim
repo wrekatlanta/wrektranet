@@ -1,0 +1,44 @@
+/ Album result template.
+script type="text/ng-template" id="album.html"
+  .pull-right
+    button.close type="button" class="close" aria-hidden="true" ng-click="goToIndex()" &times;
+  h4
+    | \#{{album.id}}: {{album.album_title}} 
+    small = "{{album.performance_by}}"
+  table.table.table-bordered.table-condensed.table-hover
+    thead
+      tr
+        th Artist
+        th Song
+        th Side
+        th Track
+        th Format
+        th
+          i.glyphicon.glyphicon-play title="Total Plays"
+        th Last
+        th DJ
+        th style="width: 10%;" Queue
+    tbody
+      tr ng-if="!album.tracks || album.tracks.length == 0"
+        td colspan="9" No tracks are listed for this album.
+      tr ng-repeat="track in album.tracks | orderBy:side:track"
+        td = "{{track.performance_by}}"
+        td = "{{track.track_title}}"
+        td = "{{track.side}}"
+        td = "{{track.track}}"
+        td 
+          span.label.label-default = "{{track.format.format_name}}"
+        td = "{{track.play_logs.length}}"
+        td = "{{track.play_logs[0].playtime | date:'shortDate'}}"
+        td = "{{track.play_logs[0].user.initials}}"
+        td.text-center
+          div ng-switch="playableButtonStatus(track)"
+            div ng-switch-when="success"
+              button.btn.btn-xs.btn-block.btn-success tooltip="Queue" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="left" ng-click="queueTrack(track)"
+                i.glyphicon.glyphicon-plus
+            div ng-switch-when="warning"
+              button.btn.btn-xs.btn-block.btn-warning tooltip="Queue (consider another track)" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="left" ng-click="queueTrack(track)"
+                i.glyphicon.glyphicon-plus
+            div ng-switch-when="danger"
+              button.btn.btn-xs.btn-block.btn-danger tooltip="Avoid!" tooltip-popup-delay="{{tooltip_delay}}" tooltip-placement="left" ng-click="queueTrack(track)"
+                i.glyphicon.glyphicon-ban-circle

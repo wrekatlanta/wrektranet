@@ -409,7 +409,7 @@ DEPENDENCIES
   sdoc
   sentry-raven
   simple_form!
-  simplecov (~> 0.8.0.pre2)
+  simplecov
   slim
   tod
   uglifier (>= 1.3.0)

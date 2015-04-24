@@ -1,0 +1,26 @@
+.row
+  .col-md-4
+    form.form-horizontal name="queueForm" ng-submit="queueTrack(track)"
+      .form-group
+        .col-md-12 font-style="italic" #{@current_show}
+      .form-group
+        label.control-label.col-md-4 Artist
+        .col-md-8
+          input.form-control ng-model="track.performance_by" type="text"
+      .form-group
+        label.control-label.col-md-4 Track
+        .col-md-8
+          input.form-control ng-model="track.track_title" type="text"
+      .form-group
+        label.control-label.col-md-4 Album
+        .col-md-8
+          input.form-control ng-model="track.album_title" type="text"
+      .form-group
+        .col-md-offset-4.col-md-8
+          button.btn.btn-primary.btn-md Queue
+  .col-md-8
+    .ng-cloak ng-if="loadingTracker.active()"
+      .alert.alert-info
+        strong Loading...
+    div ng-hide="loadingTracker.active()"
+      .playlist-results ui-view=true autoscroll="false"

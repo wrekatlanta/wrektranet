@@ -19,6 +19,7 @@ end
 puts 'SETTINGS'
 Setting.save_default(:contest_book_enabled?, true)
 Setting.save_default(:transmitter_log_enabled?, true)
+Setting.save_default(:freehand_playlist_enabled?, true)
 Setting.save_default(:live_playlist_enabled?, true)
 Setting.save_default(:psa_book_enabled?, true)
 Setting.save_default(:listener_log_enabled?, true)

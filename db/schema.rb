@@ -91,40 +91,12 @@ ActiveRecord::Schema.define(version: 20141008013629) do
   add_index "listener_tickets", ["contest_id"], name: "index_listener_tickets_on_contest_id", using: :btree
   add_index "listener_tickets", ["user_id"], name: "index_listener_tickets_on_user_id", using: :btree
 
-  create_table "permissions", force: true do |t|
-    t.string   "action"
-    t.string   "subject_class"
-    t.integer  "subject_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-  end
-
   create_table "program_log_entries", force: true do |t|
     t.string   "title"
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "program_log_entry_schedules", force: true do |t|
-    t.integer  "program_log_entry_id"
-    t.date     "start_date"
-    t.date     "expiration_date"
-    t.time     "start_time"
-    t.time     "end_time"
-    t.integer  "repeat_interval"
-    t.boolean  "sunday",               default: false
-    t.boolean  "monday",               default: false
-    t.boolean  "tuesday",              default: false
-    t.boolean  "wednesday",            default: false
-    t.boolean  "thursday",             default: false
-    t.boolean  "friday",               default: false
-    t.boolean  "saturday",             default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "program_log_entry_schedules", ["program_log_entry_id"], name: "index_program_log_entry_schedules_on_program_log_entry_id", using: :btree
 
   create_table "program_log_schedules", force: true do |t|
     t.integer  "program_log_entry_id"
@@ -161,16 +133,6 @@ ActiveRecord::Schema.define(version: 20141008013629) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "role_permissions", force: true do |t|
-    t.integer  "role_id"
-    t.integer  "permission_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-  end
-
-  add_index "role_permissions", ["permission_id"], name: "index_role_permissions_on_permission_id", using: :btree
-  add_index "role_permissions", ["role_id"], name: "index_role_permissions_on_role_id", using: :btree
 
   create_table "roles", force: true do |t|
     t.string   "name"
@@ -234,16 +196,6 @@ ActiveRecord::Schema.define(version: 20141008013629) do
     t.boolean  "automation_out", default: false
   end
 
-  create_table "user_roles", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "role_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "user_roles", ["role_id"], name: "index_user_roles_on_role_id", using: :btree
-  add_index "user_roles", ["user_id"], name: "index_user_roles_on_user_id", using: :btree
-
   create_table "users", force: true do |t|
     t.string   "email",                                  null: false
     t.string   "encrypted_password",     default: ""
@@ -281,7 +233,6 @@ ActiveRecord::Schema.define(version: 20141008013629) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
-    t.boolean  "exec_staff",             default: false
     t.integer  "user_id"
     t.boolean  "subscribed_to_staff"
     t.boolean  "subscribed_to_announce"
