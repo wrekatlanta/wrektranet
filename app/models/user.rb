@@ -39,7 +39,6 @@
 #  avatar_content_type    :string(255)
 #  avatar_file_size       :integer
 #  avatar_updated_at      :datetime
-#  exec_staff             :boolean          default(FALSE)
 #  user_id                :integer
 #  subscribed_to_staff    :boolean
 #  subscribed_to_announce :boolean
@@ -47,6 +46,7 @@
 #  spotify                :string(255)
 #  lastfm                 :string(255)
 #  points                 :integer          default(0)
+#  exec_staff             :boolean          default(FALSE)
 #
 
 class User < ActiveRecord::Base
