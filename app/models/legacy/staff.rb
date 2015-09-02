@@ -37,10 +37,10 @@ class Legacy::Staff < Legacy::Base
   self.table_name = 'staff'
   self.primary_key = 'id'
 
-  has_many :emails, foreign_key: :pid, class_name: "EmailInfo"
-  has_many :phone_numbers, foreign_key: :pid, class_name: "PhoneInfo"
-  has_many :team_memberships
-  has_many :show_memberships
+  has_many :emails, foreign_key: :pid, class_name: "EmailInfo", dependent: :destroy
+  has_many :phone_numbers, foreign_key: :pid, class_name: "PhoneInfo", dependent: :destroy
+  has_many :team_memberships, dependent: :destroy
+  has_many :show_memberships, dependent: :destroy
   has_many :teams, through: :team_memberships
   has_many :shows, through: :show_memberships
   has_one :user, foreign_key: :legacy_id

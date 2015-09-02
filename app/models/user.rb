@@ -39,7 +39,6 @@
 #  avatar_content_type    :string(255)
 #  avatar_file_size       :integer
 #  avatar_updated_at      :datetime
-#  exec_staff             :boolean          default(FALSE)
 #  user_id                :integer
 #  subscribed_to_staff    :boolean
 #  subscribed_to_announce :boolean
@@ -47,6 +46,7 @@
 #  spotify                :string(255)
 #  lastfm                 :string(255)
 #  points                 :integer          default(0)
+#  exec_staff             :boolean          default(FALSE)
 #
 
 class User < ActiveRecord::Base
@@ -78,7 +78,7 @@ class User < ActiveRecord::Base
   has_many :listener_tickets
   has_many :contest_suggestions, dependent: :destroy
   has_many :trainees, class_name: "User", foreign_key: :user_id
-  belongs_to :legacy_profile, foreign_key: :legacy_id, class_name: "Legacy::Staff"
+  belongs_to :legacy_profile, foreign_key: :legacy_id, class_name: "Legacy::Staff", dependent: :destroy
   belongs_to :parent_op, class_name: "User", foreign_key: :user_id
 
   accepts_nested_attributes_for :legacy_profile
@@ -193,7 +193,7 @@ class User < ActiveRecord::Base
   def get_ldap_data
     if Rails.env.production?
       result = LdapHelper::find_user(self.username)
-er
+
       if result
         self.legacy_id    ||= result.try(:employeeNumber).try(:first)
         self.first_name   ||= result.try(:givenName).try(:first)
