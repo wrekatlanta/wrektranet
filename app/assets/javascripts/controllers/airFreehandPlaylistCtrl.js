@@ -121,7 +121,7 @@ angular.module("wrektranet.airFreehandPlaylistCtrl", ['ui.router'])
         $scope.openTimeModal = function(log) {
             var modalInstance = $modal.open({
                 templateUrl: 'time_modal.html',
-                controller: 'timeModalCtrl',
+                controller: 'timeModalCtrlFh',
                 resolve: {
                     log: function () {
                         return log;
@@ -159,7 +159,7 @@ angular.module("wrektranet.airFreehandPlaylistCtrl", ['ui.router'])
     }
 ])
 
-.controller('timeModalCtrl', [
+.controller('timeModalCtrlFh', [
     '$scope',
     '$modalInstance',
     'promiseTracker',
