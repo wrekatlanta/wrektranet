@@ -78,7 +78,7 @@ class User < ActiveRecord::Base
   has_many :listener_tickets
   has_many :contest_suggestions, dependent: :destroy
   has_many :trainees, class_name: "User", foreign_key: :user_id
-  belongs_to :legacy_profile, foreign_key: :legacy_id, class_name: "Legacy::Staff"
+  belongs_to :legacy_profile, foreign_key: :legacy_id, class_name: "Legacy::Staff", dependent: :destroy
   belongs_to :parent_op, class_name: "User", foreign_key: :user_id
 
   accepts_nested_attributes_for :legacy_profile
@@ -193,7 +193,7 @@ class User < ActiveRecord::Base
   def get_ldap_data
     if Rails.env.production?
       result = LdapHelper::find_user(self.username)
-er
+
       if result
         self.legacy_id    ||= result.try(:employeeNumber).try(:first)
         self.first_name   ||= result.try(:givenName).try(:first)
