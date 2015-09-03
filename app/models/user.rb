@@ -259,14 +259,14 @@ class User < ActiveRecord::Base
   end
 
   def delete_from_ldap
-    if Rails.env.production? and not LdapHelper::find_user(self.username)
+    if Rails.env.production?
       ldap_handle = LdapHelper::ldap_connect
 
       dn = "cn=#{self.username},ou=People,dc=staff,dc=wrek,dc=org"
 
       unless ldap_handle.delete(dn: dn)
         puts ldap_handle.get_operation_result
-        return false
+        #return false
       end
 
     end
