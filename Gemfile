@@ -5,7 +5,7 @@ gem 'rails', '~> 4.0.0'
 
 gem 'unicorn'
 gem 'capistrano'
-gem 'rvm-capistrano'
+gem 'rvm-capistrano', require: false
 
 gem 'sass-rails', '~> 4.0.0'
 gem 'slim'
@@ -18,7 +18,7 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-gem 'mysql2'
+gem 'mysql2', '~> 0.3.18'
 gem 'net-ldap', git: 'git://github.com/ruby-ldap/ruby-net-ldap.git', branch: 'master'
 
 gem 'sentry-raven'
