@@ -1,0 +1,67 @@
+#!/bin/bash
+set -e
+
+# First, download the InstantClient Libraries. This is the hardest part of the
+# process, since Oracle is composed of capitalist pigs who hate Free software.
+echo "Please download the 'basic', 'sdk', and 'sqlplus' packages. Keep them"
+echo "in the ~/Downloads directory. Press <return> when complete."
+echo "<http://www.oracle.com/technetwork/topics/intel-macsoft-096467.html>"
+read -n 1 -p "" # Wait for user to press enter
+
+echo "Please enter the version of the files downloaded:"
+read VERSION
+
+cd ~/Download
+
+# The following instructions come from
+# coderwall.com/p/nvva7a/setup-oracle-instant-client-and-ruby-oci8-gem-on-mac
+# Author: Ismail Dhorat
+
+# Next, unzip, and move the files to their correct location
+unzip -qq instantclient-basic-macos.x64-$VERSION.zip
+unzip -qq instantclient-sqlplus-macos.x64-$VERSION.zip
+unzip -qq instantclient-sdk-macos.x64-$VERSION.zip
+
+mkdir -p /usr/local/oracle/product/instantclient_64/$VERSION/bin
+mkdir -p /usr/local/oracle/product/instantclient_64/$VERSION/lib
+mkdir -p /usr/local/oracle/product/instantclient_64/$VERSION/jdbc/lib
+mkdir -p /usr/local/oracle/product/instantclient_64/$VERSION/rdbms/jlib
+mkdir -p /usr/local/oracle/product/instantclient_64/$VERSION/sqlplus/admin
+
+mv ojdbc* /usr/local/oracle/product/instantclient_64/$VERSION/jdbc/lib/
+mv x*.jar /usr/local/oracle/product/instantclient_64/$VERSION/rdbms/jlib/
+
+# rename glogin.sql to login.sql
+mv glogin.sql /usr/local/oracle/product/instantclient_64/$VERSION/sqlplus/admin/login.sql
+
+# Move lib & sdk
+mv *dylib* /usr/local/oracle/product/instantclient_64/$VERSION/lib/
+mv sdk /usr/local/oracle/product/instantclient_64/$VERSION/lib/sdk
+
+mv *README /usr/local/oracle/product/instantclient_64/$VERSION/
+mv * /usr/local/oracle/product/instantclient_64/$VERSION/bin/
+
+# Setup TNS names
+mkdir -p /usr/local/oracle/admin/network
+
+echo "
+ORADEMO=
+(description=
+   (address_list=
+     (address = (protocol = TCP)(host = 127.0.0.1)(port = 1521))
+   )
+ (connect_data =
+   (service_name=orademo)
+ )
+)" > /usr/local/oracle/admin/network/tnsnames.ora
+
+# Finally, add some variables to the bashrc (and bash_profile, to be safe)
+echo "
+export ORACLE_BASE=/usr/local/oracle
+export ORACLE_HOME=$ORACLE_BASE/product/instantclient_64/11.2.0.3.0
+export PATH=$ORACLE_HOME/bin:$PATH
+export DYLD_LIBRARY_PATH=$ORACLE_HOME/lib:$DYLD_LIBRARY_PATH
+export TNS_ADMIN=$ORACLE_BASE/admin/network
+export SQLPATH=$ORACLE_HOME/sqlplus/admin" >> ~/.bashrc
+
+cat ~/.bashrc >> ~/.bash_profile
