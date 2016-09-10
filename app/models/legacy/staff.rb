@@ -45,6 +45,10 @@ class Legacy::Staff < Legacy::Base
   has_many :shows, through: :show_memberships
   has_one :user, foreign_key: :legacy_id
 
+  def legacy_hash(value)
+    return self.class.legacy_password_hash(value)
+  end
+
   def password=(value)
     write_attribute(:password, self.class.legacy_password_hash(value))
   end
@@ -57,6 +61,9 @@ class Legacy::Staff < Legacy::Base
   end
 
   # MySQL old_password polyfill
+  # 
+  # This is the same hashing function as used in Wrektranet1.
+  #
   # https://github.com/joerghaubrichs/Ruby-MySQL-old_password-function/blob/master/mysql_password.rb
   def self.legacy_password_hash(string)
     nr = 1345345333
