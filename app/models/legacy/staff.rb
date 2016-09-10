@@ -58,6 +58,8 @@ class Legacy::Staff < Legacy::Base
 
   # MySQL old_password polyfill
   # https://github.com/joerghaubrichs/Ruby-MySQL-old_password-function/blob/master/mysql_password.rb
+  #
+  # Note: this is the hashing function used in Wrektranet 1.
   def self.legacy_password_hash(string)
     nr = 1345345333
     nr2 = 0x12345671
