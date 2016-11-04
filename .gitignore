@@ -10,6 +10,12 @@
 # http://github.com/RailsApps/rails-composer/issues
 #----------------------------------------------------------------------------
 
+# vagrant virtual machine
+.vagrant
+
+# oracle-instantclient rpm packages
+*.rpm
+
 # bundler state
 /.bundle
 /vendor/bundle/
