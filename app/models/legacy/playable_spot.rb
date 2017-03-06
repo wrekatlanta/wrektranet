@@ -13,6 +13,7 @@ class Legacy::PlayableSpot < Legacy::OracleBase
   self.table_name = 'PLAYABLE_SPOTS'
 
   has_many :psa_logs, primary_key: :av_name, foreign_key: :av_name
+  has_many :promo_logs, primary_key: :av_name, foreign_key: :av_name
 
   scope :active, -> {
     today = Time.zone.now.beginning_of_day
@@ -21,6 +22,11 @@ class Legacy::PlayableSpot < Legacy::OracleBase
       .where("(start_date IS NULL or start_date <= :current)
               AND (kill_date IS NULL or kill_date >= :current)
               AND category = 'PSA'", current: today)
+
+    includes(:promo_logs)
+      .where("(start_date IS NULL or start_date <= :current)
+              AND (kill_date IS NULL or kill_date >= :current)
+              AND category = 'PRO'", current: today)
   }
 
   def last_play
