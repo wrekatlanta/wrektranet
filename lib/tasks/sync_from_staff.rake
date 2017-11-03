@@ -24,6 +24,13 @@ task :sync_from_staff => :environment do |t, args|
 
     user.legacy_id ||= staff.id
     user.password ||= Devise.friendly_token[0,20]
+#    user.password ||= staff.password ? staff.password=(staff.password) : Devise.friendly_token[0,20]
+    if not staff.password
+        puts "!!! Error: User did not pull from staff password."
+    end
+    if (staff.password == staff.legacy_hash("testinglegacyhash"))
+      puts "name = " + user.username.to_s
+    end
     user.status = staff.status || "inactive"
     user.birthday ||= staff.birthday
     user.first_name ||= staff.fname

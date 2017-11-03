@@ -8,10 +8,10 @@ class Air::TransmitterLogEntriesController < Air::BaseController
 
     # scrape the power readings page
     begin
-      doc = Nokogiri::XML(open('http://opdesk.wrek.org/engineering/arc16xml.php'))
+      doc = Nokogiri::XML(open('http://opdesk.wrek.org/engineering/arc16xml.php', :read_timeout => 5))
       @plate_current = doc.at_css('Channel[name="PLTCUR"]')[:value]
       @plate_voltage = doc.at_css('Channel[name="PLTVLT"]')[:value]
-      @power_out = doc.at_css('Channel[name="PWROUT"]')[:value]
+      @power_out = doc.at_css('Channel[name="PWROUT"]')[:value]   
     rescue
       @plate_current = "?"
       @plate_voltage = "?"
