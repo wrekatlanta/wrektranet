@@ -11,6 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+require 'active_record/connection_adapters/mysql2_adapter'
+
+class ActiveRecord::ConnectionAdapters::Mysql2Adapter
+  NATIVE_DATABASE_TYPES[:primary_key] = "int(11) auto_increment PRIMARY KEY"
+end
+
 ActiveRecord::Schema.define(version: 20150831205923) do
 
   create_table "calendars", force: true do |t|
