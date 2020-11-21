@@ -1,6 +1,6 @@
 # WREKtranet 2.0
 
-This is [WREK](http://wrek.org)'s long-overdue new intranet. It provides tools that our radio DJs use on-air, for adminsitration, and for other purposes.
+This is [WREK](http://wrek.org)'s long-overdue new intranet. It provides tools that our radio DJs use on-air, for administration, and for other purposes.
 
 It's based on Rails 4, AngularJS, MySQL, and Bootstrap. Feel free to use parts of it or make contributions; other radio stations are welcome!
 
