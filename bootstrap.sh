@@ -31,17 +31,17 @@ set -e
 cd /home/vagrant
 
 # 1. Move files around, get the version of the oracle client
-mkdir -p oracle_raws/
+# mkdir -p oracle_raws/
 cd wrektranet/
-for file in $(ls | grep 'oracle-instantclient');
-    do cp $file /home/vagrant/oracle_raws/;
-done
+# for file in $(ls | grep 'oracle-instantclient');
+#     do cp $file /home/vagrant/oracle_raws/;
+# done
 
-cd /home/vagrant/oracle_raws
-ORACLE_CLIENT_VERSION=$(ls |
-                        grep 'oracle' |
-                        sed 's/oracle-instantclient\([0-9]*.[0-9]*\).*/\1/p' |
-                        head -n1)
+# cd /home//oracle_raws
+# ORACLE_CLIENT_VERSION=$(ls |
+#                         grep 'oracle' |
+#                         sed 's/oracle-instantclient\([0-9]*.[0-9]*\).*/\1/p' |
+#                         head -n1)
 cd /home/vagrant
 
 # 2. Update apt-get
@@ -94,7 +94,7 @@ gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703
 printf "Installing RVM..."
 curl -sSL https://get.rvm.io | bash -s stable --ruby
 printf "done\n"
-source ~/.rvm/scripts/rvm
+source /home/.rvm/scripts/rvm
 
 sudo DEBIAN_FRONTEND=noninteractive apt-get autoremove --assume-yes
 
