@@ -31,7 +31,7 @@ set -e
 cd /home/vagrant
 
 # 1. Move files around, get the version of the oracle client
-mkdir oracle_raws/
+mkdir -p oracle_raws/
 cd wrektranet/
 for file in $(ls | grep 'oracle-instantclient');
     do cp $file /home/vagrant/oracle_raws/;
@@ -61,26 +61,26 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server
 printf "done\n"
 
 # 4. Convert/install RPM files
-printf "Installing alien..."
-sudo DEBIAN_FRONTEND=noninteractive apt-get --assume-yes install alien
-printf "done\n"
-cd oracle_raws/
-for file in $(ls);
-    do printf "Converting $file to .deb file...";
-    sudo alien -i $file > /dev/null;
-    printf "done\n";
-done
+# printf "Installing alien..."
+# sudo DEBIAN_FRONTEND=noninteractive apt-get --assume-yes install alien
+# printf "done\n"
+# cd oracle_raws/
+# for file in $(ls);
+#     do printf "Converting $file to .deb file...";
+#     sudo alien -i $file > /dev/null;
+#     printf "done\n";
+# done
 
 # 5. Setup Oracle env files and symlinks
-echo "
-export ORACLE_HOME=/usr/lib/oracle/$ORACLE_CLIENT_VERSION/client64
-export PATH=\$PATH:\$ORACLE_HOME/bins
-export LD_LIBRARY_PATH=/usr/lib/oracle/$ORACLE_CLIENT_VERSION/client64/lib/\${LD_LIBRARY_PATH:+:\$LD_LIBRARY_PATH}" > oracle.sh
+# echo "
+# export ORACLE_HOME=/usr/lib/oracle/$ORACLE_CLIENT_VERSION/client64
+# export PATH=\$PATH:\$ORACLE_HOME/bins
+# export LD_LIBRARY_PATH=/usr/lib/oracle/$ORACLE_CLIENT_VERSION/client64/lib/\${LD_LIBRARY_PATH:+:\$LD_LIBRARY_PATH}" > oracle.sh
 
-sudo mv oracle.sh /etc/profile.d/oracle.sh
-sudo chmod o+r /etc/profile.d/oracle.sh
-sudo ln -s /usr/include/oracle/$ORACLE_CLIENT_VERSION/client64 /usr/lib/oracle/$ORACLE_CLIENT_VERSION/client64/include
-source /etc/profile.d/oracle.sh
+# sudo mv oracle.sh /etc/profile.d/oracle.sh
+# sudo chmod o+r /etc/profile.d/oracle.sh
+# sudo ln -s /usr/include/oracle/$ORACLE_CLIENT_VERSION/client64 /usr/lib/oracle/$ORACLE_CLIENT_VERSION/client64/include
+# source /etc/profile.d/oracle.sh
 
 
 # 6. Install RVM
@@ -89,7 +89,7 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get --assume-yes install curl
 printf "done\n"
 
 RVM_KEY=409B6B1796C275462A1703113804BB82D39DC0E3
-gpg --keyserver hkp://keys.gnupg.net --recv-keys $RVM_KEY > /dev/null
+gpg --keyserver hkp://pool.sks-keyservers.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB > /dev/null
 
 printf "Installing RVM..."
 curl -sSL https://get.rvm.io | bash -s stable --ruby
@@ -110,10 +110,9 @@ cd /home/vagrant/wrektranet
 RUBY_VERSION=$(cat Gemfile |
                grep "^ruby" |
                sed "s/ruby '\([0-9]*\.[0-9]*\.[0-9]*\)'/\1/")
-NANO_VERSION=p247
 #FULL_VERSION=ruby-$RUBY_VERSION-$NANO_VERSION
 printf "Installing $RUBY_VERSION..."
-rvm install $RUBY_VERSION > /dev/null
+rvm install 2.0.0 > /dev/null
 printf "done\n"
 rvm --default use 2.0.0
 
@@ -123,7 +122,8 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get --assume-yes install git
 printf "dont\n"
 
 printf "Installing bundler..."
-gem install bundler
+# not sure what version
+gem install bundler -v 1.7.0
 printf "done\n"
 
 # 10. Install project dependencies
@@ -131,7 +131,7 @@ printf "Installing libmysqlclient-dev..."
 sudo DEBIAN_FRONTEND=noninteractive apt-get --assume-yes install libmysqlclient-dev
 printf "done\n"
 printf "Running bundle install..."
-bundle install
+bundle install --without=oracle
 printf "done\n"
 
 exit 0

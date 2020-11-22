@@ -24,7 +24,7 @@ Check out the [wiki](https://github.com/wrekatlanta/wrektranet-new/wiki) to get 
 
 ### Testing
 
-Mostly standard tools hee.
+Mostly standard tools here.
 
 * RSPec for unit tests, or "specs."
 * RSpec + Capybara (with a headless WebKit server through `poltergeist`) for integration tests.

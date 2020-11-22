@@ -1,4 +1,18 @@
 GIT
+  remote: git://github.com/rsim/oracle-enhanced.git
+  revision: 36e19490875c8e76ce35c615777d5d69b0737667
+  specs:
+    activerecord-oracle_enhanced-adapter (1.5.2)
+
+GIT
+  remote: git://github.com/plataformatec/simple_form.git
+  revision: 32019827798eddbecc19676d69eb406a4f3902cc
+  specs:
+    simple_form (3.0.1)
+      actionpack (>= 4.0.0, < 4.1)
+      activemodel (>= 4.0.0, < 4.1)
+
+GIT
   remote: git://github.com/EppO/rolify.git
   revision: befc8db8d1894cc2fe86407dbedc1aebb3f3592f
   specs:
@@ -11,20 +25,6 @@ GIT
     figaro (0.7.0)
       rails (>= 3, < 5)
       thor (~> 0.14)
-
-GIT
-  remote: git://github.com/plataformatec/simple_form.git
-  revision: 32019827798eddbecc19676d69eb406a4f3902cc
-  specs:
-    simple_form (3.0.1)
-      actionpack (>= 4.0.0, < 4.1)
-      activemodel (>= 4.0.0, < 4.1)
-
-GIT
-  remote: git://github.com/rsim/oracle-enhanced.git
-  revision: 36e19490875c8e76ce35c615777d5d69b0737667
-  specs:
-    activerecord-oracle_enhanced-adapter (1.5.2)
 
 GIT
   remote: git://github.com/ruby-ldap/ruby-net-ldap.git
@@ -420,6 +420,3 @@ DEPENDENCIES
   will_paginate (~> 3.0)
   will_paginate-bootstrap
   yajl-ruby
-
-BUNDLED WITH
-   1.10.3
