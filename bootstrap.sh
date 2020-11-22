@@ -131,7 +131,7 @@ printf "Installing libmysqlclient-dev..."
 sudo DEBIAN_FRONTEND=noninteractive apt-get --assume-yes install libmysqlclient-dev
 printf "done\n"
 printf "Running bundle install..."
-bundle install --without=oracle
+bundle install --without=oracle --verbose
 printf "done\n"
 
 exit 0
