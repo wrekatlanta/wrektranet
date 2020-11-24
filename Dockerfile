@@ -1,9 +1,5 @@
 FROM ubuntu:16.04
 
-COPY . /wrektranet
-
-WORKDIR /wrektranet
-
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
@@ -24,18 +20,23 @@ RUN sed -i ~/.profile -e 's/mesg n || true/tty -s \&\& mesg n/g'
 # Need to use new login instace of bash to properly source rvm
 SHELL [ "/bin/bash", "-l", "-c" ]
 
-ENV MYRUBY_VERSION=2.0.0
+ENV MYRUBY_VERSION=2.5.0
 RUN rvm install $MYRUBY_VERSION
 RUN rvm --default use $MYRUBY_VERSION
 
 RUN apt-get install --assume-yes git
-
-ENV BUNDLER_VERSION=1.7.0
-RUN gem install bundler -v $BUNDLER_VERSION
-
 RUN apt-get install --assume-yes libmysqlclient-dev
 
+COPY . /wrektranet
+
+WORKDIR /wrektranet
+
+ENV BUNDLER_VERSION=2.1.4
+RUN gem install bundler -v $BUNDLER_VERSION
+
+RUN bundle update
 RUN bundle install --without=oracle --verbose
+
 
 # Create database, likely needs tobe different in production
 RUN /etc/init.d/mysql start && \
