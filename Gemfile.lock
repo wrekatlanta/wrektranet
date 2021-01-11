@@ -258,7 +258,7 @@ GEM
       ffi (>= 0.5.0)
     rdoc (4.1.1)
       json (~> 1.4)
-    redcarpet (3.0.0)
+    redcarpet (3.5.1)
     request_store (1.0.5)
     ri_cal (0.8.8)
     rspec (2.14.1)
