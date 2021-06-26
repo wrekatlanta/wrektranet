@@ -3,7 +3,7 @@ task :log_listeners => :environment do |t, args|
   require 'open-uri'
   require 'listener_log'
 
-  url = "http://streaming.wrek.org:8000/"
+  url = "https://streaming.wrek.org/"
 
   stats = Nokogiri::HTML(open(url)).css('.roundcont')[1..-1]
 
@@ -16,5 +16,5 @@ task :log_listeners => :environment do |t, args|
   listener_log.main_24 = stats[2]
 
   listener_log.save
-  
+
 end
