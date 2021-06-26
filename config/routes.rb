@@ -1,4 +1,5 @@
-Wrek::Application.routes.draw do
+# Wrek::Application.routes.draw do
+Rails.application.routes.draw do
   root to: "welcome#index"
 
   devise_for :users, controllers: { registrations: "registrations" }
@@ -42,7 +43,7 @@ Wrek::Application.routes.draw do
         get 'archive'
       end
     end
-    
+
     resources :psas do
       resources :psa_readings
     end

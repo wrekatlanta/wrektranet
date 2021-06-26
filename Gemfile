@@ -1,13 +1,12 @@
 source 'https://rubygems.org'
-ruby '2.4.10'
+ruby '2.5.9'
 
-gem 'rails', '~> 4.2.0'
+gem 'rails', '~> 5.0.7'
 
 gem 'unicorn'
 gem 'capistrano'
 gem 'rvm-capistrano', require: false
 
-gem 'sass-rails', '~> 4.0.0'
 gem 'slim'
 gem 'uglifier', '>= 1.3.0'
 gem 'json', '>= 2.0.0'
@@ -34,7 +33,7 @@ gem 'bootstrap-sass', '~> 3.1.0'
 gem 'active_link_to'
 gem 'figaro', github: 'laserlemon/figaro'
 gem 'rolify', github: 'EppO/rolify'
-gem 'draper', '~> 1.0'
+gem 'draper', '~> 3.0'
 gem 'simple_form'
 gem 'will_paginate', '~> 3.0'
 gem 'will_paginate-bootstrap'
@@ -64,7 +63,6 @@ group :development do
   gem 'haml-rails'
   gem 'haml2slim'
   gem 'html2haml'
-  gem 'quiet_assets'
   gem 'rb-fchange', require: false
   gem 'rb-fsevent', require: false
   gem 'rb-inotify', require: false
@@ -73,7 +71,7 @@ end
 
 group :development, :test do
   gem 'simplecov', require: false
-  gem 'factory_girl_rails'
+  gem 'factory_bot_rails'
   gem 'faker'
   gem 'rspec-rails'
 end
@@ -93,6 +91,6 @@ end
 # optional, only useful for playlists/AudioVault: `bundle install --without=oracle`
 # https://github.com/wrekatlanta/wrektranet/wiki/Installing-Oracle-adapters
 group :oracle do
-  gem 'activerecord-oracle_enhanced-adapter', '~> 1.6.0'
-  gem 'ruby-oci8', '~> 2.1.0'
+  gem 'activerecord-oracle_enhanced-adapter', '~> 1.7.0'
+  gem 'ruby-oci8'
 end

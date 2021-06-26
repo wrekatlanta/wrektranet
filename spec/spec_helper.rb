@@ -10,6 +10,7 @@ require 'rspec/autorun'
 require 'capybara/rspec'
 require 'capybara/rails'
 require 'capybara/poltergeist'
+require 'devise'
 
 module Capybara::Poltergeist
   class Client
@@ -33,7 +34,7 @@ module Capybara::Poltergeist
     end
   end
 end
- 
+
 class WarningSuppressor
   class << self
     def write(message)
@@ -41,7 +42,7 @@ class WarningSuppressor
     end
   end
 end
- 
+
 Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, phantomjs_logger: WarningSuppressor)
 end
@@ -83,7 +84,7 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
-  
+
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
   end

@@ -112,9 +112,9 @@ RUBY_VERSION=$(cat Gemfile |
                sed "s/ruby '\([0-9]*\.[0-9]*\.[0-9]*\)'/\1/")
 #FULL_VERSION=ruby-$RUBY_VERSION-$NANO_VERSION
 printf "Installing $RUBY_VERSION..."
-rvm install 2.0.0 > /dev/null
+rvm install 2.5.9 > /dev/null
 printf "done\n"
-rvm --default use 2.0.0
+rvm --default use 2.5.9
 
 # 9. Install bundler and git
 printf "Installing git..."
@@ -123,7 +123,7 @@ printf "dont\n"
 
 printf "Installing bundler..."
 # not sure what version
-gem install bundler -v 1.7.0
+gem install bundler
 printf "done\n"
 
 # 10. Install project dependencies

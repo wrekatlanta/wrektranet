@@ -1,0 +1,16 @@
+11/21/20
+
+Had to install vagrant -- may need to update the image it's using.
+Had to install virtualbox
+These dependencies are a hot mess
+
+1. Need to find a new way to get oracle instant client. Missing client64 install for linux?
+2. Updated to use Ubuntu 18 as the vagrant machine. Not sure what this breaks
+3. Need to remove sdoc somehow?
+
+11/22/20
+Got wrektranet2 to work without oracle on precision, trusty
+
+6/23/21
+
+Used rbenv to install the correct ruby version

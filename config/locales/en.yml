@@ -22,7 +22,7 @@
 en:
   activerecord:
     models:
-      user: 
+      user:
         one: Op
         other: Ops
     attributes:
