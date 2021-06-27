@@ -5,25 +5,25 @@
   margin-bottom: 30px;
   padding-top:    10px;
   padding-bottom: 10px;
-  background-color: lighten($brand-primary, 43%);
+  background-color: blue;
   border-radius: 5px;
 
   .nav {
     > li > a {
       display: block;
-      color: $brand-primary;
+      color: blue;
       padding: 5px 20px;
 
       &:hover, &:focus {
         text-decoration: none;
-        background-color: lighten($brand-primary, 40%);
+        background-color: lightblue;
       }
     }
 
     > li.active {
       font-weight: bold;
-      background-color: lighten($brand-primary, 40%);
-      border-right: 1px solid $brand-primary;
+      background-color: lightblue;
+      border-right: 1px solid blue;
     }
 
     .nav {

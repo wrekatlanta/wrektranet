@@ -14,3 +14,7 @@ Got wrektranet2 to work without oracle on precision, trusty
 6/23/21
 
 Used rbenv to install the correct ruby version
+
+6/26/21
+Precompile assets???
+rake assets:precompile

@@ -1,0 +1,52 @@
+/* line 1, app/assets/stylesheets/signin.css.scss */
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+/* line 7, app/assets/stylesheets/signin.css.scss */
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+/* line 13, app/assets/stylesheets/signin.css.scss */
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+
+/* line 18, app/assets/stylesheets/signin.css.scss */
+.form-signin .checkbox {
+  font-weight: normal;
+}
+
+/* line 22, app/assets/stylesheets/signin.css.scss */
+.form-signin .form-control {
+  position: relative;
+  font-size: 16px;
+  height: auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* line 32, app/assets/stylesheets/signin.css.scss */
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+
+/* line 36, app/assets/stylesheets/signin.css.scss */
+.form-signin #user_username {
+  margin-bottom: -1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* line 42, app/assets/stylesheets/signin.css.scss */
+.form-signin #user_password {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

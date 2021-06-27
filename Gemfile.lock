@@ -1,16 +1,3 @@
-GIT
-  remote: https://github.com/EppO/rolify.git
-  revision: 285c5afc38adc9a37594f523b5e748ea37766562
-  specs:
-    rolify (5.1.0)
-
-GIT
-  remote: https://github.com/laserlemon/figaro.git
-  revision: 6ae998e8209a08f91a165822abecffc0a0626814
-  specs:
-    figaro (1.2.0)
-      thor (>= 0.14.0, < 2)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -68,6 +55,8 @@ GEM
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 14.0)
     arel (7.1.4)
+    autoprefixer-rails (10.2.5.1)
+      execjs (> 0)
     bcrypt (3.1.16)
     better_errors (2.9.1)
       coderay (>= 1.0.0)
@@ -75,8 +64,10 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (1.0.0)
       debug_inspector (>= 0.0.1)
-    bootstrap-sass (3.1.1.1)
-      sass (~> 3.2)
+    bootstrap (5.0.1)
+      autoprefixer-rails (>= 9.1.0)
+      popper_js (>= 2.9.2, < 3)
+      sassc-rails (>= 2.0.0)
     builder (3.2.4)
     cancan (1.6.10)
     capistrano (2.15.9)
@@ -142,19 +133,6 @@ GEM
       railties (>= 5.0.0)
     faker (2.18.0)
       i18n (>= 1.6, < 2)
-    faraday (1.4.3)
-      faraday-em_http (~> 1.0)
-      faraday-em_synchrony (~> 1.0)
-      faraday-excon (~> 1.1)
-      faraday-net_http (~> 1.0)
-      faraday-net_http_persistent (~> 1.1)
-      multipart-post (>= 1.2, < 3)
-      ruby2_keywords (>= 0.0.4)
-    faraday-em_http (1.0.0)
-    faraday-em_synchrony (1.0.0)
-    faraday-excon (1.1.0)
-    faraday-net_http (1.0.1)
-    faraday-net_http_persistent (1.1.0)
     ffi (1.15.3)
     formatador (0.3.0)
     globalid (0.4.2)
@@ -227,7 +205,6 @@ GEM
     mini_mime (1.1.0)
     mini_portile2 (2.5.3)
     minitest (5.14.4)
-    multipart-post (2.1.1)
     mysql2 (0.4.10)
     nenv (0.3.0)
     net-ldap (0.17.0)
@@ -255,6 +232,7 @@ GEM
       capybara (>= 2.1, < 4)
       cliver (~> 0.3.1)
       websocket-driver (>= 0.2.0)
+    popper_js (2.9.2)
     pry (0.14.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -308,6 +286,7 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     ri_cal (0.8.8)
+    rolify (6.0.0)
     rspec (3.10.0)
       rspec-core (~> 3.10.0)
       rspec-expectations (~> 3.10.0)
@@ -331,18 +310,20 @@ GEM
     rspec-support (3.10.2)
     ruby-oci8 (2.2.9)
     ruby-plsql (0.7.1)
-    ruby2_keywords (0.0.4)
     ruby_parser (3.16.0)
       sexp_processor (~> 4.15, >= 4.15.1)
     rvm-capistrano (1.5.6)
       capistrano (~> 2.15.4)
-    sass (3.7.4)
-      sass-listen (~> 4.0.0)
-    sass-listen (4.0.0)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
-    sentry-raven (3.1.2)
-      faraday (>= 1.0)
+    sass-rails (6.0.0)
+      sassc-rails (~> 2.1, >= 2.1.1)
+    sassc (2.4.0)
+      ffi (~> 1.9)
+    sassc-rails (2.1.2)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     sexp_processor (4.15.3)
     shellany (0.0.1)
     simple_form (5.0.3)
@@ -405,7 +386,7 @@ DEPENDENCIES
   annotate (>= 2.5.0)
   better_errors
   binding_of_caller
-  bootstrap-sass (~> 3.1.0)
+  bootstrap
   cancan
   capistrano
   capybara
@@ -418,7 +399,6 @@ DEPENDENCIES
   email_spec
   factory_bot_rails
   faker
-  figaro!
   guard (>= 2.1.0)
   guard-rails
   guard-rspec
@@ -445,11 +425,11 @@ DEPENDENCIES
   rb-inotify
   redcarpet
   ri_cal
-  rolify!
+  rolify
   rspec-rails
   ruby-oci8
   rvm-capistrano
-  sentry-raven
+  sass-rails
   simple_form
   simplecov
   slim

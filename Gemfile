@@ -7,6 +7,7 @@ gem 'unicorn'
 gem 'capistrano'
 gem 'rvm-capistrano', require: false
 
+gem 'sass-rails'
 gem 'slim'
 gem 'uglifier', '>= 1.3.0'
 gem 'json', '>= 2.0.0'
@@ -21,7 +22,7 @@ gem 'yajl-ruby'
 gem 'mysql2', '~> 0.4.10'
 gem 'net-ldap'
 
-gem 'sentry-raven'
+# gem 'sentry-ruby'
 
 # devise
 gem 'devise'
@@ -29,10 +30,11 @@ gem 'devise_invitable'
 gem 'devise_ldap_authenticatable'
 gem 'cancan'
 
-gem 'bootstrap-sass', '~> 3.1.0'
+# gem 'bootstrap-sass'
+gem 'bootstrap'
 gem 'active_link_to'
-gem 'figaro', github: 'laserlemon/figaro'
-gem 'rolify', github: 'EppO/rolify'
+# gem 'figaro', github: 'laserlemon/figaro'
+gem 'rolify'
 gem 'draper', '~> 3.0'
 gem 'simple_form'
 gem 'will_paginate', '~> 3.0'
