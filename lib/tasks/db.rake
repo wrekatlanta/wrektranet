@@ -20,7 +20,15 @@ namespace :db do
       abcs = ActiveRecord::Base.configurations
       ActiveRecord::Base.connection.recreate_database(abcs['staff_legacy_test']['database'])
       # like db:test:load_schema
-      ActiveRecord::Base.establish_connection('staff_legacy_test')
+      ActiveRecord::Base.establish_connection(
+        :database => 'staff_legacy_test',
+        :adapter => 'mysql2',
+        :host => 'localhost',
+        :username => 'root',
+        :password => 'NewPassword',
+        :encoding => 'utf8',
+        :pool => '5'
+      )
       ActiveRecord::Schema.verbose = false
       load("#{Rails.root}/db/staff_legacy_schema.rb")
     end
