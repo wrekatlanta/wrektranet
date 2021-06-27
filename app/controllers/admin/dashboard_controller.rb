@@ -1,5 +1,5 @@
 class Admin::DashboardController < Admin::BaseController
-  before_filter :authorize_exec
+  before_action :authorize_exec
 
   def index
   end
