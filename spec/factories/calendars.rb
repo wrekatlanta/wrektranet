@@ -11,12 +11,12 @@
 #  updated_at       :datetime
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
+# Read about factories at https://github.com/thoughtbot/factory_bot
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :calendar do
-    url "MyString"
-    name "MyString"
-    default_location "MyString"
+    url { "MyString" }
+    name { "MyString" }
+    default_location { "MyString" }
   end
 end

@@ -26,13 +26,13 @@
 require 'spec_helper'
 
 describe Contest do
-  let(:venue) { FactoryGirl.create(:venue) }
-  let(:alternate_recipient) { FactoryGirl.create(:venue) }
+  let(:venue) { FactoryBot.create(:venue) }
+  let(:alternate_recipient) { FactoryBot.create(:venue) }
   let(:staff_ticket_limit) { 3 }
   let(:listener_ticket_limit) { 3 }
 
   it "has a valid factory" do
-    FactoryGirl.create(:contest).should be_valid
+    FactoryBot.create(:contest).should be_valid
   end
 
   before do
@@ -88,7 +88,7 @@ describe Contest do
   end
 
   describe "#update_send_time" do
-    let(:venue) { FactoryGirl.create(:venue, send_day_offset: 2, send_hour: 17) }
+    let(:venue) { FactoryBot.create(:venue, send_day_offset: 2, send_hour: 17) }
 
     before do
       @contest.venue = venue

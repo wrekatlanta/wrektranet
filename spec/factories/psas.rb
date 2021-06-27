@@ -11,13 +11,13 @@
 #  updated_at      :datetime
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
+# Read about factories at https://github.com/thoughtbot/factory_bot
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :psa do
-    title "Chad Kroger Alert"
-    body "Chad Kroger is very horny today."
-    status "new"
-    expiration_date Date.tomorrow
+    title { "Chad Kroger Alert" }
+    body { "Chad Kroger is very horny today." }
+    status { "new" }
+    expiration_date { Date.tomorrow }
   end
 end

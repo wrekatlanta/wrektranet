@@ -12,10 +12,10 @@
 require 'spec_helper'
 
 describe Contact do
-  let(:venue) { FactoryGirl.create(:venue) }
+  let(:venue) { FactoryBot.create(:venue) }
 
   it "has a valid factory" do
-    FactoryGirl.build(:contact).should be_valid
+    FactoryBot.build(:contact).should be_valid
   end
 
   before do

@@ -17,19 +17,19 @@
 #  priority    :integer
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
+# Read about factories at https://github.com/thoughtbot/factory_bot
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :show do
-    legacy_id 1
-    name "MyString"
-    long_name "MyString"
-    short_name "MyString"
-    url "MyString"
-    description "MyString"
-    category "MyString"
-    email "MyString"
-    facebook "MyString"
-    twitter "MyString"
+    legacy_id { 1 }
+    name { "MyString" }
+    long_name { "MyString" }
+    short_name { "MyString" }
+    url { "MyString" }
+    description { "MyString" }
+    category { "MyString" }
+    email { "MyString" }
+    facebook { "MyString" }
+    twitter { "MyString" }
   end
 end

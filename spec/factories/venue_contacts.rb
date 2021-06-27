@@ -1,8 +1,8 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
+# Read about factories at https://github.com/thoughtbot/factory_bot
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :venue_contact do
-    venue nil
-    contact nil
+    venue { nil }
+    contact { nil }
   end
 end

@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 feature "Venue administration" do
-  let(:admin) { FactoryGirl.create(:user, :admin) }
-  let!(:venues) { FactoryGirl.create_list(:venue, 4) }
+  let(:admin) { FactoryBot.create(:user, :admin) }
+  let!(:venues) { FactoryBot.create_list(:venue, 4) }
 
   before(:each) do
     login_with admin
@@ -53,11 +53,11 @@ feature "Venue administration" do
   end
 
   scenario "Admin removes contacts from venue", js: true do
-    venue = FactoryGirl.create(:venue, name: "Editable Venue")
+    venue = FactoryBot.create(:venue, name: "Editable Venue")
     venue_name = venue.name
 
-    removed_contacts = FactoryGirl.create_list(:contact, 2, venue: venue)
-    saved_contacts = FactoryGirl.create_list(:contact, 2, venue: venue)
+    removed_contacts = FactoryBot.create_list(:contact, 2, venue: venue)
+    saved_contacts = FactoryBot.create_list(:contact, 2, venue: venue)
 
     visit edit_admin_venue_path(venue)
 
@@ -80,7 +80,7 @@ feature "Venue administration" do
   end
 
   scenario "Admin deletes a venue", js: true do
-    venue = FactoryGirl.create(:venue)
+    venue = FactoryBot.create(:venue)
     venue_name = venue.name
 
     visit edit_admin_venue_path(venue)

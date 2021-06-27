@@ -53,35 +53,35 @@ require 'spec_helper'
 
 describe User do
   it "has a valid factory" do
-    FactoryGirl.create(:user).should be_valid
+    FactoryBot.create(:user).should be_valid
   end
 
   it "is invalid without a first name" do
-    FactoryGirl.build(:user, first_name: nil).should_not be_valid
+    FactoryBot.build(:user, first_name: nil).should_not be_valid
   end
 
   it "is invalid without a last name" do
-    FactoryGirl.build(:user, last_name: nil).should_not be_valid
+    FactoryBot.build(:user, last_name: nil).should_not be_valid
   end
 
   it "is invalid without a username" do
-    FactoryGirl.build(:user, username: nil).should_not be_valid
+    FactoryBot.build(:user, username: nil).should_not be_valid
   end
 
   it "is invalid without an email address" do
-    FactoryGirl.build(:user, email: nil).should_not be_valid
+    FactoryBot.build(:user, email: nil).should_not be_valid
   end
 
   it "should accept valid email addresses" do
     addresses = %w[user@foo.com THE_USER@foo.bar.org first.last@foo.jp]
     addresses.each do |address|
-      FactoryGirl.build(:user, email: address).should be_valid
+      FactoryBot.build(:user, email: address).should be_valid
     end
   end
 
   describe "admin attribute" do
     before(:each) do
-      @user = FactoryGirl.create(:user)
+      @user = FactoryBot.create(:user)
     end
 
     it "should respond to admin" do
@@ -100,14 +100,14 @@ describe User do
 
   describe '#name' do
     subject { 
-      FactoryGirl.create(:user, first_name: "George", last_name: "Burdell")
+      FactoryBot.create(:user, first_name: "George", last_name: "Burdell")
     }
 
     its(:name) { should eq "George Burdell" }
 
     context "with a display name" do
       subject { 
-        FactoryGirl.create(:user,
+        FactoryBot.create(:user,
           first_name: "George",
           last_name: "Burdell",
           display_name: "George P. Burdell"

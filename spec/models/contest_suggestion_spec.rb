@@ -16,10 +16,10 @@
 require 'spec_helper'
 
 describe ContestSuggestion do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
 
   it "has a valid factory" do
-    FactoryGirl.create(:contest_suggestion).should be_valid
+    FactoryBot.create(:contest_suggestion).should be_valid
   end
 
   before do

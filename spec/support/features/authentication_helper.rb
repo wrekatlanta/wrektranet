@@ -1,6 +1,6 @@
 module AuthenticationHelper
   def login_with(user = nil, roles = [])
-    user ||= FactoryGirl.create(:user)
+    user ||= FactoryBot.create(:user)
 
     roles.each do |r|
       role = Role.find_or_create_by(:name, r)

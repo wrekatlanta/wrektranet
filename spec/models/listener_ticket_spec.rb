@@ -14,11 +14,11 @@
 require 'spec_helper'
 
 describe ListenerTicket do
-  let(:contest) { FactoryGirl.create(:contest) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:contest) { FactoryBot.create(:contest) }
+  let(:user) { FactoryBot.create(:user) }
 
   it "has a valid factory" do
-    FactoryGirl.create(:listener_ticket).should be_valid
+    FactoryBot.create(:listener_ticket).should be_valid
   end
 
   before do
@@ -34,11 +34,11 @@ describe ListenerTicket do
   subject { @listener_ticket }
 
   describe "limit per contest" do
-    let(:contest) { FactoryGirl.create(:contest, listener_ticket_limit: 3) }
+    let(:contest) { FactoryBot.create(:contest, listener_ticket_limit: 3) }
 
     context "where the limit has not been reached" do
       before do
-        FactoryGirl.create_list(:listener_ticket, contest.listener_ticket_limit - 1,
+        FactoryBot.create_list(:listener_ticket, contest.listener_ticket_limit - 1,
           contest: contest)
       end
 
@@ -49,7 +49,7 @@ describe ListenerTicket do
 
     context "where the limit has been reached" do
       before do
-        FactoryGirl.create_list(:listener_ticket, contest.listener_ticket_limit,
+        FactoryBot.create_list(:listener_ticket, contest.listener_ticket_limit,
           contest: contest)
       end
 

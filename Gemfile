@@ -11,7 +11,7 @@ gem 'slim'
 gem 'uglifier', '>= 1.3.0'
 gem 'json', '>= 2.0.0'
 gem 'jquery-rails'
-gem 'jbuilder', '~> 1.2'
+gem 'jbuilder', '~> 2.0'
 gem 'yajl-ruby'
 
 # group :doc do
@@ -19,7 +19,7 @@ gem 'yajl-ruby'
 # end
 
 gem 'mysql2', '~> 0.4.10'
-gem 'net-ldap', git: 'git://github.com/ruby-ldap/ruby-net-ldap.git', branch: 'master'
+gem 'net-ldap'
 
 gem 'sentry-raven'
 

@@ -1,27 +1,27 @@
 require 'spec_helper'
 
 feature "Contest administration" do
-  let!(:venue) { FactoryGirl.create(:venue, name: "Variety Playhouse") }
-  let!(:early_venue) { FactoryGirl.create(:venue, :send_early, name: "The Masquerade") }
+  let!(:venue) { FactoryBot.create(:venue, name: "Variety Playhouse") }
+  let!(:early_venue) { FactoryBot.create(:venue, :send_early, name: "The Masquerade") }
   let!(:today) { Time.zone.today.beginning_of_day }
 
   let!(:upcoming_contests) {
     [
-      FactoryGirl.create(:contest, venue: venue, start_time: today + 1.day),
-      FactoryGirl.create(:contest, venue: venue, start_time: today),
-      FactoryGirl.create(:contest, venue: early_venue, start_time: today + 1.day)
+      FactoryBot.create(:contest, venue: venue, start_time: today + 1.day),
+      FactoryBot.create(:contest, venue: venue, start_time: today),
+      FactoryBot.create(:contest, venue: early_venue, start_time: today + 1.day)
     ]
   }
 
   let!(:past_contests) {
     [
-      FactoryGirl.create(:contest, :sent, venue: venue, start_time: today - 1.day),
-      FactoryGirl.create(:contest, :sent, venue: early_venue, start_time: today)
+      FactoryBot.create(:contest, :sent, venue: venue, start_time: today - 1.day),
+      FactoryBot.create(:contest, :sent, venue: early_venue, start_time: today)
     ]
   }
 
   before do
-    user = FactoryGirl.create(:user, :admin)
+    user = FactoryBot.create(:user, :admin)
     login_with user
     visit admin_contests_path
   end
@@ -50,7 +50,7 @@ feature "Contest administration" do
   end
 
   scenario "Admin edits a contest" do
-    contest = FactoryGirl.create(:contest)
+    contest = FactoryBot.create(:contest)
     visit edit_admin_contest_path(contest)
 
     click_button "Update Contest"
@@ -59,7 +59,7 @@ feature "Contest administration" do
   end
 
   scenario "Admin deletes a contest" do
-    contest = FactoryGirl.create(:contest)
+    contest = FactoryBot.create(:contest)
     visit edit_admin_contest_path(contest)
 
     click_link "Delete"

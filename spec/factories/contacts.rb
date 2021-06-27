@@ -9,9 +9,9 @@
 #  venue_id   :integer
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
+# Read about factories at https://github.com/thoughtbot/factory_bot
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :contact do
     venue
     email { Faker::Internet.email }

@@ -10,12 +10,12 @@
 #  updated_at :datetime
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
+# Read about factories at https://github.com/thoughtbot/factory_bot
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :listener_log do
-    hd2_128 6
-    main_128 6
-    main_24 6
+    hd2_128 { 6 }
+    main_128 { 6 }
+    main_24 { 6 }
   end
 end

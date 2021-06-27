@@ -13,6 +13,6 @@ require 'spec_helper'
 
 describe PsaReading do
   it "has a valid factory" do
-    FactoryGirl.create(:psa_reading).should be_valid
+    FactoryBot.create(:psa_reading).should be_valid
   end
 end

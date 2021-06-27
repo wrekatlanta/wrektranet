@@ -16,7 +16,7 @@ require 'spec_helper'
 
 describe Venue do
   it "has a valid factory" do
-    FactoryGirl.create(:venue).should be_valid
+    FactoryBot.create(:venue).should be_valid
   end
 
   before do

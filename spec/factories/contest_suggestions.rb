@@ -13,13 +13,13 @@
 #  show       :string(255)
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
+# Read about factories at https://github.com/thoughtbot/factory_bot
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :contest_suggestion do
     user
-    name "George and the Burdells"
+    name { "George and the Burdells" }
     date { Time.zone.today.beginning_of_day + 1.day }
-    venue "Under the Couch"
+    venue { "Under the Couch" }
   end
 end

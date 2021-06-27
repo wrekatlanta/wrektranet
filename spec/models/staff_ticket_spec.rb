@@ -15,11 +15,11 @@
 require 'spec_helper'
 
 describe StaffTicket do
-  let(:contest) { FactoryGirl.create(:contest) }
-  let(:user) { FactoryGirl.create(:user) }
+  let(:contest) { FactoryBot.create(:contest) }
+  let(:user) { FactoryBot.create(:user) }
 
   it "has a valid factory" do
-    FactoryGirl.create(:staff_ticket).should be_valid
+    FactoryBot.create(:staff_ticket).should be_valid
   end
 
   before do
@@ -44,11 +44,11 @@ describe StaffTicket do
       @staff_ticket.save
     end
 
-    let(:contest) { FactoryGirl.create(:contest, staff_ticket_limit: 3) }
+    let(:contest) { FactoryBot.create(:contest, staff_ticket_limit: 3) }
 
     context "where the limit has not been reached" do
       before do
-        FactoryGirl.create_list(:staff_ticket, contest.staff_ticket_limit - 1,
+        FactoryBot.create_list(:staff_ticket, contest.staff_ticket_limit - 1,
           :awarded, contest: contest)
       end
 
@@ -60,7 +60,7 @@ describe StaffTicket do
 
     context "where the limit has been reached" do
       before do
-        FactoryGirl.create_list(:staff_ticket, contest.staff_ticket_limit,
+        FactoryBot.create_list(:staff_ticket, contest.staff_ticket_limit,
           :awarded, contest: contest)
       end
 

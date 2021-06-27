@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature "Contest air giveaway" do
-  let(:user) { FactoryGirl.create(:user) }
+  let(:user) { FactoryBot.create(:user) }
   let!(:send_hour) {
     if Time.zone.now == 23
       1
@@ -18,29 +18,29 @@ feature "Contest air giveaway" do
     end
   }
 
-  let!(:venue) { FactoryGirl.create(:venue, name: "Variety Playhouse", send_hour: send_hour) }
-  let!(:early_venue) { FactoryGirl.create(:venue, :send_early, name: "The Masquerade", send_hour: send_hour) }
+  let!(:venue) { FactoryBot.create(:venue, name: "Variety Playhouse", send_hour: send_hour) }
+  let!(:early_venue) { FactoryBot.create(:venue, :send_early, name: "The Masquerade", send_hour: send_hour) }
 
-  let!(:sent_contest) { FactoryGirl.create(:contest, :sent, venue: venue) }
+  let!(:sent_contest) { FactoryBot.create(:contest, :sent, venue: venue) }
 
   let!(:announceable_contests) {
     [
-      FactoryGirl.create(:contest, venue: venue, start_time: today + 1.day),
-      FactoryGirl.create(:contest, venue: venue, start_time: today),
-      FactoryGirl.create(:contest, venue: early_venue, start_time: today + 1.days)
+      FactoryBot.create(:contest, venue: venue, start_time: today + 1.day),
+      FactoryBot.create(:contest, venue: venue, start_time: today),
+      FactoryBot.create(:contest, venue: early_venue, start_time: today + 1.days)
     ]
   }
 
   let!(:unannounceable_contests) {
     [
       # sent contest
-      FactoryGirl.create(:contest, :sent, venue: venue),
+      FactoryBot.create(:contest, :sent, venue: venue),
       # past contests
-      FactoryGirl.create(:contest, venue: venue, start_time: today - 1.day),
-      FactoryGirl.create(:contest, venue: early_venue, start_time: today),
+      FactoryBot.create(:contest, venue: venue, start_time: today - 1.day),
+      FactoryBot.create(:contest, venue: early_venue, start_time: today),
       # over 2 weeks away
-      FactoryGirl.create(:contest, venue: venue, start_time: today + 2.weeks),
-      FactoryGirl.create(:contest, venue: early_venue, start_time: today + 2.weeks + 1.day)
+      FactoryBot.create(:contest, venue: venue, start_time: today + 2.weeks),
+      FactoryBot.create(:contest, venue: early_venue, start_time: today + 2.weeks + 1.day)
     ]
   }
 

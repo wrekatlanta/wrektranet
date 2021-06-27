@@ -9,12 +9,12 @@
 #  updated_at  :datetime
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
+# Read about factories at https://github.com/thoughtbot/factory_bot
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :p_log do
-    time "MyString"
-    Event "MyString"
-    description "MyText"
+    time { "MyString" }
+    Event { "MyString" }
+    description { "MyText" }
   end
 end

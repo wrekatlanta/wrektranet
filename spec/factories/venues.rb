@@ -12,9 +12,9 @@
 #  send_hour       :integer
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
+# Read about factories at https://github.com/thoughtbot/factory_bot
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :venue do
     name { Faker::Name.first_name }
     address {
@@ -22,12 +22,12 @@ FactoryGirl.define do
         " "  + Faker::Address.city +
         ", " + Faker::Address.state_abbr
     }
-    send_day_offset 0
-    send_hour 17
-    notes "Venue notes."
+    send_day_offset { 0 }
+    send_hour { 17 }
+    notes { "Venue notes." }
   end
 
   trait :send_early do
-    send_day_offset 1
+    send_day_offset { 1 }
   end
 end

@@ -12,16 +12,16 @@
 #  display_name        :string(255)
 #
 
-# Read about factories at https://github.com/thoughtbot/factory_girl
+# Read about factories at https://github.com/thoughtbot/factory_bot
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :staff_ticket do
     contest
     user
-    awarded false
+    awarded { false }
 
     trait :awarded do
-      awarded true
+      awarded { true }
       user
     end
   end
