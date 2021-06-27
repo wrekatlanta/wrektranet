@@ -9,7 +9,7 @@
 # See http://railsapps.github.io/rails-environment-variables.html
 puts 'ROLES'
 Role::DEFAULT_ROLES.each do |role|
-  r = Role.find_or_initialize_by_name(role[:name])
+  r = Role.find_or_initialize_by(name: role[:name])
   r.full_name = role[:full_name]
   r.save
 
@@ -37,7 +37,7 @@ Setting.save_default('transmitter_log.power_out_max', 17)
 
 unless Rails.env.production?
   puts 'DEFAULT USERS'
-  user = User.find_or_initialize_by_username('gpb')
+  user = User.find_or_initialize_by(username: 'gpb')
   user.email ||= 'gpb@fake.me'
   user.first_name = 'George'
   user.last_name = 'Burdell'
