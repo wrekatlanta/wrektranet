@@ -16,24 +16,24 @@ Role::DEFAULT_ROLES.each do |role|
   puts "role: #{r.full_name}"
 end
 
-puts 'SETTINGS'
-Setting.save_default(:contest_book_enabled?, true)
-Setting.save_default(:transmitter_log_enabled?, true)
-Setting.save_default(:freehand_playlist_enabled?, true)
-Setting.save_default(:live_playlist_enabled?, true)
-Setting.save_default(:psa_book_enabled?, true)
-Setting.save_default(:listener_log_enabled?, true)
-Setting.save_default(:program_log_enabled?, true)
-Setting.save_default(:calendar_enabled?, true)
-Setting.save_default(:profiles_enabled?, true)
+# puts 'SETTINGS'
+# Setting.save_default(:contest_book_enabled?, true)
+# Setting.save_default(:transmitter_log_enabled?, true)
+# Setting.save_default(:freehand_playlist_enabled?, true)
+# Setting.save_default(:live_playlist_enabled?, true)
+# Setting.save_default(:psa_book_enabled?, true)
+# Setting.save_default(:listener_log_enabled?, true)
+# Setting.save_default(:program_log_enabled?, true)
+# Setting.save_default(:calendar_enabled?, true)
+# Setting.save_default(:profiles_enabled?, true)
 
-# transmitter log
-Setting.save_default('transmitter_log.plate_curr_min', 2)
-Setting.save_default('transmitter_log.plate_curr_max', 3)
-Setting.save_default('transmitter_log.plate_volt_min', 9)
-Setting.save_default('transmitter_log.plate_volt_max', 10)
-Setting.save_default('transmitter_log.power_out_min', 16)
-Setting.save_default('transmitter_log.power_out_max', 17)
+# # transmitter log
+# Setting.save_default('transmitter_log.plate_curr_min', 2)
+# Setting.save_default('transmitter_log.plate_curr_max', 3)
+# Setting.save_default('transmitter_log.plate_volt_min', 9)
+# Setting.save_default('transmitter_log.plate_volt_max', 10)
+# Setting.save_default('transmitter_log.power_out_min', 16)
+# Setting.save_default('transmitter_log.power_out_max', 17)
 
 unless Rails.env.production?
   puts 'DEFAULT USERS'

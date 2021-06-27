@@ -1,16 +1,33 @@
-# == Schema Information
-#
-# Table name: settings
-#
-#  id         :integer          not null, primary key
-#  var        :string(255)      not null
-#  value      :text
-#  thing_id   :integer
-#  thing_type :string(30)
-#  created_at :datetime
-#  updated_at :datetime
-#
+class Setting < RailsSettings::Base
+    def self.contest_book_enabled?
+      true
+    end
 
-# see this gem: https://github.com/huacnlee/rails-settings-cached
-class Setting < RailsSettings::CachedSettings
-end
+    def self.transmitter_log_enabled?
+      Rails.env.development?
+    end
+
+    def self.live_playlist_enabled?
+      true
+    end
+
+    def self.psa_book_enabled?
+      true
+    end
+
+    def self.listener_log_enabled?
+      true
+    end
+
+    def self.program_log_enabled?
+      true
+    end
+
+    def self.calendar_enabled?
+      true
+    end
+
+    def self.profiles_enabled?
+      true
+    end
+  end

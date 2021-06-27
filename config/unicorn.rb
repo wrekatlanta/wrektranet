@@ -1,4 +1,4 @@
-root = "/home/deploy/apps/wrektranet/current"
+root = "/home/jack/Documents/wrektranet"
 working_directory root
 pid "#{root}/tmp/pids/unicorn.pid"
 stderr_path "#{root}/log/unicorn.log"
