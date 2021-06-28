@@ -1,0 +1,11 @@
+/* line 5, app/assets/stylesheets/listener_logs.css.scss */
+.listener-count {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+/* line 10, app/assets/stylesheets/listener_logs.css.scss */
+#highchart {
+  width: 100%;
+  height: 400px;
+}
