@@ -1,33 +1,20 @@
 class Setting < RailsSettings::Base
-    def self.contest_book_enabled?
-      true
-    end
 
-    def self.transmitter_log_enabled?
-      Rails.env.development?
-    end
+  # Upgraded to newest rails settings
+  field :contest_book_enabled, default: true
+  field :transmitter_log_enabled, default: Rails.env.development?
+  field :freehand_playlist_enabled, default: true
+  field :live_playlist_enabled, default: true
+  field :psa_book_enabled, default: true
+  field :listener_log_enabled, default: true
+  field :program_log_enabled, default: true
+  field :calendar_enabled, default: true
+  field :profiles_enabled, default: true
+  field :transmitter_log_plate_curr_min, default: 0
+  field :transmitter_log_plate_curr_max, default: 0
+  field :transmitter_log_plate_volt_min, default: 0
+  field :transmitter_log_plate_volt_max, default: 0
+  field :transmitter_log_power_out_min, default: 0
+  field :transmitter_log_power_out_max, default: 0
 
-    def self.live_playlist_enabled?
-      true
-    end
-
-    def self.psa_book_enabled?
-      true
-    end
-
-    def self.listener_log_enabled?
-      true
-    end
-
-    def self.program_log_enabled?
-      true
-    end
-
-    def self.calendar_enabled?
-      true
-    end
-
-    def self.profiles_enabled?
-      true
-    end
   end

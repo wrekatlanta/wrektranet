@@ -1,10 +1,10 @@
 .navbar-collapse.collapse
   ul.nav.navbar-nav
     - if current_user
-      - if Setting.transmitter_log_enabled?
+      - if Setting.transmitter_log_enabled
         = active_link_to air_transmitter_log_entries_path, wrap_tag: :li do
           i.glyphicon.glyphicon-bullhorn>
-          span On Air 
+          span On Air
       - else
         = active_link_to air_root_path, wrap_tag: :li do
           i.glyphicon.glyphicon-bullhorn>
@@ -37,10 +37,10 @@
           span.text-muted.hidden-sm.hidden-xs = "- #{current_user.name}"
           b.caret
         ul.dropdown-menu
-          - if Setting.profiles_enabled?
+          - if Setting.profiles_enabled
             li
               = link_to 'Edit Profile', edit_user_registration_path
-          - if Setting.transmitter_log_enabled?
+          - if Setting.transmitter_log_enabled
             - if current_user.not_signed_out_tlog?
               li
                 = link_to 'Sign Out T-Log', air_transmitter_log_entries_path

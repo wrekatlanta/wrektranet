@@ -36,7 +36,7 @@ table.table.table-striped.ng-cloak ng-controller="airTransmitterLogCtrl" ng-init
       td = current_user.username
       td
         input type="checkbox" ng-model="new_log.automation_in"
-      td 
+      td
         time-picker time="new_log.sign_in"
         button.btn.btn-success.btn-xs.tlog-action ng-click="signIn(new_log)" Sign In
       td
@@ -61,23 +61,23 @@ hr
               td Plate Current
               td = @plate_current
               td
-                | #{Setting['transmitter_log.plate_curr_min']}
-                |  - 
-                | #{Setting['transmitter_log.plate_curr_max']}
+                | #{Setting.transmitter_log_plate_curr_min}
+                |  -
+                | #{Setting.transmitter_log_plate_curr_max}
             tr
               td Plate Voltage
               td = @plate_voltage
               td
-                | #{Setting['transmitter_log.plate_volt_min']}
-                |  - 
-                | #{Setting['transmitter_log.plate_volt_max']}
+                | #{Setting.transmitter_log_plate_volt_min}
+                |  -
+                | #{Setting.transmitter_log_plate_volt_max}
             tr
               td Power Out
               td = @power_out
               td
-                | #{Setting['transmitter_log.power_out_min']}
-                |  - 
-                | #{Setting['transmitter_log.power_out_max']}
+                | #{Setting.transmitter_log_power_out_min}
+                |  -
+                | #{Setting.transmitter_log_power_out_max}
   .col-sm-7.lead
     markdown:
       Please check the power readings for reasonable values.

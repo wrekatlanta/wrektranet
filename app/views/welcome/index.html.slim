@@ -7,7 +7,7 @@
   .col-sm-4
     h2
       i.glyphicon.glyphicon-bullhorn>
-      - if Setting.transmitter_log_enabled?
+      - if Setting.transmitter_log_enabled
         = link_to 'On Air', air_transmitter_log_entries_path
       - else
         = link_to 'On Air', air_root_path

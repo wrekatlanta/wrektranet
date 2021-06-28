@@ -28,12 +28,14 @@ class ProgramLogSchedule < ActiveRecord::Base
   natural_language_date_attr :start_date, :date
   natural_language_date_attr :expiration_date, :date
 
-  serialize :start_time, Tod::TimeOfDay
-  serialize :end_time, Tod::TimeOfDay
+  serialize :start_time
+  serialize :end_time
 
   belongs_to :program_log_entry
 
-  validate :program_log_entry, presence: true
+  # "validates" for generic checks
+  validates :program_log_entry, presence: true
+  # "validate" for custom checks
   validate :start_date_string_is_date, unless: -> { self.start_date.blank? }
   validate :expiration_date_string_is_date, unless: -> { self.expiration_date.blank? }
   validate :expiration_date_in_future, unless: -> { self.expiration_date.blank? }
@@ -86,6 +88,17 @@ class ProgramLogSchedule < ActiveRecord::Base
   end
 
   private
+
+    def start_date_string_is_date
+      errors.add(:base, "Start date must be a valid date.") if
+        !start_date.valid_date?
+    end
+
+    def expiration_date_string_is_date
+      errors.add(:base, "Expiration date must be a valid date.") if
+        !expiration_date.valid_date?
+    end
+
     def expiration_date_in_future
       errors.add(:base, "Expiration dates cannot be in the past.") if
         !expiration_date.blank? and expiration_date < Time.zone.today

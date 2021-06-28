@@ -3,17 +3,17 @@
     .col-sm-2
       .sidebar-nav
         ul.nav
-          - if Setting.transmitter_log_enabled?
+          - if Setting.transmitter_log_enabled
             = active_link_to 'Transmitter Log', air_transmitter_log_entries_path, wrap_tag: :li
-          - if Setting.program_log_enabled?
+          - if Setting.program_log_enabled
             = active_link_to 'Program Log', air_program_log_index_path, wrap_tag: :li
-          - if Setting.live_playlist_enabled?
+          - if Setting.live_playlist_enabled
             = active_link_to 'Playlist', air_playlist_index_path, wrap_tag: :li
-          - if Setting.freehand_playlist_enabled?
+          - if Setting.freehand_playlist_enabled
             = active_link_to 'Freehand Playlist', air_freehand_playlist_index_path, wrap_tag: :li
-          - if Setting.psa_book_enabled?
+          - if Setting.psa_book_enabled
             = active_link_to 'PSAs', air_psas_path, wrap_tag: :li
-          - if Setting.contest_book_enabled?
+          - if Setting.contest_book_enabled
             = active_link_to 'Contests', air_contests_path, wrap_tag: :li
           = active_link_to 'Calendar', air_events_path, wrap_tag: :li
     .col-sm-10

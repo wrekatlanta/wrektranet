@@ -18,3 +18,6 @@ Used rbenv to install the correct ruby version
 6/26/21
 Precompile assets???
 rake assets:precompile
+
+6/27/21
+Got to fix the t-log system. Can read from ARC somehow?
