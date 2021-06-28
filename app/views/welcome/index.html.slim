@@ -8,7 +8,7 @@
     h2
       i.glyphicon.glyphicon-bullhorn>
       - if Setting.transmitter_log_enabled?
-        = link_to 'On Air', air_transmitter_log_entries_path 
+        = link_to 'On Air', air_transmitter_log_entries_path
       - else
         = link_to 'On Air', air_root_path
     p.lead Everything you need during your shift.
@@ -23,6 +23,6 @@
   .col-sm-4
     h2
       i.glyphicon.glyphicon-book>
-      = link_to 'Wiki', 'http://wrektranet.wrek.org/wiki/Main_Page'
+      = link_to 'Wiki', 'https://wiki.wrek.org/'
 
     p.lead Find more detailed information about the station and our policies.

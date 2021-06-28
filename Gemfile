@@ -7,7 +7,7 @@ gem 'unicorn'
 gem 'capistrano'
 gem 'rvm-capistrano', require: false
 
-gem 'sass-rails'
+gem 'sassc-rails'
 gem 'slim'
 gem 'uglifier', '>= 1.3.0'
 gem 'json', '>= 2.0.0'
@@ -55,7 +55,6 @@ gem 'ri_cal'
 group :development do
   gem 'guard', '>=2.1.0'
   gem 'raindrops', '>=0.13.0'
-  gem 'unicorn-rails'
   gem 'better_errors'
   gem 'annotate', '>= 2.5.0'
   gem 'binding_of_caller'
@@ -88,11 +87,12 @@ end
 
 group :production do
   gem 'rails_12factor' # For asset compilation
+  gem 'unicorn-rails'
 end
 
 # optional, only useful for playlists/AudioVault: `bundle install --without=oracle`
 # https://github.com/wrekatlanta/wrektranet/wiki/Installing-Oracle-adapters
-group :oracle do
-  gem 'activerecord-oracle_enhanced-adapter', '~> 1.7.0'
-  gem 'ruby-oci8'
-end
+# group :oracle do
+#   gem 'activerecord-oracle_enhanced-adapter', '~> 1.7.0'
+#   gem 'ruby-oci8'
+# end

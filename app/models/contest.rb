@@ -20,7 +20,7 @@
 #  alternate_recipient_id :integer
 #  name                   :string(255)
 #  start_time             :datetime
-#  public                 :boolean          default(TRUE)
+#  public_wrek            :boolean          default(TRUE)
 #
 
 class Contest < ActiveRecord::Base
@@ -50,7 +50,7 @@ class Contest < ActiveRecord::Base
 
   default_scope -> { order('send_time ASC') }
 
-  scope :public, -> { where(public: true) }
+  scope :public_wrek, -> { where(public_wrek: true) }
 
   scope :upcoming, -> {
     today = Time.zone.now.beginning_of_day

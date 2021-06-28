@@ -7,7 +7,15 @@ namespace :db do
     task :dump => [:environment, :load_config] do
       filename = "#{Rails.root}/db/staff_legacy_schema.rb"
       File.open(filename, 'w:utf-8') do |file|
-        ActiveRecord::Base.establish_connection("staff_legacy_#{Rails.env}")
+        ActiveRecord::Base.establish_connection(
+          :database => "staff_legacy_#{Rails.env}",
+          :adapter => 'mysql2',
+          :host => 'localhost',
+          :username => 'root',
+          :password => 'NewPassword',
+          :encoding => 'utf8',
+          :pool => '5'
+        )
         ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, file)
       end
     end

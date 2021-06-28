@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,15 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-require 'active_record/connection_adapters/mysql2_adapter'
-
-class ActiveRecord::ConnectionAdapters::Mysql2Adapter
-  NATIVE_DATABASE_TYPES[:primary_key] = "int(11) auto_increment PRIMARY KEY"
-end
-
 ActiveRecord::Schema.define(version: 20150831205923) do
 
-  create_table "calendars", force: true do |t|
+  create_table "calendars", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "url"
     t.string   "name"
     t.string   "default_location"
@@ -28,14 +21,14 @@ ActiveRecord::Schema.define(version: 20150831205923) do
     t.datetime "updated_at"
   end
 
-  create_table "contacts", force: true do |t|
+  create_table "contacts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "venue_id"
   end
 
-  create_table "contest_suggestions", force: true do |t|
+  create_table "contest_suggestions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.datetime "date"
     t.string   "venue"
@@ -44,40 +37,38 @@ ActiveRecord::Schema.define(version: 20150831205923) do
     t.integer  "user_id"
     t.boolean  "archived",   default: false
     t.string   "show"
+    t.index ["user_id"], name: "index_contest_suggestions_on_user_id", using: :btree
   end
 
-  add_index "contest_suggestions", ["user_id"], name: "index_contest_suggestions_on_user_id", using: :btree
-
-  create_table "contests", force: true do |t|
+  create_table "contests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "venue_id"
     t.integer  "age_limit"
     t.boolean  "pick_up"
     t.integer  "listener_ticket_limit"
     t.integer  "staff_ticket_limit"
-    t.text     "notes"
+    t.text     "notes",                  limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "listener_plus_one",      default: false
-    t.boolean  "staff_plus_one",         default: false
+    t.boolean  "listener_plus_one",                    default: false
+    t.boolean  "staff_plus_one",                       default: false
     t.datetime "send_time"
-    t.boolean  "sent",                   default: false
+    t.boolean  "sent",                                 default: false
     t.integer  "staff_count"
     t.integer  "listener_count"
     t.integer  "alternate_recipient_id"
     t.string   "name"
     t.datetime "start_time"
-    t.boolean  "public",                 default: true
+    t.boolean  "public",                               default: true
+    t.index ["alternate_recipient_id"], name: "index_contests_on_alternate_recipient_id", using: :btree
+    t.index ["venue_id"], name: "index_contests_on_venue_id", using: :btree
   end
 
-  add_index "contests", ["alternate_recipient_id"], name: "index_contests_on_alternate_recipient_id", using: :btree
-  add_index "contests", ["venue_id"], name: "index_contests_on_venue_id", using: :btree
-
-  create_table "legacy_bases", force: true do |t|
+  create_table "legacy_bases", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "listener_logs", force: true do |t|
+  create_table "listener_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "hd2_128"
     t.integer  "main_128"
     t.integer  "main_24"
@@ -85,19 +76,18 @@ ActiveRecord::Schema.define(version: 20150831205923) do
     t.datetime "updated_at"
   end
 
-  create_table "listener_tickets", force: true do |t|
+  create_table "listener_tickets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "phone"
     t.integer  "contest_id"
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["contest_id"], name: "index_listener_tickets_on_contest_id", using: :btree
+    t.index ["user_id"], name: "index_listener_tickets_on_user_id", using: :btree
   end
 
-  add_index "listener_tickets", ["contest_id"], name: "index_listener_tickets_on_contest_id", using: :btree
-  add_index "listener_tickets", ["user_id"], name: "index_listener_tickets_on_user_id", using: :btree
-
-  create_table "permissions", force: true do |t|
+  create_table "permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "action"
     t.string   "subject_class"
     t.integer  "subject_id"
@@ -105,14 +95,14 @@ ActiveRecord::Schema.define(version: 20150831205923) do
     t.datetime "updated_at",    null: false
   end
 
-  create_table "program_log_entries", force: true do |t|
+  create_table "program_log_entries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
-    t.text     "description"
+    t.text     "description", limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "program_log_entry_schedules", force: true do |t|
+  create_table "program_log_entry_schedules", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "program_log_entry_id"
     t.date     "start_date"
     t.date     "expiration_date"
@@ -128,11 +118,10 @@ ActiveRecord::Schema.define(version: 20150831205923) do
     t.boolean  "saturday",             default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["program_log_entry_id"], name: "index_program_log_entry_schedules_on_program_log_entry_id", using: :btree
   end
 
-  add_index "program_log_entry_schedules", ["program_log_entry_id"], name: "index_program_log_entry_schedules_on_program_log_entry_id", using: :btree
-
-  create_table "program_log_schedules", force: true do |t|
+  create_table "program_log_schedules", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "program_log_entry_id"
     t.date     "start_date"
     t.date     "expiration_date"
@@ -148,60 +137,56 @@ ActiveRecord::Schema.define(version: 20150831205923) do
     t.boolean  "saturday",             default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["program_log_entry_id"], name: "index_program_log_schedules_on_program_log_entry_id", using: :btree
   end
 
-  add_index "program_log_schedules", ["program_log_entry_id"], name: "index_program_log_schedules_on_program_log_entry_id", using: :btree
-
-  create_table "psa_readings", force: true do |t|
+  create_table "psa_readings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
     t.integer  "psa_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "psas", force: true do |t|
+  create_table "psas", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "title"
-    t.text     "body"
+    t.text     "body",            limit: 65535
     t.string   "status"
     t.date     "expiration_date"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "role_permissions", force: true do |t|
+  create_table "role_permissions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "role_id"
     t.integer  "permission_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.index ["permission_id"], name: "index_role_permissions_on_permission_id", using: :btree
+    t.index ["role_id"], name: "index_role_permissions_on_role_id", using: :btree
   end
 
-  add_index "role_permissions", ["permission_id"], name: "index_role_permissions_on_permission_id", using: :btree
-  add_index "role_permissions", ["role_id"], name: "index_role_permissions_on_role_id", using: :btree
-
-  create_table "roles", force: true do |t|
+  create_table "roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.integer  "resource_id"
     t.string   "resource_type"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "full_name"
+    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
+    t.index ["name"], name: "index_roles_on_name", using: :btree
   end
 
-  add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
-  add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
-
-  create_table "settings", force: true do |t|
-    t.string   "var",                   null: false
-    t.text     "value"
+  create_table "settings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "var",                      null: false
+    t.text     "value",      limit: 65535
     t.integer  "thing_id"
     t.string   "thing_type", limit: 30
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true, using: :btree
   end
 
-  add_index "settings", ["thing_type", "thing_id", "var"], name: "index_settings_on_thing_type_and_thing_id_and_var", unique: true, using: :btree
-
-  create_table "shows", force: true do |t|
+  create_table "shows", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "legacy_id"
     t.string   "name"
     t.string   "long_name"
@@ -214,11 +199,10 @@ ActiveRecord::Schema.define(version: 20150831205923) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "priority"
+    t.index ["legacy_id"], name: "index_shows_on_legacy_id", unique: true, using: :btree
   end
 
-  add_index "shows", ["legacy_id"], name: "index_shows_on_legacy_id", unique: true, using: :btree
-
-  create_table "staff_tickets", force: true do |t|
+  create_table "staff_tickets", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
     t.integer  "contest_id"
     t.integer  "contest_director_id"
@@ -226,11 +210,10 @@ ActiveRecord::Schema.define(version: 20150831205923) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "display_name"
+    t.index ["user_id"], name: "index_staff_tickets_on_user_id", using: :btree
   end
 
-  add_index "staff_tickets", ["user_id"], name: "index_staff_tickets_on_user_id", using: :btree
-
-  create_table "transmitter_log_entries", force: true do |t|
+  create_table "transmitter_log_entries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.datetime "sign_in"
     t.datetime "sign_out"
     t.integer  "user_id"
@@ -240,17 +223,16 @@ ActiveRecord::Schema.define(version: 20150831205923) do
     t.boolean  "automation_out", default: false
   end
 
-  create_table "user_roles", force: true do |t|
+  create_table "user_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
     t.integer  "role_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["role_id"], name: "index_user_roles_on_role_id", using: :btree
+    t.index ["user_id"], name: "index_user_roles_on_user_id", using: :btree
   end
 
-  add_index "user_roles", ["role_id"], name: "index_user_roles_on_role_id", using: :btree
-  add_index "user_roles", ["user_id"], name: "index_user_roles_on_user_id", using: :btree
-
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                                  null: false
     t.string   "encrypted_password",     default: ""
     t.string   "reset_password_token"
@@ -295,26 +277,24 @@ ActiveRecord::Schema.define(version: 20150831205923) do
     t.string   "lastfm"
     t.integer  "points",                 default: 0
     t.boolean  "exec_staff",             default: false
+    t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
+    t.index ["legacy_id"], name: "index_users_on_legacy_id", using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+    t.index ["user_id"], name: "index_users_on_user_id", using: :btree
+    t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
-  add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
-  add_index "users", ["legacy_id"], name: "index_users_on_legacy_id", using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["user_id"], name: "index_users_on_user_id", using: :btree
-  add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
-
-  create_table "users_roles", id: false, force: true do |t|
+  create_table "users_roles", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "user_id"
     t.integer "role_id"
+    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
   end
 
-  add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
-
-  create_table "venues", force: true do |t|
+  create_table "venues", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "address"
     t.integer  "send_day_offset"
-    t.text     "notes"
+    t.text     "notes",           limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "send_hour"
