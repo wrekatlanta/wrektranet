@@ -1,5 +1,4 @@
 class Staff::ListenerLogsController < Staff::BaseController
-  require 'nokogiri'
   require 'open-uri'
   respond_to :json, :html
   load_and_authorize_resource except: [:create, :edit, :show, :current]
@@ -44,22 +43,23 @@ class Staff::ListenerLogsController < Staff::BaseController
   end
 
   def current
-    
-    url = "http://streaming.wrek.org:8000/"
+    require 'json'
 
-    stats = Nokogiri::HTML(open(url)).css('.roundcont')[1..-1]
+    url = "https://streaming.wrek.org/status-json.xsl"
 
+    stats = JSON.load(URI.open(url))
+
+    # JSON.parse(stats)
     listener_log = {}
 
-    stats = stats.each_with_index.map {|stream, index| index == 0 ? stream.css('.streamdata')[5].text : stream.css('.streamdata')[4].text}
-
-    listener_log['hd2_128'] = stats[0]
-    listener_log['main_128'] = stats[1]
-    listener_log['main_24'] = stats[2]
+    listener_log['hd2_128'] = Integer(stats["icestats"]["source"][0]["listeners"])
+    listener_log['main_128'] = Integer(stats["icestats"]["source"][3]["listeners"])
+    listener_log['main_24'] = Integer(stats["icestats"]["source"][4]["listeners"])
 
     respond_with listener_log
-    
+
   end
 
-  
+
 end
+

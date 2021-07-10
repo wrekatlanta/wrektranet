@@ -9,6 +9,8 @@ FROM ruby:2.5
 #     apt-get --assume-yes install curl && \
 #     curl -sSL https://get.rvm.io | bash -s stable --ruby
 
+RUN apt update
+
 RUN apt-get autoremove --assume-yes && \
     curl -sL https://deb.nodesource.com/setup_4.x | bash - && \
     apt-get --assume-yes install -y nodejs
@@ -25,6 +27,7 @@ RUN apt-get autoremove --assume-yes && \
 # RUN rvm --default use $MYRUBY_VERSION
 
 RUN apt-get install --assume-yes git
+RUN apt install --assume-yes mariadb-server
 
 COPY . /wrektranet
 
@@ -38,7 +41,7 @@ RUN bundle install --verbose
 
 
 # Create database, likely needs tobe different in production
-RUN /etc/init.d/mariadb start && \
+RUN service mysql start && \
     bundle exec rake db:create:all && \
     bundle exec rake db:schema:load && \
     bundle exec rake db:test:prepare && \
@@ -47,4 +50,4 @@ RUN /etc/init.d/mariadb start && \
 
 EXPOSE 3000
 
-CMD bash mystart.sh
+CMD [ "rails",  "s" ]
