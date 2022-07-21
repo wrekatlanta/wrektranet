@@ -1,18 +1,4 @@
 GIT
-  remote: git://github.com/EppO/rolify.git
-  revision: befc8db8d1894cc2fe86407dbedc1aebb3f3592f
-  specs:
-    rolify (3.4.0)
-
-GIT
-  remote: git://github.com/laserlemon/figaro.git
-  revision: e16f2d47f6516e8420ce21c9de76785d9f244bae
-  specs:
-    figaro (0.7.0)
-      rails (>= 3, < 5)
-      thor (~> 0.14)
-
-GIT
   remote: git://github.com/plataformatec/simple_form.git
   revision: 32019827798eddbecc19676d69eb406a4f3902cc
   specs:
@@ -32,6 +18,19 @@ GIT
   branch: master
   specs:
     net-ldap (0.5.0)
+
+GIT
+  remote: https://github.com/EppO/rolify.git
+  revision: 285c5afc38adc9a37594f523b5e748ea37766562
+  specs:
+    rolify (5.1.0)
+
+GIT
+  remote: https://github.com/laserlemon/figaro.git
+  revision: 6ae998e8209a08f91a165822abecffc0a0626814
+  specs:
+    figaro (1.2.0)
+      thor (>= 0.14.0, < 2)
 
 GEM
   remote: https://rubygems.org/
@@ -323,7 +322,7 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.38)
+    tzinfo (0.3.61)
     uglifier (2.4.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
