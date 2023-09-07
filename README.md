@@ -1,3 +1,8 @@
+### This Repo is Archived!
+We are no longer using this version of Wrektranet at WREK. Leaving it up for historical purposes, but any further questions can be directed to chief.engineer@wrek.org
+
+Wrektranet3 is the future
+
 # WREKtranet 2.0
 
 This is [WREK](http://wrek.org)'s long-overdue new intranet. It provides tools that our radio DJs use on-air, for administration, and for other purposes.
